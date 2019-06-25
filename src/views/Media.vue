@@ -1,0 +1,193 @@
+<template>
+  <v-container fill-height grid-list-lg>
+    <v-layout justify-center align-center>
+      <v-flex v-if="!loading">
+        <MediaTimeline :mediaList="mediaList" />
+      </v-flex>
+      <v-progress-circular
+        v-else
+        indeterminate
+        color="primary"
+      ></v-progress-circular>
+    </v-layout>
+  </v-container>
+</template>
+<script lang="ts">
+import { Vue, Component, Watch } from 'vue-property-decorator'
+import MediaTimeline from '../components/MediaTimeline.vue'
+import { Route } from 'vue-router'
+import moduleMedia from '@/store/modules/media'
+import moduleTitle from '@/store/modules/title'
+import router from '../router'
+import { fetchMediaApollo } from '../store/api'
+import { Next, AMedia } from '../types'
+
+Component.registerHooks(['beforeRouteEnter', 'beforeRouteUpdate'])
+
+@Component({
+  components: {
+    MediaTimeline
+  }
+})
+export default class Media extends Vue {
+  public loading: boolean = false
+
+  public async beforeRouteEnter(to: Route, from: Route, next: Next<Media>) {
+    const currentId = parseInt(to.params.mediaId, 10)
+
+    new Promise<AMedia>(async (resolve, reject) => {
+      const storedMedia = moduleMedia.media[currentId]
+      if (storedMedia) {
+        resolve(storedMedia)
+      } else {
+        const media = await moduleMedia.fetchMedia({
+          id_in: [currentId]
+        })
+
+        if (media.length) {
+          resolve(media.shift())
+        } else {
+          reject()
+        }
+      }
+    })
+
+      .then(media => {
+        const title = media.title.romaji
+        document.title = 'Anitree - ' + title
+        const slush = title
+          .trim()
+          .replace(/[^\w\s]/g, '')
+          .replace(/\s/g, '-')
+
+        if (to.params.title !== slush) {
+          return next({
+            name: 'title',
+            params: {
+              ...to.params,
+              title: slush
+            },
+            replace: true
+          })
+        } else {
+          return next(vm => vm.fetch(media))
+        }
+      })
+      .catch(() => next(false))
+  }
+
+  public async beforeRouteUpdate(to: Route, from: Route, next: Next<Media>) {
+    const currentId = parseInt(to.params.mediaId, 10)
+
+    new Promise<AMedia>(async (resolve, reject) => {
+      const storedMedia = moduleMedia.media[currentId]
+      if (storedMedia) {
+        resolve(storedMedia)
+      } else {
+        const media = await moduleMedia.fetchMedia({
+          id_in: [currentId]
+        })
+
+        if (media.length) {
+          resolve(media.shift())
+        } else {
+          reject()
+        }
+      }
+    })
+
+      .then(media => {
+        const title = media.title.romaji
+        document.title = 'Anitree - ' + title
+        const slush = title
+          .trim()
+          .replace(/[^\w\s]/g, '')
+          .replace(/\s/g, '-')
+
+        if (to.params.title !== slush) {
+          return next({
+            name: 'title',
+            params: {
+              ...to.params,
+              title: slush
+            },
+            replace: true
+          })
+        } else {
+          next()
+          this.fetch(media)
+          return
+        }
+      })
+      .catch(() => next(false))
+  }
+
+  // @Watch('$route')
+  public async fetch(media: AMedia) {
+    const { currentId } = this
+    this.loading = true
+    // const results = await moduleMedia.fetchMedia({
+    //   id_in: [currentId]
+    // })
+
+    await moduleMedia.handleQueue([media])
+    await moduleMedia.CHANGE_CURRENT_ID({ currentId })
+    await moduleMedia.changeFilteredMedia()
+
+    this.loading = false
+  }
+
+  @Watch('filters')
+  public async changeFilteredMedia() {
+    this.loading = true
+    await moduleMedia.changeFilteredMedia()
+    this.loading = false
+  }
+
+  get filters() {
+    return moduleMedia.activeFilters.length
+  }
+
+  // @Watch('slush', { immediate: true })
+  // public changeSlush() {
+  //   if (this.slush) {
+  //     this.$router.push({
+  //       name: 'title',
+  //       params: {
+  //         title: this.slush
+  //       }
+  //     })
+  //   }
+  // }
+
+  // @Watch('title', { immediate: true })
+  // public changeTitle() {
+  //   if (this.title) {
+  //     document.title = 'Anitree - ' + this.title
+  //   }
+  // }
+
+  get mediaList() {
+    return moduleMedia.sortedMedia
+  }
+
+  // get slush() {
+  //   return this.title
+  //     .trim()
+  //     .replace(/[^\w\s]/g, '')
+  //     .replace(/\s/g, '-')
+  // }
+
+  // get media() {
+  //   return moduleMedia.currentMedia
+  // }
+
+  get currentId() {
+    return parseInt(this.$route.params.mediaId, 10)
+  }
+
+  // get title() {
+  //   return this.media ? this.media.title.romaji : ''
+  // }
+}
+</script>

@@ -1,18 +1,36 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
-  </div>
+  <v-container>
+    <v-timeline :dense="$vuetify.breakpoint.xs">
+      <v-timeline-item large>
+        <v-card>
+          <v-card-title primary-title>
+            <div class="headline">Welcome</div>
+          </v-card-title>
+          <v-card-text
+            >The creation of this website was inspired by Fate series (I still
+            don't now where to start)</v-card-text
+          >
+        </v-card>
+      </v-timeline-item>
+      <v-timeline-item>
+        <v-card>
+          <v-card-title primary-title>
+            <div class="headline">
+              This app is under construction
+            </div>
+          </v-card-title>
+          <v-card-text>
+            You can visit
+            <v-btn to="/roadmap" flat>roadmap</v-btn>for more information
+          </v-card-text>
+        </v-card>
+      </v-timeline-item>
+    </v-timeline>
+  </v-container>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
-
-@Component({
-  components: {
-    HelloWorld,
-  },
-})
+import { Component, Vue } from 'vue-property-decorator'
+@Component
 export default class Home extends Vue {}
 </script>

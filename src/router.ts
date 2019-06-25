@@ -1,25 +1,45 @@
-import Vue from 'vue';
-import Router from 'vue-router';
-import Home from './views/Home.vue';
+import Vue from 'vue'
+import Router from 'vue-router'
 
-Vue.use(Router);
+const Home = () => import('./views/Home.vue')
+const Media = () => import('./views/Media.vue')
+const Roadmap = () => import('./views/Roadmap.vue')
+const Search = () => import('./views/Search.vue')
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
     {
       path: '/',
       name: 'home',
-      component: Home,
+      component: Home
     },
     {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/About.vue'),
+      path: '/:mediaType/:mediaId',
+      name: 'media',
+      component: Media,
+      children: [{ path: ':title', name: 'title' }]
     },
-  ],
-});
+    {
+      path: '/roadmap',
+      name: 'roadmap',
+      component: Roadmap
+    },
+    {
+      path: '/search',
+      name: 'search',
+      component: Search
+    }
+  ]
+})
+
+router.afterEach(to => {
+  if (to.name !== 'title') {
+    document.title = 'Anitree - ' + to.name
+  }
+})
+
+export default router
+
+Vue.use(Router)
