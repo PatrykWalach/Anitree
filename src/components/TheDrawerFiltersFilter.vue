@@ -24,9 +24,8 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
+import { Vue, Component, Prop } from 'vue-property-decorator'
 import moduleMedia from '@/store/modules/media'
-import { RawFilter } from '@/store/models'
 
 @Component
 export default class TheDrawerFiltersFilter extends Vue {

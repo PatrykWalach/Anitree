@@ -2,7 +2,7 @@
   <v-footer app inset>
     <v-spacer></v-spacer>Made by
     <v-btn
-      href="https://github.com/PatrykWalach"
+      href="https://github.com/PatrykWalach/Anitree"
       target="_blank"
       flat
       rel="noopener"

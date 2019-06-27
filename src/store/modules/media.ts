@@ -11,7 +11,6 @@ import {
 } from 'vuex-module-decorators'
 import store from '@/store'
 import { MediaNode, AMedia, MediaEdgeExtended, MediaEdge, Data } from '@/types'
-import { mergeDeep } from 'apollo-utilities'
 
 @Module({
   namespaced: true,

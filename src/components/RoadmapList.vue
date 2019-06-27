@@ -17,7 +17,7 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
-import { TrelloList, Cards, TrelloChecklists } from '../types'
+import { TrelloList, Cards } from '../types'
 import RoadmapListCard from './RoadmapListCard.vue'
 
 @Component({

@@ -17,9 +17,6 @@ import { Vue, Component, Watch } from 'vue-property-decorator'
 import MediaTimeline from '../components/MediaTimeline.vue'
 import { Route } from 'vue-router'
 import moduleMedia from '@/store/modules/media'
-import moduleTitle from '@/store/modules/title'
-import router from '../router'
-import { fetchMediaApollo } from '../store/api'
 import { Next, AMedia } from '../types'
 
 Component.registerHooks(['beforeRouteEnter', 'beforeRouteUpdate'])
@@ -137,7 +134,7 @@ export default class Media extends Vue {
     this.loading = false
   }
 
-  @Watch('filters')
+  @Watch('filters', { deep: true })
   public async changeFilteredMedia() {
     this.loading = true
     await moduleMedia.changeFilteredMedia()
@@ -145,7 +142,7 @@ export default class Media extends Vue {
   }
 
   get filters() {
-    return moduleMedia.activeFilters.length
+    return moduleMedia.activeFilters
   }
 
   // @Watch('slush', { immediate: true })

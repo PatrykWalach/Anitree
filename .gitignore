@@ -22,4 +22,4 @@ yarn-error.log*
 
 # Mine
 .firebase
-credentials*
+.env

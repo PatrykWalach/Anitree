@@ -29,7 +29,7 @@
   </v-timeline-item>
 </template>
 <script lang="ts">
-import { Prop, Component, Vue, Watch } from 'vue-property-decorator'
+import { Prop, Component, Vue } from 'vue-property-decorator'
 import BaseMediaImage from './BaseMediaImage.vue'
 import BaseMediaTitle from './BaseMediaTitle.vue'
 import BaseMediaTime from './BaseMediaTime.vue'

@@ -86,8 +86,6 @@ export interface TrelloList {
   subsribed: boolean
 }
 
-export type TrelloLists = TrelloList[]
-
 export interface Label {
   color: string
   id: string
@@ -148,11 +146,9 @@ export interface TrelloCard {
   // coordinates: string | { latitude: number; longitude: number } // my requst didn't have this
 }
 
-export type TrelloCards = TrelloCard[]
-
 export type Cards = Array<{
   card: TrelloCard
-  checklists: TrelloChecklists
+  checklists: TrelloChecklist[]
   // progress: number
 }>
 
@@ -173,8 +169,6 @@ export interface TrelloChecklist {
   name: string
   pos: number
 }
-
-export type TrelloChecklists = TrelloChecklist[]
 
 export interface LoadingState {
   loading: null | Promise<any>

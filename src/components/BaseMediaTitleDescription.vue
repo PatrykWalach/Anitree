@@ -1,5 +1,5 @@
 <template>
-  <div v-observe="changeOffsetHeight" :style="{ flex: 1 }">
+  <div v-observe="offsetHeight" :style="{ flex: 1 }">
     <span
       class="caption"
       :style="{
@@ -18,13 +18,24 @@
 import { Prop, Component, Vue } from 'vue-property-decorator'
 import { AMedia } from '../types'
 import ResizeObserver from '@juggle/resize-observer'
-import { ResizeObserverEntry } from '@juggle/resize-observer/lib/ResizeObserverEntry'
+// import { ResizeObserverEntry } from '@juggle/resize-observer/lib/ResizeObserverEntry'
 
 @Component({
   directives: {
+    // observe: {
+    //   bind(el, { value }) {
+    //     new ResizeObserver(entries => entries.forEach(value)).observe(el)
+    //   }
+    // }
     observe: {
-      bind(el, { value }) {
-        new ResizeObserver(entries => entries.forEach(value)).observe(el)
+      bind(el, { expression }, { context }) {
+        new ResizeObserver(entries =>
+          entries.forEach(entry => {
+            if (context) {
+              Vue.set(context, expression, entry.contentBoxSize.blockSize)
+            }
+          })
+        ).observe(el)
       }
     }
   }
@@ -33,15 +44,14 @@ export default class BaseMediaTitleDescription extends Vue {
   @Prop()
   public readonly media!: AMedia
 
-  public wrapper: HTMLElement | null = null
   public offsetHeight: number = 18
 
   get lines() {
     return Math.floor(this.offsetHeight / 18)
   }
 
-  public changeOffsetHeight(e: ResizeObserverEntry) {
-    this.offsetHeight = e.contentBoxSize.blockSize
-  }
+  // public changeOffsetHeight(entry: ResizeObserverEntry) {
+  //   this.offsetHeight = entry.contentBoxSize.blockSize
+  // }
 }
 </script>

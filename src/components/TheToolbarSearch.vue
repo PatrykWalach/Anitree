@@ -17,7 +17,7 @@
 import { Vue, Component } from 'vue-property-decorator'
 
 @Component
-export default class TheToolbarAutocomplete extends Vue {
+export default class TheToolbarSearch extends Vue {
   public search: string = ''
 
   public async submit() {

@@ -2,7 +2,7 @@
   <v-container fill-height grid-list-lg>
     <v-layout justify-center align-center>
       <v-flex v-if="!loading">
-        <MediaTimeline :mediaList="media" />
+        <MediaTimeline :media-list="media" />
       </v-flex>
       <v-progress-circular
         v-else
@@ -15,17 +15,7 @@
 <script lang="ts">
 import { Vue, Component, Watch } from 'vue-property-decorator'
 import MediaTimeline from '../components/MediaTimeline.vue'
-import { Route } from 'vue-router'
-import moduleMedia from '@/store/modules/media'
-import moduleTitle from '@/store/modules/title'
-import router from '../router'
 import { AMedia } from '../types'
-
-type Next<V extends Vue = Vue> = (
-  to?: string | false | void | Location | ((vm: V) => any) | undefined
-) => void
-
-Component.registerHooks(['beforeRouteEnter', 'beforeRouteUpdate'])
 
 import { fetchMediaApollo } from '@/store/api'
 @Component({

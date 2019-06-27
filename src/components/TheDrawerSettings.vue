@@ -2,14 +2,14 @@
   <v-list two-line subheader>
     <v-subheader>Settings</v-subheader>
 
-    <TheDrawerSettingsTheme/>
+    <TheDrawerSettingsTheme />
 
-    <TheDrawerSettingsTitle/>
+    <TheDrawerSettingsTitle />
   </v-list>
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator'
+import { Vue, Component } from 'vue-property-decorator'
 import TheDrawerSettingsTheme from './TheDrawerSettingsTheme.vue'
 import TheDrawerSettingsTitle from './TheDrawerSettingsTitle.vue'
 

@@ -10,20 +10,17 @@
     </v-toolbar-title>
     <v-spacer></v-spacer>
 
-    <TheToolbarAutocomplete />
-    <!-- <TheToolbarItems/> -->
+    <TheToolbarSearch />
   </v-toolbar>
 </template>
 <script lang="ts">
 import { Vue, Component, Emit } from 'vue-property-decorator'
 
-import TheToolbarItems from './TheToolbarItems.vue'
-import TheToolbarAutocomplete from './TheToolbarAutocomplete.vue'
+import TheToolbarSearch from './TheToolbarSearch.vue'
 
 @Component({
   components: {
-    TheToolbarItems,
-    TheToolbarAutocomplete
+    TheToolbarSearch
   }
 })
 export default class TheToolbar extends Vue {

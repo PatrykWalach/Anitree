@@ -10,15 +10,11 @@
 <script lang="ts">
 import { Vue, Component, Prop, Emit } from 'vue-property-decorator'
 
-import FuzzySearch from 'fuzzy-search'
-
 import TheDrawerSettings from './TheDrawerSettings.vue'
-import TheDrawerList from './TheDrawerList.vue'
 import TheDrawerFilters from './TheDrawerFilters.vue'
 
 @Component({
   components: {
-    TheDrawerList,
     TheDrawerSettings,
     TheDrawerFilters
   }

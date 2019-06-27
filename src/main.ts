@@ -2,11 +2,12 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store/index'
-// import { apolloProvider } from './apollo'
+
 import './registerServiceWorker'
 import './assets/css/style.styl'
 
 import Vuetify from 'vuetify'
+
 Vue.use(Vuetify, {
   iconfont: 'md'
 })

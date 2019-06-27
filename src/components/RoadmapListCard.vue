@@ -15,7 +15,7 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
-import { TrelloCard, TrelloChecklists } from '../types'
+import { TrelloCard, TrelloChecklist } from '../types'
 
 @Component
 export default class RoadmapListCard extends Vue {
@@ -23,7 +23,7 @@ export default class RoadmapListCard extends Vue {
   public readonly card!: TrelloCard
 
   @Prop()
-  public readonly checklists!: TrelloChecklists
+  public readonly checklists!: TrelloChecklist[]
 
   get progress() {
     return (

@@ -1,40 +1,41 @@
 <template>
   <v-container>
-    <v-timeline :dense="$vuetify.breakpoint.xs">
-      <RoadmapList v-for="list in lists" v-bind="list" :key="list.list.id"/>
+    <v-timeline v-if="!loading" :dense="$vuetify.breakpoint.xs">
+      <RoadmapList v-for="list in lists" v-bind="list" :key="list.list.id" />
     </v-timeline>
+    <v-progress-circular
+      v-else
+      indeterminate
+      color="primary"
+    ></v-progress-circular>
   </v-container>
 </template>
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
 
 import axios from 'axios'
-import { trello } from '../../credentials'
 import RoadmapList from '../components/RoadmapList.vue'
 
-import {
-  TrelloList,
-  TrelloLists,
-  TrelloCards,
-  TrelloChecklists,
-  Cards
-} from '../types'
+import { TrelloList, Cards, TrelloCard, TrelloChecklist } from '../types'
 
 @Component({
   components: { RoadmapList }
 })
 export default class Roadmap extends Vue {
+  public loading: boolean = false
   public lists: Array<{
     list: TrelloList
     cards: Cards
   }> = []
 
   public async created() {
+    this.loading = true
     const [lists, cards, checklists]: [
-      TrelloLists,
-      TrelloCards,
-      TrelloChecklists
+      TrelloList[],
+      TrelloCard[],
+      TrelloChecklist[]
     ] = await this.makeRequests()
+    this.loading = false
 
     this.lists = lists.map(list => {
       return {
@@ -54,24 +55,31 @@ export default class Roadmap extends Vue {
   }
 
   public makeRequests() {
+    const { getLists, getCards, getChecklists } = this
+    return Promise.all([getLists(), getCards(), getChecklists()])
+  }
+
+  public get(el: string) {
     const id = '5d06a49849ca095384351145'
-    return Promise.all([
-      axios
-        .get(`https://api.trello.com/1/boards/${id}/lists`, {
-          params: { key: trello.key, token: trello.token }
-        })
-        .then(({ data }) => data),
-      axios
-        .get(`https://api.trello.com/1/boards/${id}/cards`, {
-          params: { key: trello.key, token: trello.token }
-        })
-        .then(({ data }) => data),
-      axios
-        .get(`https://api.trello.com/1/boards/${id}/checklists`, {
-          params: { key: trello.key, token: trello.token }
-        })
-        .then(({ data }) => data)
-    ])
+    const key = process.env.TRELLO_KEY
+    const token = process.env.TRELLO_TOKEN
+    return axios
+      .get(`https://api.trello.com/1/boards/${id}/${el}`, {
+        params: { key, token }
+      })
+      .then(({ data }) => data)
+  }
+
+  public getLists(): Promise<TrelloList[]> {
+    return this.get('lists')
+  }
+
+  public getCards(): Promise<TrelloCard[]> {
+    return this.get('cards')
+  }
+
+  public getChecklists(): Promise<TrelloChecklist[]> {
+    return this.get('checklists')
   }
 }
 </script>

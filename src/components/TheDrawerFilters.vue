@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator'
+import { Vue, Component } from 'vue-property-decorator'
 import TheDrawerFiltersFilter from './TheDrawerFiltersFilter.vue'
 import moduleMedia from '@/store/modules/media'
 
