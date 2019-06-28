@@ -63,7 +63,6 @@ export class ModuleMedia extends VuexModule {
   get sortedMedia(): AMedia[] {
     return this.filteredMedia
       .map(({ node }) => node)
-
       .sort(
         ({ startDate: a }, { startDate: b }) =>
           Date.UTC(a.year || 0, a.month || 0, a.day || undefined) -

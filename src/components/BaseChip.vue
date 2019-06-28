@@ -1,11 +1,5 @@
 <template>
-  <v-chip
-    v-bind="$attrs"
-    :dark="dark"
-    :light="light"
-    :color="color"
-    class="text-truncate"
-  >
+  <v-chip v-bind="$attrs" :dark="dark" :light="light" :color="color">
     <slot></slot>
   </v-chip>
 </template>

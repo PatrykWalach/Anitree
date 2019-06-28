@@ -41,10 +41,12 @@ export default class BaseMediaImage extends Vue {
   public inView: boolean = false
 
   get style() {
+    // return undefined
     if (this.banner) {
-      return { 'min-width': '100%', height: '200px' }
+      return { width: '100%' }
     }
-    return { 'min-height': '100%', width: '100px' }
+    return { height: '100%' }
+    // {width: '175px'}
   }
 
   get src() {
@@ -72,9 +74,9 @@ export default class BaseMediaImage extends Vue {
       return undefined
     }
     const { extraLarge, large, medium } = this.media.coverImage
-    return `${medium} 1x,
-    ${large} 2x,
-     ${extraLarge} 3x`
+    return `${medium} 0.5x,
+    ${large} 1x,
+     ${extraLarge} 1.5x`
     // return [...new Set([medium, large, extraLarge])]
     //  .map((url, i) => [url, i + 1])
     //  .filter(([url]) => url)
@@ -83,7 +85,7 @@ export default class BaseMediaImage extends Vue {
   }
 
   get banner() {
-    return this.media.bannerImage && !this.$vuetify.breakpoint.xsOnly
+    return this.media.bannerImage && !this.$vuetify.breakpoint.smAndDown
   }
 
   public changeInView() {

@@ -1,5 +1,5 @@
 <template>
-  <v-timeline :dense="$vuetify.breakpoint.xsOnly">
+  <v-timeline :dense="$vuetify.breakpoint.smAndDown">
     <BaseMedia
       v-for="media in mediaList"
       :media="media"

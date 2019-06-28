@@ -1,9 +1,9 @@
 <template>
-  <v-container fill-height grid-list-lg>
+  <v-container fill-height>
     <v-layout justify-center align-center>
-      <v-flex v-if="!loading">
-        <MediaTimeline :mediaList="mediaList" />
-      </v-flex>
+      <!-- <v-flex v-if="!loading"> -->
+        <MediaTimeline v-if="!loading" :mediaList="mediaList" />
+      <!-- </v-flex> -->
       <v-progress-circular
         v-else
         indeterminate

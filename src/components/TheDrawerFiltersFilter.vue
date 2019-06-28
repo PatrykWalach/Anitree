@@ -7,7 +7,7 @@
 
     <v-list-tile-content @click="changeActive(!active)">
       <v-list-tile-title class="text-capitalize">{{
-        relationType.toLowerCase()
+        relationType.replace(/_/g, ' ').toLowerCase()
       }}</v-list-tile-title>
       <v-list-tile-sub-title class="text-capitalize">{{
         type.toLowerCase()

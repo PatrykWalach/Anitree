@@ -1,7 +1,7 @@
 <template>
   <v-timeline-item
-    :small="$vuetify.breakpoint.xsOnly && !large"
-    :large="!$vuetify.breakpoint.xsOnly && large"
+    :small="$vuetify.breakpoint.smAndDown && !large"
+    :large="!$vuetify.breakpoint.smAndDown && large"
     :color="media.coverImage.color || '#e0e0e0'"
   >
     <template v-slot:opposite>
@@ -18,9 +18,25 @@
       </v-btn>
     </template>
 
-    <v-card :style="{ display: 'flex', 'flex-wrap': 'wrap' }">
-      <BaseMediaImage :media="media" />
-      <BaseMediaTitle :media="media" />
+    <v-card :style="style">
+      <!-- <div :style="{flex:1}"> -->
+      <div :style="{ flex: 1 }">
+        <BaseMediaImage :media="media" />
+      </div>
+      <!-- </div> -->
+      <div :style="{ flex: 3, display: 'flex', 'flex-direction': 'column' }">
+        <BaseMediaTitle :media="media" />
+        <template
+          v-if="
+            media.tags.length ||
+              $vuetify.breakpoint.smAndDown ||
+              media.studios.nodes.length
+          "
+        >
+          <v-divider></v-divider>
+          <BaseMediaActions :media="media" />
+        </template>
+      </div>
       <BaseMediaStatus
         v-if="media.mediaListEntry"
         :status="media.mediaListEntry.status"
@@ -34,6 +50,7 @@ import BaseMediaImage from './BaseMediaImage.vue'
 import BaseMediaTitle from './BaseMediaTitle.vue'
 import BaseMediaTime from './BaseMediaTime.vue'
 import BaseMediaStatus from './BaseMediaStatus.vue'
+import BaseMediaActions from './BaseMediaActions.vue'
 import { AMedia } from '../types'
 
 import moduleMedia from '@/store/modules/media'
@@ -43,7 +60,8 @@ import moduleMedia from '@/store/modules/media'
     BaseMediaImage,
     BaseMediaTitle,
     BaseMediaTime,
-    BaseMediaStatus
+    BaseMediaStatus,
+    BaseMediaActions
   }
 })
 export default class BaseMedia extends Vue {
@@ -53,7 +71,17 @@ export default class BaseMedia extends Vue {
   get currentId() {
     return moduleMedia.currentId
   }
-
+  get style() {
+    return {
+      display: 'flex',
+      'flex-direction':
+        this.media.bannerImage && !this.$vuetify.breakpoint.smAndDown
+          ? 'column'
+          : 'row'
+      // display:'grid',
+      // 'grid': 'auto / 175px auto'
+    }
+  }
   get large() {
     return !!this.currentId && this.media.id === this.currentId
   }

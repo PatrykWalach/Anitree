@@ -5,7 +5,7 @@
       aria-label="Toggle navigation drawer"
     >
     </v-toolbar-side-icon>
-    <v-toolbar-title v-if="!$vuetify.breakpoint.xsOnly">
+    <v-toolbar-title v-if="!$vuetify.breakpoint.smAndDown">
       <v-btn flat to="/" rel="canonical" exact>Anitree</v-btn>
     </v-toolbar-title>
     <v-spacer></v-spacer>
