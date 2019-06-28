@@ -1,28 +1,25 @@
 <template>
-  <v-container>
-    <v-timeline v-if="!loading" :dense="$vuetify.breakpoint.xs">
+  <base-container :loading="loading">
+    <v-timeline :dense="$vuetify.breakpoint.smAndDown">
       <RoadmapList v-for="list in lists" v-bind="list" :key="list.list.id" />
     </v-timeline>
-    <v-progress-circular
-      v-else
-      indeterminate
-      color="primary"
-    ></v-progress-circular>
-  </v-container>
+  </base-container>
 </template>
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
 
 import axios from 'axios'
 import RoadmapList from '../components/RoadmapList.vue'
+import BaseContainer from '../components/BaseContainer.vue'
 
 import { TrelloList, Cards, TrelloCard, TrelloChecklist } from '../types'
 
 @Component({
-  components: { RoadmapList }
+  components: { RoadmapList, BaseContainer }
 })
 export default class Roadmap extends Vue {
   public loading: boolean = false
+
   public lists: Array<{
     list: TrelloList
     cards: Cards

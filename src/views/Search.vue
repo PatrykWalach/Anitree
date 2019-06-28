@@ -1,26 +1,18 @@
 <template>
-  <v-container fill-height grid-list-lg>
-    <v-layout justify-center align-center>
-      <v-flex v-if="!loading">
-        <MediaTimeline :media-list="media" />
-      </v-flex>
-      <v-progress-circular
-        v-else
-        indeterminate
-        color="primary"
-      ></v-progress-circular>
-    </v-layout>
-  </v-container>
+  <base-container :loading="loading">
+    <MediaTimeline :media-list="media" />
+  </base-container>
 </template>
 <script lang="ts">
 import { Vue, Component, Watch } from 'vue-property-decorator'
 import MediaTimeline from '../components/MediaTimeline.vue'
 import { AMedia } from '../types'
-
+import BaseContainer from '../components/BaseContainer.vue'
 import { fetchMediaApollo } from '@/store/api'
 @Component({
   components: {
-    MediaTimeline
+    MediaTimeline,
+    BaseContainer
   }
 })
 export default class Search extends Vue {

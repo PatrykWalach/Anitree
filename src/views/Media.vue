@@ -1,16 +1,7 @@
 <template>
-  <v-container fill-height>
-    <v-layout justify-center align-center>
-      <!-- <v-flex v-if="!loading"> -->
-        <MediaTimeline v-if="!loading" :mediaList="mediaList" />
-      <!-- </v-flex> -->
-      <v-progress-circular
-        v-else
-        indeterminate
-        color="primary"
-      ></v-progress-circular>
-    </v-layout>
-  </v-container>
+  <base-container :loading="loading">
+    <MediaTimeline :mediaList="mediaList" />
+  </base-container>
 </template>
 <script lang="ts">
 import { Vue, Component, Watch } from 'vue-property-decorator'
@@ -18,12 +9,14 @@ import MediaTimeline from '../components/MediaTimeline.vue'
 import { Route } from 'vue-router'
 import moduleMedia from '@/store/modules/media'
 import { Next, AMedia } from '../types'
+import BaseContainer from '../components/BaseContainer.vue'
 
 Component.registerHooks(['beforeRouteEnter', 'beforeRouteUpdate'])
 
 @Component({
   components: {
-    MediaTimeline
+    MediaTimeline,
+    BaseContainer
   }
 })
 export default class Media extends Vue {

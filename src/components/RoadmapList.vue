@@ -1,5 +1,5 @@
 <template>
-  <v-timeline-item :color="color" large>
+  <v-timeline-item :color="color" :large="!$vuetify.breakpoint.smAndDown">
     <v-card>
       <v-card-title :class="color">{{ list.name }}</v-card-title>
       <v-card-text>
