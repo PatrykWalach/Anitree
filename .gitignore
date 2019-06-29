@@ -1,6 +1,6 @@
 .DS_Store
 node_modules
-# dist
+dist
 
 # local env files
 .env.local
@@ -20,6 +20,5 @@ yarn-error.log*
 *.sln
 *.sw?
 
-# Mine
-.firebase
+# env variables
 .env

@@ -35,8 +35,9 @@ const router = new Router({
 })
 
 router.afterEach(to => {
-  if (to.name !== 'title') {
-    document.title = 'Anitree - ' + to.name
+  const { name } = to
+  if (name && name !== 'title') {
+    document.title = 'Anitree - ' + name[0].toUpperCase() + name.substr(1)
   }
 })
 
