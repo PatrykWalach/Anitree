@@ -1,8 +1,8 @@
 <template>
   <span>
-    <BaseTime :date="startDate" :sliceDate="endDate" />
+    <BaseTime :date="startDate" :slice-date="endDate" />
     <template>{{ divider }}</template>
-    <BaseTime :date="endDate" :sliceDate="startDate" />
+    <BaseTime :date="endDate" :slice-date="startDate" />
   </span>
 </template>
 <script lang="ts">

@@ -4,15 +4,16 @@
       :style="{ display: 'flex', 'align-items': 'center', 'flex-wrap': 'wrap' }"
     >
       <base-chip
+        v-for="tag in tags"
+        :key="`tag-${tag.id}`"
         label
         small
         :color="media.coverImage.color"
-        v-for="tag in tags"
-        :key="`tag-${tag.id}`"
         >{{ tag.name.toLowerCase() }}</base-chip
       >
 
       <v-btn
+        v-if="$vuetify.breakpoint.smAndDown"
         icon
         small
         flat
@@ -20,16 +21,15 @@
         rel="noopener"
         target="_blank"
         :href="media.siteUrl"
-        v-if="$vuetify.breakpoint.smAndDown"
       >
         <v-icon>link</v-icon>
       </v-btn>
       <v-chip
+        v-for="studio in media.studios.nodes"
+        :key="`studio-${studio.id}`"
         small
         outline
         label
-        v-for="studio in media.studios.nodes"
-        :key="`studio-${studio.id}`"
         >{{ studio.name }}</v-chip
       >
     </div>

@@ -1,8 +1,8 @@
 <template>
   <v-toolbar app color="primary" dark>
     <v-toolbar-side-icon
-      @click.stop="toggleDrawer"
       aria-label="Toggle navigation drawer"
+      @click.stop="toggleDrawer"
     >
     </v-toolbar-side-icon>
     <v-toolbar-title v-if="!$vuetify.breakpoint.smAndDown">

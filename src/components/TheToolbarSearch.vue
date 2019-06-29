@@ -1,14 +1,14 @@
 <template>
   <v-layout>
     <v-text-field
+      v-model="search"
       flat
       solo-inverted
       hide-details
       label="Search"
-      v-model="search"
       @keyup.enter="submit"
     ></v-text-field>
-    <v-btn icon @click="submit" aria-label="See results for the entered query"
+    <v-btn icon aria-label="See results for the entered query" @click="submit"
       ><v-icon>search</v-icon></v-btn
     >
   </v-layout>

@@ -5,7 +5,10 @@
 </template>
 <script lang="ts">
 import { Vue, Component, Watch } from 'vue-property-decorator'
-import MediaTimeline from '../components/MediaTimeline.vue'
+// import MediaTimeline from '../components/MediaTimeline.vue'
+const MediaTimeline = () =>
+  import(/* webpackPrefetch: true */ '../components/MediaTimeline.vue')
+
 import { Route } from 'vue-router'
 import moduleMedia from '@/store/modules/media'
 import { Next, AMedia } from '../types'
@@ -116,10 +119,7 @@ export default class Media extends Vue {
   public async fetch(media: AMedia) {
     const { currentId } = this
     this.loading = true
-    // const results = await moduleMedia.fetchMedia({
-    //   id_in: [currentId]
-    // })
-
+    // setTimeout(() => (this.loading = true), 200)
     await moduleMedia.handleQueue([media])
     await moduleMedia.CHANGE_CURRENT_ID({ currentId })
     await moduleMedia.changeFilteredMedia()

@@ -3,8 +3,8 @@
     <v-icon left small>date_range</v-icon>
     <BaseTimeRange
       v-if="isRange"
-      :endDate="media.endDate"
-      :startDate="media.startDate"
+      :end-date="media.endDate"
+      :start-date="media.startDate"
     />
     <BaseTime v-else :date="media.startDate" />
   </v-chip>
@@ -12,15 +12,14 @@
 <script lang="ts">
 import { Prop, Component, Vue } from 'vue-property-decorator'
 import { AMedia, MediaDate } from '../types'
-import BaseTimeRange from './BaseTimeRange.vue'
-import BaseTime from './BaseTime.vue'
-// import BaseChip from './BaseChip.vue'
+const BaseTimeRange = () =>
+  import(/* webpackPrefetch: true */ './BaseTimeRange.vue')
+const BaseTime = () => import(/* webpackPrefetch: true */ './BaseTime.vue')
 
 @Component({
   components: {
     BaseTimeRange,
     BaseTime
-    // BaseChip
   }
 })
 export default class BaseMediaTime extends Vue {

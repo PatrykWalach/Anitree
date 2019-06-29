@@ -2,9 +2,9 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 const Home = () => import('./views/Home.vue')
-const Media = () => import('./views/Media.vue')
+const Media = () => import(/* webpackPrefetch: true */ './views/Media.vue')
 const Roadmap = () => import('./views/Roadmap.vue')
-const Search = () => import('./views/Search.vue')
+const Search = () => import(/* webpackPrefetch: true */ './views/Search.vue')
 
 const router = new Router({
   mode: 'history',

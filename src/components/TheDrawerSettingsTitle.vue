@@ -1,5 +1,5 @@
 <template>
-  <v-list-tile @click avatar>
+  <v-list-tile avatar @click>
     <v-list-tile-content @click="changePrefered">
       <v-list-tile-title class="text-capitalize"
         >prefered title</v-list-tile-title

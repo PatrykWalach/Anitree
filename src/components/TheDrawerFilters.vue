@@ -4,8 +4,8 @@
 
     <TheDrawerFiltersFilter
       v-for="relationType in relationTypes"
-      :relationType="relationType"
       :key="relationType"
+      :relation-type="relationType"
     />
   </v-list>
 </template>

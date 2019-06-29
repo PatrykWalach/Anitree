@@ -47,9 +47,12 @@ import { Prop, Component, Vue } from 'vue-property-decorator'
 import BaseMediaImage from './BaseMediaImage.vue'
 import BaseMediaTitle from './BaseMediaTitle.vue'
 import BaseMediaTime from './BaseMediaTime.vue'
-import BaseMediaStatus from './BaseMediaStatus.vue'
+// import BaseMediaStatus from './BaseMediaStatus.vue'
 import BaseMediaActions from './BaseMediaActions.vue'
 import { AMedia } from '../types'
+
+const BaseMediaStatus = () =>
+  import(/* webpackPreload: true */ './BaseMediaStatus.vue')
 
 import moduleMedia from '@/store/modules/media'
 

@@ -5,7 +5,8 @@
 </template>
 <script lang="ts">
 import { Vue, Component, Watch } from 'vue-property-decorator'
-import MediaTimeline from '../components/MediaTimeline.vue'
+const MediaTimeline = () =>
+  import(/* webpackPrefetch: true */ '../components/MediaTimeline.vue')
 import { AMedia } from '../types'
 import BaseContainer from '../components/BaseContainer.vue'
 import { fetchMediaApollo } from '@/store/api'

@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer @input="input" :value="value" app>
+  <v-navigation-drawer :value="value" app @input="input">
     <!-- <TheDrawerSearch v-model="search" /> -->
     <TheDrawerFilters />
     <v-divider></v-divider>

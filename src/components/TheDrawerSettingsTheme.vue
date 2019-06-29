@@ -1,5 +1,5 @@
 <template>
-  <v-list-tile @click avatar>
+  <v-list-tile avatar @click>
     <v-list-tile-action>
       <v-switch :input-value="dark" @change="changeTheme"></v-switch>
     </v-list-tile-action>
