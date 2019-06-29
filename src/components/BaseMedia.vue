@@ -19,9 +19,9 @@
     </template>
 
     <v-card :style="style">
-      <div :style="{ flex: 1 }">
-        <BaseMediaImage :media="media" />
-      </div>
+      <!-- <div :style="{ flex: 1 }"> -->
+      <BaseMediaImage :media="media" />
+      <!-- </div> -->
       <div :style="{ flex: 3, display: 'flex', 'flex-direction': 'column' }">
         <BaseMediaTitle :media="media" />
         <template
@@ -75,8 +75,8 @@ export default class BaseMedia extends Vue {
       'flex-direction':
         this.media.bannerImage && !this.$vuetify.breakpoint.smAndDown
           ? 'column'
-          : 'row',
-      overflow: 'hidden'
+          : 'row'
+      // overflow: 'hidden'
     }
   }
   get large() {

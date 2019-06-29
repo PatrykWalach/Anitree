@@ -1,11 +1,12 @@
 {
   "name": "app",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "release": "release-it"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.19",
@@ -45,6 +46,7 @@
     "babel-eslint": "^10.0.2",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.2.3",
+    "release-it": "^12.3.0",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2",
     "typescript": "^3.5.2",

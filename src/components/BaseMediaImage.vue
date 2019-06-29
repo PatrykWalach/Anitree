@@ -1,6 +1,7 @@
 <template>
   <router-link
-    :style="{ 'text-decoration': 'unset', color: 'unset' }"
+    :style="{ flex: 1 }"
+    tag="div"
     :to="{
       name: 'media',
       params: {
@@ -22,6 +23,7 @@
           </v-progress-circular
         ></v-layout>
       </template>
+      <v-layout fill-height ma-0> </v-layout>
     </v-img>
   </router-link>
 </template>
@@ -53,9 +55,19 @@ export default class BaseMediaImage extends Vue {
 
   get style() {
     if (this.banner) {
-      return { width: '100%' }
+      return {
+        width: '100%',
+        style: {
+          'border-radius': '2px 2px 0 0'
+        }
+      }
     }
-    return { height: '100%' }
+    return {
+      height: '100%',
+      style: {
+        'border-radius': '2px 0 0 2px'
+      }
+    }
   }
 
   get src() {
