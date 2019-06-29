@@ -15,7 +15,6 @@
       <BaseMediaTitleTitle :media="media" />
       <BaseMediaTitleSubheading :media="media" />
       <BaseMediaTitleDescription :media="media" />
-      <!-- <BaseMediaTitleTags :media="media" /> -->
     </div>
   </v-card-title>
 </template>

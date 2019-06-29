@@ -1,8 +1,10 @@
 <template>
   <base-container :loading="loading">
-    <v-timeline :dense="$vuetify.breakpoint.smAndDown">
-      <RoadmapList v-for="list in lists" v-bind="list" :key="list.list.id" />
-    </v-timeline>
+    <v-flex>
+      <v-timeline :dense="$vuetify.breakpoint.smAndDown">
+        <RoadmapList v-for="list in lists" :key="list.list.id" v-bind="list" />
+      </v-timeline>
+    </v-flex>
   </base-container>
 </template>
 <script lang="ts">

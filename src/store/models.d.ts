@@ -1,15 +1,18 @@
-import { MediaEdgeExtended, MediaNode, AMedia } from '@/types'
+import { MediaEdgeExtended } from '@/types'
 
 export type FetchVariables =
   | {
       id_in: number[]
+      page?: number
     }
   | {
       search: string
+      page?: number
     }
   | {
       id_in: number[]
       search: string
+      page?: number
     }
 
 export type RawFilter = (

@@ -1,9 +1,9 @@
 <template>
   <v-container fill-height>
     <v-layout justify-center align-center>
-      <v-flex v-if="!loading">
+      <template v-if="!loading">
         <slot></slot>
-      </v-flex>
+      </template>
       <v-progress-circular
         v-else
         indeterminate

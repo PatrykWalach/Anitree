@@ -1,12 +1,9 @@
 <template>
-  <v-timeline :dense="$vuetify.breakpoint.smAndDown">
-    <BaseMedia
-      v-for="media in mediaList"
-      :media="media"
-      :key="media.id"
-      v-show="!media.filtered"
-    />
-  </v-timeline>
+  <v-flex>
+    <v-timeline :dense="$vuetify.breakpoint.smAndDown">
+      <BaseMedia v-for="media in mediaList" :key="media.id" :media="media" />
+    </v-timeline>
+  </v-flex>
 </template>
 
 <script lang="ts">

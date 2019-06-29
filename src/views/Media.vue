@@ -1,6 +1,6 @@
 <template>
   <base-container :loading="loading">
-    <MediaTimeline :mediaList="mediaList" />
+    <MediaTimeline :media-list="mediaList" />
   </base-container>
 </template>
 <script lang="ts">

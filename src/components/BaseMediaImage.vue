@@ -1,18 +1,29 @@
 <template>
-  <v-img
-    v-bind="style"
-    v-lazy="changeInView"
-    :lazySrc="lazySrc"
-    :srcset="srcset"
-    :src="src"
+  <router-link
+    :style="{ 'text-decoration': 'unset', color: 'unset' }"
+    :to="{
+      name: 'media',
+      params: {
+        mediaId: media.id,
+        mediaType: media.type.toLowerCase()
+      }
+    }"
   >
-    <template v-slot:placeholder>
-      <v-layout fill-height align-center justify-center ma-0>
-        <v-progress-circular indeterminate color="grey lighten-5">
-        </v-progress-circular
-      ></v-layout>
-    </template>
-  </v-img>
+    <v-img
+      v-lazy="changeInView"
+      v-bind="style"
+      :lazy-src="lazySrc"
+      :srcset="srcset"
+      :src="src"
+    >
+      <template v-slot:placeholder>
+        <v-layout fill-height align-center justify-center ma-0>
+          <v-progress-circular indeterminate color="grey lighten-5">
+          </v-progress-circular
+        ></v-layout>
+      </template>
+    </v-img>
+  </router-link>
 </template>
 
 <script lang="ts">
@@ -41,12 +52,10 @@ export default class BaseMediaImage extends Vue {
   public inView: boolean = false
 
   get style() {
-    // return undefined
     if (this.banner) {
       return { width: '100%' }
     }
     return { height: '100%' }
-    // {width: '175px'}
   }
 
   get src() {
@@ -88,7 +97,7 @@ export default class BaseMediaImage extends Vue {
     return this.media.bannerImage && !this.$vuetify.breakpoint.smAndDown
   }
 
-  public changeInView() {
+  public async changeInView() {
     this.inView = true
   }
 }

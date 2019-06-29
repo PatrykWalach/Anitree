@@ -6,8 +6,8 @@
         <v-list two-line>
           <RoadmapListCard
             v-for="card in cards"
-            v-bind="card"
             :key="card.card.id"
+            v-bind="card"
           />
         </v-list>
       </v-card-text>
