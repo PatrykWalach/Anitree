@@ -1,6 +1,6 @@
 {
   "name": "app",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -36,6 +36,7 @@
     "@types/fuzzy-search": "^2.1.0",
     "@types/graphql": "^14.2.2",
     "@types/js-cookie": "^2.2.2",
+    "@typescript-eslint/eslint-plugin": "^1.11.0",
     "@vue/cli-plugin-babel": "^3.8.0",
     "@vue/cli-plugin-eslint": "^3.8.0",
     "@vue/cli-plugin-pwa": "^3.8.0",
@@ -45,6 +46,7 @@
     "@vue/eslint-config-typescript": "^4.0.0",
     "babel-eslint": "^10.0.2",
     "eslint": "^5.16.0",
+    "eslint-config-prettier": "^6.0.0",
     "eslint-plugin-vue": "^5.2.3",
     "release-it": "^12.3.0",
     "stylus": "^0.54.5",

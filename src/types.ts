@@ -55,10 +55,10 @@ export interface AMedia extends MediaNode {
   relations: {
     edges: MediaEdge[]
   }
-  tags: Array<{
+  tags: {
     rank: number
     name: string
-  }>
+  }[]
   studios: {
     nodes: StudioNode[]
   }
@@ -146,11 +146,11 @@ export interface TrelloCard {
   // coordinates: string | { latitude: number; longitude: number } // my requst didn't have this
 }
 
-export type Cards = Array<{
+export type Cards = {
   card: TrelloCard
   checklists: TrelloChecklist[]
   // progress: number
-}>
+}[]
 
 export interface TrelloChecklist {
   checkItems: [

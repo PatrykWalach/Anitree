@@ -5,9 +5,9 @@ import apollo from '../apollo'
 import { AMedia } from '@/types'
 
 export const query = gql`
-  query($search: String, $id_in: [Int], $page: Int = 0) {
+  query($search: String, $idIn: [Int], $page: Int = 0) {
     Page(page: $page, perPage: 50) {
-      media(search: $search, id_in: $id_in) {
+      media(search: $search, id_in: $idIn) {
         id
         bannerImage
         coverImage {

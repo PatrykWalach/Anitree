@@ -12,6 +12,58 @@ import {
 import store from '@/store'
 import { MediaNode, AMedia, MediaEdgeExtended, MediaEdge, Data } from '@/types'
 
+function createVariables(
+  acc: {
+    idIn: number[]
+  }[],
+  media: MediaNode
+): {
+  idIn: number[]
+}[] {
+  const index = acc.findIndex(arr => arr.idIn.length < 50)
+  if (index === -1) {
+    acc.push({ idIn: [media.id] })
+  } else {
+    acc[index].idIn.push(media.id)
+  }
+  return acc
+}
+
+function applyFilter(
+  filteredEdges: MediaEdgeExtended[],
+  filter: RawFilter
+): MediaEdgeExtended[] {
+  return filteredEdges.filter(filter)
+}
+
+function filterDuplicate<E = any>(
+  test: (element: E, otherElement: E, i?: number, arr?: E[]) => boolean,
+  element: E,
+  i: number,
+  arr: E[]
+): boolean {
+  return arr.findIndex(test.bind(null, element)) === i
+}
+
+function nodesAreEqual(element: MediaNode, otherElement: MediaNode) {
+  return element.id === otherElement.id
+}
+
+function filterDuplicateNodes(
+  node: MediaNode,
+  i: number,
+  allNodes: MediaNode[]
+): boolean {
+  return filterDuplicate(nodesAreEqual, node, i, allNodes)
+}
+
+function filterDuplicateEdges(
+  edge: MediaEdge,
+  i: number,
+  allEdges: MediaEdge[]
+): boolean {
+  return filterDuplicateNodes(edge.node, i, allEdges.map(({ node }) => node))
+}
 @Module({
   namespaced: true,
   name: 'media',
@@ -27,28 +79,28 @@ export class ModuleMedia extends VuexModule {
 
   public filteredMedia: MediaEdgeExtended[] = []
 
-  get activeFilters() {
+  public get activeFilters() {
     return Object.values(this.filters).filter(({ active }) => active)
   }
 
-  get exclusiveFilters(): RawFilter[] {
+  public get exclusiveFilters(): RawFilter[] {
     return this.activeFilters
       .filter(({ exclusive }) => exclusive)
       .map(({ filter }) => filter)
   }
 
-  get inclusiveFilters(): RawFilter[] {
+  public get inclusiveFilters(): RawFilter[] {
     return this.activeFilters
       .filter(({ exclusive }) => !exclusive)
       .map(({ filter }) => filter)
   }
 
-  get currentMedia(): AMedia | null {
+  public get currentMedia(): AMedia | null {
     const { currentId, media } = this
     return (currentId && media[currentId]) || null
   }
 
-  get relationTypes(): string[] {
+  public get relationTypes(): string[] {
     const { inclusiveFilters, filteredMedia } = this
     return [
       ...new Set(
@@ -60,7 +112,7 @@ export class ModuleMedia extends VuexModule {
     ]
   }
 
-  get sortedMedia(): AMedia[] {
+  public get sortedMedia(): AMedia[] {
     return this.filteredMedia
       .map(({ node }) => node)
       .sort(
@@ -258,56 +310,3 @@ export class ModuleMedia extends VuexModule {
 }
 
 export default getModule(ModuleMedia)
-
-function createVariables(
-  acc: {
-    id_in: number[]
-  }[],
-  media: MediaNode
-): {
-  id_in: number[]
-}[] {
-  const index = acc.findIndex(arr => arr.id_in.length < 50)
-  if (index === -1) {
-    acc.push({ id_in: [media.id] })
-  } else {
-    acc[index].id_in.push(media.id)
-  }
-  return acc
-}
-
-function applyFilter(
-  filteredEdges: MediaEdgeExtended[],
-  filter: RawFilter
-): MediaEdgeExtended[] {
-  return filteredEdges.filter(filter)
-}
-
-function filterDuplicateNodes(
-  node: MediaNode,
-  i: number,
-  allNodes: MediaNode[]
-): boolean {
-  return filterDuplicate(nodesAreEqual, node, i, allNodes)
-}
-
-function filterDuplicateEdges(
-  edge: MediaEdge,
-  i: number,
-  allEdges: MediaEdge[]
-): boolean {
-  return filterDuplicateNodes(edge.node, i, allEdges.map(({ node }) => node))
-}
-
-function nodesAreEqual(element: MediaNode, otherElement: MediaNode) {
-  return element.id === otherElement.id
-}
-
-function filterDuplicate<E = any>(
-  test: (element: E, otherElement: E, i?: number, arr?: E[]) => boolean,
-  element: E,
-  i: number,
-  arr: E[]
-): boolean {
-  return arr.findIndex(test.bind(null, element)) === i
-}

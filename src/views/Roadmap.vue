@@ -22,10 +22,10 @@ import { TrelloList, Cards, TrelloCard, TrelloChecklist } from '../types'
 export default class Roadmap extends Vue {
   public loading: boolean = false
 
-  public lists: Array<{
+  public lists: {
     list: TrelloList
     cards: Cards
-  }> = []
+  }[] = []
 
   public async created() {
     this.loading = true

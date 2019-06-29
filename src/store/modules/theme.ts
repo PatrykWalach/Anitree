@@ -9,7 +9,7 @@ import store from '@/store'
 export class ModuleTheme extends VuexModule {
   public dark: boolean = true
 
-  get light() {
+  public get light() {
     return !this.dark
   }
 

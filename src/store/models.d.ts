@@ -2,7 +2,7 @@ import { MediaEdgeExtended } from '@/types'
 
 export type FetchVariables =
   | {
-      id_in: number[]
+      idIn: number[]
       page?: number
     }
   | {
@@ -10,7 +10,7 @@ export type FetchVariables =
       page?: number
     }
   | {
-      id_in: number[]
+      idIn: number[]
       search: string
       page?: number
     }

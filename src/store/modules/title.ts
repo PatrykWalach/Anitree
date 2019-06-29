@@ -16,7 +16,7 @@ export class ModuleTitle extends VuexModule {
     'native'
   ]
 
-  get preferedTitle() {
+  public get preferedTitle() {
     return this.titles[this.prefered]
   }
 

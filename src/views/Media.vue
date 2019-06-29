@@ -34,7 +34,7 @@ export default class Media extends Vue {
         resolve(storedMedia)
       } else {
         const media = await moduleMedia.fetchMedia({
-          id_in: [currentId]
+          idIn: [currentId]
         })
 
         if (media.length) {
@@ -78,7 +78,7 @@ export default class Media extends Vue {
         resolve(storedMedia)
       } else {
         const media = await moduleMedia.fetchMedia({
-          id_in: [currentId]
+          idIn: [currentId]
         })
 
         if (media.length) {
