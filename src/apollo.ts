@@ -3,17 +3,18 @@ import { ApolloLink, concat } from 'apollo-link'
 import { HttpLink } from 'apollo-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 
-import auth from './store/modules/auth'
+import auth from '@/store/modules/auth'
 
 const link = new HttpLink({
   uri: 'https://graphql.anilist.co'
 })
 
 const middle = new ApolloLink((operation, forward) => {
-  if (auth.token) {
+  const token = auth.token
+  if (token) {
     operation.setContext({
       headers: {
-        Authorization: `Bearer ${auth.token}`
+        Authorization: `Bearer ${token}`
       }
     })
   }

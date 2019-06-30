@@ -18,7 +18,7 @@ import {
   RawFilter,
   Filter,
   FetchVariables
-} from '../../types'
+} from '@/types'
 
 function createVariables(
   acc: {

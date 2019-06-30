@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-
-import auth from './store/modules/auth'
+import auth from '@/store/modules/auth'
 
 const Home = () => import('./views/Home.vue')
 const Media = () => import(/* webpackPrefetch: true */ './views/Media.vue')

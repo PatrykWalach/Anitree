@@ -5,6 +5,11 @@ export interface HTMLElementEvent<T extends HTMLElement> extends Event {
   target: T
   currentTarget: T
 }
+export interface Token {
+  access_token: string
+  token_type: string
+  expires_in: string
+}
 
 export type FetchVariables =
   | {
