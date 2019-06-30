@@ -48,7 +48,7 @@ import { AMedia } from '../types'
 const BaseMediaActions = () => import('./BaseMediaActions.vue')
 const BaseMediaStatus = () => import('./BaseMediaStatus.vue')
 
-import moduleMedia from '@/store/modules/media'
+import moduleMedia from '../store/modules/media'
 
 @Component({
   components: {

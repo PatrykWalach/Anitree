@@ -6,6 +6,34 @@ export interface HTMLElementEvent<T extends HTMLElement> extends Event {
   currentTarget: T
 }
 
+export type FetchVariables =
+  | {
+      idIn: number[]
+      page?: number
+    }
+  | {
+      search: string
+      page?: number
+    }
+  | {
+      idIn: number[]
+      search: string
+      page?: number
+    }
+
+export type RawFilter = (
+  value: MediaEdgeExtended,
+  index: number,
+  array: MediaEdgeExtended[]
+) => boolean
+
+export interface Filter {
+  filter: RawFilter
+  exclusive: boolean
+  active: boolean
+  id: string
+}
+
 export type Next<V extends Vue = Vue> = (
   to?: string | false | void | Location | ((vm: V) => any) | undefined
 ) => void

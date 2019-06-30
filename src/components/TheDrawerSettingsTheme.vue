@@ -14,7 +14,7 @@
 </template>
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
-import moduleTheme from '@/store/modules/theme'
+import moduleTheme from '../store/modules/theme'
 
 @Component
 export default class TheDrawerSettingsTheme extends Vue {

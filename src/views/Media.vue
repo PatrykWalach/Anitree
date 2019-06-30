@@ -10,7 +10,7 @@ const MediaTimeline = () =>
   import(/* webpackPrefetch: true */ '../components/MediaTimeline.vue')
 
 import { Route } from 'vue-router'
-import moduleMedia from '@/store/modules/media'
+import moduleMedia from '../store/modules/media'
 import { Next, AMedia } from '../types'
 import BaseContainer from '../components/BaseContainer.vue'
 

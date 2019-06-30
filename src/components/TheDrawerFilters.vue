@@ -13,7 +13,7 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
 import TheDrawerFiltersFilter from './TheDrawerFiltersFilter.vue'
-import moduleMedia from '@/store/modules/media'
+import moduleMedia from '../store/modules/media'
 
 @Component({
   components: {

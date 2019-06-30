@@ -19,7 +19,7 @@
 import { Prop, Component, Vue } from 'vue-property-decorator'
 import { AMedia } from '../types'
 
-import moduleTitle from '@/store/modules/title'
+import moduleTitle from '../store/modules/title'
 
 @Component
 export default class BaseMediaTitleTitle extends Vue {

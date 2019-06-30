@@ -13,8 +13,9 @@
 import { Vue, Component } from 'vue-property-decorator'
 import TheDrawerSettingsTheme from './TheDrawerSettingsTheme.vue'
 import TheDrawerSettingsTitle from './TheDrawerSettingsTitle.vue'
+import auth from '../store/modules/auth'
+
 const TheDrawerSettingsLogin = () => import('./TheDrawerSettingsLogin.vue')
-import auth from '@/store/modules/auth'
 
 @Component({
   components: {

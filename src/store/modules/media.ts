@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import { fetchMediaApollo } from '../api'
-import { Filter, RawFilter, FetchVariables } from '../models'
 import {
   Module,
   VuexModule,
@@ -10,7 +9,16 @@ import {
   MutationAction
 } from 'vuex-module-decorators'
 import store from '@/store'
-import { MediaNode, AMedia, MediaEdgeExtended, MediaEdge, Data } from '@/types'
+import {
+  MediaNode,
+  AMedia,
+  MediaEdgeExtended,
+  MediaEdge,
+  Data,
+  RawFilter,
+  Filter,
+  FetchVariables
+} from '../../types'
 
 function createVariables(
   acc: {

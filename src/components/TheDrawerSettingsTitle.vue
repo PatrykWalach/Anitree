@@ -12,7 +12,7 @@
 </template>
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
-import moduleTitle from '@/store/modules/title'
+import moduleTitle from '../store/modules/title'
 
 interface Options {
   expires?: string | number | Date

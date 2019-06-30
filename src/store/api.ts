@@ -1,8 +1,8 @@
 import gql from 'graphql-tag'
-import { FetchVariables } from './models'
+import { FetchVariables } from '../types'
 
 import apollo from '../apollo'
-import { AMedia } from '@/types'
+import { AMedia } from '../types'
 
 export const query = gql`
   query($search: String, $idIn: [Int], $page: Int = 0) {

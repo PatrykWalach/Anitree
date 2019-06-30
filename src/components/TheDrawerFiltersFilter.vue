@@ -25,7 +25,7 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
-import moduleMedia from '@/store/modules/media'
+import moduleMedia from '../store/modules/media'
 
 @Component
 export default class TheDrawerFiltersFilter extends Vue {

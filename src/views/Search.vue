@@ -9,7 +9,7 @@ const MediaTimeline = () =>
   import(/* webpackPrefetch: true */ '../components/MediaTimeline.vue')
 import { AMedia } from '../types'
 import BaseContainer from '../components/BaseContainer.vue'
-import { fetchMediaApollo } from '@/store/api'
+import { fetchMediaApollo } from '../store/api'
 @Component({
   components: {
     MediaTimeline,
