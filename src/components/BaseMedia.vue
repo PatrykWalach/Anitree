@@ -2,27 +2,24 @@
   <v-timeline-item
     :small="$vuetify.breakpoint.smAndDown && !large"
     :large="!$vuetify.breakpoint.smAndDown && large"
-    :color="media.coverImage.color || '#e0e0e0'"
+    :color="color"
   >
     <template v-slot:opposite>
       <BaseMediaTime :media="media" />
-      <v-btn
-        :color="media.coverImage.color"
-        rel="noopener"
-        target="_blank"
-        :href="media.siteUrl"
-        icon
-        flat
-      >
-        <v-icon>link</v-icon>
-      </v-btn>
     </template>
 
     <v-card ripple :style="style">
-      <!-- <div :style="{ flex: 1 }"> -->
       <BaseMediaImage :media="media" />
-      <!-- </div> -->
-      <div :style="{ flex: 3, display: 'flex', 'flex-direction': 'column' }">
+
+      <div
+        :style="{
+          flex: 3,
+          display: 'flex',
+          'flex-direction': 'column',
+          position: 'relative'
+        }"
+      >
+        <BaseMediaBtn :media="media" />
         <BaseMediaTitle :media="media" />
         <template
           v-if="
@@ -44,14 +41,17 @@ import { Prop, Component, Vue } from 'vue-property-decorator'
 import BaseMediaImage from './BaseMediaImage.vue'
 import BaseMediaTitle from './BaseMediaTitle.vue'
 import BaseMediaTime from './BaseMediaTime.vue'
+import BaseMediaBtn from './BaseMediaBtn.vue'
 import { AMedia } from '../types'
 const BaseMediaActions = () => import('./BaseMediaActions.vue')
 const BaseMediaStatus = () => import('./BaseMediaStatus.vue')
 
 import moduleMedia from '../store/modules/media'
+import theme from '../store/modules/theme'
 
 @Component({
   components: {
+    BaseMediaBtn,
     BaseMediaImage,
     BaseMediaTitle,
     BaseMediaTime,
@@ -62,6 +62,10 @@ import moduleMedia from '../store/modules/media'
 export default class BaseMedia extends Vue {
   @Prop()
   public readonly media!: AMedia
+
+  get color() {
+    return this.media.coverImage.color || (theme.dark ? '#555' : '#e0e0e0')
+  }
 
   get currentId() {
     return moduleMedia.currentId

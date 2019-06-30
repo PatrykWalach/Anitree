@@ -9,7 +9,11 @@ import './assets/css/style.styl'
 import Vuetify from 'vuetify'
 
 Vue.use(Vuetify, {
-  iconfont: 'md'
+  iconfont: 'md',
+  theme: {
+    primary: '#4DBA87',
+    accent: '#6ac59a'
+  }
 })
 
 import '../node_modules/material-design-icons-iconfont/dist/material-design-icons.css'

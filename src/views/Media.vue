@@ -5,7 +5,6 @@
 </template>
 <script lang="ts">
 import { Vue, Component, Watch } from 'vue-property-decorator'
-// import MediaTimeline from '../components/MediaTimeline.vue'
 const MediaTimeline = () =>
   import(/* webpackPrefetch: true */ '../components/MediaTimeline.vue')
 
@@ -115,11 +114,9 @@ export default class Media extends Vue {
       .catch(() => next(false))
   }
 
-  // @Watch('$route')
   public async fetch(media: AMedia) {
     const { currentId } = this
     this.loading = true
-    // setTimeout(() => (this.loading = true), 200)
     await moduleMedia.handleQueue([media])
     await moduleMedia.CHANGE_CURRENT_ID({ currentId })
     await moduleMedia.changeFilteredMedia()
@@ -138,46 +135,12 @@ export default class Media extends Vue {
     return moduleMedia.activeFilters
   }
 
-  // @Watch('slush', { immediate: true })
-  // public changeSlush() {
-  //   if (this.slush) {
-  //     this.$router.push({
-  //       name: 'title',
-  //       params: {
-  //         title: this.slush
-  //       }
-  //     })
-  //   }
-  // }
-
-  // @Watch('title', { immediate: true })
-  // public changeTitle() {
-  //   if (this.title) {
-  //     document.title = 'Anitree - ' + this.title
-  //   }
-  // }
-
   get mediaList() {
     return moduleMedia.sortedMedia
   }
 
-  // get slush() {
-  //   return this.title
-  //     .trim()
-  //     .replace(/[^\w\s]/g, '')
-  //     .replace(/\s/g, '-')
-  // }
-
-  // get media() {
-  //   return moduleMedia.currentMedia
-  // }
-
   get currentId() {
     return parseInt(this.$route.params.mediaId, 10)
   }
-
-  // get title() {
-  //   return this.media ? this.media.title.romaji : ''
-  // }
 }
 </script>

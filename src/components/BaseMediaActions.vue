@@ -3,13 +3,14 @@
     <div
       :style="{ display: 'flex', 'align-items': 'center', 'flex-wrap': 'wrap' }"
     >
-      <base-chip
+      <base-color
         v-for="tag in tags"
         :key="`tag-${tag.id}`"
         label
         small
         :color="media.coverImage.color"
-        >{{ tag.name.toLowerCase() }}</base-chip
+        tag="v-chip"
+        >{{ tag.name.toLowerCase() }}</base-color
       >
 
       <v-btn
@@ -37,10 +38,10 @@
 </template>
 <script lang="ts">
 import { Prop, Component, Vue } from 'vue-property-decorator'
-import BaseChip from './BaseChip.vue'
+import BaseColor from './BaseColor.vue'
 import { AMedia } from '../types'
 
-@Component({ components: { BaseChip } })
+@Component({ components: { BaseColor } })
 export default class BaseMediaActions extends Vue {
   @Prop()
   public readonly media!: AMedia

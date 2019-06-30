@@ -1,5 +1,9 @@
 <template>
-  <div :style="{ flex: 1 }">
+  <div
+    :style="{
+      flex: 1 //position: 'relative'
+    }"
+  >
     <router-link
       :style="{ 'text-decoration': 'unset' }"
       :to="{
