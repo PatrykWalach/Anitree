@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-timeline :dense="$vuetify.breakpoint.xs">
-      <v-timeline-item large>
+      <v-timeline-item :large="!$vuetify.breakpoint.smAndDown">
         <v-card>
           <v-card-title primary-title>
             <div class="headline">Welcome</div>
@@ -12,7 +12,7 @@
           >
         </v-card>
       </v-timeline-item>
-      <v-timeline-item>
+      <v-timeline-item :small="$vuetify.breakpoint.smAndDown">
         <v-card>
           <v-card-title primary-title>
             <div class="headline">

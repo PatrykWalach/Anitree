@@ -12,19 +12,6 @@
         tag="v-chip"
         >{{ tag.name.toLowerCase() }}</base-color
       >
-
-      <v-btn
-        v-if="$vuetify.breakpoint.smAndDown"
-        icon
-        small
-        flat
-        :color="media.coverImage.color"
-        rel="noopener"
-        target="_blank"
-        :href="media.siteUrl"
-      >
-        <v-icon>link</v-icon>
-      </v-btn>
       <v-chip
         v-for="studio in media.studios.nodes"
         :key="`studio-${studio.id}`"

@@ -21,13 +21,7 @@
       >
         <BaseMediaBtn :media="media" />
         <BaseMediaTitle :media="media" />
-        <template
-          v-if="
-            media.tags.length ||
-              $vuetify.breakpoint.smAndDown ||
-              media.studios.nodes.length
-          "
-        >
+        <template v-if="media.tags.length || media.studios.nodes.length">
           <v-divider></v-divider>
           <BaseMediaActions :media="media" />
         </template>
