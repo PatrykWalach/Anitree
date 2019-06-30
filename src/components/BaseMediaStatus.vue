@@ -1,20 +1,28 @@
 <template>
   <v-tooltip bottom>
-    <v-toolbar
-      v-slot:activator
-      :style="{ height: '2px' }"
-      :class="color"
-    ></v-toolbar>
+    <template v-slot:activator="{ on }">
+      <v-toolbar
+        :style="{ height: '3px' }"
+        :class="color"
+        v-on="on"
+      ></v-toolbar>
+    </template>
     <span>{{ status }}</span>
   </v-tooltip>
 </template>
 <script lang="ts">
 import { Prop, Component, Vue } from 'vue-property-decorator'
+import { AMedia } from '../types'
 
 @Component
 export default class BaseMediaStatus extends Vue {
   @Prop()
-  public readonly status!: string
+  public readonly media!: AMedia
+
+  get status() {
+    const { mediaListEntry } = this.media
+    return mediaListEntry && mediaListEntry.status
+  }
 
   get color() {
     switch (this.status) {

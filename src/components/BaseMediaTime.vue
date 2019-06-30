@@ -12,9 +12,8 @@
 <script lang="ts">
 import { Prop, Component, Vue } from 'vue-property-decorator'
 import { AMedia, MediaDate } from '../types'
-const BaseTimeRange = () =>
-  import(/* webpackPrefetch: true */ './BaseTimeRange.vue')
-const BaseTime = () => import(/* webpackPrefetch: true */ './BaseTime.vue')
+const BaseTimeRange = () => import('./BaseTimeRange.vue')
+const BaseTime = () => import('./BaseTime.vue')
 
 @Component({
   components: {

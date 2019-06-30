@@ -1,31 +1,31 @@
 <template>
-  <router-link
-    :style="{ flex: 1 }"
-    tag="div"
-    :to="{
-      name: 'media',
-      params: {
-        mediaId: media.id,
-        mediaType: media.type.toLowerCase()
-      }
-    }"
-  >
-    <v-img
-      v-lazy="changeInView"
-      v-bind="style"
-      :lazy-src="lazySrc"
-      :srcset="srcset"
-      :src="src"
+  <div :style="{ flex: 1 }">
+    <router-link
+      :style="{ 'text-decoration': 'unset' }"
+      :to="{
+        name: 'media',
+        params: {
+          mediaId: media.id,
+          mediaType: media.type.toLowerCase()
+        }
+      }"
     >
-      <template v-slot:placeholder>
-        <v-layout fill-height align-center justify-center ma-0>
-          <v-progress-circular indeterminate color="grey lighten-5">
-          </v-progress-circular
-        ></v-layout>
-      </template>
-      <v-layout fill-height ma-0> </v-layout>
-    </v-img>
-  </router-link>
+      <v-img
+        v-lazy="changeInView"
+        v-bind="style"
+        :lazy-src="lazySrc"
+        :srcset="srcset"
+        :src="src"
+      >
+        <template v-slot:placeholder>
+          <v-layout fill-height align-center justify-center ma-0>
+            <v-progress-circular indeterminate color="grey lighten-5">
+            </v-progress-circular
+          ></v-layout>
+        </template>
+      </v-img>
+    </router-link>
+  </div>
 </template>
 
 <script lang="ts">

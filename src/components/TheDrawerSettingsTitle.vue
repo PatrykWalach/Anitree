@@ -13,7 +13,6 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
 import moduleTitle from '@/store/modules/title'
-import Cookies from 'js-cookie'
 
 interface Options {
   expires?: string | number | Date
@@ -42,15 +41,7 @@ export default class TheDrawerSettingsTitle extends Vue {
 
   public changePrefered() {
     const prefered = (this.prefered + 1) % this.titles.length
-    Cookies.set('title', { prefered }, { expires: Infinity })
     return moduleTitle.CHANGE_PREFERED(prefered)
-  }
-
-  public created() {
-    const title: { prefered: number } = Cookies.getJSON('title')
-    if (title) {
-      moduleTitle.CHANGE_PREFERED(title.prefered)
-    }
   }
 }
 </script>

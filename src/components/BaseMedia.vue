@@ -18,7 +18,7 @@
       </v-btn>
     </template>
 
-    <v-card :style="style">
+    <v-card ripple :style="style">
       <!-- <div :style="{ flex: 1 }"> -->
       <BaseMediaImage :media="media" />
       <!-- </div> -->
@@ -34,11 +34,8 @@
           <v-divider></v-divider>
           <BaseMediaActions :media="media" />
         </template>
+        <BaseMediaStatus v-if="media.mediaListEntry" :media="media" />
       </div>
-      <BaseMediaStatus
-        v-if="media.mediaListEntry"
-        :status="media.mediaListEntry.status"
-      />
     </v-card>
   </v-timeline-item>
 </template>
@@ -47,12 +44,9 @@ import { Prop, Component, Vue } from 'vue-property-decorator'
 import BaseMediaImage from './BaseMediaImage.vue'
 import BaseMediaTitle from './BaseMediaTitle.vue'
 import BaseMediaTime from './BaseMediaTime.vue'
-// import BaseMediaStatus from './BaseMediaStatus.vue'
-import BaseMediaActions from './BaseMediaActions.vue'
 import { AMedia } from '../types'
-
-const BaseMediaStatus = () =>
-  import(/* webpackPreload: true */ './BaseMediaStatus.vue')
+const BaseMediaActions = () => import('./BaseMediaActions.vue')
+const BaseMediaStatus = () => import('./BaseMediaStatus.vue')
 
 import moduleMedia from '@/store/modules/media'
 
@@ -79,7 +73,6 @@ export default class BaseMedia extends Vue {
         this.media.bannerImage && !this.$vuetify.breakpoint.smAndDown
           ? 'column'
           : 'row'
-      // overflow: 'hidden'
     }
   }
   get large() {

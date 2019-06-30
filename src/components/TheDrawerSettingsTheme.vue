@@ -15,7 +15,6 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
 import moduleTheme from '@/store/modules/theme'
-import Cookies from 'js-cookie'
 
 @Component
 export default class TheDrawerSettingsTheme extends Vue {
@@ -25,15 +24,7 @@ export default class TheDrawerSettingsTheme extends Vue {
 
   public changeTheme() {
     const dark = !this.dark
-    Cookies.set('theme', { dark }, { expires: Infinity })
     moduleTheme.CHANGE_THEME(dark)
-  }
-
-  public created() {
-    const theme: { dark: boolean } = Cookies.getJSON('theme')
-    if (theme) {
-      moduleTheme.CHANGE_THEME(theme.dark)
-    }
   }
 }
 </script>

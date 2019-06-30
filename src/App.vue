@@ -15,7 +15,7 @@ import { Vue, Component } from 'vue-property-decorator'
 import TheToolbar from './components/TheToolbar.vue'
 import TheDrawer from './components/TheDrawer.vue'
 import TheFooter from './components/TheFooter.vue'
-import moduleTheme from './store/modules/theme'
+import theme from './store/modules/theme'
 
 @Component({
   components: {
@@ -25,11 +25,8 @@ import moduleTheme from './store/modules/theme'
   }
 })
 export default class App extends Vue {
-  // @Getter('dark', { namespace: 'theme' })
-  // public readonly dark!: boolean
-
   get dark() {
-    return moduleTheme.dark
+    return theme.dark
   }
 
   public drawerValue: boolean = false

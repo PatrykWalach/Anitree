@@ -1,18 +1,18 @@
 <template>
-  <router-link
-    :style="{ 'text-decoration': 'unset', color: 'unset' }"
-    :to="{
-      name: 'media',
-      params: {
-        mediaId: media.id,
-        mediaType: media.type.toLowerCase()
-      }
-    }"
-  >
-    <h6 class="title">
+  <h6 class="title">
+    <router-link
+      :style="{ 'text-decoration': 'unset', color: 'unset' }"
+      :to="{
+        name: 'media',
+        params: {
+          mediaId: media.id,
+          mediaType: media.type.toLowerCase()
+        }
+      }"
+    >
       {{ title }}
-    </h6>
-  </router-link>
+    </router-link>
+  </h6>
 </template>
 
 <script lang="ts">

@@ -60,8 +60,8 @@ export default class Roadmap extends Vue {
 
   public get(el: string) {
     const id = '5d06a49849ca095384351145'
-    const key = process.env.TRELLO_KEY
-    const token = process.env.TRELLO_TOKEN
+    const key = process.env.VUE_APP_TRELLO_KEY
+    const token = process.env.VUE_APP_TRELLO_TOKEN
     return axios
       .get(`https://api.trello.com/1/boards/${id}/${el}`, {
         params: { key, token }

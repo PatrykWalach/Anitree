@@ -1,24 +1,33 @@
-// import Vue from 'vue'
 import { ApolloClient } from 'apollo-client'
-import { createHttpLink } from 'apollo-link-http'
+import { ApolloLink, concat } from 'apollo-link'
+import { HttpLink } from 'apollo-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
-// import VueApollo from 'vue-apollo'
 
-// Vue.use(VueApollo)
+import auth from './store/modules/auth'
 
-const link = createHttpLink({
+const link = new HttpLink({
   uri: 'https://graphql.anilist.co'
+})
+
+const middle = new ApolloLink((operation, forward) => {
+  if (auth.token) {
+    operation.setContext({
+      headers: {
+        Authorization: `Bearer ${auth.token}`
+      }
+    })
+  }
+  if (forward) {
+    return forward(operation)
+  }
+  return null
 })
 
 const cache = new InMemoryCache()
 
 const apolloClient = new ApolloClient({
-  link,
+  link: concat(middle, link),
   cache
 })
-
-// export const apolloProvider = new VueApollo({
-//   defaultClient: apolloClient
-// })
 
 export default apolloClient

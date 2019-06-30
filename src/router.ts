@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
+import auth from '@/store/modules/auth'
+
 const Home = () => import('./views/Home.vue')
 const Media = () => import(/* webpackPrefetch: true */ './views/Media.vue')
 const Roadmap = () => import('./views/Roadmap.vue')
@@ -30,6 +32,20 @@ const router = new Router({
       path: '/search',
       name: 'search',
       component: Search
+    },
+    {
+      path: '/auth',
+      name: 'auth',
+      redirect: to => {
+        const hash = Object.fromEntries(
+          to.hash
+            .replace(/#/, '')
+            .split(/&/)
+            .map(el => el.split(/=/))
+        )
+        auth.CHANGE_TOKEN(hash || null)
+        return { name: 'home', hash: '' }
+      }
     }
   ]
 })
