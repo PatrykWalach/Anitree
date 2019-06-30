@@ -17,14 +17,14 @@
 
 <script lang="ts">
 import { Prop, Component, Vue } from 'vue-property-decorator'
-import { AMedia } from '../types'
+import { Media } from '../types'
 
 import moduleTitle from '../store/modules/title'
 
 @Component
 export default class BaseMediaTitleTitle extends Vue {
   @Prop()
-  public readonly media!: AMedia
+  public readonly media!: Media
 
   get preferedTitle() {
     return moduleTitle.preferedTitle

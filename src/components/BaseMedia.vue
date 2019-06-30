@@ -36,7 +36,7 @@ import BaseMediaImage from './BaseMediaImage.vue'
 import BaseMediaTitle from './BaseMediaTitle.vue'
 import BaseMediaTime from './BaseMediaTime.vue'
 import BaseMediaBtn from './BaseMediaBtn.vue'
-import { AMedia } from '../types'
+import { Media } from '../types'
 const BaseMediaActions = () => import('./BaseMediaActions.vue')
 const BaseMediaStatus = () => import('./BaseMediaStatus.vue')
 
@@ -55,7 +55,7 @@ import theme from '../store/modules/theme'
 })
 export default class BaseMedia extends Vue {
   @Prop()
-  public readonly media!: AMedia
+  public readonly media!: Media
 
   get color() {
     return this.media.coverImage.color || (theme.dark ? '#555' : '#e0e0e0')

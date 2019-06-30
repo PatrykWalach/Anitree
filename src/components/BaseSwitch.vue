@@ -1,5 +1,5 @@
 <template>
-  <v-switch @change="change" :value="value"></v-switch>
+  <v-switch :value="value" @change="change"></v-switch>
 </template>
 
 <script lang="ts">

@@ -11,7 +11,7 @@
 </template>
 <script lang="ts">
 import { Prop, Component, Vue } from 'vue-property-decorator'
-import { AMedia, MediaDate } from '../types'
+import { Media, MediaDate } from '../types'
 const BaseTimeRange = () => import('./BaseTimeRange.vue')
 const BaseTime = () => import('./BaseTime.vue')
 
@@ -23,7 +23,7 @@ const BaseTime = () => import('./BaseTime.vue')
 })
 export default class BaseMediaTime extends Vue {
   @Prop()
-  public readonly media!: AMedia
+  public readonly media!: Media
 
   get isRange() {
     return this.startISO && this.endISO && this.startISO !== this.endISO

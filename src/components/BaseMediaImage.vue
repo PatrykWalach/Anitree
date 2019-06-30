@@ -1,7 +1,7 @@
 <template>
   <div
     :style="{
-      flex: 1 //position: 'relative'
+      flex: 1
     }"
   >
     <router-link
@@ -34,7 +34,7 @@
 
 <script lang="ts">
 import { Prop, Component, Vue } from 'vue-property-decorator'
-import { AMedia } from '../types'
+import { Media } from '../types'
 
 @Component({
   directives: {
@@ -54,7 +54,7 @@ import { AMedia } from '../types'
 })
 export default class BaseMediaImage extends Vue {
   @Prop()
-  public readonly media!: AMedia
+  public readonly media!: Media
   public inView: boolean = false
 
   get style() {

@@ -24,7 +24,7 @@ export default class TheToolbarSearch extends Vue {
     this.$router.push({
       name: 'search',
       query: {
-        search: this.search
+        search: this.search.trim()
       }
     })
   }

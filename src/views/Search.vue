@@ -7,7 +7,7 @@
 import { Vue, Component, Watch } from 'vue-property-decorator'
 const MediaTimeline = () =>
   import(/* webpackPrefetch: true */ '../components/MediaTimeline.vue')
-import { AMedia } from '../types'
+import { Media } from '../types'
 import BaseContainer from '../components/BaseContainer.vue'
 import { fetchMediaApollo } from '../store/api'
 @Component({
@@ -17,7 +17,7 @@ import { fetchMediaApollo } from '../store/api'
   }
 })
 export default class Search extends Vue {
-  public media: AMedia[] = []
+  public media: Media[] = []
   public loading: boolean = true
 
   get search() {

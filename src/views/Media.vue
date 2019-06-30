@@ -10,10 +10,14 @@ const MediaTimeline = () =>
 
 import { Route } from 'vue-router'
 import moduleMedia from '../store/modules/media'
-import { Next, AMedia } from '../types'
+import { Next, Media as MediaT, NextBefore } from '../types'
 import BaseContainer from '../components/BaseContainer.vue'
 
-Component.registerHooks(['beforeRouteEnter', 'beforeRouteUpdate'])
+Component.registerHooks([
+  'beforeRouteEnter',
+  'beforeRouteUpdate',
+  'beforeRouteLeave'
+])
 
 @Component({
   components: {
@@ -24,10 +28,14 @@ Component.registerHooks(['beforeRouteEnter', 'beforeRouteUpdate'])
 export default class Media extends Vue {
   public loading: boolean = false
 
-  public async beforeRouteEnter(to: Route, from: Route, next: Next<Media>) {
+  public async beforeRouteEnter(
+    to: Route,
+    from: Route,
+    next: NextBefore<Media>
+  ) {
     const currentId = parseInt(to.params.mediaId, 10)
 
-    new Promise<AMedia>(async (resolve, reject) => {
+    new Promise<MediaT>(async (resolve, reject) => {
       const storedMedia = moduleMedia.media[currentId]
       if (storedMedia) {
         resolve(storedMedia)
@@ -68,10 +76,14 @@ export default class Media extends Vue {
       .catch(() => next(false))
   }
 
-  public async beforeRouteUpdate(to: Route, from: Route, next: Next<Media>) {
+  public async beforeRouteLeave(to: Route, from: Route, next: Next) {
+    await moduleMedia.CHANGE_CURRENT_ID({ currentId: null })
+    next()
+  }
+  public async beforeRouteUpdate(to: Route, from: Route, next: Next) {
     const currentId = parseInt(to.params.mediaId, 10)
 
-    new Promise<AMedia>(async (resolve, reject) => {
+    new Promise<MediaT>(async (resolve, reject) => {
       const storedMedia = moduleMedia.media[currentId]
       if (storedMedia) {
         resolve(storedMedia)
@@ -114,7 +126,7 @@ export default class Media extends Vue {
       .catch(() => next(false))
   }
 
-  public async fetch(media: AMedia) {
+  public async fetch(media: MediaT) {
     const { currentId } = this
     this.loading = true
     await moduleMedia.handleQueue([media])

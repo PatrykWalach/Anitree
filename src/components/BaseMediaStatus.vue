@@ -12,12 +12,12 @@
 </template>
 <script lang="ts">
 import { Prop, Component, Vue } from 'vue-property-decorator'
-import { AMedia } from '../types'
+import { Media } from '../types'
 
 @Component
 export default class BaseMediaStatus extends Vue {
   @Prop()
-  public readonly media!: AMedia
+  public readonly media!: Media
 
   get status() {
     const { mediaListEntry } = this.media

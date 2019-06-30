@@ -26,12 +26,12 @@
 <script lang="ts">
 import { Prop, Component, Vue } from 'vue-property-decorator'
 import BaseColor from './BaseColor.vue'
-import { AMedia } from '../types'
+import { Media } from '../types'
 
 @Component({ components: { BaseColor } })
 export default class BaseMediaActions extends Vue {
   @Prop()
-  public readonly media!: AMedia
+  public readonly media!: Media
   get tags() {
     return this.media.tags
       .filter(({ rank }) => rank >= this.medianRank)

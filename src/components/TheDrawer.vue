@@ -26,7 +26,7 @@ export default class TheDrawer extends Vue {
   public readonly value!: boolean
 
   get filter() {
-    return media.activeFilters.length
+    return media.relationTypes.length
   }
 
   @Emit()

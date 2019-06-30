@@ -1,6 +1,5 @@
 import { Location } from 'vue-router'
 import Vue from 'vue'
-// import VueRouter from 'vue-router'
 export interface HTMLElementEvent<T extends HTMLElement> extends Event {
   target: T
   currentTarget: T
@@ -11,20 +10,19 @@ export interface Token {
   expires_in: string
 }
 
-export type FetchVariables =
+export type FetchVariables = (
   | {
       idIn: number[]
-      page?: number
     }
   | {
       search: string
-      page?: number
     }
   | {
       idIn: number[]
       search: string
-      page?: number
-    }
+    }) & {
+  page?: number
+}
 
 export type RawFilter = (
   value: MediaEdgeExtended,
@@ -39,7 +37,9 @@ export interface Filter {
   id: string
 }
 
-export type Next<V extends Vue = Vue> = (
+export type Next = (to?: string | false | void | Location | undefined) => void
+
+export type NextBefore<V extends Vue = Vue> = (
   to?: string | false | void | Location | ((vm: V) => any) | undefined
 ) => void
 
@@ -73,11 +73,11 @@ export interface StudioNode {
   id: number
   name: string
 }
-export interface AMedia extends MediaNode {
+export interface Media extends MediaNode {
   filtered?: boolean
   startDate: MediaDate
   endDate: MediaDate
-  format: string
+  format: string | null
   title: {
     romaji: string
 
@@ -98,13 +98,13 @@ export interface AMedia extends MediaNode {
   mediaListEntry: null | {
     status: string
   }
-  status: string
+  status: string | null
   bannerImage: string
   coverImage: CoverImage
 }
 
 export interface MediaEdgeExtended {
-  node: AMedia
+  node: Media
   relationType: string
 }
 
@@ -115,7 +115,7 @@ export interface TrelloList {
   idBoard: string
   name: string
   pos: number
-  softLimit: null // not in documentation
+  softLimit: null
   subsribed: boolean
 }
 
@@ -155,8 +155,7 @@ export interface TrelloCard {
   descData: null | { emoji: { [index: string]: string } }
   due: null | string
   dueComplete: boolean
-  dueReminder: null | string // not in documentation
-  // email:null // my requst didn't have this
+  dueReminder: null | string
   id: string
   idAttachmentCover: null | string
   idBoard: string
@@ -174,9 +173,6 @@ export interface TrelloCard {
   shortUrl: string
   subscribed: boolean
   url: string
-  // address: string // my requst didn't have this
-  // loactionName: string // my requst didn't have this
-  // coordinates: string | { latitude: number; longitude: number } // my requst didn't have this
 }
 
 export type Cards = {

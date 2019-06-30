@@ -8,7 +8,6 @@ import { MediaDate } from '../types'
 @Component({
   filters: {
     combine: (parts: Intl.DateTimeFormatPart[]) =>
-      // parts.reduce((str, { value }) => str + value, '')
       parts.map(({ value }) => value).join('')
   }
 })

@@ -6,26 +6,34 @@
 
 <script lang="ts">
 import { Prop, Component, Vue } from 'vue-property-decorator'
-import { AMedia } from '../types'
+import { Media } from '../types'
 
 @Component
 export default class BaseMediaTitleSubheading extends Vue {
   @Prop()
-  public readonly media!: AMedia
+  public readonly media!: Media
 
   get subheading() {
     const { format, status } = this.media
-    return [format, status].map(this.clean).join(' · ')
+    return [format, status]
+      .map(this.clean)
+      .filter(str => str)
+      .join(' · ')
   }
-  public clean(str: string) {
-    return str
-      .split(/_/g)
-      .map(str => {
-        if (str !== 'TV' && str !== 'OVA' && str !== 'ONA')
-          return str.toLowerCase()
-        return str
-      })
-      .join(' ')
+
+  public clean(str: string | null) {
+    return (
+      (str &&
+        str
+          .split(/_/g)
+          .map(str => {
+            if (str !== 'TV' && str !== 'OVA' && str !== 'ONA')
+              return str.toLowerCase()
+            return str
+          })
+          .join(' ')) ||
+      ''
+    )
   }
   //   get color() {
   //     switch (this.media.status) {

@@ -2,7 +2,7 @@ import gql from 'graphql-tag'
 import { FetchVariables } from '../types'
 
 import apollo from '../apollo'
-import { AMedia } from '../types'
+import { Media } from '../types'
 
 export const query = gql`
   query($search: String, $idIn: [Int], $page: Int = 0) {
@@ -65,9 +65,9 @@ export const query = gql`
   }
 `
 
-export function fetchMediaApollo(variables: FetchVariables): Promise<AMedia[]> {
+export function fetchMediaApollo(variables: FetchVariables): Promise<Media[]> {
   return apollo
-    .query<{ Page: { media: AMedia[] } }>({
+    .query<{ Page: { media: Media[] } }>({
       query,
       variables
     })

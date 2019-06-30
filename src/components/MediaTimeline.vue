@@ -11,7 +11,7 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 
 import BaseMedia from './BaseMedia.vue'
 
-import { AMedia } from '../types'
+import { Media } from '../types'
 
 @Component({
   components: {
@@ -19,11 +19,7 @@ import { AMedia } from '../types'
   }
 })
 export default class MediaTimeline extends Vue {
-  // get mediaList() {
-  //   return moduleMedia.sortedMedia
-  // }
-
   @Prop()
-  public readonly mediaList!: AMedia[]
+  public readonly mediaList!: Media[]
 }
 </script>

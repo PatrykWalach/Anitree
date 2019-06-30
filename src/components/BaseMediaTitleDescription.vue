@@ -16,9 +16,8 @@
 
 <script lang="ts">
 import { Prop, Component, Vue } from 'vue-property-decorator'
-import { AMedia } from '../types'
+import { Media } from '../types'
 import ResizeObserver from '@juggle/resize-observer'
-// import { ResizeObserverEntry } from '@juggle/resize-observer/lib/ResizeObserverEntry'
 
 @Component({
   directives: {
@@ -42,7 +41,7 @@ import ResizeObserver from '@juggle/resize-observer'
 })
 export default class BaseMediaTitleDescription extends Vue {
   @Prop()
-  public readonly media!: AMedia
+  public readonly media!: Media
 
   public offsetHeight: number = 18
 

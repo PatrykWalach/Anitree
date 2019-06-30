@@ -11,7 +11,7 @@ import {
 import store from '@/store'
 import {
   MediaNode,
-  AMedia,
+  Media,
   MediaEdgeExtended,
   MediaEdge,
   Data,
@@ -81,7 +81,7 @@ function filterDuplicateEdges(
 export class ModuleMedia extends VuexModule {
   public currentId: number | null = null
 
-  public media: Data<AMedia> = {}
+  public media: Data<Media> = {}
 
   public filters: Data<Filter> = {}
 
@@ -103,7 +103,7 @@ export class ModuleMedia extends VuexModule {
       .map(({ filter }) => filter)
   }
 
-  public get currentMedia(): AMedia | null {
+  public get currentMedia(): Media | null {
     const { currentId, media } = this
     return (currentId && media[currentId]) || null
   }
@@ -120,7 +120,7 @@ export class ModuleMedia extends VuexModule {
     ]
   }
 
-  public get sortedMedia(): AMedia[] {
+  public get sortedMedia(): Media[] {
     return this.filteredMedia
       .map(({ node }) => node)
       .sort(
@@ -187,7 +187,7 @@ export class ModuleMedia extends VuexModule {
   }
 
   @Mutation
-  public ADD_MEDIA(media: AMedia): AMedia {
+  public ADD_MEDIA(media: Media): Media {
     return Vue.set(this.media, media.id, media)
   }
 
@@ -195,9 +195,9 @@ export class ModuleMedia extends VuexModule {
   public async CHANGE_CURRENT_ID({
     currentId
   }: {
-    currentId: number
+    currentId: number | null
   }): Promise<{
-    currentId: number
+    currentId: number | null
   }> {
     return { currentId }
   }
@@ -215,7 +215,7 @@ export class ModuleMedia extends VuexModule {
   }
 
   @Action
-  public async fetchMedia(variables: FetchVariables): Promise<AMedia[]> {
+  public async fetchMedia(variables: FetchVariables): Promise<Media[]> {
     return new Promise(resolve =>
       fetchMediaApollo(variables)
         .then(media => {
@@ -223,11 +223,6 @@ export class ModuleMedia extends VuexModule {
           media.forEach(ADD_MEDIA)
           return media
         })
-        // .then(media =>
-        //   media
-        //     .flatMap(newMedia => newMedia.relations.edges)
-        //     .map(({ node }) => node)
-        // )
         .then(resolve)
         .catch(() =>
           setTimeout(() => this.fetchMedia(variables).then(resolve), 10000)
@@ -236,7 +231,7 @@ export class ModuleMedia extends VuexModule {
   }
 
   @Action
-  public async handleQueue(medias: AMedia[]): Promise<void> {
+  public async handleQueue(medias: Media[]): Promise<void> {
     return new Promise(resolve => {
       const { media } = this
       const newMedias: MediaNode[] = medias
