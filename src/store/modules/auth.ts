@@ -10,8 +10,7 @@ import { Token } from '@/types'
 
 @Module({ namespaced: true, name: 'auth', store, dynamic: true })
 export class ModuleAuth extends VuexModule {
-  public auth: Token | null =
-    (Cookies.getJSON('auth') && Cookies.getJSON('auth').auth) || null
+  public auth: Token | null = Cookies.getJSON('auth') || null
 
   public get token() {
     const { auth } = this
@@ -20,7 +19,10 @@ export class ModuleAuth extends VuexModule {
 
   @MutationAction
   public async CHANGE_TOKEN(auth: Token | null) {
-    Cookies.set('auth', { auth }, { expires: Infinity })
+    if (auth)
+      Cookies.set('auth', auth, {
+        expires: new Date(auth.expires_in)
+      })
     return { auth }
   }
 }

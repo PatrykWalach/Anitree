@@ -18,7 +18,7 @@ export class ModuleTheme extends VuexModule {
 
   @MutationAction
   public async CHANGE_THEME(dark: boolean) {
-    Cookies.set('theme', { dark }, { expires: Infinity })
+    Cookies.set('theme', { dark }, { expires: 365 })
     return { dark }
   }
 }

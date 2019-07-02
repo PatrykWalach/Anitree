@@ -26,7 +26,7 @@ export class ModuleTitle extends VuexModule {
 
   @MutationAction
   public async CHANGE_PREFERED(prefered: number) {
-    Cookies.set('title', { prefered }, { expires: Infinity })
+    Cookies.set('title', { prefered }, { expires: 365 })
     return { prefered }
   }
 }
