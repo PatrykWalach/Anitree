@@ -10,6 +10,7 @@
       flat
       solo
       hide-details
+      name="search"
       label="Search"
       @keydown.esc="$emit('keydown:esc')"
     ></v-text-field>

@@ -45,9 +45,13 @@ export default class MediaCardTime extends Vue {
   }
 
   public date(date: MediaDate) {
-    return new Date(date.year || 0, date.month || 0, date.day || 0)
+    return new Date(
+      date.year || 0,
+      (date.month && date.month - 1) || 0,
+      date.day || undefined
+    )
   }
 
-  public isValidDate = (date: MediaDate) => date.year && date.month && date.day
+  public isValidDate = (date: MediaDate) => !!(date.year && date.month)
 }
 </script>

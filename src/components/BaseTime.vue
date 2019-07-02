@@ -49,7 +49,11 @@ export default class BaseTime extends Vue {
   }
 
   public toDate(date: MediaDate) {
-    return new Date(date.year || 0, date.month || 0, date.day || 0)
+    return new Date(
+      date.year || 0,
+      (date.month && date.month - 1) || 0,
+      date.day || 0
+    )
   }
 
   public isValidDate = (date: MediaDate | null) =>

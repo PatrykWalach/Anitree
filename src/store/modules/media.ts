@@ -121,12 +121,26 @@ export class ModuleMedia extends VuexModule {
   }
 
   public get sortedMedia(): Media[] {
+    const getYear = (seasonInt: number) => {
+      const year = Math.floor(seasonInt / 10)
+      return year > 50 ? 1900 + year : 2000 + year
+    }
+
     return this.filteredMedia
       .map(({ node }) => node)
       .sort(
-        ({ startDate: a }, { startDate: b }) =>
-          Date.UTC(a.year || 0, a.month || 0, a.day || undefined) -
-          Date.UTC(b.year || 0, b.month || 0, b.day || undefined)
+        (
+          { startDate: dateA, seasonInt: seasonA },
+          { startDate: dateB, seasonInt: seasonB }
+        ) =>
+          (seasonA &&
+            seasonB &&
+            (getYear(seasonA) - getYear(seasonB) ||
+              (seasonA % 10) - (seasonB % 10))) ||
+          (dateA.year && dateB.year && dateA.year - dateB.year) ||
+          (dateA.month && dateB.month && dateA.month - dateB.month) ||
+          (dateA.day && dateB.day && dateA.day - dateB.day) ||
+          -1
       )
   }
 
