@@ -19,10 +19,10 @@ import { TrelloCard, TrelloChecklist } from '../types'
 
 @Component
 export default class RoadmapListCard extends Vue {
-  @Prop()
+  @Prop({ required: true })
   public readonly card!: TrelloCard
 
-  @Prop()
+  @Prop({ required: true })
   public readonly checklists!: TrelloChecklist[]
 
   get progress() {

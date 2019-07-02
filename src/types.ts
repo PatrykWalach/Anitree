@@ -10,18 +10,13 @@ export interface Token {
   expires_in: string
 }
 
-export type FetchVariables = (
-  | {
-      idIn: number[]
-    }
-  | {
-      search: string
-    }
-  | {
-      idIn: number[]
-      search: string
-    }) & {
+export interface FetchVariables {
+  search?: string
+  idIn?: number[] | number
   page?: number
+  includedTags?: string[] | string
+  year?: number
+  season?: string
 }
 
 export type RawFilter = (
@@ -78,6 +73,9 @@ export interface Media extends MediaNode {
   startDate: MediaDate
   endDate: MediaDate
   format: string | null
+  season: string | null
+  seasonInt: number | null
+  episodes: number | null
   title: {
     romaji: string
 
@@ -99,7 +97,7 @@ export interface Media extends MediaNode {
     status: string
   }
   status: string | null
-  bannerImage: string
+  bannerImage: string | null
   coverImage: CoverImage
 }
 

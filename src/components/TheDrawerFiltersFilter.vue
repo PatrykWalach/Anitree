@@ -29,7 +29,7 @@ import moduleMedia from '../store/modules/media'
 
 @Component
 export default class TheDrawerFiltersFilter extends Vue {
-  @Prop()
+  @Prop({ required: true })
   public readonly relationType!: string
 
   get type() {

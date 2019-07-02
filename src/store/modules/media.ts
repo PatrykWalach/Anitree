@@ -207,10 +207,10 @@ export class ModuleMedia extends VuexModule {
     relationType,
     node
   }: MediaEdge): Promise<MediaEdgeExtended> {
-    const { media } = this
+    // const { media } = this
     return Promise.resolve({
       relationType,
-      node: media[node.id]
+      node: await this.getMedia(node.id) //media[node.id]
     })
   }
 
@@ -218,11 +218,6 @@ export class ModuleMedia extends VuexModule {
   public async fetchMedia(variables: FetchVariables): Promise<Media[]> {
     return new Promise(resolve =>
       fetchMediaApollo(variables)
-        .then(media => {
-          const { ADD_MEDIA } = this
-          media.forEach(ADD_MEDIA)
-          return media
-        })
         .then(resolve)
         .catch(() =>
           setTimeout(() => this.fetchMedia(variables).then(resolve), 10000)
@@ -269,19 +264,24 @@ export class ModuleMedia extends VuexModule {
     edges?: MediaEdge[]
     acc?: MediaEdgeExtended[]
   }): Promise<MediaEdgeExtended[]> {
-    return new Promise(resolve => {
-      const { exclusiveFilters, inclusiveFilters, media } = this
+    return new Promise(async resolve => {
+      const {
+        exclusiveFilters,
+        inclusiveFilters
+        // ,media
+      } = this
 
       const newMedia = exclusiveFilters.reduce(
         applyFilter,
-        edges
-          .map(({ relationType, node }) => {
-            return {
-              relationType,
-              node: media[node.id]
-            }
-          })
-          .filter(({ node }) => node)
+        await Promise.all(edges.map(this.extendMediaEdge))
+        // edges
+        //   .map(({ relationType, node }) => {
+        //     return {
+        //       relationType,
+        //       node: media[node.id]
+        //     }
+        //   })
+        //   .filter(({ node }) => node)
       )
 
       acc.push(...newMedia)
@@ -309,6 +309,26 @@ export class ModuleMedia extends VuexModule {
   @Action({ commit: 'CHANGE_FILTERED_MEDIA' })
   public async changeFilteredMedia() {
     return await this.getFilteredMedia({})
+  }
+
+  @Action
+  public getMedia(id: number) {
+    return new Promise<Media>(async (resolve, reject) => {
+      const storedMedia = this.media[id]
+      if (storedMedia) {
+        resolve(storedMedia)
+      } else {
+        const media = await this.fetchMedia({
+          idIn: [id]
+        })
+
+        if (media.length) {
+          resolve(media.shift())
+        } else {
+          reject()
+        }
+      }
+    })
   }
 }
 

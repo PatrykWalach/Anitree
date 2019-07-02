@@ -30,8 +30,8 @@ import theme from '../store/modules/theme'
     BaseColor
   }
 })
-export default class BaseMediaBtn extends Vue {
-  @Prop()
+export default class MediaCardImgBtn extends Vue {
+  @Prop({ required: true })
   public readonly media!: Media
 
   get color() {
@@ -39,7 +39,7 @@ export default class BaseMediaBtn extends Vue {
   }
   get style() {
     if (this.banner) {
-      return { top: true, right: true, style: { 'z-index': 1 } }
+      return { bottom: true, right: true, style: { 'z-index': 1 } }
     }
     return {
       style: {

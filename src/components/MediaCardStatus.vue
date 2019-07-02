@@ -15,8 +15,8 @@ import { Prop, Component, Vue } from 'vue-property-decorator'
 import { Media } from '../types'
 
 @Component
-export default class BaseMediaStatus extends Vue {
-  @Prop()
+export default class MediaCardStatus extends Vue {
+  @Prop({ required: true })
   public readonly media!: Media
 
   get status() {

@@ -22,7 +22,7 @@ import media from '../store/modules/media'
   }
 })
 export default class TheDrawer extends Vue {
-  @Prop()
+  @Prop({ required: true })
   public readonly value!: boolean
 
   get filter() {

@@ -9,8 +9,8 @@ import { Prop, Component, Vue } from 'vue-property-decorator'
 import { Media } from '../types'
 
 @Component
-export default class BaseMediaTitleSubheading extends Vue {
-  @Prop()
+export default class MediaCardTitleSubheading extends Vue {
+  @Prop({ required: true })
   public readonly media!: Media
 
   get subheading() {

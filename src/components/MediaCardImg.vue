@@ -1,7 +1,8 @@
 <template>
   <div
     :style="{
-      flex: 1
+      flex: 2,
+      position: 'relative'
     }"
   >
     <router-link
@@ -29,14 +30,19 @@
         </template>
       </v-img>
     </router-link>
+
+    <MediaCardImgBtn :media="media" />
   </div>
 </template>
 
 <script lang="ts">
 import { Prop, Component, Vue } from 'vue-property-decorator'
 import { Media } from '../types'
-
+import MediaCardImgBtn from './MediaCardImgBtn.vue'
 @Component({
+  components: {
+    MediaCardImgBtn
+  },
   directives: {
     lazy: {
       bind(el, { value }) {
@@ -52,8 +58,8 @@ import { Media } from '../types'
     }
   }
 })
-export default class BaseMediaImage extends Vue {
-  @Prop()
+export default class MediaCardImg extends Vue {
+  @Prop({ required: true })
   public readonly media!: Media
   public inView: boolean = false
 

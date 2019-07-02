@@ -1,17 +1,27 @@
 <template>
-  <v-card-actions>
+  <v-card-actions :style="{}">
     <div
-      :style="{ display: 'flex', 'align-items': 'center', 'flex-wrap': 'wrap' }"
+      :style="{
+        display: 'flex',
+        'align-items': 'center',
+        'flex-wrap': 'wrap'
+      }"
     >
       <base-color
         v-for="tag in tags"
         :key="`tag-${tag.id}`"
-        label
         small
+        label
         :color="media.coverImage.color"
         tag="v-chip"
-        >{{ tag.name.toLowerCase() }}</base-color
       >
+        <router-link
+          :to="{ name: 'search', query: { includedTags: tag.name } }"
+          class="link"
+        >
+          {{ tag.name.toLowerCase() }}
+        </router-link>
+      </base-color>
       <v-chip
         v-for="studio in media.studios.nodes"
         :key="`studio-${studio.id}`"
@@ -29,8 +39,8 @@ import BaseColor from './BaseColor.vue'
 import { Media } from '../types'
 
 @Component({ components: { BaseColor } })
-export default class BaseMediaActions extends Vue {
-  @Prop()
+export default class MediaCardActions extends Vue {
+  @Prop({ required: true })
   public readonly media!: Media
   get tags() {
     return this.media.tags
@@ -44,6 +54,9 @@ export default class BaseMediaActions extends Vue {
     return this.media.tags.length % 2
       ? tags[mid]
       : (tags[mid - 1] + tags[mid]) / 2
+  }
+  get banner() {
+    return this.media.bannerImage && !this.$vuetify.breakpoint.smAndDown
   }
 }
 </script>

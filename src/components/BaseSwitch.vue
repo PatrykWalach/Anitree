@@ -7,7 +7,7 @@ import { Vue, Component, Prop, Emit } from 'vue-property-decorator'
 
 @Component
 export default class BaseSwitch extends Vue {
-  @Prop()
+  @Prop({ required: true })
   public readonly value!: boolean
 
   @Emit()

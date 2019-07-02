@@ -1,6 +1,7 @@
 <template>
   <v-app :dark="dark" inset>
     <TheDrawer v-model="drawerValue" />
+
     <TheToolbar @toggle:drawer="toggleDrawer" />
     <v-content>
       <keep-alive>
@@ -12,9 +13,9 @@
 </template>
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
-import TheToolbar from './components/TheToolbar.vue'
 import TheDrawer from './components/TheDrawer.vue'
 import TheFooter from './components/TheFooter.vue'
+import TheToolbar from './components/TheToolbar.vue'
 import theme from './store/modules/theme'
 
 @Component({

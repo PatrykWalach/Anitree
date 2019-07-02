@@ -12,7 +12,7 @@ import { MediaDate } from '../types'
   }
 })
 export default class BaseTime extends Vue {
-  @Prop()
+  @Prop({ required: true })
   public readonly date!: MediaDate
 
   @Prop({ default: null })

@@ -10,6 +10,7 @@ const MediaTimeline = () =>
 import { Media } from '../types'
 import BaseContainer from '../components/BaseContainer.vue'
 import { fetchMediaApollo } from '../store/api'
+import media from '../store/modules/media';
 @Component({
   components: {
     MediaTimeline,
@@ -20,14 +21,14 @@ export default class Search extends Vue {
   public media: Media[] = []
   public loading: boolean = true
 
-  get search() {
-    return this.$route.query.search
+  get query() {
+    return this.$route.query
   }
 
-  @Watch('search', { immediate: true })
-  public async fetchMedia(search: string) {
+  @Watch('query', { immediate: true })
+  public async fetchMedia() {
     this.loading = true
-    this.media = await fetchMediaApollo({ search })
+    this.media = await fetchMediaApollo({ ...this.query })
     this.loading = false
   }
 }

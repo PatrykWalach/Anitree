@@ -35,22 +35,8 @@ export default class Media extends Vue {
   ) {
     const currentId = parseInt(to.params.mediaId, 10)
 
-    new Promise<MediaT>(async (resolve, reject) => {
-      const storedMedia = moduleMedia.media[currentId]
-      if (storedMedia) {
-        resolve(storedMedia)
-      } else {
-        const media = await moduleMedia.fetchMedia({
-          idIn: [currentId]
-        })
-
-        if (media.length) {
-          resolve(media.shift())
-        } else {
-          reject()
-        }
-      }
-    })
+    moduleMedia
+      .getMedia(currentId)
 
       .then(media => {
         const title = media.title.romaji
@@ -83,22 +69,8 @@ export default class Media extends Vue {
   public async beforeRouteUpdate(to: Route, from: Route, next: Next) {
     const currentId = parseInt(to.params.mediaId, 10)
 
-    new Promise<MediaT>(async (resolve, reject) => {
-      const storedMedia = moduleMedia.media[currentId]
-      if (storedMedia) {
-        resolve(storedMedia)
-      } else {
-        const media = await moduleMedia.fetchMedia({
-          idIn: [currentId]
-        })
-
-        if (media.length) {
-          resolve(media.shift())
-        } else {
-          reject()
-        }
-      }
-    })
+    moduleMedia
+      .getMedia(currentId)
 
       .then(media => {
         const title = media.title.romaji

@@ -2,13 +2,37 @@ import gql from 'graphql-tag'
 import { FetchVariables } from '../types'
 
 import apollo from '../apollo'
-import { Media } from '../types'
+import { Media as AMedia } from '../types'
+import media from '@/store/modules/media'
 
 export const query = gql`
-  query($search: String, $idIn: [Int], $page: Int = 0) {
+  query(
+    $search: String
+    $idIn: [Int]
+    $page: Int = 0
+    $includedTags: [String]
+    $year: Int
+    $season: MediaSeason
+  ) {
     Page(page: $page, perPage: 50) {
-      media(search: $search, id_in: $idIn) {
+      media(
+        search: $search
+        id_in: $idIn
+        tag_in: $includedTags
+        seasonYear: $year
+        season: $season
+      ) {
         id
+        season
+        seasonInt
+        episodes
+        rankings {
+          rank
+          year
+          type
+          context
+          allTime
+        }
         bannerImage
         coverImage {
           extraLarge
@@ -65,11 +89,15 @@ export const query = gql`
   }
 `
 
-export function fetchMediaApollo(variables: FetchVariables): Promise<Media[]> {
+export function fetchMediaApollo(variables: FetchVariables): Promise<AMedia[]> {
   return apollo
-    .query<{ Page: { media: Media[] } }>({
+    .query<{ Page: { media: AMedia[] } }>({
       query,
       variables
     })
     .then(({ data }) => data.Page.media)
+    .then(newMedia => {
+      newMedia.forEach(media.ADD_MEDIA)
+      return newMedia
+    })
 }

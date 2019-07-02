@@ -1,6 +1,15 @@
 <template>
-  <v-footer app inset>
-    <v-spacer></v-spacer>Made by
+  <v-toolbar dense class="caption">
+    <div v-if="!$vuetify.breakpoint.xsOnly">
+      Powered by
+    </div>
+    <v-btn href="https://anilist.co" target="_blank" flat rel="noopener">
+      Anilist
+    </v-btn>
+    <v-spacer></v-spacer>
+    <div v-if="!$vuetify.breakpoint.xsOnly">
+      Made by
+    </div>
     <v-btn
       href="https://github.com/PatrykWalach/Anitree"
       target="_blank"
@@ -9,7 +18,7 @@
     >
       <FontAwesomeIcon :icon="['fab', 'github']" />PatrykWałach
     </v-btn>
-  </v-footer>
+  </v-toolbar>
 </template>
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'

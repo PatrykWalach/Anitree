@@ -21,8 +21,8 @@ const BaseTime = () => import('./BaseTime.vue')
     BaseTime
   }
 })
-export default class BaseMediaTime extends Vue {
-  @Prop()
+export default class MediaCardTime extends Vue {
+  @Prop({ required: true })
   public readonly media!: Media
 
   get isRange() {
