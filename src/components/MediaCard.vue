@@ -60,7 +60,9 @@ export default class MediaCard extends Vue {
       return {
         grid: `"img" 1fr "title" auto "divider" auto "actions" auto "status" / 1fr`
       }
-    return undefined
+    return {
+      grid: `"img title" 1fr "img divider" auto "img actions" auto "status status" auto  / minmax(150px, 185px) 1fr`
+    }
   }
   get large() {
     return !!this.currentId && this.media.id === this.currentId
@@ -74,6 +76,6 @@ export default class MediaCard extends Vue {
 <style lang="stylus" scoped>
 .v-card{
   display: grid;
-  grid: "img title" 1fr "img divider" auto "img actions" auto "status status" auto  / 1fr 3fr;
+
 }
 </style>

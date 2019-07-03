@@ -61,14 +61,17 @@ export default class MediaCardImg extends Vue {
   get style() {
     if (this.banner) {
       return {
-        width: '100%',
+        // width: '100%',
         style: {
           'border-radius': '2px 2px 0 0'
         }
       }
     }
     return {
-      height: '100%',
+      // height: '100%',
+      // 0.5625
+      // 0.6981132075471698
+      aspectRatio: 185 / 265,
       style: {
         'border-radius': '2px 0 0' + this.media.mediaListEntry ? '' : ' 2px'
       }
