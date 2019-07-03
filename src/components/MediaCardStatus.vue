@@ -1,11 +1,7 @@
 <template>
   <v-tooltip bottom>
     <template v-slot:activator="{ on }">
-      <v-toolbar
-        :style="{ height: '3px' }"
-        :class="color"
-        v-on="on"
-      ></v-toolbar>
+      <v-toolbar :class="'v-card__status ' + color" v-on="on"></v-toolbar>
     </template>
     <span>{{ status }}</span>
   </v-tooltip>
@@ -44,3 +40,9 @@ export default class MediaCardStatus extends Vue {
   }
 }
 </script>
+<style lang="stylus" scoped>
+.v-card__status {
+  height: 3px;
+  grid-area: status;
+}
+</style>

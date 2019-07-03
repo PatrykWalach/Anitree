@@ -1,5 +1,5 @@
 <template>
-  <v-card-actions :style="{}">
+  <v-card-actions :class="{ 'pl-3': !banner }">
     <div
       :style="{
         display: 'flex',
@@ -55,8 +55,16 @@ export default class MediaCardActions extends Vue {
       ? tags[mid]
       : (tags[mid - 1] + tags[mid]) / 2
   }
+
   get banner() {
     return this.media.bannerImage && !this.$vuetify.breakpoint.smAndDown
   }
 }
 </script>
+<style lang="stylus" scoped>
+.v-card__actions{
+  display: flex;
+  align-items: flex-end;
+  grid-area: actions;
+}
+</style>

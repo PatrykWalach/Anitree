@@ -10,7 +10,7 @@ const MediaTimeline = () =>
 import { Media } from '../types'
 import BaseContainer from '../components/BaseContainer.vue'
 import { fetchMediaApollo } from '../store/api'
-import media from '../store/modules/media';
+
 @Component({
   components: {
     MediaTimeline,

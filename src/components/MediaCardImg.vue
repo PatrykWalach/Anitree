@@ -1,10 +1,5 @@
 <template>
-  <div
-    :style="{
-      flex: 2,
-      position: 'relative'
-    }"
-  >
+  <div class="v-card__img">
     <router-link
       :style="{ 'text-decoration': 'unset' }"
       :to="{
@@ -75,7 +70,7 @@ export default class MediaCardImg extends Vue {
     return {
       height: '100%',
       style: {
-        'border-radius': '2px 0 0 2px'
+        'border-radius': '2px 0 0' + this.media.mediaListEntry ? '' : ' 2px'
       }
     }
   }
@@ -124,3 +119,9 @@ export default class MediaCardImg extends Vue {
   }
 }
 </script>
+<style lang="stylus" scoped>
+.v-card__img {
+  position: relative;
+  grid-area: img;
+}
+</style>

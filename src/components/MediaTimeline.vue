@@ -1,5 +1,5 @@
 <template>
-  <v-flex>
+  <v-flex :[xs]="true">
     <v-timeline :dense="$vuetify.breakpoint.smAndDown">
       <MediaCard v-for="media in mediaList" :key="media.id" :media="media" />
     </v-timeline>
@@ -21,5 +21,10 @@ import { Media } from '../types'
 export default class MediaTimeline extends Vue {
   @Prop({ required: true })
   public readonly mediaList!: Media[]
+
+  get xs() {
+    if (this.$vuetify.breakpoint.smOnly) return 'xs8'
+    return ''
+  }
 }
 </script>

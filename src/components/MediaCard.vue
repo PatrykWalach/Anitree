@@ -8,31 +8,15 @@
       <MediaCardTime :media="media" />
     </template>
 
-    <v-card ripple :style="{ display: 'flex', 'flex-direction': 'column' }">
-      <div :style="style">
-        <MediaCardImg :media="media" />
+    <v-card ripple :style="style">
+      <MediaCardImg :media="media" />
 
-        <div
-          :style="{
-            flex: 5,
-            display: 'flex',
-            'flex-direction': 'column'
-          }"
-        >
-          <MediaCardTitle :media="media" />
-          <v-divider></v-divider>
-        </div>
-      </div>
+      <MediaCardTitle :media="media" />
 
-      <template v-if="media.description">
-        <MediaCardText :media="media" />
-        <v-divider></v-divider>
+      <template v-if="media.tags.length || media.studios.nodes.length">
+        <v-divider :style="{ 'grid-area': 'divider' }"></v-divider>
+        <MediaCardActions :media="media" />
       </template>
-
-      <MediaCardActions
-        v-if="media.tags.length || media.studios.nodes.length"
-        :media="media"
-      />
 
       <MediaCardStatus v-if="media.mediaListEntry" :media="media" />
     </v-card>
@@ -48,13 +32,11 @@ import MediaCardTime from './MediaCardTime.vue'
 import { Media } from '../types'
 const MediaCardActions = () => import('./MediaCardActions.vue')
 const MediaCardStatus = () => import('./MediaCardStatus.vue')
-const MediaCardText = () => import('./MediaCardText.vue')
 
 import moduleMedia from '../store/modules/media'
 import theme from '../store/modules/theme'
 @Component({
   components: {
-    MediaCardText,
     MediaCardImg,
     MediaCardTitle,
     MediaCardTime,
@@ -74,20 +56,24 @@ export default class MediaCard extends Vue {
     return moduleMedia.currentId
   }
   get style() {
-    return {
-      display: 'flex',
-      'flex-direction':
-        this.media.bannerImage && !this.$vuetify.breakpoint.smAndDown
-          ? 'column'
-          : 'row'
-    }
+    if (this.banner)
+      return {
+        grid: `"img" 1fr "title" auto "divider" auto "actions" auto "status" / 1fr`
+      }
+    return undefined
   }
   get large() {
     return !!this.currentId && this.media.id === this.currentId
   }
 
-  // get banner() {
-  //   return this.media.bannerImage && !this.$vuetify.breakpoint.smAndDown
-  // }
+  get banner() {
+    return this.media.bannerImage && !this.$vuetify.breakpoint.smAndDown
+  }
 }
 </script>
+<style lang="stylus" scoped>
+.v-card{
+  display: grid;
+  grid: "img title" 1fr "img divider" auto "img actions" auto "status status" auto  / 1fr 3fr;
+}
+</style>

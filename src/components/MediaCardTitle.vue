@@ -1,11 +1,5 @@
 <template>
-  <v-card-title
-    :class="{ 'pt-4': banner, 'pl-4': !banner }"
-    :style="{
-      flex: 1,
-      'align-items': 'stretch'
-    }"
-  >
+  <v-card-title :class="{ 'pt-4': banner, 'pl-4': !banner }">
     <div
       :style="{
         flex: 1,
@@ -44,3 +38,10 @@ export default class MediaCardTitle extends Vue {
   }
 }
 </script>
+<style lang="stylus" scoped>
+
+.v-card__title{
+  grid-area: title;
+  align-items: stretch;
+}
+</style>
