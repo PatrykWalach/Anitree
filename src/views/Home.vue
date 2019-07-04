@@ -1,36 +1,116 @@
 <template>
-  <v-container>
-    <v-timeline :dense="$vuetify.breakpoint.xs">
-      <v-timeline-item :large="!$vuetify.breakpoint.smAndDown">
-        <v-card>
-          <v-card-title primary-title>
-            <div class="headline">Welcome</div>
-          </v-card-title>
-          <v-card-text
-            >The creation of this website was inspired by Fate series (I still
-            don't now where to start)</v-card-text
+  <base-container>
+    <v-flex>
+      <v-timeline :dense="$vuetify.breakpoint.smAndDown">
+        <home-item :i="0">
+          <template v-slot:title
+            >This app is under construction</template
           >
-        </v-card>
-      </v-timeline-item>
-      <v-timeline-item :small="$vuetify.breakpoint.smAndDown">
-        <v-card>
-          <v-card-title primary-title>
-            <div class="headline">
-              This app is under construction
-            </div>
-          </v-card-title>
-          <v-card-text>
-            You can visit
-            <v-btn to="/roadmap" flat>roadmap</v-btn>for more information
-          </v-card-text>
-        </v-card>
-      </v-timeline-item>
-    </v-timeline>
-  </v-container>
+          Please visit
+          <router-link class="link primary--text" to="/roadmap" flat
+            >roadmap</router-link
+          >
+          for more information
+        </home-item>
+
+        <home-item :i="1">
+          <template v-slot:opposite>
+            <MediaCard v-if="random" :media="random"
+          /></template>
+          <template v-slot:title
+            >Media Cards</template
+          >Media cards display media title, type, status, related tags, main
+          studios and list status if user is logged in.
+          <br />
+          More data may be shown in future: relation type and the description
+        </home-item>
+        <home-item :i="2">
+          <template v-slot:opposite>
+            <v-card>
+              <TheDrawerFilters :filters="filters" />
+            </v-card>
+          </template>
+          <template v-slot:title
+            >Filters</template
+          >
+          <p>Filters can hide unwanted media.</p>
+
+          <p>
+            There are two different modes <strong>inclusive</strong> and
+            <strong>excluisve</strong>.
+          </p>
+
+          <div class="subheading">The Latter Mode</div>
+          <p>
+            In the latter mode closest related media of given type as well as
+            all media related to this media are hidden.
+          </p>
+          <div class="subheading">The Former Mode</div>
+          <p>
+            In the former mode closest related media of given type is shown all
+            media related to this media is hidden
+          </p>
+
+          <p>
+            If <strong>all</strong> filters are enabled and inclusive, only the
+            directly related media is shown, like it is shown on Anilist
+          </p>
+        </home-item>
+        <home-item :i="3">
+          <template v-slot:opposite>
+            <v-card>
+              <TheDrawerSettings />
+            </v-card>
+          </template>
+          <template v-slot:title>
+            Settings
+          </template>
+          Settings are located at the bottom of the navigation drawer. The
+          settings are stored in cookies for an year.
+        </home-item>
+      </v-timeline>
+    </v-flex>
+  </base-container>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-@Component
-export default class Home extends Vue {}
+import TheDrawerFilters from '@/components/TheDrawerFilters.vue'
+import TheDrawerSettings from '@/components/TheDrawerSettings.vue'
+import BaseContainer from '@/components/BaseContainer.vue'
+import MediaCard from '@/components/MediaCard.vue'
+import HomeItem from '@/components/HomeItem.vue'
+import media from '../store/modules/media'
+
+@Component({
+  components: {
+    TheDrawerFilters,
+    TheDrawerSettings,
+    BaseContainer,
+    MediaCard,
+    HomeItem
+  }
+})
+export default class Home extends Vue {
+  filters = ['CHARACTER']
+  loading: boolean = false
+
+  async created() {
+    this.loading = true
+    await media.fetchMedia({ sort: 'POPULARITY_DESC' })
+    this.loading = false
+  }
+
+  get media() {
+    return media.media
+  }
+
+  get random() {
+    if (!this.loading) {
+      const media = Object.values(this.media)
+      return media[Math.floor(Math.random() * media.length)]
+    }
+    return null
+  }
+}
 </script>

@@ -1,6 +1,6 @@
 {
   "name": "app",
-  "version": "0.4.4",
+  "version": "0.4.5",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -21,9 +21,9 @@
     "core-js": "^2.6.9",
     "graphql": "^14.4.1",
     "graphql-tag": "^2.10.1",
-    "js-cookie": "^2.2.0",
     "material-design-icons-iconfont": "^5.0.1",
     "register-service-worker": "^1.6.2",
+    "universal-cookie": "^4.0.1",
     "vue": "^2.6.10",
     "vue-class-component": "^7.0.2",
     "vue-property-decorator": "^8.2.1",
@@ -35,7 +35,7 @@
   "devDependencies": {
     "@types/fuzzy-search": "^2.1.0",
     "@types/graphql": "^14.2.2",
-    "@types/js-cookie": "^2.2.2",
+    "@types/universal-cookie": "^2.2.0",
     "@typescript-eslint/eslint-plugin": "^1.11.0",
     "@vue/cli-plugin-babel": "^3.8.0",
     "@vue/cli-plugin-eslint": "^3.8.0",

@@ -1,5 +1,7 @@
 <template>
-  <v-card-title :class="{ 'pt-4': banner, 'pl-4': !banner }">
+  <v-card-title
+    :class="{ 'pt-4': banner, 'pl-4': !banner, 'text-xs-left': true }"
+  >
     <div
       :style="{
         flex: 1,

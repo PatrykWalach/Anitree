@@ -17,6 +17,7 @@ export interface FetchVariables {
   includedTags?: string[] | string
   year?: number
   season?: string
+  sort?: string | string[]
 }
 
 export type RawFilter = (

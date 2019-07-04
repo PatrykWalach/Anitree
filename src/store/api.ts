@@ -3,7 +3,6 @@ import { FetchVariables } from '../types'
 
 import apollo from '../apollo'
 import { Media as AMedia } from '../types'
-import media from '@/store/modules/media'
 
 export const query = gql`
   query(
@@ -13,6 +12,7 @@ export const query = gql`
     $includedTags: [String]
     $year: Int
     $season: MediaSeason
+    $sort: [MediaSort]
   ) {
     Page(page: $page, perPage: 50) {
       media(
@@ -21,6 +21,7 @@ export const query = gql`
         tag_in: $includedTags
         seasonYear: $year
         season: $season
+        sort: $sort
       ) {
         id
         season
@@ -96,8 +97,4 @@ export function fetchMediaApollo(variables: FetchVariables): Promise<AMedia[]> {
       variables
     })
     .then(({ data }) => data.Page.media)
-    .then(newMedia => {
-      newMedia.forEach(media.ADD_MEDIA)
-      return newMedia
-    })
 }

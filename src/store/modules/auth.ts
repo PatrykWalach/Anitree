@@ -5,12 +5,14 @@ import {
   MutationAction
 } from 'vuex-module-decorators'
 import store from '@/store'
-import Cookies from 'js-cookie'
+import Cookies from 'universal-cookie'
 import { Token } from '@/types'
+const cookies = new Cookies()
+const cookie = cookies.get<Token | null | undefined>('auth')
 
 @Module({ namespaced: true, name: 'auth', store, dynamic: true })
 export class ModuleAuth extends VuexModule {
-  public auth: Token | null = Cookies.getJSON('auth') || null
+  public auth: Token | null = cookie || null
 
   public get token() {
     const { auth } = this
@@ -20,7 +22,7 @@ export class ModuleAuth extends VuexModule {
   @MutationAction
   public async CHANGE_TOKEN(auth: Token | null) {
     if (auth)
-      Cookies.set('auth', auth, {
+      cookies.set('auth', auth, {
         expires: new Date(auth.expires_in)
       })
     return { auth }

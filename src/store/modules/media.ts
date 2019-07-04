@@ -232,6 +232,10 @@ export class ModuleMedia extends VuexModule {
   public async fetchMedia(variables: FetchVariables): Promise<Media[]> {
     return new Promise(resolve =>
       fetchMediaApollo(variables)
+        .then(newMedia => {
+          newMedia.forEach(this.ADD_MEDIA)
+          return newMedia
+        })
         .then(resolve)
         .catch(() =>
           setTimeout(() => this.fetchMedia(variables).then(resolve), 10000)

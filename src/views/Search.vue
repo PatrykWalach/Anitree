@@ -9,7 +9,7 @@ const MediaTimeline = () =>
   import(/* webpackPrefetch: true */ '../components/MediaTimeline.vue')
 import { Media } from '../types'
 import BaseContainer from '../components/BaseContainer.vue'
-import { fetchMediaApollo } from '../store/api'
+import media from '../store/modules/media'
 
 @Component({
   components: {
@@ -28,7 +28,7 @@ export default class Search extends Vue {
   @Watch('query', { immediate: true })
   public async fetchMedia() {
     this.loading = true
-    this.media = await fetchMediaApollo({ ...this.query })
+    this.media = await media.fetchMedia({ ...this.query })
     this.loading = false
   }
 }

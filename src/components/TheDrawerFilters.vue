@@ -3,17 +3,16 @@
     <v-subheader>Filters</v-subheader>
 
     <TheDrawerFiltersFilter
-      v-for="relationType in relationTypes"
-      :key="relationType"
-      :relation-type="relationType"
+      v-for="filter in filters"
+      :key="filter"
+      :relation-type="filter"
     />
   </v-list>
 </template>
 
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator'
+import { Vue, Component, Prop } from 'vue-property-decorator'
 import TheDrawerFiltersFilter from './TheDrawerFiltersFilter.vue'
-import moduleMedia from '../store/modules/media'
 
 @Component({
   components: {
@@ -21,8 +20,7 @@ import moduleMedia from '../store/modules/media'
   }
 })
 export default class TheDrawerFilters extends Vue {
-  get relationTypes() {
-    return moduleMedia.relationTypes
-  }
+  @Prop()
+  public readonly filters!: string[]
 }
 </script>

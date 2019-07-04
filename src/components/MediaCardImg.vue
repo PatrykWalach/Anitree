@@ -61,7 +61,7 @@ export default class MediaCardImg extends Vue {
   get style() {
     if (this.banner) {
       return {
-        // width: '100%',
+        'min-height': '200px',
         style: {
           'border-radius': '2px 2px 0 0'
         }
@@ -73,7 +73,7 @@ export default class MediaCardImg extends Vue {
       // 0.6981132075471698
       aspectRatio: 185 / 265,
       style: {
-        'border-radius': '2px 0 0' + this.media.mediaListEntry ? '' : ' 2px'
+        'border-radius': this.media.mediaListEntry ? '2px 0 0' : '2px 0 0 2px'
       }
     }
   }
