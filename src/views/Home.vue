@@ -53,7 +53,16 @@
 
           <p>
             If <strong>all</strong> filters are enabled and inclusive, only the
-            directly related media is shown, like it is shown on Anilist
+            directly related media is shown, it is the same way related media is
+            shown on
+            <a
+              class="link primary--text"
+              href="https://anilist.co"
+              target="_blank"
+              rel="noopener"
+            >
+              Anilist
+            </a>
           </p>
         </home-item>
         <home-item :i="3">
@@ -65,8 +74,7 @@
           <template v-slot:title>
             Settings
           </template>
-          Settings are located at the bottom of the navigation drawer. The
-          settings are stored in cookies for an year.
+          The settings are stored in browser cookies.
         </home-item>
       </v-timeline>
     </v-flex>

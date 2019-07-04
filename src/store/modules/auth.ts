@@ -21,10 +21,11 @@ export class ModuleAuth extends VuexModule {
 
   @MutationAction
   public async CHANGE_TOKEN(auth: Token | null) {
-    if (auth)
+    if (auth) {
       cookies.set('auth', auth, {
-        expires: new Date(auth.expires_in)
+        expires: new Date(Date.now() + auth.expires_in)
       })
+    }
     return { auth }
   }
 }

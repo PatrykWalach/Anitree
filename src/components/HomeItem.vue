@@ -10,9 +10,11 @@
       </template>
       <v-card>
         <v-card-title class="text-xs-left">
-          <h5 class="headline"><slot name="title"></slot></h5>
           <div>
-            <slot></slot>
+            <h5 class="headline"><slot name="title"></slot></h5>
+            <div>
+              <slot></slot>
+            </div>
           </div>
         </v-card-title>
       </v-card>
