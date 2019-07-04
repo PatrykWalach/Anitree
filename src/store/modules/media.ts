@@ -140,7 +140,7 @@ export class ModuleMedia extends VuexModule {
           (dateA.year && dateB.year && dateA.year - dateB.year) ||
           (dateA.month && dateB.month && dateA.month - dateB.month) ||
           (dateA.day && dateB.day && dateA.day - dateB.day) ||
-          -1
+          1
       )
   }
 

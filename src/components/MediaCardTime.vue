@@ -1,5 +1,5 @@
 <template>
-  <v-chip v-if="startISO && endISO" class="body-2" label outline>
+  <v-chip v-if="startISO" class="body-2" label outline>
     <v-icon left small>date_range</v-icon>
     <BaseTimeRange
       v-if="isRange"
