@@ -68,10 +68,10 @@ export default class MediaCardImg extends Vue {
       }
     }
     return {
-      // height: '100%',
+      height: '100%',
       // 0.5625
       // 0.6981132075471698
-      aspectRatio: 185 / 265,
+      // aspectRatio: 185 / 265,
       style: {
         'border-radius': this.media.mediaListEntry ? '2px 0 0' : '2px 0 0 2px'
       }

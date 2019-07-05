@@ -40,7 +40,8 @@ export default class MediaCard extends Vue {
         grid: `"img" 1fr "title" auto "divider" auto "actions" auto "status" / 1fr`
       }
     return {
-      grid: `"img title" 1fr "img divider" auto "img actions" auto "status status" auto  / minmax(150px, 185px) 1fr`
+      grid: `"img title" 1fr "img divider" auto "img actions" auto "status status" auto  / 2fr minmax(min-content
+, 5fr)`
     }
   }
 
