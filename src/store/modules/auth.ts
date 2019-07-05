@@ -23,7 +23,7 @@ export class ModuleAuth extends VuexModule {
   public async CHANGE_TOKEN(auth: Token | null) {
     if (auth) {
       cookies.set('auth', auth, {
-        expires: new Date(Date.now() + auth.expires_in)
+        expires: new Date(Date.now() + parseInt(auth.expires_in))
       })
     }
     return { auth }
