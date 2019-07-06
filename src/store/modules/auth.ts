@@ -24,14 +24,13 @@ export class ModuleAuth extends VuexModule {
   @MutationAction
   public async CHANGE_TOKEN(auth: Token | null) {
     if (auth) {
-      localStorage.setItem(
-        'AUTH',
-        JSON.stringify({
-          ...auth,
-          /* eslint-disable-next-line @typescript-eslint/camelcase */
-          expires_in: Date.now() + parseInt(auth.expires_in)
-        })
-      )
+      const newAuth: Token = {
+        ...auth,
+        /* eslint-disable-next-line @typescript-eslint/camelcase */
+        expires_in: (Date.now() + parseInt(auth.expires_in)).toString()
+      }
+      localStorage.setItem('AUTH', JSON.stringify(newAuth))
+      return { auth: newAuth }
     }
     return { auth }
   }

@@ -55,13 +55,13 @@ const router = new Router({
 })
 
 router.afterEach(to => {
-  const { name } = to
+  const { name, params, query } = to
   if (name) {
     if (name !== 'title') {
       document.title = 'Anitree - ' + name[0].toUpperCase() + name.substr(1)
     }
 
-    localStorage.setItem('LAST_ROUTE', JSON.stringify(to))
+    localStorage.setItem('LAST_ROUTE', JSON.stringify({ name, params, query }))
   }
 })
 
