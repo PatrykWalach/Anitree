@@ -5,26 +5,33 @@ import {
   MutationAction
 } from 'vuex-module-decorators'
 import store from '@/store'
-import Cookies from 'universal-cookie'
+
 import { Token } from '@/types'
-const cookies = new Cookies()
-const cookie = cookies.get<Token | null | undefined>('auth')
+const stored = localStorage.getItem('AUTH')
 
 @Module({ namespaced: true, name: 'auth', store, dynamic: true })
 export class ModuleAuth extends VuexModule {
-  public auth: Token | null = cookie || null
+  public auth: Token | null = (stored && JSON.parse(stored)) || null
 
   public get token() {
     const { auth } = this
-    return auth && auth.access_token
+    if (auth && Date.now() < parseInt(auth.expires_in)) {
+      return auth.access_token
+    }
+    return null
   }
 
   @MutationAction
   public async CHANGE_TOKEN(auth: Token | null) {
     if (auth) {
-      cookies.set('auth', auth, {
-        expires: new Date(Date.now() + parseInt(auth.expires_in))
-      })
+      localStorage.setItem(
+        'AUTH',
+        JSON.stringify({
+          ...auth,
+          /* eslint-disable-next-line @typescript-eslint/camelcase */
+          expires_in: Date.now() + parseInt(auth.expires_in)
+        })
+      )
     }
     return { auth }
   }

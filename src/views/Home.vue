@@ -74,7 +74,7 @@
           <template v-slot:title>
             Settings
           </template>
-          The settings are stored in browser cookies.
+          The settings are stored in browser cache.
         </home-item>
       </v-timeline>
     </v-flex>

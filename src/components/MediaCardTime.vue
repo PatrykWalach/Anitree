@@ -48,7 +48,7 @@ export default class MediaCardTime extends Vue {
     return new Date(
       date.year || 0,
       (date.month && date.month - 1) || 0,
-      date.day || undefined
+      date.day || 0
     )
   }
 

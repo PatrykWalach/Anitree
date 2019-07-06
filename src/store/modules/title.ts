@@ -5,12 +5,11 @@ import {
   MutationAction
 } from 'vuex-module-decorators'
 import store from '@/store'
-import Cookies from 'universal-cookie'
-const cookies = new Cookies()
-const cookie = cookies.get<{ prefered: number } | undefined>('title')
+
+const stored: string | null = localStorage.getItem('TITLE')
 @Module({ namespaced: true, name: 'title', store, dynamic: true })
 export class ModuleTitle extends VuexModule {
-  public prefered: number = (cookie && cookie.prefered) || 0
+  public prefered: number = (stored && parseInt(stored)) || 0
 
   public titles: ['romaji', 'english', 'native'] = [
     'romaji',
@@ -25,11 +24,7 @@ export class ModuleTitle extends VuexModule {
 
   @MutationAction
   public async CHANGE_PREFERED(prefered: number) {
-    cookies.set(
-      'title',
-      { prefered },
-      { expires: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000) }
-    )
+    localStorage.setItem('TITLE', prefered.toString())
     return { prefered }
   }
 }

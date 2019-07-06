@@ -43,6 +43,11 @@ const router = new Router({
             .map(el => el.split(/=/))
         )
         auth.CHANGE_TOKEN(hash || null)
+
+        const route = localStorage.getItem('LAST_ROUTE')
+        if (route) {
+          return { ...JSON.parse(route), hash: '' }
+        }
         return { name: 'home', hash: '' }
       }
     }
@@ -51,8 +56,12 @@ const router = new Router({
 
 router.afterEach(to => {
   const { name } = to
-  if (name && name !== 'title') {
-    document.title = 'Anitree - ' + name[0].toUpperCase() + name.substr(1)
+  if (name) {
+    if (name !== 'title') {
+      document.title = 'Anitree - ' + name[0].toUpperCase() + name.substr(1)
+    }
+
+    localStorage.setItem('LAST_ROUTE', JSON.stringify(to))
   }
 })
 
