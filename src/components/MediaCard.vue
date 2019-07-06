@@ -35,13 +35,15 @@ export default class MediaCard extends Vue {
   public readonly media!: Media
 
   get style() {
-    if (this.banner)
+    if (this.banner) {
       return {
+        // 'margin-right': '64px',
         grid: `"img" 1fr "title" auto "divider" auto "actions" auto "status" / 1fr`
       }
+    }
+    const column = this.$vuetify.breakpoint.smAndDown ? '7fr' : '5fr'
     return {
-      grid: `"img title" 1fr "img divider" auto "img actions" auto "status status" auto  / 2fr minmax(min-content
-, 5fr)`
+      grid: `"img title" 1fr "img divider" auto "img actions" auto "status status" auto  / 2fr minmax(auto, ${column})`
     }
   }
 
