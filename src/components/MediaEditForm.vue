@@ -215,7 +215,7 @@ export default class MediaEditForm extends Vue {
         .map(value => value || 0)
 
       return {
-        ...Object.fromEntries(
+        ...(Object.fromEntries(
           Object.entries(listEntry)
             .filter(
               ([key, value]) =>
@@ -224,7 +224,7 @@ export default class MediaEditForm extends Vue {
                 key !== 'advancedScores'
             )
             .map(([key, value]) => [key, value || 0])
-        ),
+        ) as Form),
         advancedScores
       }
     }
@@ -262,9 +262,9 @@ export default class MediaEditForm extends Vue {
   public stringToDate(date: string): MediaDate {
     const types = ['year', 'month', 'day']
     const values = date.split('-')
-    return Object.fromEntries(
+    return (Object.fromEntries(
       types.map((type, i) => [type, parseInt(values[i]) || null])
-    )
+    ) as unknown) as MediaDate
   }
 
   public min(n: number, m: string): string {

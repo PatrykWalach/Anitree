@@ -1,5 +1,5 @@
 <template>
-  <v-list-item  @click>
+  <v-list-item @click>
     <v-list-item-action>
       <v-switch :input-value="active" @change="changeActive"></v-switch>
       <!-- <Basevalue v-model="value"/> -->

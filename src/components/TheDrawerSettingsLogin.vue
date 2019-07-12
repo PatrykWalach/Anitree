@@ -1,6 +1,5 @@
 <template>
   <v-list-item
-    
     rel="noopener"
     :href="
       `https://anilist.co/api/v2/oauth/authorize?client_id=${id}&response_type=token`

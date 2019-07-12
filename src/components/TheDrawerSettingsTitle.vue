@@ -1,5 +1,5 @@
 <template>
-  <v-list-item  @click>
+  <v-list-item @click>
     <v-list-item-content @click="changePrefered">
       <v-list-item-title class="text-capitalize"
         >prefered title</v-list-item-title
