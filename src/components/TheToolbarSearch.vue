@@ -7,7 +7,7 @@
     <v-text-field
       v-model="search"
       autofocus
-      flat
+      text
       solo
       hide-details
       name="search"

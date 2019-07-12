@@ -1,10 +1,10 @@
 <template>
   <v-flex>
-    <v-timeline :dense="$vuetify.breakpoint.smAndDown">
+    <v-timeline :dense="$vuetify.breakpoint.xsOnly">
       <MediaTimelineItem
         v-for="media in mediaList"
         :key="media.id"
-        :media="media"
+        :media-id="media.id"
       />
     </v-timeline>
   </v-flex>

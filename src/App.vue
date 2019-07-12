@@ -1,5 +1,5 @@
 <template>
-  <v-app :dark="dark" inset>
+  <v-app>
     <TheDrawer v-model="drawerValue" />
 
     <TheToolbar @toggle:drawer="toggleDrawer" />
@@ -7,6 +7,7 @@
       <keep-alive>
         <router-view />
       </keep-alive>
+      <MediaEdit v-if="media" :media="media" />
     </v-content>
     <TheFooter />
   </v-app>
@@ -16,24 +17,25 @@ import { Vue, Component } from 'vue-property-decorator'
 import TheDrawer from './components/TheDrawer.vue'
 import TheFooter from './components/TheFooter.vue'
 import TheToolbar from './components/TheToolbar.vue'
-import theme from './store/modules/theme'
-
+import MediaEdit from './components/MediaEdit.vue'
+import edit from './store/modules/edit'
 @Component({
   components: {
     TheFooter,
+    MediaEdit,
     TheToolbar,
     TheDrawer
   }
 })
 export default class App extends Vue {
-  get dark() {
-    return theme.dark
-  }
-
   public drawerValue: boolean = false
 
   public toggleDrawer() {
     this.drawerValue = !this.drawerValue
+  }
+
+  get media() {
+    return edit.media
   }
 }
 </script>

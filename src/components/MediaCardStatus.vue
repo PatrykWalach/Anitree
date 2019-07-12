@@ -3,7 +3,7 @@
     <template v-slot:activator="{ on }">
       <v-toolbar :class="'v-card__status ' + color" v-on="on"></v-toolbar>
     </template>
-    <span>{{ status }}</span>
+    <span>{{ (tip && (manga ? tip.manga : tip.text)) || '' }}</span>
   </v-tooltip>
 </template>
 <script lang="ts">
@@ -15,9 +15,24 @@ export default class MediaCardStatus extends Vue {
   @Prop({ required: true })
   public readonly media!: Media
 
+  get manga() {
+    return this.media.type === 'MANGA'
+  }
+
   get status() {
     const { mediaListEntry } = this.media
     return mediaListEntry && mediaListEntry.status
+  }
+
+  get tip() {
+    return [
+      { manga: 'Reading', text: 'Watching', value: 'CURRENT' },
+      { manga: 'Plan to read', text: 'Plan to watch', value: 'PLANNING' },
+      { manga: 'Completed', text: 'Completed', value: 'COMPLETED' },
+      { manga: 'Rereading', text: 'Rewatching', value: 'REPEATING' },
+      { manga: 'Paused', text: 'Paused', value: 'PAUSED' },
+      { manga: 'Dropped', text: 'Dropped', value: 'DROPPED' }
+    ].find(({ value }) => value === this.status)
   }
 
   get color() {
@@ -40,7 +55,7 @@ export default class MediaCardStatus extends Vue {
   }
 }
 </script>
-<style lang="stylus" scoped>
+<style lang="scss" scoped>
 .v-card__status {
   height: 3px;
   grid-area: status;

@@ -1,33 +1,26 @@
 <template>
-  <v-card-actions :class="{ 'pl-3': !banner }">
-    <div
-      :style="{
-        display: 'flex',
-        'align-items': 'center',
-        'flex-wrap': 'wrap'
-      }"
-    >
+  <v-card-actions :style="{ 'min-width': '100%' }">
+    <div :style="{ display: 'flex', 'flex-wrap': 'wrap' }">
       <base-color
         v-for="tag in tags"
         :key="`tag-${tag.id}`"
         small
         label
+        link
+        :style="{ margin: '4px 8px 4px 0' }"
         :color="media.coverImage.color"
         tag="v-chip"
+        :to="{ name: 'search', query: { includedTags: tag.name } }"
       >
-        <router-link
-          :to="{ name: 'search', query: { includedTags: tag.name } }"
-          class="link"
-        >
-          {{ tag.name.toLowerCase() }}
-        </router-link>
+        {{ tag.name.toLowerCase() }}
       </base-color>
       <v-chip
         v-for="studio in media.studios.nodes"
         :key="`studio-${studio.id}`"
         small
-        outline
+        outlined
         label
+        :style="{ margin: '4px 8px 4px 0' }"
         >{{ studio.name }}</v-chip
       >
     </div>
@@ -56,13 +49,13 @@ export default class MediaCardActions extends Vue {
       : (tags[mid - 1] + tags[mid]) / 2
   }
 
-  get banner() {
-    return this.media.bannerImage && !this.$vuetify.breakpoint.smAndDown
-  }
+  // get banner() {
+  //   return this.media.bannerImage && !this.$vuetify.breakpoint.smAndDown
+  // }
 }
 </script>
-<style lang="stylus" scoped>
-.v-card__actions{
+<style lang="scss" scoped>
+.v-card__actions {
   display: flex;
   align-items: flex-end;
   grid-area: actions;

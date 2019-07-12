@@ -7,8 +7,9 @@
     <template v-slot:opposite>
       <MediaCardTime :media="media" />
     </template>
-
+    <!-- <div :style="{ display: 'flex' }"> -->
     <MediaCard :media="media" />
+    <!-- </div> -->
   </v-timeline-item>
 </template>
 <script lang="ts">
@@ -16,25 +17,29 @@ import { Prop, Component, Vue } from 'vue-property-decorator'
 
 import MediaCardTime from './MediaCardTime.vue'
 
-import { Media } from '../types'
-
 import MediaCard from './MediaCard.vue'
 import moduleMedia from '../store/modules/media'
-import theme from '../store/modules/theme'
+import media from '../store/modules/media'
 
 @Component({
   components: {
     MediaCardTime,
-
     MediaCard
   }
 })
 export default class MediaTimelineItem extends Vue {
   @Prop({ required: true })
-  public readonly media!: Media
+  public readonly mediaId!: number
+
+  get media() {
+    return media.media[this.mediaId]
+  }
 
   get color() {
-    return this.media.coverImage.color || (theme.dark ? '#555' : '#e0e0e0')
+    return (
+      this.media.coverImage.color ||
+      (this.$vuetify.theme.dark ? '#555' : '#e0e0e0')
+    )
   }
 
   get currentId() {

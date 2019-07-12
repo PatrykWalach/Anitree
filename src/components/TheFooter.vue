@@ -1,9 +1,9 @@
 <template>
-  <v-toolbar dense class="caption">
+  <v-footer class="caption">
     <div v-if="!$vuetify.breakpoint.xsOnly">
       Powered by
     </div>
-    <v-btn href="https://anilist.co" target="_blank" flat rel="noopener">
+    <v-btn href="https://anilist.co" target="_blank" text rel="noopener">
       Anilist
     </v-btn>
     <v-spacer></v-spacer>
@@ -13,12 +13,12 @@
     <v-btn
       href="https://github.com/PatrykWalach/Anitree"
       target="_blank"
-      flat
+      text
       rel="noopener"
     >
       <FontAwesomeIcon :icon="['fab', 'github']" />PatrykWałach
     </v-btn>
-  </v-toolbar>
+  </v-footer>
 </template>
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'

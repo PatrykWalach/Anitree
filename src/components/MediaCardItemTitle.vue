@@ -20,6 +20,9 @@
       </template>
     </v-hover>
   </h6>
+  <!-- <v-list-item-title class="headline mb-1">
+    {{ title }}
+  </v-list-item-title> -->
 </template>
 
 <script lang="ts">
@@ -29,7 +32,7 @@ import { Media } from '../types'
 import moduleTitle from '../store/modules/title'
 
 @Component
-export default class MediaCardTitleTitle extends Vue {
+export default class MediaCardItemTitle extends Vue {
   @Prop({ required: true })
   public readonly media!: Media
 

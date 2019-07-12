@@ -1,54 +1,34 @@
 <template>
-  <div class="v-card__img">
-    <router-link
-      :style="{ 'text-decoration': 'unset' }"
-      :to="{
-        name: 'media',
-        params: {
-          mediaId: media.id,
-          mediaType: media.type.toLowerCase()
-        }
-      }"
-    >
-      <v-img
-        v-lazy="changeInView"
-        v-bind="style"
-        :lazy-src="lazySrc"
-        :srcset="srcset"
-        :src="src"
-      >
-        <template v-slot:placeholder>
-          <v-layout fill-height align-center justify-center ma-0>
-            <v-progress-circular indeterminate color="grey lighten-5">
-            </v-progress-circular
-          ></v-layout>
-        </template>
-      </v-img>
-    </router-link>
-
-    <MediaCardImgBtn :media="media" />
-  </div>
+  <v-img
+    v-lazy="changeInView"
+    :lazy-src="lazySrc"
+    v-bind="{ ...$attrs, srcset, src }"
+    :min-width="banner ? '100%' : '100px'"
+    max-height="240px"
+    min-height="160px"
+    :style="{ flex: 2 }"
+  >
+    <slot :banner="banner"></slot>
+  </v-img>
 </template>
 
 <script lang="ts">
 import { Prop, Component, Vue } from 'vue-property-decorator'
 import { Media } from '../types'
-import MediaCardImgBtn from './MediaCardImgBtn.vue'
 @Component({
-  components: {
-    MediaCardImgBtn
-  },
   directives: {
     lazy: {
       bind(el, { value }) {
-        new IntersectionObserver((entries, observer) => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              value(event)
-              observer.disconnect()
-            }
-          })
-        }).observe(el)
+        if (value) {
+          new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                value(event)
+                observer.disconnect()
+              }
+            })
+          }).observe(el)
+        }
       }
     }
   }
@@ -56,30 +36,15 @@ import MediaCardImgBtn from './MediaCardImgBtn.vue'
 export default class MediaCardImg extends Vue {
   @Prop({ required: true })
   public readonly media!: Media
+
+  @Prop({ default: true })
+  public readonly lazy!: boolean
+
   public inView: boolean = false
 
-  get style() {
-    if (this.banner) {
-      return {
-        'min-height': '200px',
-        style: {
-          'border-radius': '2px 2px 0 0'
-        }
-      }
-    }
-    return {
-      height: '100%',
-      // 0.5625
-      // 0.6981132075471698
-      // aspectRatio: 185 / 265,
-      style: {
-        'border-radius': this.media.mediaListEntry ? '2px 0 0' : '2px 0 0 2px'
-      }
-    }
-  }
-
   get src() {
-    if (this.inView) {
+    const { inView, lazy } = this
+    if (inView || !lazy) {
       const { media, banner } = this
       if (banner) {
         return media.bannerImage
@@ -98,8 +63,8 @@ export default class MediaCardImg extends Vue {
   }
 
   get srcset() {
-    const { banner, inView } = this
-    if (banner || !inView) {
+    const { banner, inView, lazy } = this
+    if (banner || (!inView && lazy)) {
       return undefined
     }
     const { extraLarge, large, medium } = this.media.coverImage
@@ -122,9 +87,3 @@ export default class MediaCardImg extends Vue {
   }
 }
 </script>
-<style lang="stylus" scoped>
-.v-card__img {
-  position: relative;
-  grid-area: img;
-}
-</style>

@@ -1,5 +1,5 @@
 <template>
-  <v-chip v-if="startISO" class="body-2" label outline>
+  <v-chip v-if="startISO" class="body-2" label outlined>
     <v-icon left small>date_range</v-icon>
     <BaseTimeRange
       v-if="isRange"
@@ -52,6 +52,7 @@ export default class MediaCardTime extends Vue {
     )
   }
 
-  public isValidDate = (date: MediaDate) => !!(date.year && date.month)
+  public isValidDate = (date: MediaDate) =>
+    date.year !== null && date.month !== null
 }
 </script>

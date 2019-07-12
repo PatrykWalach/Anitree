@@ -1,60 +1,47 @@
 <template>
-  <v-card ripple :style="style">
-    <MediaCardImg :media="media" />
+  <v-hover>
+    <template v-slot="{ hover }">
+      <v-card ripple :style="{ display: 'flex', 'flex-wrap': 'wrap' }">
+        <MediaCardImg :media="media" />
+        <MediaCardItem :media="media" />
+        <MediaCardMenu :hover="hover" :media="media" />
 
-    <MediaCardTitle :media="media" />
+        <template v-if="media.tags.length || media.studios.nodes.length">
+          <v-divider :style="{ 'min-width': '100%' }"></v-divider>
+          <MediaCardActions :media="media" />
+        </template>
 
-    <template v-if="media.tags.length || media.studios.nodes.length">
-      <v-divider :style="{ 'grid-area': 'divider' }"></v-divider>
-      <MediaCardActions :media="media" />
+        <MediaCardStatus v-if="media.mediaListEntry" :media="media" />
+      </v-card>
     </template>
-
-    <MediaCardStatus v-if="media.mediaListEntry" :media="media" />
-  </v-card>
+  </v-hover>
 </template>
 <script lang="ts">
 import { Prop, Component, Vue } from 'vue-property-decorator'
 import MediaCardImg from './MediaCardImg.vue'
 // import MediaCardActions from './MediaCardActions.vue'
-import MediaCardTitle from './MediaCardTitle.vue'
+import MediaCardItem from './MediaCardItem.vue'
+import MediaCardMenu from './MediaCardMenu.vue'
 
 import { Media } from '../types'
-const MediaCardActions = () => import('./MediaCardActions.vue')
 const MediaCardStatus = () => import('./MediaCardStatus.vue')
+const MediaCardActions = () => import('./MediaCardActions.vue')
 
 @Component({
   components: {
     MediaCardImg,
-    MediaCardTitle,
+    MediaCardItem,
     MediaCardStatus,
-    MediaCardActions
+    MediaCardActions,
+    MediaCardMenu
   }
 })
 export default class MediaCard extends Vue {
   @Prop({ required: true })
   public readonly media!: Media
 
-  get style() {
-    if (this.banner) {
-      return {
-        // 'margin-right': '64px',
-        grid: `"img" 1fr "title" auto "divider" auto "actions" auto "status" / 1fr`
-      }
-    }
-    const column = this.$vuetify.breakpoint.smAndDown ? '7fr' : '5fr'
-    return {
-      grid: `"img title" 1fr "img divider" auto "img actions" auto "status status" auto  / 2fr minmax(auto, ${column})`
-    }
-  }
-
   get banner() {
     return this.media.bannerImage && !this.$vuetify.breakpoint.smAndDown
   }
 }
 </script>
-<style lang="stylus" scoped>
-.v-card{
-  display: grid;
-
-}
-</style>

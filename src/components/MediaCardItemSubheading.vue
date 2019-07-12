@@ -1,7 +1,7 @@
 <template>
-  <div class="subheading text-capitalize grey--text">
+  <v-list-item-title class="text-capitalize">
     {{ subheading }}
-  </div>
+  </v-list-item-title>
 </template>
 
 <script lang="ts">
@@ -9,7 +9,7 @@ import { Prop, Component, Vue } from 'vue-property-decorator'
 import { Media } from '../types'
 
 @Component
-export default class MediaCardTitleSubheading extends Vue {
+export default class MediaCardItemSubheading extends Vue {
   @Prop({ required: true })
   public readonly media!: Media
 
@@ -35,19 +35,5 @@ export default class MediaCardTitleSubheading extends Vue {
       ''
     )
   }
-  //   get color() {
-  //     switch (this.media.status) {
-  //       case 'RELEASING':
-  //         return `info--text`
-  //       case 'CANCELLED':
-  //         return `error--text`
-  //       case 'NOT_YET_RELEASED':
-  //         return `warning--text`
-  //       case 'FINISHED':
-  //         return `success--text`
-  //       default:
-  //         return ''
-  //     }
-  //   }
 }
 </script>

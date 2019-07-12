@@ -1,14 +1,14 @@
 <template>
-  <v-list-tile avatar @click>
-    <v-list-tile-content @click="changePrefered">
-      <v-list-tile-title class="text-capitalize"
-        >prefered title</v-list-tile-title
+  <v-list-item  @click>
+    <v-list-item-content @click="changePrefered">
+      <v-list-item-title class="text-capitalize"
+        >prefered title</v-list-item-title
       >
-      <v-list-tile-sub-title class="text-capitalize">{{
+      <v-list-item-subtitle class="text-capitalize">{{
         title
-      }}</v-list-tile-sub-title>
-    </v-list-tile-content>
-  </v-list-tile>
+      }}</v-list-item-subtitle>
+    </v-list-item-content>
+  </v-list-item>
 </template>
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'

@@ -1,6 +1,6 @@
 <template>
   <component :is="tag" v-bind="$attrs" :[theme]="true" :color="color">
-    <slot></slot>
+    <slot :[theme]="true" :theme="theme"></slot>
   </component>
 </template>
 

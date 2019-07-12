@@ -1,16 +1,16 @@
 <template>
-  <v-list-tile target="_blank" :href="card.shortUrl" rel="noopener">
-    <v-list-tile-avatar v-if="checklists.length">
+  <v-list-item target="_blank" :href="card.shortUrl" rel="noopener">
+    <v-list-item-avatar v-if="checklists.length">
       <v-progress-circular
         :value="progress"
         :color="color"
       ></v-progress-circular>
-    </v-list-tile-avatar>
-    <v-list-tile-content>
-      <v-list-tile-title>{{ card.name }}</v-list-tile-title>
-      <v-list-tile-sub-title>{{ card.desc }}</v-list-tile-sub-title>
-    </v-list-tile-content>
-  </v-list-tile>
+    </v-list-item-avatar>
+    <v-list-item-content>
+      <v-list-item-title>{{ card.name }}</v-list-item-title>
+      <v-list-item-subtitle>{{ card.desc }}</v-list-item-subtitle>
+    </v-list-item-content>
+  </v-list-item>
 </template>
 
 <script lang="ts">

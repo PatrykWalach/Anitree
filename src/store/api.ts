@@ -1,8 +1,84 @@
 import gql from 'graphql-tag'
-import { FetchVariables } from '../types'
+import { FetchVariables, User, MutationVariables, MediaList } from '../types'
 
 import apollo from '../apollo'
 import { Media as AMedia } from '../types'
+
+export const viewerQuery = gql`
+  {
+    Viewer {
+      options {
+        profileColor
+      }
+      mediaListOptions {
+        scoreFormat
+        animeList {
+          customLists
+          advancedScoring
+          advancedScoringEnabled
+        }
+        mangaList {
+          customLists
+          advancedScoring
+          advancedScoringEnabled
+        }
+      }
+    }
+  }
+`
+export const mutation = gql`
+  mutation(
+    $id: Int
+    $mediaId: Int
+    $status: MediaListStatus
+    $score: Float
+    $scoreRaw: Int
+    $progress: Int
+    $progressVolumes: Int
+    $repeat: Int
+    $private: Boolean
+    $notes: String
+    $advancedScores: [Float]
+    $startedAt: FuzzyDateInput
+    $completedAt: FuzzyDateInput
+  ) {
+    SaveMediaListEntry(
+      id: $id
+      mediaId: $mediaId
+      status: $status
+      score: $score
+      scoreRaw: $scoreRaw
+      progress: $progress
+      progressVolumes: $progressVolumes
+      repeat: $repeat
+      private: $private
+      notes: $notes
+      advancedScores: $advancedScores
+      startedAt: $startedAt
+      completedAt: $completedAt
+    ) {
+      id
+      status
+      score(format: POINT_10_DECIMAL)
+      progress
+      private
+      progressVolumes
+      startedAt {
+        year
+        month
+        day
+      }
+      completedAt {
+        year
+        month
+        day
+      }
+      repeat
+      notes
+      advancedScores
+    }
+  }
+`
 
 export const query = gql`
   query(
@@ -34,6 +110,7 @@ export const query = gql`
           context
           allTime
         }
+        isFavourite
         bannerImage
         coverImage {
           extraLarge
@@ -72,8 +149,28 @@ export const query = gql`
           native
         }
         description
+        volumes
+        chapters
         mediaListEntry {
+          id
           status
+          score(format: POINT_10_DECIMAL)
+          progress
+          private
+          progressVolumes
+          startedAt {
+            year
+            month
+            day
+          }
+          completedAt {
+            year
+            month
+            day
+          }
+          repeat
+          notes
+          advancedScores
         }
         relations {
           edges {
@@ -97,4 +194,23 @@ export function fetchMediaApollo(variables: FetchVariables): Promise<AMedia[]> {
       variables
     })
     .then(({ data }) => data.Page.media)
+}
+
+export function fetchViewerApollo(): Promise<User> {
+  return apollo
+    .query<{ Viewer: User }>({
+      query: viewerQuery
+    })
+    .then(({ data }) => data.Viewer)
+}
+
+export function mutationSaveMediaEntryApollo(
+  variables: MutationVariables
+): Promise<MediaList | undefined> {
+  return apollo
+    .mutate<{ SaveMediaListEntry: MediaList }>({
+      mutation,
+      variables
+    })
+    .then(({ data }) => data && data.SaveMediaListEntry)
 }

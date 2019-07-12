@@ -1,26 +1,26 @@
 <template>
-  <v-list-tile avatar @click>
-    <v-list-tile-action>
+  <v-list-item  @click>
+    <v-list-item-action>
       <v-switch :input-value="active" @change="changeActive"></v-switch>
       <!-- <Basevalue v-model="value"/> -->
-    </v-list-tile-action>
+    </v-list-item-action>
 
-    <v-list-tile-content @click="changeActive(!active)">
-      <v-list-tile-title class="text-capitalize">{{
+    <v-list-item-content @click="changeActive(!active)">
+      <v-list-item-title class="text-capitalize">{{
         relationType.replace(/_/g, ' ').toLowerCase()
-      }}</v-list-tile-title>
-      <v-list-tile-sub-title class="text-capitalize">{{
+      }}</v-list-item-title>
+      <v-list-item-subtitle class="text-capitalize">{{
         type.toLowerCase()
-      }}</v-list-tile-sub-title>
-    </v-list-tile-content>
-    <v-list-tile-action>
+      }}</v-list-item-subtitle>
+    </v-list-item-content>
+    <v-list-item-action>
       <v-checkbox
         :disabled="!active"
         :input-value="exclusive"
         @change="changeExclusive"
       ></v-checkbox>
-    </v-list-tile-action>
-  </v-list-tile>
+    </v-list-item-action>
+  </v-list-item>
 </template>
 
 <script lang="ts">

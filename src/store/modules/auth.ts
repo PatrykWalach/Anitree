@@ -6,12 +6,14 @@ import {
 } from 'vuex-module-decorators'
 import store from '@/store'
 
-import { Token } from '@/types'
+import { Token, User } from '@/types'
+import { fetchViewerApollo } from '../api'
 const stored = localStorage.getItem('AUTH')
 
 @Module({ namespaced: true, name: 'auth', store, dynamic: true })
 export class ModuleAuth extends VuexModule {
   public auth: Token | null = (stored && JSON.parse(stored)) || null
+  public user: User | null = null
 
   public get token() {
     const { auth } = this
@@ -19,6 +21,10 @@ export class ModuleAuth extends VuexModule {
       return auth.access_token
     }
     return null
+  }
+
+  public get authorized() {
+    return !!this.token
   }
 
   @MutationAction
@@ -34,6 +40,14 @@ export class ModuleAuth extends VuexModule {
     }
     return { auth }
   }
+
+  @MutationAction
+  public async CHANGE_USER() {
+    const user = await fetchViewerApollo()
+    return { user }
+  }
 }
 
 export default getModule(ModuleAuth)
+
+getModule(ModuleAuth).CHANGE_USER()

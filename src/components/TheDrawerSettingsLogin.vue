@@ -1,17 +1,17 @@
 <template>
-  <v-list-tile
-    avatar
+  <v-list-item
+    
     rel="noopener"
     :href="
       `https://anilist.co/api/v2/oauth/authorize?client_id=${id}&response_type=token`
     "
     @click
   >
-    <v-list-tile-content>
-      <v-list-tile-title>Login</v-list-tile-title>
-      <v-list-tile-sub-title>Login with AniList</v-list-tile-sub-title>
-    </v-list-tile-content>
-  </v-list-tile>
+    <v-list-item-content>
+      <v-list-item-title>Login</v-list-item-title>
+      <v-list-item-subtitle>Login with AniList</v-list-item-subtitle>
+    </v-list-item-content>
+  </v-list-item>
 </template>
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'

@@ -1,30 +1,35 @@
 <template>
-  <v-list-tile avatar @click>
-    <v-list-tile-action>
+  <v-list-item @click>
+    <v-list-item-action>
       <v-switch :input-value="dark" @change="changeTheme"></v-switch>
-    </v-list-tile-action>
+    </v-list-item-action>
 
-    <v-list-tile-content @click="changeTheme">
-      <v-list-tile-title class="text-capitalize">theme</v-list-tile-title>
-      <v-list-tile-sub-title class="text-capitalize">{{
+    <v-list-item-content @click="changeTheme">
+      <v-list-item-title class="text-capitalize">theme</v-list-item-title>
+      <v-list-item-subtitle class="text-capitalize">{{
         dark ? 'dark' : 'light'
-      }}</v-list-tile-sub-title>
-    </v-list-tile-content>
-  </v-list-tile>
+      }}</v-list-item-subtitle>
+    </v-list-item-content>
+  </v-list-item>
 </template>
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
-import moduleTheme from '../store/modules/theme'
 
 @Component
 export default class TheDrawerSettingsTheme extends Vue {
-  get dark() {
-    return moduleTheme.dark
+  // get dark() {
+  //   return moduleTheme.dark
+  // }
+
+  dark: boolean = localStorage.getItem('THEME') === 'true'
+
+  created(){
+    this.changeTheme(this.dark)
   }
 
-  public changeTheme() {
-    const dark = !this.dark
-    moduleTheme.CHANGE_THEME(dark)
+  public changeTheme(dark: boolean = !this.dark) {
+    this.$vuetify.theme.dark = dark
+    localStorage.setItem('THEME', dark.toString())
   }
 }
 </script>

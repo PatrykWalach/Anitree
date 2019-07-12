@@ -1,6 +1,7 @@
 import { Location } from 'vue-router'
 import Vue from 'vue'
-export interface HTMLElementEvent<T extends HTMLElement> extends Event {
+export interface HTMLElementEvent<T extends HTMLElement = HTMLElement>
+  extends Event {
   target: T
   currentTarget: T
 }
@@ -8,6 +9,28 @@ export interface Token {
   access_token: string
   token_type: string
   expires_in: string
+}
+export type ScoreFormat =
+  | 'POINT_100'
+  | 'POINT_10_DECIMAL'
+  | 'POINT_10'
+  | 'POINT_5'
+  | 'POINT_3'
+
+export interface MediaListTypeOptions {
+  customLists: string[]
+  advancedScoring: string[]
+  advancedScoringEnabled: boolean
+}
+export interface User {
+  options: {
+    profileColor: string
+  }
+  mediaListOptions: {
+    scoreFormat: ScoreFormat
+    animeList: MediaListTypeOptions
+    mangaList: MediaListTypeOptions
+  }
 }
 
 export interface FetchVariables {
@@ -65,9 +88,58 @@ export interface CoverImage {
   medium: string
   color: string | null
 }
+export type RecursivePartial<T> = {
+  [P in keyof T]?: T[P] extends (infer U)[]
+    ? RecursivePartial<U>[]
+    : T[P] extends object
+    ? RecursivePartial<T[P]>
+    : T[P]
+}
+
 export interface StudioNode {
   id: number
   name: string
+}
+export interface MediaList {
+  id: number
+  status: MediaListStatus
+  score: number
+  progress: number | null
+  progressVolumes: number | null
+  startedAt: MediaDate
+  completedAt: MediaDate
+  repeat: number
+  private: boolean
+  notes: string | null
+  advancedScores: {
+    [index: string]: number
+  }
+}
+export interface Form {
+  status: MediaListStatus | null
+  score: number
+  progress: number
+  progressVolumes: number
+  startedAt: MediaDate
+  completedAt: MediaDate
+  repeat: number
+  notes: string
+  advancedScores: number[]
+}
+
+export type MediaListStatus =
+  | 'CURRENT'
+  | 'PLANNING'
+  | 'COMPLETED'
+  | 'DROPPED'
+  | 'PAUSED'
+  | 'REPEATING'
+
+export interface MutationVariables extends Partial<Form> {
+  id?: number
+  mediaId: number
+  scoreRaw?: number
+  private?: boolean
 }
 export interface Media extends MediaNode {
   filtered?: boolean
@@ -77,6 +149,9 @@ export interface Media extends MediaNode {
   season: string | null
   seasonInt: number | null
   episodes: number | null
+  chapters: number | null
+  volumes: number | null
+  isFavourite: boolean
   title: {
     romaji: string
 
@@ -94,10 +169,8 @@ export interface Media extends MediaNode {
   studios: {
     nodes: StudioNode[]
   }
-  mediaListEntry: null | {
-    status: string
-  }
-  status: string | null
+  mediaListEntry: null | MediaList
+  status: MediaListStatus | null
   bannerImage: string | null
   coverImage: CoverImage
 }

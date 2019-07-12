@@ -3,20 +3,20 @@
     <v-flex>
       <v-timeline :dense="$vuetify.breakpoint.smAndDown">
         <home-item :i="0">
-          <template v-slot:title
-            >This app is under construction</template
-          >
+          <template v-slot:title>
+            This app is under construction
+          </template>
           Please visit
-          <router-link class="link primary--text" to="/roadmap" flat
-            >roadmap</router-link
-          >
+          <router-link class="link primary--text" to="/roadmap">
+            roadmap
+          </router-link>
           for more information
         </home-item>
 
         <home-item :i="1">
           <template v-slot:opposite>
-            <MediaCard v-if="random" :media="random"
-          /></template>
+            <MediaCard v-if="random" :media="random" />
+          </template>
           <template v-slot:title
             >Media Cards</template
           >Media cards display media title, type, status, related tags, main
