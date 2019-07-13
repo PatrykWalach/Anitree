@@ -108,6 +108,11 @@
             :label="key"
             v-bind="scoreValidatorsTransformations"
             :before-transform="[e => e.toString()]"
+            :validators="[
+              scoreFormat.round ? validFloat : validInteger,
+              validScore.bind(null, scoreFormat.max)
+            ]"
+            :transformations="[formatToNumber]"
             :after-transform="[
               parseFloat,
               e => {
