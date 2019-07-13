@@ -1,5 +1,5 @@
 <template>
-  <v-card-actions v-if="media.tags.length || media.studios.nodes.length" >
+  <v-card-actions v-if="media.tags.length || media.studios.nodes.length">
     <div :style="{ display: 'flex', 'flex-wrap': 'wrap' }">
       <base-color
         v-for="tag in tags"

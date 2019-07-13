@@ -5,12 +5,12 @@
         <MediaCardBanner :media="media" />
         <MediaCardItem :media="media" :hover="hover" />
 
+        <v-divider
+          v-if="media.tags.length || media.studios.nodes.length"
+        ></v-divider>
+        <MediaCardActions :media="media" />
 
-          <v-divider v-if="media.tags.length || media.studios.nodes.length"></v-divider>
-          <MediaCardActions :media="media" />
-
-
-        <MediaCardStatus  :media="media" />
+        <MediaCardStatus :media="media" />
       </v-card>
     </template>
   </v-hover>

@@ -47,7 +47,7 @@ export class ModuleAuth extends VuexModule {
     return { user }
   }
 }
-export const auth =  getModule(ModuleAuth)
+export const auth = getModule(ModuleAuth)
 export default auth
 
 auth.CHANGE_USER()

@@ -19,5 +19,5 @@ export class ModuleSubmit extends VuexModule {
   }
 }
 
-export const submit =getModule(ModuleSubmit)
+export const submit = getModule(ModuleSubmit)
 export default submit

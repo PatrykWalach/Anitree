@@ -5,22 +5,20 @@
         <v-overlay></v-overlay>
       </media-card-banner>
 
-         
-
       <MediaCardItem :media="media" />
 
       <v-divider></v-divider>
-      
+
       <!-- <MediaEditOverlay v-if="authorized" :media="media" /> -->
-      <MediaEditForm v-if="authorized"  v-bind="{media,user}"/>
+      <MediaEditForm v-if="authorized" v-bind="{ media, user }" />
       <v-card-text v-else>
         <v-subheader>
           Please log in:
         </v-subheader>
         <TheDrawerSettingsLogin />
       </v-card-text>
-          
-      <MediaEditActions  v-bind="{media,authorized}"/>
+
+      <MediaEditActions v-bind="{ media, authorized }" />
     </v-card>
   </v-dialog>
 </template>
@@ -36,7 +34,6 @@ import { Media } from '../types'
 
 const TheDrawerSettingsLogin = () => import('./TheDrawerSettingsLogin.vue')
 const MediaEditForm = () => import('./MediaEditForm.vue')
-
 
 @Component({
   components: {

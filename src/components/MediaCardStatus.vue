@@ -1,7 +1,11 @@
 <template>
   <v-tooltip bottom>
     <template v-slot:activator="{ on }">
-      <v-toolbar v-if="media.mediaListEntry" :class="'v-card__status ' + color" v-on="on"></v-toolbar>
+      <v-toolbar
+        v-if="media.mediaListEntry"
+        :class="'v-card__status ' + color"
+        v-on="on"
+      ></v-toolbar>
     </template>
     <span>{{ (tip && (manga ? tip.manga : tip.text)) || '' }}</span>
   </v-tooltip>

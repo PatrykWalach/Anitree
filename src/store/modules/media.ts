@@ -355,5 +355,5 @@ export class ModuleMedia extends VuexModule {
     })
   }
 }
-export const media =getModule(ModuleMedia)
+export const media = getModule(ModuleMedia)
 export default media

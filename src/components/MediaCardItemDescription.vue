@@ -1,6 +1,6 @@
 <template>
   <v-list-item-subtitle
-  v-if="media.description" 
+    v-if="media.description"
     class="subheading text-capitalize"
     v-html="media.description"
   >

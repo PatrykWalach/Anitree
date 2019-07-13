@@ -29,5 +29,5 @@ export class ModuleTitle extends VuexModule {
   }
 }
 
-export const title =getModule(ModuleTitle)
+export const title = getModule(ModuleTitle)
 export default title

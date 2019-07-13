@@ -11,10 +11,7 @@
       }"
     >
       <MediaCardItemMenu :hover="hover" :media="media" />
-      <MediaCardItemSeason
-      
-        :media="media"
-      />
+      <MediaCardItemSeason :media="media" />
       <MediaCardItemTitle :media="media" />
       <MediaCardItemSubheading :media="media" />
       <MediaCardItemDescription :media="media" />
@@ -32,8 +29,6 @@ import MediaCardItemAvatar from './MediaCardItemAvatar.vue'
 import MediaCardItemMenu from './MediaCardItemMenu.vue'
 import MediaCardItemSeason from './MediaCardItemSeason.vue'
 import MediaCardItemDescription from './MediaCardItemDescription.vue'
-
-
 
 @Component({
   components: {

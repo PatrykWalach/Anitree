@@ -106,5 +106,5 @@ export class ModuleEdit extends VuexModule {
     return this.CHANGE_LOADING(false)
   }
 }
-export const edit =getModule(ModuleEdit)
+export const edit = getModule(ModuleEdit)
 export default edit

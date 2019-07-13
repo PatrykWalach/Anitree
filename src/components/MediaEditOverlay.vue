@@ -1,23 +1,21 @@
 <template>
-
-      <v-layout>
-        <!-- <media-edit-icon :value="media.isFavourite">
+  <v-layout>
+    <!-- <media-edit-icon :value="media.isFavourite">
           <template v-slot:alt>
             favorite
           </template>
           favorite_border
         </media-edit-icon> -->
-        <media-edit-icon
-          :value="form.private !== undefined ? form.private : private"
-          @change="changePrivate"
-        >
-          <template v-slot:alt>
-            visibility
-          </template>
-          visibility_off
-        </media-edit-icon>
-      </v-layout>
-
+    <media-edit-icon
+      :value="form.private !== undefined ? form.private : private"
+      @change="changePrivate"
+    >
+      <template v-slot:alt>
+        visibility
+      </template>
+      visibility_off
+    </media-edit-icon>
+  </v-layout>
 </template>
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
