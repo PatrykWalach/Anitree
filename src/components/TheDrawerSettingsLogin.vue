@@ -17,6 +17,6 @@ import { Vue, Component } from 'vue-property-decorator'
 
 @Component
 export default class TheDrawerSettingsLogin extends Vue {
-  public id = process.env.VUE_APP_ANILIST_ID
+  id = process.env.VUE_APP_ANILIST_ID
 }
 </script>

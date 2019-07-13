@@ -214,3 +214,20 @@ export function mutationSaveMediaEntryApollo(
     })
     .then(({ data }) => data && data.SaveMediaListEntry)
 }
+
+export function mutationDeleteMediaEntryApollo(variables: {
+  id: number
+}): Promise<{ deleted: boolean } | undefined> {
+  return apollo
+    .mutate<{ DeleteMediaListEntry: { deleted: boolean } }>({
+      mutation: gql`
+        mutation($id: Int) {
+          DeleteMediaListEntry(id: $id) {
+            deleted
+          }
+        }
+      `,
+      variables
+    })
+    .then(({ data }) => data && data.DeleteMediaListEntry)
+}

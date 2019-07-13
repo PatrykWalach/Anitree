@@ -330,7 +330,7 @@ export class ModuleMedia extends VuexModule {
   }
 
   @Action
-  public getMedia(id: number) {
+  public async getMedia(id: number) {
     return new Promise<Media>(async (resolve, reject) => {
       const storedMedia = this.media[id]
       if (storedMedia) {

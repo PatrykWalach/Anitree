@@ -5,7 +5,8 @@
     <TheDrawerSettingsTheme />
 
     <TheDrawerSettingsTitle />
-    <TheDrawerSettingsLogin v-if="!token" />
+    <TheDrawerSettingsLogin v-if="!authorized" />
+    <TheDrawerSettingsSubmit v-else />
   </v-list>
 </template>
 
@@ -17,17 +18,20 @@ import auth from '@/store/modules/auth'
 
 const TheDrawerSettingsLogin = () =>
   import('@/components/TheDrawerSettingsLogin.vue')
+const TheDrawerSettingsSubmit = () =>
+  import('@/components/TheDrawerSettingsSubmit.vue')
 
 @Component({
   components: {
     TheDrawerSettingsTheme,
     TheDrawerSettingsTitle,
-    TheDrawerSettingsLogin
+    TheDrawerSettingsLogin,
+    TheDrawerSettingsSubmit
   }
 })
 export default class TheDrawerSettings extends Vue {
-  get token() {
-    return auth.token
+  get authorized() {
+    return auth.authorized
   }
 }
 </script>

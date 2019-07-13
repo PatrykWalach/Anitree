@@ -28,9 +28,9 @@ import edit from './store/modules/edit'
   }
 })
 export default class App extends Vue {
-  public drawerValue: boolean = false
+  drawerValue: boolean = false
 
-  public toggleDrawer() {
+  toggleDrawer() {
     this.drawerValue = !this.drawerValue
   }
 

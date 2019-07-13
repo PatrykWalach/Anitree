@@ -13,7 +13,7 @@ import { Media } from '../types'
 @Component
 export default class MediaCardStatus extends Vue {
   @Prop({ required: true })
-  public readonly media!: Media
+  readonly media!: Media
 
   get manga() {
     return this.media.type === 'MANGA'
@@ -58,6 +58,6 @@ export default class MediaCardStatus extends Vue {
 <style lang="scss" scoped>
 .v-card__status {
   height: 3px;
-  grid-area: status;
+  min-width: 100%;
 }
 </style>

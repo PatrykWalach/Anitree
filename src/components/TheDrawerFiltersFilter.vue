@@ -30,7 +30,7 @@ import moduleMedia from '../store/modules/media'
 @Component
 export default class TheDrawerFiltersFilter extends Vue {
   @Prop({ required: true })
-  public readonly relationType!: string
+  readonly relationType!: string
 
   get type() {
     return !this.exclusive ? 'include' : 'exclude'
@@ -48,21 +48,21 @@ export default class TheDrawerFiltersFilter extends Vue {
     return (this.filter && this.filter.exclusive) || false
   }
 
-  public changeActive(active: boolean) {
+  changeActive(active: boolean) {
     this.CHANGE_FILTER({
       active
     })
   }
 
-  public changeExclusive(exclusive: boolean) {
+  changeExclusive(exclusive: boolean) {
     this.CHANGE_FILTER({ exclusive })
   }
 
-  public created() {
+  created() {
     this.CHANGE_FILTER()
   }
 
-  public CHANGE_FILTER({
+  CHANGE_FILTER({
     exclusive,
     active
   }: {

@@ -24,6 +24,6 @@ import { Media } from '../types'
 })
 export default class MediaTimeline extends Vue {
   @Prop({ required: true })
-  public readonly mediaList!: Media[]
+  readonly mediaList!: Media[]
 }
 </script>

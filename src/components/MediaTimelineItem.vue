@@ -29,7 +29,7 @@ import media from '../store/modules/media'
 })
 export default class MediaTimelineItem extends Vue {
   @Prop({ required: true })
-  public readonly mediaId!: number
+  readonly mediaId!: number
 
   get media() {
     return media.media[this.mediaId]

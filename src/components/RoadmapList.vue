@@ -27,10 +27,10 @@ import RoadmapListCard from './RoadmapListCard.vue'
 })
 export default class RoadmapList extends Vue {
   @Prop({ required: true })
-  public readonly list!: TrelloList
+  readonly list!: TrelloList
 
   @Prop({ required: true })
-  public readonly cards!: Cards
+  readonly cards!: Cards
 
   get color() {
     return `${

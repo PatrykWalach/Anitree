@@ -23,14 +23,14 @@ import media from '../store/modules/media'
 })
 export default class TheDrawer extends Vue {
   @Prop({ required: true })
-  public readonly value!: boolean
+  readonly value!: boolean
 
   get filters() {
     return media.relationTypes
   }
 
   @Emit()
-  public input(value: boolean) {
+  input(value: boolean) {
     return value
   }
 }

@@ -1,14 +1,13 @@
 <template>
-  <v-dialog persistent :value="isEdited" max-width="1080px">
-    <v-card>
-      <div :style="{ display: 'flex', 'flex-wrap': 'wrap' }">
-        <media-card-img :lazy="false" :media="media">
-          <MediaEditOverlay v-if="!loading" :media="media" />
-        </media-card-img>
-        <MediaCardItem :media="media" />
-      </div>
+  <v-dialog :value="isEdited" max-width="1080px" @update:returnValue="close">
+    <v-card :loading="loading">
+      <media-card-banner :media="media">
+        <MediaEditOverlay v-if="authorized" :media="media" />
+      </media-card-banner>
+      <MediaCardItem :media="media" />
+
       <v-divider></v-divider>
-      <MediaEditForm v-if="!loading" :media="media" :user="user" />
+      <MediaEditForm v-if="authorized" :media="media" :user="user" />
       <v-card-text v-else>
         <v-subheader>
           Please log in:
@@ -22,7 +21,7 @@
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
 
-import MediaCardImg from './MediaCardImg.vue'
+import MediaCardBanner from './MediaCardBanner.vue'
 import MediaCardItem from './MediaCardItem.vue'
 import edit from '../store/modules/edit'
 import MediaEditForm from './MediaEditForm.vue'
@@ -36,7 +35,7 @@ const MediaEditOverlay = () => import('./MediaEditOverlay.vue')
 
 @Component({
   components: {
-    MediaCardImg,
+    MediaCardBanner,
     MediaCardItem,
     MediaEditOverlay,
     MediaEditIcon,
@@ -49,20 +48,28 @@ export default class MediaEdit extends Vue {
   get isEdited() {
     return edit.isEdited
   }
+  get loading() {
+    return edit.loading
+  }
+
+  close() {
+    return edit.CHANGE_IS_EDITED(false)
+  }
 
   @Prop()
   media!: Media
-
-  loading: boolean = false
 
   get user() {
     return auth.user
   }
 
+  get authorized() {
+    return auth.authorized
+  }
+
   created() {
     if (!this.user) {
-      this.loading = true
-      auth.CHANGE_USER().then(() => (this.loading = false))
+      auth.CHANGE_USER()
     }
   }
 

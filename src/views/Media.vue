@@ -26,13 +26,9 @@ Component.registerHooks([
   }
 })
 export default class Media extends Vue {
-  public loading: boolean = false
+  loading: boolean = false
 
-  public async beforeRouteEnter(
-    to: Route,
-    from: Route,
-    next: NextBefore<Media>
-  ) {
+  async beforeRouteEnter(to: Route, from: Route, next: NextBefore<Media>) {
     const currentId = parseInt(to.params.mediaId, 10)
 
     moduleMedia
@@ -62,11 +58,11 @@ export default class Media extends Vue {
       .catch(() => next(false))
   }
 
-  public async beforeRouteLeave(to: Route, from: Route, next: Next) {
+  async beforeRouteLeave(to: Route, from: Route, next: Next) {
     await moduleMedia.CHANGE_CURRENT_ID({ currentId: null })
     next()
   }
-  public async beforeRouteUpdate(to: Route, from: Route, next: Next) {
+  async beforeRouteUpdate(to: Route, from: Route, next: Next) {
     const currentId = parseInt(to.params.mediaId, 10)
 
     moduleMedia
@@ -98,7 +94,7 @@ export default class Media extends Vue {
       .catch(() => next(false))
   }
 
-  public async fetch(media: MediaT) {
+  async fetch(media: MediaT) {
     const { currentId } = this
     this.loading = true
     await moduleMedia.handleQueue([media])
@@ -109,7 +105,7 @@ export default class Media extends Vue {
   }
 
   @Watch('filters', { deep: true })
-  public async changeFilteredMedia() {
+  async changeFilteredMedia() {
     this.loading = true
     await moduleMedia.changeFilteredMedia()
     this.loading = false

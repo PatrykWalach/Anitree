@@ -47,7 +47,7 @@ export default class TheToolbar extends Vue {
   search: boolean = false
 
   @Emit('toggle:drawer')
-  public toggleDrawer(e: Event) {
+  toggleDrawer(e: Event) {
     return e
   }
 }

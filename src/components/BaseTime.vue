@@ -13,10 +13,10 @@ import { MediaDate } from '../types'
 })
 export default class BaseTime extends Vue {
   @Prop({ required: true })
-  public readonly date!: MediaDate
+  readonly date!: MediaDate
 
   @Prop({ default: null })
-  public readonly sliceDate!: MediaDate | null
+  readonly sliceDate!: MediaDate | null
 
   get dateParts() {
     return this.formatToParts(this.date)
@@ -29,14 +29,14 @@ export default class BaseTime extends Vue {
     return this.formatToISO(this.date)
   }
 
-  public formatToISO(date: MediaDate) {
+  formatToISO(date: MediaDate) {
     if (this.isValidDate(date)) {
       return this.toDate(date).toISOString()
     }
     return ''
   }
 
-  public formatToParts(date: MediaDate | null) {
+  formatToParts(date: MediaDate | null) {
     if (this.isValidDate(date)) {
       const fmt = new Intl.DateTimeFormat('en', {
         year: 'numeric',
@@ -48,7 +48,7 @@ export default class BaseTime extends Vue {
     return []
   }
 
-  public toDate(date: MediaDate) {
+  toDate(date: MediaDate) {
     return new Date(
       date.year || 0,
       (date.month && date.month - 1) || 0,
@@ -56,7 +56,7 @@ export default class BaseTime extends Vue {
     )
   }
 
-  public isValidDate = (date: MediaDate | null) =>
+  isValidDate = (date: MediaDate | null) =>
     !!(date && (date.year || date.month || date.day))
 
   get sliced() {
@@ -72,7 +72,7 @@ export default class BaseTime extends Vue {
     return this.dateParts
   }
 
-  public reduce(
+  reduce(
     start: Intl.DateTimeFormatPart[],
     end: Intl.DateTimeFormatPart[]
   ): Intl.DateTimeFormatPart[] {
@@ -83,7 +83,7 @@ export default class BaseTime extends Vue {
     return end
   }
 
-  public reduceReverse(
+  reduceReverse(
     start: Intl.DateTimeFormatPart[],
     end: Intl.DateTimeFormatPart[]
   ): Intl.DateTimeFormatPart[] {
@@ -94,10 +94,7 @@ export default class BaseTime extends Vue {
     return start
   }
 
-  public partsAreEqual(
-    start: Intl.DateTimeFormatPart,
-    end: Intl.DateTimeFormatPart
-  ) {
+  partsAreEqual(start: Intl.DateTimeFormatPart, end: Intl.DateTimeFormatPart) {
     return end && start && end.type === start.type && end.value === start.value
   }
 }

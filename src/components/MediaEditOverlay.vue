@@ -51,10 +51,10 @@ export default class MediaEditOverlay extends Vue {
       (this.media.mediaListEntry && this.media.mediaListEntry.private) || false
     )
   }
-  //   public submit() {
+  //    submit() {
   //     this.close()
   //   }
-  //   public close() {
+  //    close() {
   //     edit.CHANGE_IS_EDITED(false)
   //   }
 

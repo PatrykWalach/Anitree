@@ -23,7 +23,7 @@ const BaseTime = () => import('./BaseTime.vue')
 })
 export default class MediaCardTime extends Vue {
   @Prop({ required: true })
-  public readonly media!: Media
+  readonly media!: Media
 
   get isRange() {
     return this.startISO && this.endISO && this.startISO !== this.endISO
@@ -37,14 +37,14 @@ export default class MediaCardTime extends Vue {
     return this.formatToISO(this.media.endDate)
   }
 
-  public formatToISO(date: MediaDate) {
+  formatToISO(date: MediaDate) {
     if (this.isValidDate(date)) {
       return this.date(date).toISOString()
     }
     return ''
   }
 
-  public date(date: MediaDate) {
+  date(date: MediaDate) {
     return new Date(
       date.year || 0,
       (date.month && date.month - 1) || 0,
@@ -52,7 +52,6 @@ export default class MediaCardTime extends Vue {
     )
   }
 
-  public isValidDate = (date: MediaDate) =>
-    date.year !== null && date.month !== null
+  isValidDate = (date: MediaDate) => date.year !== null && date.month !== null
 }
 </script>

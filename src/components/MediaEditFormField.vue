@@ -5,7 +5,7 @@
       :value="input"
       v-bind="$attrs"
       filled
-      outlined
+      rounded
       @change="changeInput"
     >
     </component>
@@ -24,32 +24,29 @@ const BaseDateField = () => import('./BaseDateField.vue')
 })
 export default class MediaEditFormField extends Vue {
   @Prop({ default: 'v-text-field' })
-  public readonly tag!: string
+  readonly tag!: string
 
   @Prop({ default: '' })
-  public readonly value!: any
+  readonly value!: any
 
   @Prop({ default: false })
-  public readonly full!: boolean
+  readonly full!: boolean
 
   @Prop({ default: () => [] })
-  public readonly validators!: ((v: string) => boolean)[]
+  readonly validators!: ((v: string) => boolean)[]
 
   @Prop({ default: () => [] })
-  public readonly transformations!: ((v: string) => string)[]
+  readonly transformations!: ((v: string) => string)[]
 
   @Prop({ default: () => [] })
-  public readonly beforeTransform!: ((v: any) => string)[]
+  readonly beforeTransform!: ((v: any) => string)[]
 
   @Prop({ default: () => [] })
-  public readonly afterTransform!: [
-    ((v: string) => any),
-    ...((v: any) => any)[]
-  ]
+  readonly afterTransform!: [((v: string) => any), ...((v: any) => any)[]]
 
   input: string = ''
 
-  public transform(input: any, transformations: Function[]) {
+  transform(input: any, transformations: Function[]) {
     return transformations.reduce(
       (str, transformation) => transformation(str),
       input
@@ -63,7 +60,7 @@ export default class MediaEditFormField extends Vue {
     this.input = value
   }
 
-  public changeInput(newValue: string) {
+  changeInput(newValue: string) {
     const { afterTransform, transform, transformations } = this
     this.input = transform(newValue, transformations)
     if (this.isValid) {

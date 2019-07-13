@@ -9,13 +9,16 @@ import store from '@/store'
 import { Media as AMedia, MutationVariables } from '@/types'
 import media from './media'
 import { mergeDeep } from 'apollo-utilities'
-import { mutationSaveMediaEntryApollo } from '../api'
+import {
+  mutationSaveMediaEntryApollo,
+  mutationDeleteMediaEntryApollo
+} from '../api'
 
 @Module({ namespaced: true, name: 'edit', store, dynamic: true })
 export class ModuleEdit extends VuexModule {
   public mediaId: number | null = null
   public isEdited: boolean = false
-
+  public loading: boolean = false
   public form: Partial<MutationVariables> = {}
 
   public get media(): AMedia | null {
@@ -23,9 +26,19 @@ export class ModuleEdit extends VuexModule {
     return (mediaId !== null && media.media[mediaId]) || null
   }
 
+  public get id(): number | null {
+    const { media } = this
+    return (media && media.mediaListEntry && media.mediaListEntry.id) || null
+  }
+
   @MutationAction
   public async CHANGE_MEDIA_ID(mediaId: number | null) {
     return { mediaId }
+  }
+
+  @MutationAction
+  public async CHANGE_LOADING(loading: boolean) {
+    return { loading }
   }
 
   @MutationAction
@@ -45,7 +58,7 @@ export class ModuleEdit extends VuexModule {
 
   @Action
   public async open(mediaId: number) {
-    media.fetchMedia({ idIn: [mediaId] })
+    await media.getMedia(mediaId)
     await this.CHANGE_MEDIA_ID(mediaId)
     this.CHANGE_IS_EDITED(true)
   }
@@ -53,16 +66,37 @@ export class ModuleEdit extends VuexModule {
   @Action
   public async submit() {
     const { mediaId, form } = this
-    if (mediaId) {
+    this.CHANGE_LOADING(true)
+
+    if (mediaId !== null) {
       const mediaListEntry = await mutationSaveMediaEntryApollo({
         mediaId,
         ...form
       })
 
-      media.ADD_MEDIA(
+      await media.ADD_MEDIA(
         mergeDeep(await media.getMedia(mediaId), { mediaListEntry })
       )
     }
+    return this.CHANGE_LOADING(false)
+  }
+
+  @Action
+  public async remove() {
+    const { id, mediaId } = this
+    this.CHANGE_LOADING(true)
+    if (id !== null && mediaId !== null) {
+      const mutation = await mutationDeleteMediaEntryApollo({
+        id
+      })
+      if (mutation && mutation.deleted) {
+        await media.ADD_MEDIA(
+          mergeDeep(await media.getMedia(mediaId), { mediaListEntry: null })
+        )
+      }
+      return mutation
+    }
+    return this.CHANGE_LOADING(false)
   }
 }
 

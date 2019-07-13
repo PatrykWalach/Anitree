@@ -1,15 +1,20 @@
 <template>
   <v-list-item
-    :style="{ flex: 5 }"
+    :style="{ 'flex-wrap': 'wrap' }"
     :class="{ 'text-xs-left': true }"
     three-line
   >
-    <v-list-item-content :style="{ position: 'relative' }">
+    <MediaCardItemAvatar :media="media" />
+    <v-list-item-content
+      :style="{
+        'min-width': '100px'
+      }"
+    >
       <MediaCardItemSeason
         v-if="media.season || media.seasonInt"
         :media="media"
       />
-      <MediaCardItemTitle :media="media" />
+      <MediaCardItemTitle :hover="hover" :media="media" />
       <MediaCardItemSubheading :media="media" />
       <MediaCardItemDescription v-if="media.description" :media="media" />
     </v-list-item-content>
@@ -22,6 +27,7 @@ import { Media } from '../types'
 
 import MediaCardItemTitle from './MediaCardItemTitle.vue'
 import MediaCardItemSubheading from './MediaCardItemSubheading.vue'
+import MediaCardItemAvatar from './MediaCardItemAvatar.vue'
 
 const MediaCardItemSeason = () => import('./MediaCardItemSeason.vue')
 const MediaCardItemDescription = () => import('./MediaCardItemDescription.vue')
@@ -31,14 +37,17 @@ const MediaCardItemDescription = () => import('./MediaCardItemDescription.vue')
     MediaCardItemDescription,
     MediaCardItemTitle,
     MediaCardItemSubheading,
-    MediaCardItemSeason
+    MediaCardItemSeason,
+    MediaCardItemAvatar
   }
 })
 export default class MediaCardItem extends Vue {
   @Prop({ required: true })
-  public readonly media!: Media
+  readonly media!: Media
 
-  width = 100
+  @Prop({ default: true })
+  readonly hover!: boolean
+
   get banner() {
     return this.media.bannerImage && !this.$vuetify.breakpoint.smAndDown
   }

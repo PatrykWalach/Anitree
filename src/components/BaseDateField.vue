@@ -18,22 +18,23 @@
         readonly
         v-bind="$attrs"
         v-on="on"
+        @click:clear="clear"
       ></v-text-field>
     </template>
     <v-date-picker v-model="date" no-title scrollable>
       <v-spacer></v-spacer>
       <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
-      <v-btn text color="primary" @click="change">OK</v-btn>
+      <v-btn text color="primary" @click="save">OK</v-btn>
     </v-date-picker>
   </v-menu>
 </template>
 <script lang="ts">
-import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
+import { Vue, Component, Prop, Watch, Emit } from 'vue-property-decorator'
 
 @Component
 export default class BaseDateField extends Vue {
   @Prop()
-  public readonly value!: string
+  readonly value!: string
 
   date: string = ''
   menu: boolean = false
@@ -43,15 +44,24 @@ export default class BaseDateField extends Vue {
     this.date = value
   }
 
-  public change() {
+  save() {
     const { value, date } = this
 
     const save: Function = (this.$refs.menu as any).save
     save(date)
 
     if (date !== value) {
-      return this.$emit('change', date)
+      this.change(date)
     }
+  }
+
+  clear() {
+    this.change('')
+  }
+
+  @Emit()
+  change(date: string) {
+    return date
   }
 }
 </script>

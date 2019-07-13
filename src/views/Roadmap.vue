@@ -20,14 +20,14 @@ import { TrelloList, Cards, TrelloCard, TrelloChecklist } from '../types'
   components: { RoadmapList, BaseContainer }
 })
 export default class Roadmap extends Vue {
-  public loading: boolean = false
+  loading: boolean = false
 
-  public lists: {
+  lists: {
     list: TrelloList
     cards: Cards
   }[] = []
 
-  public async created() {
+  async created() {
     this.loading = true
     const [lists, cards, checklists]: [
       TrelloList[],
@@ -53,12 +53,12 @@ export default class Roadmap extends Vue {
     })
   }
 
-  public makeRequests() {
+  makeRequests() {
     const { getLists, getCards, getChecklists } = this
     return Promise.all([getLists(), getCards(), getChecklists()])
   }
 
-  public get(el: string) {
+  get(el: string) {
     const id = '5d06a49849ca095384351145'
     const key = process.env.VUE_APP_TRELLO_KEY
     const token = process.env.VUE_APP_TRELLO_TOKEN
@@ -69,15 +69,15 @@ export default class Roadmap extends Vue {
       .then(({ data }) => data)
   }
 
-  public getLists(): Promise<TrelloList[]> {
+  getLists(): Promise<TrelloList[]> {
     return this.get('lists')
   }
 
-  public getCards(): Promise<TrelloCard[]> {
+  getCards(): Promise<TrelloCard[]> {
     return this.get('cards')
   }
 
-  public getChecklists(): Promise<TrelloChecklist[]> {
+  getChecklists(): Promise<TrelloChecklist[]> {
     return this.get('checklists')
   }
 }

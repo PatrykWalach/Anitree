@@ -58,6 +58,7 @@
           tag="base-date-field"
           :before-transform="[dateToString]"
           :after-transform="[stringToDate, toObject.bind(null, 'startedAt')]"
+          clearable
           @input="changeForm"
         />
 
@@ -67,6 +68,7 @@
           tag="base-date-field"
           :before-transform="[dateToString]"
           :after-transform="[stringToDate, toObject.bind(null, 'completedAt')]"
+          clearable
           @input="changeForm"
         />
 
@@ -128,14 +130,20 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 import { MediaDate, Media, User, Form, MutationVariables } from '../types'
 import MediaEditFormField from './MediaEditFormField.vue'
 import edit from '../store/modules/edit'
+import submit from '../store/modules/submit'
 
 @Component({
   components: { MediaEditFormField }
 })
 export default class MediaEditForm extends Vue {
-  changeForm(value: Partial<Form>) {
+  async changeForm(value: Partial<Form>) {
     console.log(value)
-    edit.CHANGE_FORM(value)
+    await edit.CHANGE_FORM(value)
+    if (this.autoSubmit) edit.submit()
+  }
+
+  get autoSubmit() {
+    return submit.auto
   }
 
   statusItems: {
@@ -175,7 +183,7 @@ export default class MediaEditForm extends Vue {
     return mediaListOptions && mediaListOptions.advancedScoringEnabled
   }
 
-  public changeScore({ advancedScores }: { advancedScores: number[] }) {
+  changeScore({ advancedScores }: { advancedScores: number[] }) {
     const scores = advancedScores.filter(e => e)
     if (scores.length) {
       const { scoreFormat, formatToNumber, numberRound, changeForm } = this
@@ -198,10 +206,10 @@ export default class MediaEditForm extends Vue {
   }
 
   @Prop()
-  public readonly media!: Media
+  readonly media!: Media
 
   @Prop()
-  public readonly user!: User
+  readonly user!: User
 
   get listEntry() {
     return this.media && this.media.mediaListEntry
@@ -247,7 +255,7 @@ export default class MediaEditForm extends Vue {
     return edit.form
   }
 
-  public dateToString(date: MediaDate): string {
+  dateToString(date: MediaDate): string {
     if (date.year && date.month && date.day)
       return Object.entries(date)
         .filter(([key]) => key !== '__typename')
@@ -259,7 +267,7 @@ export default class MediaEditForm extends Vue {
     return ''
   }
 
-  public stringToDate(date: string): MediaDate {
+  stringToDate(date: string): MediaDate {
     const types = ['year', 'month', 'day']
     const values = date.split('-')
     return (Object.fromEntries(
@@ -267,36 +275,36 @@ export default class MediaEditForm extends Vue {
     ) as unknown) as MediaDate
   }
 
-  public min(n: number, m: string): string {
+  min(n: number, m: string): string {
     const value = parseInt(m)
     return value > n ? n.toString() : value.toString()
   }
 
-  public validFloat(input: string): boolean {
+  validFloat(input: string): boolean {
     return !!input.match(/^([0-9])+(\.([1-9])+)?$/)
   }
 
-  public validInteger(input: string): boolean {
+  validInteger(input: string): boolean {
     return !!input.match(/^([0-9])+$/)
   }
 
-  public formatToNumber(input: string): string {
+  formatToNumber(input: string): string {
     return parseFloat(input).toString()
   }
 
-  public numberRound(dec: number, input: string): string {
+  numberRound(dec: number, input: string): string {
     const value = parseFloat(input)
     if (dec && value)
       return (Math.floor(value * 10 ** dec) / 10 ** dec).toString()
     return parseInt(input).toString()
   }
 
-  public validScore(max: number, input: string) {
+  validScore(max: number, input: string) {
     const value = parseInt(input)
     return value >= 0 && value <= max
   }
 
-  public toObject(key: string, value: any) {
+  toObject(key: string, value: any) {
     return Object.fromEntries([[key, value]])
   }
 

@@ -1,24 +1,41 @@
 <template>
   <v-card-actions>
+    <div class="caption">
+      {{ caption }}
+    </div>
     <v-spacer></v-spacer>
-    <v-btn color="blue darken-1" text @click="close">Close</v-btn>
-    <v-btn color="blue darken-1" text @click="submit">Save</v-btn>
+    <v-btn color="error" text @click="remove">Delete</v-btn>
+    <v-btn color="primary" text @click="submit">Save</v-btn>
   </v-card-actions>
 </template>
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
-
+import MediaEditIcon from './MediaEditIcon.vue'
 import edit from '../store/modules/edit'
+import submit from '../store/modules/submit'
 
-@Component
-export default class MediaEditActions extends Vue {
-  public async submit() {
-    await edit.submit()
-    this.close()
+@Component({
+  components: {
+    MediaEditIcon
   }
-  public close() {
+})
+export default class MediaEditActions extends Vue {
+  async submit() {
+    await edit.submit()
     edit.CHANGE_IS_EDITED(false)
-    edit.RESET_FORM()
+  }
+
+  async remove() {
+    await edit.remove()
+    edit.CHANGE_IS_EDITED(false)
+  }
+
+  get caption() {
+    return 'autoupdates are ' + (this.autoSubmit ? 'enabled' : 'disabled')
+  }
+
+  get autoSubmit() {
+    return submit.auto
   }
 }
 </script>

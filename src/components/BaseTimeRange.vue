@@ -17,10 +17,10 @@ import { MediaDate } from '../types'
 })
 export default class BaseTimeRange extends Vue {
   @Prop({ required: true })
-  public readonly startDate!: MediaDate
+  readonly startDate!: MediaDate
   @Prop({ required: true })
-  public readonly endDate!: MediaDate
+  readonly endDate!: MediaDate
 
-  public divider: string = ' - '
+  divider: string = ' - '
 }
 </script>

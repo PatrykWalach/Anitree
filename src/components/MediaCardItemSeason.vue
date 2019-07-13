@@ -22,7 +22,7 @@ import { Media } from '../types'
 @Component
 export default class MediaCardItemSeason extends Vue {
   @Prop({ required: true })
-  public readonly media!: Media
+  readonly media!: Media
 
   get year() {
     const { seasonInt } = this.media

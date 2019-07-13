@@ -23,11 +23,17 @@
         <v-list-item-title>Anilist</v-list-item-title>
       </v-list-item>
 
-      <v-list-item v-if="authorized" @click="edit">
+      <v-list-item v-if="!isEdited && authorized" @click="edit">
         <v-list-item-icon>
           <v-icon>edit</v-icon>
         </v-list-item-icon>
         <v-list-item-title>Edit</v-list-item-title>
+      </v-list-item>
+      <v-list-item v-if="isEdited" @click="close">
+        <v-list-item-icon>
+          <v-icon>close</v-icon>
+        </v-list-item-icon>
+        <v-list-item-title>Close</v-list-item-title>
       </v-list-item>
     </v-list>
   </v-menu>
@@ -50,8 +56,16 @@ export default class MediaCardMenu extends Vue {
     return auth.authorized
   }
 
-  public edit() {
+  get isEdited() {
+    return edit.isEdited
+  }
+
+  edit() {
     edit.open(this.media.id)
+  }
+
+  close() {
+    edit.CHANGE_IS_EDITED(false)
   }
 }
 </script>

@@ -11,10 +11,10 @@ import { Vue, Component, Prop, Emit } from 'vue-property-decorator'
 @Component
 export default class MediaEditIcon extends Vue {
   @Prop({ required: true })
-  public readonly value!: boolean
+  readonly value!: boolean
 
   @Emit()
-  public change() {
+  change() {
     return !this.value
   }
 }

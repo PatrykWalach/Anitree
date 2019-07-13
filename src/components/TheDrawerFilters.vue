@@ -21,6 +21,6 @@ import TheDrawerFiltersFilter from './TheDrawerFiltersFilter.vue'
 })
 export default class TheDrawerFilters extends Vue {
   @Prop()
-  public readonly filters!: string[]
+  readonly filters!: string[]
 }
 </script>

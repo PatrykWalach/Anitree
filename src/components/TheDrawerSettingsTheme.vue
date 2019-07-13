@@ -27,7 +27,7 @@ export default class TheDrawerSettingsTheme extends Vue {
     this.changeTheme(this.dark)
   }
 
-  public changeTheme(dark: boolean = !this.dark) {
+  changeTheme(dark: boolean = !this.dark) {
     this.$vuetify.theme.dark = dark
     localStorage.setItem('THEME', dark.toString())
   }

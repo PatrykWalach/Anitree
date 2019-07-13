@@ -10,10 +10,10 @@ import { Prop, Component, Vue } from 'vue-property-decorator'
 @Component
 export default class BaseColor extends Vue {
   @Prop({ required: true })
-  public readonly color!: string | null
+  readonly color!: string | null
 
   @Prop({ default: 'span' })
-  public readonly tag!: string
+  readonly tag!: string
 
   get colors() {
     const { color } = this

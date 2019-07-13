@@ -39,7 +39,7 @@ export default class TheDrawerSettingsTitle extends Vue {
     return this.titles[this.prefered]
   }
 
-  public changePrefered() {
+  changePrefered() {
     const prefered = (this.prefered + 1) % this.titles.length
     return moduleTitle.CHANGE_PREFERED(prefered)
   }

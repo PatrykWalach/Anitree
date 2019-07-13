@@ -18,15 +18,15 @@ import media from '../store/modules/media'
   }
 })
 export default class Search extends Vue {
-  public media: Media[] = []
-  public loading: boolean = true
+  media: Media[] = []
+  loading: boolean = true
 
   get query() {
     return this.$route.query
   }
 
   @Watch('query', { immediate: true })
-  public async fetchMedia() {
+  async fetchMedia() {
     this.loading = true
     this.media = await media.fetchMedia({ ...this.query })
     this.loading = false

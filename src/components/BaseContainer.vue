@@ -18,6 +18,6 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 @Component
 export default class BaseContainer extends Vue {
   @Prop({ default: false })
-  public loading!: boolean
+  loading!: boolean
 }
 </script>

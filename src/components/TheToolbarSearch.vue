@@ -7,8 +7,8 @@
     <v-text-field
       v-model="search"
       autofocus
-      text
-      solo
+      filled
+      rounded
       hide-details
       name="search"
       label="Search"
@@ -21,13 +21,13 @@ import { Vue, Component } from 'vue-property-decorator'
 
 @Component
 export default class TheToolbarSearch extends Vue {
-  public search: string = ''
-  public valid: boolean = false
-  public rules: ((search: string) => string | true)[] = [
+  search: string = ''
+  valid: boolean = false
+  rules: ((search: string) => string | true)[] = [
     search => !!search.length || 'stop it'
   ]
 
-  public async submit() {
+  async submit() {
     if (this.valid) {
       this.$router.push({
         name: 'search',

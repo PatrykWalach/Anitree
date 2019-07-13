@@ -13,7 +13,7 @@ import { Media } from '../types'
 @Component
 export default class MediaCardItemDescription extends Vue {
   @Prop({ required: true })
-  public readonly media!: Media
+  readonly media!: Media
 
   get subheading() {
     const { format, status } = this.media
@@ -23,7 +23,7 @@ export default class MediaCardItemDescription extends Vue {
       .join(' · ')
   }
 
-  public clean(str: string | null) {
+  clean(str: string | null) {
     return (
       (str &&
         str

@@ -34,7 +34,8 @@ import { Media } from '../types'
 @Component({ components: { BaseColor } })
 export default class MediaCardActions extends Vue {
   @Prop({ required: true })
-  public readonly media!: Media
+  readonly media!: Media
+
   get tags() {
     return this.media.tags
       .filter(({ rank }) => rank >= this.medianRank)
