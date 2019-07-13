@@ -4,10 +4,10 @@
 
     <TheToolbar @toggle:drawer="toggleDrawer" />
     <v-content>
-      <keep-alive>
+      <keep-alive :max="10">
         <router-view />
       </keep-alive>
-      <MediaEdit v-if="media" :media="media" />
+      <MediaEdit :media="media" />
     </v-content>
     <TheFooter />
   </v-app>

@@ -7,7 +7,7 @@ import {
 import store from '@/store'
 
 import { Token, User } from '@/types'
-import { fetchViewerApollo } from '../api'
+import { apolloQueryViewer } from '../api'
 const stored = localStorage.getItem('AUTH')
 
 @Module({ namespaced: true, name: 'auth', store, dynamic: true })
@@ -43,11 +43,11 @@ export class ModuleAuth extends VuexModule {
 
   @MutationAction
   public async CHANGE_USER() {
-    const user = await fetchViewerApollo()
+    const user = await apolloQueryViewer()
     return { user }
   }
 }
+export const auth =  getModule(ModuleAuth)
+export default auth
 
-export default getModule(ModuleAuth)
-
-getModule(ModuleAuth).CHANGE_USER()
+auth.CHANGE_USER()

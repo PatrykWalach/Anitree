@@ -1,8 +1,13 @@
 import gql from 'graphql-tag'
-import { FetchVariables, User, MutationVariables, MediaList } from '../types'
+import {
+  FetchVariables,
+  User,
+  MutationVariables,
+  MediaList,
+  Page
+} from '@/types'
 
-import apollo from '../apollo'
-import { Media as AMedia } from '../types'
+import apollo from '@/apollo'
 
 export const viewerQuery = gql`
   {
@@ -91,6 +96,12 @@ export const query = gql`
     $sort: [MediaSort]
   ) {
     Page(page: $page, perPage: 50) {
+      pageInfo {
+        total
+        hasNextPage
+        lastPage
+        currentPage
+      }
       media(
         search: $search
         id_in: $idIn
@@ -187,16 +198,16 @@ export const query = gql`
   }
 `
 
-export function fetchMediaApollo(variables: FetchVariables): Promise<AMedia[]> {
+export function apolloQueryPage(variables: FetchVariables): Promise<Page> {
   return apollo
-    .query<{ Page: { media: AMedia[] } }>({
+    .query<{ Page: Page }>({
       query,
       variables
     })
-    .then(({ data }) => data.Page.media)
+    .then(({ data }) => data.Page)
 }
 
-export function fetchViewerApollo(): Promise<User> {
+export function apolloQueryViewer(): Promise<User> {
   return apollo
     .query<{ Viewer: User }>({
       query: viewerQuery
@@ -204,7 +215,7 @@ export function fetchViewerApollo(): Promise<User> {
     .then(({ data }) => data.Viewer)
 }
 
-export function mutationSaveMediaEntryApollo(
+export function apolloMutateSaveMediaListEntry(
   variables: MutationVariables
 ): Promise<MediaList | undefined> {
   return apollo
@@ -215,7 +226,7 @@ export function mutationSaveMediaEntryApollo(
     .then(({ data }) => data && data.SaveMediaListEntry)
 }
 
-export function mutationDeleteMediaEntryApollo(variables: {
+export function apolloMutateDeleteMediaListEntry(variables: {
   id: number
 }): Promise<{ deleted: boolean } | undefined> {
   return apollo

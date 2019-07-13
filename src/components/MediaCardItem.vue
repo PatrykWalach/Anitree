@@ -10,13 +10,14 @@
         'min-width': '100px'
       }"
     >
+      <MediaCardItemMenu :hover="hover" :media="media" />
       <MediaCardItemSeason
-        v-if="media.season || media.seasonInt"
+      
         :media="media"
       />
-      <MediaCardItemTitle :hover="hover" :media="media" />
+      <MediaCardItemTitle :media="media" />
       <MediaCardItemSubheading :media="media" />
-      <MediaCardItemDescription v-if="media.description" :media="media" />
+      <MediaCardItemDescription :media="media" />
     </v-list-item-content>
   </v-list-item>
 </template>
@@ -28,9 +29,11 @@ import { Media } from '../types'
 import MediaCardItemTitle from './MediaCardItemTitle.vue'
 import MediaCardItemSubheading from './MediaCardItemSubheading.vue'
 import MediaCardItemAvatar from './MediaCardItemAvatar.vue'
+import MediaCardItemMenu from './MediaCardItemMenu.vue'
+import MediaCardItemSeason from './MediaCardItemSeason.vue'
+import MediaCardItemDescription from './MediaCardItemDescription.vue'
 
-const MediaCardItemSeason = () => import('./MediaCardItemSeason.vue')
-const MediaCardItemDescription = () => import('./MediaCardItemDescription.vue')
+
 
 @Component({
   components: {
@@ -38,7 +41,8 @@ const MediaCardItemDescription = () => import('./MediaCardItemDescription.vue')
     MediaCardItemTitle,
     MediaCardItemSubheading,
     MediaCardItemSeason,
-    MediaCardItemAvatar
+    MediaCardItemAvatar,
+    MediaCardItemMenu
   }
 })
 export default class MediaCardItem extends Vue {

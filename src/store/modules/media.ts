@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { fetchMediaApollo } from '../api'
+import { apolloQueryPage } from '../api'
 import {
   Module,
   VuexModule,
@@ -17,7 +17,8 @@ import {
   Data,
   RawFilter,
   Filter,
-  FetchVariables
+  FetchVariables,
+  Page
 } from '@/types'
 
 function createVariables(
@@ -85,7 +86,7 @@ export class ModuleMedia extends VuexModule {
 
   public filters: Data<Filter> = {}
 
-  public filteredMedia: MediaEdgeExtended[] = []
+  // public filteredMedia: MediaEdgeExtended[] = []
 
   public get activeFilters() {
     return Object.values(this.filters).filter(({ active }) => active)
@@ -144,56 +145,56 @@ export class ModuleMedia extends VuexModule {
       )
   }
 
-  // get filteredMedia(): MediaEdgeExtended[] {
-  //   const getRelatedMedia = (
-  //     edges: MediaEdge[],
-  //     acc: MediaEdgeExtended[] = []
-  //   ): MediaEdgeExtended[] => {
-  //     const { exclusiveFilters, inclusiveFilters, media } = this
+  public get filteredMedia(): MediaEdgeExtended[] {
+    const getRelatedMedia = (
+      edges: MediaEdge[],
+      acc: MediaEdgeExtended[] = []
+    ): MediaEdgeExtended[] => {
+      const { exclusiveFilters, inclusiveFilters, media } = this
 
-  //     const newMedia = exclusiveFilters.reduce(
-  //       applyFilter,
-  //       edges
-  //         .map(({ relationType, node }) => {
-  //           return {
-  //             relationType,
-  //             node: media[node.id]
-  //           }
-  //         })
-  //         .filter(({ node }) => node)
-  //     )
+      const newMedia = exclusiveFilters.reduce(
+        applyFilter,
+        edges
+          .map(({ relationType, node }) => {
+            return {
+              relationType,
+              node: media[node.id]
+            }
+          })
+          .filter(({ node }) => node)
+      )
 
-  //     acc.push(...newMedia)
-  //     const accNodes = acc.map(({ node }) => node)
-  //     const relatedNodes = inclusiveFilters
-  //       .reduce(applyFilter, newMedia)
-  //       .map(({ node }) => node)
-  //       .flatMap(({ relations }) => relations.edges)
-  //       .filter(filterDuplicateEdges)
-  //       .filter(({ node }) => !accNodes.some(nodesAreEqual.bind(null, node)))
+      acc.push(...newMedia)
+      const accNodes = acc.map(({ node }) => node)
+      const relatedNodes = inclusiveFilters
+        .reduce(applyFilter, newMedia)
+        .map(({ node }) => node)
+        .flatMap(({ relations }) => relations.edges)
+        .filter(filterDuplicateEdges)
+        .filter(({ node }) => !accNodes.some(nodesAreEqual.bind(null, node)))
 
-  //     if (relatedNodes.length) {
-  //       return getRelatedMedia(relatedNodes, acc)
-  //     }
+      if (relatedNodes.length) {
+        return getRelatedMedia(relatedNodes, acc)
+      }
 
-  //     return acc
-  //   }
+      return acc
+    }
 
-  //   const { currentId } = this
+    const { currentId } = this
 
-  //   return currentId
-  //     ? getRelatedMedia([
-  //         {
-  //           node: {
-  //             id: currentId,
-  //             type: ''
-  //           },
-  //           relationType: '',
-  //           id: -1
-  //         }
-  //       ])
-  //     : []
-  // }
+    return currentId
+      ? getRelatedMedia([
+          {
+            node: {
+              id: currentId,
+              type: ''
+            },
+            relationType: '',
+            id: -1
+          }
+        ])
+      : []
+  }
 
   @Mutation
   public CHANGE_FILTER(filter: Filter): Filter {
@@ -221,24 +222,29 @@ export class ModuleMedia extends VuexModule {
     relationType,
     node
   }: MediaEdge): Promise<MediaEdgeExtended> {
-    // const { media } = this
     return Promise.resolve({
       relationType,
-      node: await this.getMedia(node.id) //media[node.id]
+      node: await this.getMedia(node.id)
     })
   }
 
   @Action
   public async fetchMedia(variables: FetchVariables): Promise<Media[]> {
+    return this.fetchMediaPage(variables).then(page => page.media)
+  }
+
+  @Action
+  public async fetchMediaPage(variables: FetchVariables): Promise<Page> {
     return new Promise(resolve =>
-      fetchMediaApollo(variables)
-        .then(newMedia => {
+      apolloQueryPage(variables)
+        .then(page => {
+          const newMedia = page.media
           newMedia.forEach(this.ADD_MEDIA)
-          return newMedia
+          return page
         })
         .then(resolve)
         .catch(() =>
-          setTimeout(() => this.fetchMedia(variables).then(resolve), 10000)
+          setTimeout(() => this.fetchMediaPage(variables).then(resolve), 10000)
         )
     )
   }
@@ -265,69 +271,69 @@ export class ModuleMedia extends VuexModule {
     })
   }
 
-  @Action
-  public async getFilteredMedia({
-    edges = [
-      {
-        node: {
-          id: this.currentId || -1,
-          type: ''
-        },
-        relationType: '',
-        id: -1
-      }
-    ],
-    acc = []
-  }: {
-    edges?: MediaEdge[]
-    acc?: MediaEdgeExtended[]
-  }): Promise<MediaEdgeExtended[]> {
-    return new Promise(async resolve => {
-      const {
-        exclusiveFilters,
-        inclusiveFilters
-        // ,media
-      } = this
+  // @Action
+  // public async getFilteredMedia({
+  //   edges = [
+  //     {
+  //       node: {
+  //         id: this.currentId || -1,
+  //         type: ''
+  //       },
+  //       relationType: '',
+  //       id: -1
+  //     }
+  //   ],
+  //   acc = []
+  // }: {
+  //   edges?: MediaEdge[]
+  //   acc?: MediaEdgeExtended[]
+  // }): Promise<MediaEdgeExtended[]> {
+  //   return new Promise(async resolve => {
+  //     const {
+  //       exclusiveFilters,
+  //       inclusiveFilters
+  //       // ,media
+  //     } = this
 
-      const newMedia = exclusiveFilters.reduce(
-        applyFilter,
-        await Promise.all(edges.map(this.extendMediaEdge))
-        // edges
-        //   .map(({ relationType, node }) => {
-        //     return {
-        //       relationType,
-        //       node: media[node.id]
-        //     }
-        //   })
-        //   .filter(({ node }) => node)
-      )
+  //     const newMedia = exclusiveFilters.reduce(
+  //       applyFilter,
+  //       await Promise.all(edges.map(this.extendMediaEdge))
+  //       // edges
+  //       //   .map(({ relationType, node }) => {
+  //       //     return {
+  //       //       relationType,
+  //       //       node: media[node.id]
+  //       //     }
+  //       //   })
+  //       //   .filter(({ node }) => node)
+  //     )
 
-      acc.push(...newMedia)
-      const accNodes = acc.map(({ node }) => node)
-      const relatedNodes = inclusiveFilters
-        .reduce(applyFilter, newMedia)
-        .map(({ node }) => node)
-        .flatMap(({ relations }) => relations.edges)
-        .filter(filterDuplicateEdges)
-        .filter(({ node }) => !accNodes.some(nodesAreEqual.bind(null, node)))
+  //     acc.push(...newMedia)
+  //     const accNodes = acc.map(({ node }) => node)
+  //     const relatedNodes = inclusiveFilters
+  //       .reduce(applyFilter, newMedia)
+  //       .map(({ node }) => node)
+  //       .flatMap(({ relations }) => relations.edges)
+  //       .filter(filterDuplicateEdges)
+  //       .filter(({ node }) => !accNodes.some(nodesAreEqual.bind(null, node)))
 
-      if (relatedNodes.length) {
-        this.getFilteredMedia({ edges: relatedNodes, acc }).then(resolve)
-      } else {
-        resolve(acc)
-      }
-    })
-  }
+  //     if (relatedNodes.length) {
+  //       this.getFilteredMedia({ edges: relatedNodes, acc }).then(resolve)
+  //     } else {
+  //       resolve(acc)
+  //     }
+  //   })
+  // }
 
-  @Mutation
-  public CHANGE_FILTERED_MEDIA(filteredMedia: MediaEdgeExtended[]) {
-    this.filteredMedia = filteredMedia
-  }
+  // @Mutation
+  // public CHANGE_FILTERED_MEDIA(filteredMedia: MediaEdgeExtended[]) {
+  //   this.filteredMedia = filteredMedia
+  // }
 
-  @Action({ commit: 'CHANGE_FILTERED_MEDIA' })
-  public async changeFilteredMedia() {
-    return await this.getFilteredMedia({})
-  }
+  // @Action({ commit: 'CHANGE_FILTERED_MEDIA' })
+  // public async changeFilteredMedia() {
+  //   return await this.getFilteredMedia({})
+  // }
 
   @Action
   public async getMedia(id: number) {
@@ -349,5 +355,5 @@ export class ModuleMedia extends VuexModule {
     })
   }
 }
-
-export default getModule(ModuleMedia)
+export const media =getModule(ModuleMedia)
+export default media

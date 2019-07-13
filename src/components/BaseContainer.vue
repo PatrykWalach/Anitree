@@ -1,6 +1,6 @@
 <template>
   <v-container fill-height>
-    <v-layout justify-center align-center>
+    <v-layout justify-center align-center wrap>
       <template v-if="!loading">
         <slot></slot>
       </template>

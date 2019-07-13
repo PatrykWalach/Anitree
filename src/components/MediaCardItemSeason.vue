@@ -1,5 +1,5 @@
 <template>
-  <div class="overline">
+  <div class="overline"   v-if="media.season || media.seasonInt">
     <router-link
       :to="{
         name: 'search',

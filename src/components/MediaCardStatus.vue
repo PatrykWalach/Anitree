@@ -1,7 +1,7 @@
 <template>
   <v-tooltip bottom>
     <template v-slot:activator="{ on }">
-      <v-toolbar :class="'v-card__status ' + color" v-on="on"></v-toolbar>
+      <v-toolbar v-if="media.mediaListEntry" :class="'v-card__status ' + color" v-on="on"></v-toolbar>
     </template>
     <span>{{ (tip && (manga ? tip.manga : tip.text)) || '' }}</span>
   </v-tooltip>
@@ -58,6 +58,5 @@ export default class MediaCardStatus extends Vue {
 <style lang="scss" scoped>
 .v-card__status {
   height: 3px;
-  min-width: 100%;
 }
 </style>

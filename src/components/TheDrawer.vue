@@ -3,6 +3,9 @@
     <!-- <TheDrawerSearch v-model="search" /> -->
     <TheDrawerFilters v-if="filters.length" :filters="filters" />
     <v-divider></v-divider>
+    <TheDrawerTitle />
+    <v-divider></v-divider>
+
     <TheDrawerSettings />
   </v-navigation-drawer>
 </template>
@@ -11,6 +14,7 @@
 import { Vue, Component, Prop, Emit } from 'vue-property-decorator'
 
 import TheDrawerSettings from './TheDrawerSettings.vue'
+import TheDrawerTitle from './TheDrawerTitle.vue'
 const TheDrawerFilters = () => import('./TheDrawerFilters.vue')
 
 import media from '../store/modules/media'
@@ -18,7 +22,8 @@ import media from '../store/modules/media'
 @Component({
   components: {
     TheDrawerSettings,
-    TheDrawerFilters
+    TheDrawerFilters,
+    TheDrawerTitle
   }
 })
 export default class TheDrawer extends Vue {

@@ -19,37 +19,26 @@
         </router-link>
       </template>
     </v-hover>
-
-    <MediaCardMenu :hover="hover" :media="media" />
   </h6>
-  <!-- <v-list-item-title class="headline mb-1">
-    {{ title }}
-  </v-list-item-title> -->
 </template>
 
 <script lang="ts">
 import { Prop, Component, Vue } from 'vue-property-decorator'
 import { Media } from '../types'
 
-import moduleTitle from '../store/modules/title'
-import MediaCardMenu from './MediaCardMenu.vue'
-@Component({
-  components: {
-    MediaCardMenu
-  }
-})
+import title from '../store/modules/title'
+@Component
 export default class MediaCardItemTitle extends Vue {
   @Prop({ required: true })
   readonly media!: Media
 
-  @Prop({ default: true })
-  readonly hover!: boolean
-
   get preferedTitle() {
-    return moduleTitle.preferedTitle
+    return title.preferedTitle
   }
+
   get title() {
-    return this.media.title[this.preferedTitle] || this.media.title.romaji
+    const { media, preferedTitle } = this
+    return media.title[preferedTitle] || media.title.romaji
   }
 }
 </script>

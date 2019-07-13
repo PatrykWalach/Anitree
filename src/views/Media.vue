@@ -62,6 +62,7 @@ export default class Media extends Vue {
     await moduleMedia.CHANGE_CURRENT_ID({ currentId: null })
     next()
   }
+
   async beforeRouteUpdate(to: Route, from: Route, next: Next) {
     const currentId = parseInt(to.params.mediaId, 10)
 
@@ -99,21 +100,21 @@ export default class Media extends Vue {
     this.loading = true
     await moduleMedia.handleQueue([media])
     await moduleMedia.CHANGE_CURRENT_ID({ currentId })
-    await moduleMedia.changeFilteredMedia()
+    // await moduleMedia.changeFilteredMedia()
 
     this.loading = false
   }
 
-  @Watch('filters', { deep: true })
-  async changeFilteredMedia() {
-    this.loading = true
-    await moduleMedia.changeFilteredMedia()
-    this.loading = false
-  }
+  // @Watch('filters', { deep: true })
+  // async changeFilteredMedia() {
+  //   this.loading = true
+  // await moduleMedia.changeFilteredMedia()
+  //   this.loading = false
+  // }
 
-  get filters() {
-    return moduleMedia.activeFilters
-  }
+  // get filters() {
+  //   return moduleMedia.activeFilters
+  // }
 
   get mediaList() {
     return moduleMedia.sortedMedia

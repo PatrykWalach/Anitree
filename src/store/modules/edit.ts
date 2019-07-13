@@ -10,9 +10,10 @@ import { Media as AMedia, MutationVariables } from '@/types'
 import media from './media'
 import { mergeDeep } from 'apollo-utilities'
 import {
-  mutationSaveMediaEntryApollo,
-  mutationDeleteMediaEntryApollo
+  apolloMutateSaveMediaListEntry,
+  apolloMutateDeleteMediaListEntry
 } from '../api'
+import submit from './submit'
 
 @Module({ namespaced: true, name: 'edit', store, dynamic: true })
 export class ModuleEdit extends VuexModule {
@@ -51,6 +52,12 @@ export class ModuleEdit extends VuexModule {
     return { form: mergeDeep(this.form, form) }
   }
 
+  @Action
+  public async changeForm(form: Partial<MutationVariables>) {
+    await this.CHANGE_FORM(form)
+    if (submit.auto) this.submit()
+  }
+
   @MutationAction
   public async RESET_FORM() {
     return { form: {} }
@@ -69,7 +76,7 @@ export class ModuleEdit extends VuexModule {
     this.CHANGE_LOADING(true)
 
     if (mediaId !== null) {
-      const mediaListEntry = await mutationSaveMediaEntryApollo({
+      const mediaListEntry = await apolloMutateSaveMediaListEntry({
         mediaId,
         ...form
       })
@@ -86,7 +93,7 @@ export class ModuleEdit extends VuexModule {
     const { id, mediaId } = this
     this.CHANGE_LOADING(true)
     if (id !== null && mediaId !== null) {
-      const mutation = await mutationDeleteMediaEntryApollo({
+      const mutation = await apolloMutateDeleteMediaListEntry({
         id
       })
       if (mutation && mutation.deleted) {
@@ -99,5 +106,5 @@ export class ModuleEdit extends VuexModule {
     return this.CHANGE_LOADING(false)
   }
 }
-
-export default getModule(ModuleEdit)
+export const edit =getModule(ModuleEdit)
+export default edit

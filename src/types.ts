@@ -134,7 +134,16 @@ export type MediaListStatus =
   | 'DROPPED'
   | 'PAUSED'
   | 'REPEATING'
-
+export interface PageInfo {
+  total: number
+  hasNextPage: boolean
+  lastPage: number
+  currentPage: number
+}
+export interface Page {
+  pageInfo: PageInfo
+  media: Media[]
+}
 export interface MutationVariables extends Partial<Form> {
   id?: number
   mediaId: number

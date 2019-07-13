@@ -13,7 +13,6 @@
           :after-transform="[toObject.bind(null, 'status')]"
           @input="changeForm"
         />
-
         <MediaEditFormField
           :value="store.score || stored.score"
           label="Score"
@@ -130,20 +129,14 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 import { MediaDate, Media, User, Form, MutationVariables } from '../types'
 import MediaEditFormField from './MediaEditFormField.vue'
 import edit from '../store/modules/edit'
-import submit from '../store/modules/submit'
 
 @Component({
   components: { MediaEditFormField }
 })
 export default class MediaEditForm extends Vue {
   async changeForm(value: Partial<Form>) {
-    console.log(value)
-    await edit.CHANGE_FORM(value)
-    if (this.autoSubmit) edit.submit()
-  }
-
-  get autoSubmit() {
-    return submit.auto
+    // console.log(value)
+    edit.changeForm(value)
   }
 
   statusItems: {

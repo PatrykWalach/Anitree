@@ -1,6 +1,6 @@
 <template>
-  <v-flex>
-    <v-timeline :dense="$vuetify.breakpoint.xsOnly">
+  <v-flex xs12>
+    <v-timeline :dense="$vuetify.breakpoint.smAndDown">
       <MediaTimelineItem
         v-for="media in mediaList"
         :key="media.id"

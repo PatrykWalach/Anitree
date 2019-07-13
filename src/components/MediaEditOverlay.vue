@@ -1,6 +1,5 @@
 <template>
-  <v-overlay absolute>
-    <v-container>
+
       <v-layout>
         <!-- <media-edit-icon :value="media.isFavourite">
           <template v-slot:alt>
@@ -18,8 +17,7 @@
           visibility_off
         </media-edit-icon>
       </v-layout>
-    </v-container></v-overlay
-  >
+
 </template>
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
@@ -36,7 +34,7 @@ const MediaEditIcon = () => import('./MediaEditIcon.vue')
 })
 export default class MediaEditOverlay extends Vue {
   changePrivate(value: boolean) {
-    edit.CHANGE_FORM({ private: value })
+    edit.changeForm({ private: value })
   }
 
   @Prop()

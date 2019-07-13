@@ -20,6 +20,7 @@ import submit from '../store/modules/submit'
   }
 })
 export default class MediaEditActions extends Vue {
+  
   async submit() {
     await edit.submit()
     edit.CHANGE_IS_EDITED(false)

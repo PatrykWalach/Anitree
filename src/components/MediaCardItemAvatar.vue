@@ -1,5 +1,5 @@
 <template>
-  <v-list-item-avatar tile size="80">
+  <v-list-item-avatar size="80" :style="{ 'align-self': 'center' }">
     <base-lazy-img
       :src="media.coverImage.extraLarge"
       :lazy-src="media.coverImage.small"

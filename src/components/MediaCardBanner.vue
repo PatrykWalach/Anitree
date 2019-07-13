@@ -4,7 +4,7 @@
     :src="media.bannerImage"
     v-bind="{ ...$attrs }"
     min-width="100%"
-    min-height="80px"
+    :aspect-ratio="500 / 150"
   >
     <slot></slot>
   </base-lazy-img>
