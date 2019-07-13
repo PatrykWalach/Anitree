@@ -9,16 +9,10 @@
         <slot name="opposite"></slot>
       </template>
       <v-card>
-        <v-list-item class="text-xs-left">
-          <v-list-item-content>
-            <v-list-item-title class="text-capitalize">
-              <h5 class="headline"><slot name="title"></slot></h5>
-            </v-list-item-title>
-            <v-list-item-subtitle class="subheading text-capitalize">
-              <slot></slot>
-            </v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
+        <v-card-title class="text-xs-left">
+          <slot name="title"> </slot>
+        </v-card-title>
+        <v-card-text><slot></slot></v-card-text>
       </v-card>
     </v-timeline-item>
     <v-timeline-item
