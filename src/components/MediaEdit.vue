@@ -2,14 +2,10 @@
   <v-dialog :value="isEdited" max-width="1080px" @update:returnValue="close">
     <v-card outlined :loading="loading">
       <media-card-banner :media="media">
-        <v-overlay></v-overlay>
+        <v-overlay absolute></v-overlay>
       </media-card-banner>
-
       <MediaCardItem :media="media" />
-
       <v-divider></v-divider>
-
-      <!-- <MediaEditOverlay v-if="authorized" :media="media" /> -->
       <MediaEditForm v-if="authorized" v-bind="{ media, user }" />
       <v-card-text v-else>
         <v-subheader>
@@ -69,7 +65,7 @@ export default class MediaEdit extends Vue {
 
   created() {
     if (!this.user) {
-      auth.CHANGE_USER()
+      auth.fetchUser()
     }
   }
 

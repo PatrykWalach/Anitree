@@ -2,7 +2,8 @@ import {
   Module,
   VuexModule,
   getModule,
-  MutationAction
+  MutationAction,
+  Action
 } from 'vuex-module-decorators'
 import store from '@/store'
 
@@ -42,12 +43,18 @@ export class ModuleAuth extends VuexModule {
   }
 
   @MutationAction
-  public async CHANGE_USER() {
-    const user = await apolloQueryViewer()
+  public async CHANGE_USER(user: User | null) {
     return { user }
+  }
+
+  @Action
+  public async fetchUser() {
+    if (this.token) {
+      await apolloQueryViewer().then(this.CHANGE_USER)
+    }
   }
 }
 export const auth = getModule(ModuleAuth)
 export default auth
 
-auth.CHANGE_USER()
+auth.fetchUser()

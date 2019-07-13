@@ -19,6 +19,7 @@ import TheFooter from './components/TheFooter.vue'
 import TheToolbar from './components/TheToolbar.vue'
 import MediaEdit from './components/MediaEdit.vue'
 import edit from './store/modules/edit'
+
 @Component({
   components: {
     TheFooter,
