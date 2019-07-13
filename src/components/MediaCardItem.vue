@@ -5,12 +5,12 @@
     three-line
   >
     <MediaCardItemAvatar :media="media" />
+    <MediaCardItemMenu :hover="hover" :media="media" />
     <v-list-item-content
       :style="{
         'min-width': '100px'
       }"
     >
-      <MediaCardItemMenu :hover="hover" :media="media" />
       <MediaCardItemSeason :media="media" />
       <MediaCardItemTitle :media="media" />
       <MediaCardItemSubheading :media="media" />
