@@ -2,7 +2,6 @@
   <v-tabs
     v-model="tab"
     vertical
-    fixed-tabs
     :slider-color="media.coverImage.color"
   >
     <v-tab href="#edit1">
