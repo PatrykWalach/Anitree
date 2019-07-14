@@ -17,10 +17,6 @@ import { Vue, Component } from 'vue-property-decorator'
 
 @Component
 export default class TheDrawerSettingsTheme extends Vue {
-  // get dark() {
-  //   return moduleTheme.dark
-  // }
-
   dark: boolean = localStorage.getItem('THEME') === 'true'
 
   created() {

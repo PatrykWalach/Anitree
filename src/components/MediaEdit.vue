@@ -29,7 +29,7 @@
         <TheDrawerSettingsLogin />
       </v-card-text> -->
 
-      <MediaEditActions v-bind="{ authorized }" />
+      <MediaEditActions v-bind="{ authorized, media }" />
     </v-card>
   </v-dialog>
 </template>

@@ -10,7 +10,7 @@
     </v-tooltip>
 
     <v-spacer></v-spacer>
-    <v-dialog v-model="confirmation">
+    <v-dialog v-model="confirmation" max-width="360">
       <template v-slot:activator="{ on }">
         <v-btn v-if="authorized" color="error" text v-on="on">Delete</v-btn>
       </template>
@@ -21,12 +21,12 @@
         >
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn @click="confirmation = false">Cancel</v-btn>
-          <v-btn color="primary" @click="remove">Ok</v-btn>
+          <v-btn color="error" text @click="confirmation = false">Cancel</v-btn>
+          <v-btn :color="media.coverImage.color" @click="remove">Ok</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-btn color="primary" @click="submit">Save</v-btn>
+    <v-btn :color="media.coverImage.color" @click="submit">Save</v-btn>
   </v-card-actions>
 </template>
 <script lang="ts">
@@ -44,6 +44,9 @@ export default class MediaEditActions extends Vue {
   @Prop()
   readonly authorized!: boolean
 
+  @Prop()
+  readonly media!: boolean
+
   confirmation: boolean = false
   async submit() {
     await edit.submit()
@@ -51,6 +54,7 @@ export default class MediaEditActions extends Vue {
   }
 
   async remove() {
+    this.confirmation = false
     await edit.remove()
     edit.CHANGE_IS_EDITED(false)
   }
