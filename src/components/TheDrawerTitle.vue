@@ -1,6 +1,6 @@
 <template>
   <v-list-item-group mandatory :value="prefered" @change="changePrefered">
-    <v-subheader>Prefered Title</v-subheader>
+    <v-subheader>Title Language</v-subheader>
     <v-list-item v-for="title in titles" :key="title" dense>
       <v-list-item-content>
         <v-list-item-title class="text-capitalize">{{
