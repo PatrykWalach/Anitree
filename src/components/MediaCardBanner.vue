@@ -2,7 +2,7 @@
   <base-lazy-img
     v-if="banner"
     :src="media.bannerImage"
-    v-bind="{ ...$attrs }"
+    v-bind="$attrs"
     min-width="100%"
     :aspect-ratio="500 / 150"
   >

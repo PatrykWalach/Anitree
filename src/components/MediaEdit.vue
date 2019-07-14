@@ -1,20 +1,35 @@
 <template>
-  <v-dialog :value="isEdited" max-width="1080px" @update:returnValue="close">
+  <v-dialog
+    scrollable
+    :value="isEdited"
+    max-width="720px"
+    @update:returnValue="close"
+  >
     <v-card outlined :loading="loading">
-      <media-card-banner :media="media">
-        <v-overlay absolute></v-overlay>
-      </media-card-banner>
-      <MediaCardItem :media="media" />
-      <v-divider></v-divider>
-      <MediaEditForm v-if="authorized" v-bind="{ media, user }" />
-      <v-card-text v-else>
+      <!-- <v-btn fab text absolute>
+        <v-icon>close</v-icon>
+      </v-btn> -->
+
+      <v-card-text class="pa-0">
+        <media-card-banner :media="media">
+          <v-overlay absolute></v-overlay>
+        </media-card-banner>
+        <!-- <v-card-title> -->
+        <MediaCardItem :media="media" />
+        <!-- </v-card-title> -->
+        <!-- <v-divider></v-divider> -->
+
+        <MediaEditForm v-if="authorized" v-bind="{ media, user }" />
+      </v-card-text>
+
+      <!-- <v-card-text v-else>
         <v-subheader>
           Please log in:
         </v-subheader>
         <TheDrawerSettingsLogin />
-      </v-card-text>
+      </v-card-text> -->
 
-      <MediaEditActions v-bind="{ media, authorized }" />
+      <MediaEditActions v-bind="{ authorized }" />
     </v-card>
   </v-dialog>
 </template>
@@ -41,6 +56,8 @@ const MediaEditForm = () => import('./MediaEditForm.vue')
   }
 })
 export default class MediaEdit extends Vue {
+  tab = 'tab1'
+
   get isEdited() {
     return edit.isEdited
   }

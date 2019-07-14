@@ -13,7 +13,6 @@
     <template v-slot:activator="{ on }">
       <v-text-field
         v-model="date"
-        label="Picker in menu"
         prepend-inner-icon="event"
         readonly
         v-bind="$attrs"
@@ -31,7 +30,9 @@
 <script lang="ts">
 import { Vue, Component, Prop, Watch, Emit } from 'vue-property-decorator'
 
-@Component
+@Component({
+  inheritAttrs: false
+})
 export default class BaseDateField extends Vue {
   @Prop()
   readonly value!: string

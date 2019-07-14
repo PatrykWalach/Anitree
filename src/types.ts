@@ -116,6 +116,7 @@ export interface MediaList {
   }
 }
 export interface Form {
+  [index: string]: any
   status: MediaListStatus | null
   score: number
   progress: number

@@ -27,7 +27,9 @@
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator'
 
-@Component
+@Component({
+  inheritAttrs: false
+})
 export default class HomeItem extends Vue {
   @Prop({ default: 0 })
   readonly i!: number

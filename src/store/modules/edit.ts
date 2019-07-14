@@ -6,7 +6,7 @@ import {
   Action
 } from 'vuex-module-decorators'
 import store from '@/store'
-import { Media as AMedia, MutationVariables } from '@/types'
+import { Media as AMedia, MutationVariables, Form } from '@/types'
 import media from './media'
 import { mergeDeep } from 'apollo-utilities'
 import {
@@ -14,6 +14,7 @@ import {
   apolloMutateDeleteMediaListEntry
 } from '../api'
 import submit from './submit'
+import auth from './auth'
 
 @Module({ namespaced: true, name: 'edit', store, dynamic: true })
 export class ModuleEdit extends VuexModule {
@@ -30,6 +31,64 @@ export class ModuleEdit extends VuexModule {
   public get id(): number | null {
     const { media } = this
     return (media && media.mediaListEntry && media.mediaListEntry.id) || null
+  }
+
+  public get manga() {
+    return (this.media && this.media.type === 'MANGA') || false
+  }
+
+  public get advancedScoring() {
+    const { mediaListOptions } = this
+    return (mediaListOptions && mediaListOptions.advancedScoring) || []
+  }
+
+  public get mediaListOptions() {
+    const { manga } = this
+    const user = auth.user
+    return (
+      user &&
+      (manga
+        ? user.mediaListOptions.mangaList
+        : user.mediaListOptions.animeList)
+    )
+  }
+
+  public get stored(): Form {
+    const { media } = this
+    if (media && media.mediaListEntry) {
+      const { mediaListEntry } = media
+
+      const advancedScores = this.advancedScoring
+        .map(key => mediaListEntry.advancedScores[key])
+        .map(value => value || 0)
+
+      return {
+        ...(Object.fromEntries(
+          Object.entries(mediaListEntry)
+            .filter(
+              ([key, value]) =>
+                value !== null &&
+                key !== '__typename' &&
+                key !== 'advancedScores'
+            )
+            .map(([key, value]) => [key, value || 0])
+        ) as Form),
+        advancedScores
+      }
+    }
+
+    const advancedScores = this.advancedScoring.map(() => 0)
+    return {
+      status: null,
+      notes: '',
+      score: 0,
+      progress: 0,
+      progressVolumes: 0,
+      repeat: 0,
+      startedAt: { day: null, year: null, month: null },
+      completedAt: { day: null, year: null, month: null },
+      advancedScores
+    }
   }
 
   @MutationAction
