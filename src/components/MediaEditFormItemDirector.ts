@@ -67,7 +67,7 @@ export class MediaEditFormItemDirector {
     builder.setSelects([
       {
         attrs: {
-          placeholder: 'status',
+          placeholder: 'Status',
           items: [
             { manga: 'Reading', text: 'Watching', value: 'CURRENT' },
             { manga: 'Plan to read', text: 'Plan to watch', value: 'PLANNING' },
@@ -86,62 +86,64 @@ export class MediaEditFormItemDirector {
       }
     ])
 
-    builder.setFields([
-      {
-        props: {
-          id: 'score',
-          afterTransform: [parseFloat]
+    builder.setFields(
+      [
+        {
+          props: {
+            id: 'score',
+            afterTransform: [parseFloat]
+          },
+          attrs: {
+            label: 'score',
+            validators: [
+              scoreFormat.round ? validFloat : validInteger,
+              validScore.bind(null, scoreFormat.max)
+            ],
+            transformations: [
+              formatToNumber,
+              numberRound.bind(null, scoreFormat.round)
+            ],
+            beforeTransform: [(e: any) => e.toString()]
+          }
         },
-        attrs: {
-          label: 'score',
-          validators: [
-            scoreFormat.round ? validFloat : validInteger,
-            validScore.bind(null, scoreFormat.max)
-          ],
-          transformations: [
-            formatToNumber,
-            numberRound.bind(null, scoreFormat.round)
-          ],
-          beforeTransform: [(e: any) => e.toString()]
-        }
-      },
-      {
-        props: {
-          id: 'progress',
+        {
+          props: {
+            id: 'progress',
 
-          afterTransform: [parseFloat]
+            afterTransform: [parseFloat]
+          },
+          attrs: {
+            beforeTransform: [(e: any) => e.toString()],
+            label: (manga ? 'Chapter' : 'Episode') + ' Progress',
+            validators: [validInteger],
+            transformations: [
+              formatToNumber,
+              numberRound.bind(null, 0),
+              min.bind(
+                null,
+                (manga ? media.chapters : media.episodes) || Infinity
+              )
+            ]
+          }
         },
-        attrs: {
-          beforeTransform: [(e: any) => e.toString()],
-          label: (manga ? 'Chapter' : 'Episode') + ' Progress',
-          validators: [validInteger],
-          transformations: [
-            formatToNumber,
-            numberRound.bind(null, 0),
-            min.bind(
-              null,
-              (manga ? media.chapters : media.episodes) || Infinity
-            )
-          ]
+        {
+          props: {
+            id: 'volumeProgress',
+            afterTransform: [parseFloat]
+          },
+          attrs: {
+            label: 'Volume Progress',
+            validators: [validInteger],
+            transformations: [
+              formatToNumber,
+              numberRound.bind(null, 0),
+              min.bind(null, media.volumes || Infinity)
+            ],
+            beforeTransform: [(e: any) => e.toString()]
+          }
         }
-      },
-      {
-        props: {
-          id: 'volumeProgress',
-          afterTransform: [parseFloat]
-        },
-        attrs: {
-          label: 'Volume Progress',
-          validators: [validInteger],
-          transformations: [
-            formatToNumber,
-            numberRound.bind(null, 0),
-            min.bind(null, media.volumes || Infinity)
-          ],
-          beforeTransform: [(e: any) => e.toString()]
-        }
-      }
-    ])
+      ].splice(0, manga ? 2 : 1)
+    )
   }
 
   public edit2(builder: MediaEditFormItemBuilder, { manga }: Arguments) {
