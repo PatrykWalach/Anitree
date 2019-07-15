@@ -25,7 +25,8 @@ export class ModuleAuth extends VuexModule {
   }
 
   public get authorized() {
-    return !!this.token
+    const { token, user } = this
+    return !!(token && user)
   }
 
   @MutationAction
