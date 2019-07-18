@@ -6,28 +6,14 @@
     @update:returnValue="close"
   >
     <v-card outlined :loading="loading">
-      <!-- <v-btn fab text absolute>
-        <v-icon>close</v-icon>
-      </v-btn> -->
-
       <v-card-text class="pa-0">
         <media-card-banner :media="media">
           <v-overlay absolute></v-overlay>
         </media-card-banner>
-        <!-- <v-card-title> -->
         <MediaCardItem :media="media" />
-        <!-- </v-card-title> -->
-        <!-- <v-divider></v-divider> -->
 
         <MediaEditForm v-if="authorized" v-bind="{ media, user }" />
       </v-card-text>
-
-      <!-- <v-card-text v-else>
-        <v-subheader>
-          Please log in:
-        </v-subheader>
-        <TheDrawerSettingsLogin />
-      </v-card-text> -->
 
       <MediaEditActions v-bind="{ authorized, media }" />
     </v-card>

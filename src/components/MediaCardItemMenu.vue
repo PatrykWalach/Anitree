@@ -1,5 +1,8 @@
 <template>
-  <v-menu offset-y>
+  <component
+    :is="!$vuetify.breakpoint.xsOnly ? 'v-menu' : 'v-bottom-sheet'"
+    :offset-y="!$vuetify.breakpoint.xsOnly ? true : undefined"
+  >
     <template v-slot:activator="{ on, value }">
       <v-fab-transition>
         <v-btn
@@ -44,7 +47,7 @@
         <v-list-item-title>Close</v-list-item-title>
       </v-list-item>
     </v-list>
-  </v-menu>
+  </component>
 </template>
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
