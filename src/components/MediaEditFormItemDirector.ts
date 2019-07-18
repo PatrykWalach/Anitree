@@ -142,7 +142,7 @@ export class MediaEditFormItemDirector {
             beforeTransform: [(e: any) => e.toString()]
           }
         }
-      ].splice(0, manga ? 2 : 1)
+      ].splice(0, manga ? 3 : 2)
     )
   }
 

@@ -6,7 +6,12 @@ import {
   Action
 } from 'vuex-module-decorators'
 import store from '@/store'
-import { Media as AMedia, MutationVariables, Form } from '@/types'
+import {
+  Media as AMedia,
+  MutationVariables,
+  Form,
+  MediaListTypeOptions
+} from '@/types'
 import media from './media'
 import { mergeDeep } from 'apollo-utilities'
 import {
@@ -37,12 +42,12 @@ export class ModuleEdit extends VuexModule {
     return (this.media && this.media.type === 'MANGA') || false
   }
 
-  public get advancedScoring() {
+  public get advancedScoring(): string[] {
     const { mediaListOptions } = this
     return (mediaListOptions && mediaListOptions.advancedScoring) || []
   }
 
-  public get mediaListOptions() {
+  public get mediaListOptions(): MediaListTypeOptions | null {
     const { manga } = this
     const user = auth.user
     return (
