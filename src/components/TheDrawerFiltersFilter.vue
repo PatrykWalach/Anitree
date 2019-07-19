@@ -13,7 +13,7 @@
       }}</v-list-item-subtitle>
     </v-list-item-content>
     <v-list-item-action>
-      <v-checkbox :disabled="!active" v-model="exclusive"></v-checkbox>
+      <v-checkbox v-model="exclusive" :disabled="!active"></v-checkbox>
     </v-list-item-action>
   </v-list-item>
 </template>

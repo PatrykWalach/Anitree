@@ -59,7 +59,7 @@ export interface ItemData {
 }
 
 export class MediaEditFormItemDirector {
-  [index: string]: ((builder: MediaEditFormItemBuilder) => void) | ItemData
+  [index: string]: any
 
   public data: ItemData
 

@@ -1,7 +1,5 @@
 <template>
-  <v-list-item-group v-model="prefered" 
-  mandatory
-  >
+  <v-list-item-group v-model="prefered" mandatory>
     <v-subheader>Title Language</v-subheader>
     <v-list-item v-for="title in titles" :key="title" dense>
       <v-list-item-content>
