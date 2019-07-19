@@ -27,6 +27,7 @@ export class ModuleEdit extends VuexModule {
   public isEdited: boolean = false
   public loading: boolean = false
   public form: Partial<MutationVariables> = {}
+  public tab: string = 'edit1'
 
   public get media(): AMedia | null {
     const { mediaId } = this
@@ -99,6 +100,11 @@ export class ModuleEdit extends VuexModule {
   @MutationAction
   public async CHANGE_MEDIA_ID(mediaId: number | null) {
     return { mediaId }
+  }
+
+  @MutationAction
+  public async CHANGE_TAB(tab: string) {
+    return { tab }
   }
 
   @MutationAction

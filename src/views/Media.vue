@@ -6,7 +6,7 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
 const MediaTimeline = () =>
-  import(/* webpackPrefetch: true */ '../components/MediaTimeline.vue')
+  import(/* webpackPreload: true */ '../components/MediaTimeline.vue')
 
 import { Route } from 'vue-router'
 import moduleMedia from '../store/modules/media'

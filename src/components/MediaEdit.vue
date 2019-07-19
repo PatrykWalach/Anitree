@@ -1,9 +1,9 @@
 <template>
   <v-dialog
+    v-model="isEdited"
     scrollable
-    :value="isEdited"
+    :fullscreen="$vuetify.breakpoint.xsOnly"
     max-width="720px"
-    @update:returnValue="close"
   >
     <v-card outlined :loading="loading">
       <v-card-text class="pa-0">
@@ -42,17 +42,16 @@ const MediaEditForm = () => import('./MediaEditForm.vue')
   }
 })
 export default class MediaEdit extends Vue {
-  tab = 'tab1'
-
   get isEdited() {
     return edit.isEdited
   }
-  get loading() {
-    return edit.loading
+
+  set isEdited(isEdited) {
+    edit.CHANGE_IS_EDITED(isEdited)
   }
 
-  close() {
-    return edit.CHANGE_IS_EDITED(false)
+  get loading() {
+    return edit.loading
   }
 
   @Prop()
@@ -71,8 +70,5 @@ export default class MediaEdit extends Vue {
       auth.fetchUser()
     }
   }
-
-  // @Watch('isEdited')
-  // reset = edit.RESET_FORM
 }
 </script>

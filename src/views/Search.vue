@@ -1,11 +1,16 @@
 <template>
-  <base-container :loading="!media.length && loading">
-    <MediaTimeline :media-list="media" />
-    <v-pagination
-      :value="page"
-      :length="lastPage"
-      @input="changePage"
-    ></v-pagination>
+  <base-container :loading="loading">
+    <template v-if="!media.length">
+      No results found
+    </template>
+    <template v-else>
+      <MediaTimeline :media-list="media" />
+      <v-pagination
+        :value="page"
+        :length="lastPage"
+        @input="changePage"
+      ></v-pagination>
+    </template>
   </base-container>
 </template>
 <script lang="ts">

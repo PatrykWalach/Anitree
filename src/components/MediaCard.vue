@@ -35,9 +35,5 @@ import { Media } from '../types'
 export default class MediaCard extends Vue {
   @Prop({ required: true })
   readonly media!: Media
-
-  get banner() {
-    return this.media.bannerImage && !this.$vuetify.breakpoint.smAndDown
-  }
 }
 </script>

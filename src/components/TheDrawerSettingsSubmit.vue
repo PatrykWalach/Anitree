@@ -1,10 +1,10 @@
 <template>
   <v-list-item @click>
     <v-list-item-action>
-      <v-switch :input-value="auto" @change="changeSubmit"></v-switch>
+      <v-switch v-model="auto"></v-switch>
     </v-list-item-action>
 
-    <v-list-item-content @click="changeSubmit">
+    <v-list-item-content @click="auto = !auto">
       <v-list-item-title>Autosave</v-list-item-title>
       <v-list-item-subtitle>{{
         auto ? 'Changes are autosaved' : 'Changes are not autosaved'
@@ -22,7 +22,7 @@ export default class TheDrawerSettingsSubmit extends Vue {
     return submit.auto
   }
 
-  changeSubmit(auto: boolean) {
+  set auto(auto) {
     submit.CHANGE_AUTO(auto)
   }
 }

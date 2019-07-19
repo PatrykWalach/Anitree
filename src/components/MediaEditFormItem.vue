@@ -7,14 +7,14 @@ import { MediaEditFormItemDirector } from './MediaEditFormItemDirector'
 
 import { User } from '../types'
 import edit from '../store/modules/edit'
-import MediaEditFormItemField from './MediaEditFormItemField.vue'
+import BaseField from './BaseField.vue'
 import { Media } from '../types'
 
 import MediaEditFormItemWrap from './MediaEditFormItemWrap.vue'
 
 @Component({
   inheritAttrs: false,
-  components: { MediaEditFormItemField, MediaEditFormItemWrap }
+  components: { BaseField, MediaEditFormItemWrap }
 })
 export default class MediaEditFormItem extends Vue {
   @Prop() readonly method!: string
@@ -38,12 +38,37 @@ export default class MediaEditFormItem extends Vue {
     return edit.manga
   }
 
-  render(h: CreateElement) {
-    const director = new MediaEditFormItemDirector()
-    const builder = new MediaEditFormItemBuilder(h)
-    const { method, scoreFormat, manga, media, advancedScoring } = this
+  get form() {
+    return edit.form
+  }
 
-    director[method](builder, { scoreFormat, manga, media, advancedScoring })
+  get stored() {
+    return edit.stored
+  }
+
+  render(h: CreateElement) {
+    const {
+      method,
+      form,
+      stored,
+      scoreFormat,
+      manga,
+      media,
+      advancedScoring
+    } = this
+
+    const director = new MediaEditFormItemDirector({
+      form,
+      stored,
+      scoreFormat,
+      manga,
+      media,
+      advancedScoring
+    })
+
+    const builder = new MediaEditFormItemBuilder(h)
+
+    director[method](builder)
 
     return h(
       'MediaEditFormItemWrap',

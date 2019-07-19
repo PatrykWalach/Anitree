@@ -6,10 +6,7 @@
           </template>
           favorite_border
         </media-edit-icon> -->
-    <media-edit-icon
-      :value="form.private !== undefined ? form.private : private"
-      @change="changePrivate"
-    >
+    <media-edit-icon v-model="private">
       <template v-slot:alt>
         visibility
       </template>
@@ -31,10 +28,6 @@ const MediaEditIcon = () => import('./MediaEditIcon.vue')
   }
 })
 export default class MediaEditOverlay extends Vue {
-  changePrivate(value: boolean) {
-    edit.changeForm({ private: value })
-  }
-
   @Prop()
   media!: Media
 
@@ -43,31 +36,14 @@ export default class MediaEditOverlay extends Vue {
   }
 
   get private() {
-    return (
-      (this.media.mediaListEntry && this.media.mediaListEntry.private) || false
-    )
+    const { form, media } = this
+    return form.private !== undefined
+      ? form.private
+      : (media.mediaListEntry && media.mediaListEntry.private) || false
   }
-  //    submit() {
-  //     this.close()
-  //   }
-  //    close() {
-  //     edit.CHANGE_IS_EDITED(false)
-  //   }
 
-  //   loading: boolean = false
-
-  //   get user() {
-  //     return auth.user
-  //   }
-
-  //   created() {
-  //     if (!this.user) {
-  //       this.loading = true
-  //       auth.CHANGE_USER().then(() => (this.loading = false))
-  //     }
-  //   }
-
-  //   @Watch('isEdited')
-  //   reset = edit.RESET_FORM
+  set private(value) {
+    edit.changeForm({ private: value })
+  }
 }
 </script>

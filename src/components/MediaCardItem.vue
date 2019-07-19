@@ -46,9 +46,5 @@ export default class MediaCardItem extends Vue {
 
   @Prop({ default: true })
   readonly hover!: boolean
-
-  get banner() {
-    return this.media.bannerImage && !this.$vuetify.breakpoint.smAndDown
-  }
 }
 </script>

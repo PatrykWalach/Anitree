@@ -1,6 +1,5 @@
 <template>
   <v-navigation-drawer :value="value" app @input="input">
-    <!-- <TheDrawerSearch v-model="search" /> -->
     <TheDrawerFilters v-if="filters.length" :filters="filters" />
     <v-divider></v-divider>
     <TheDrawerTitle />

@@ -1,17 +1,20 @@
 import { MediaEditFormItemBuilder } from './MediaEditFormItemBuilder'
-import { Media, MediaDate } from '@/types'
+import { Media, MediaDate, MutationVariables, Form } from '@/types'
+import edit from '@/store/modules/edit'
 
-const validFloat = (input: string): boolean =>
+export const validFloat = (input: string): boolean =>
   !!input.match(/^([0-9])+(\.([1-9])+)?$/)
 
-const validInteger = (input: string): boolean => !!input.match(/^([0-9])+$/)
-const validScore = (max: number, input: string) => {
+export const validInteger = (input: string): boolean =>
+  !!input.match(/^([0-9])+$/)
+export const validScore = (max: number, input: string) => {
   const value = parseInt(input)
   return value >= 0 && value <= max
 }
 
-const formatToNumber = (input: string): string => parseFloat(input).toString()
-const dateToString = (date: MediaDate): string => {
+export const formatToNumber = (input: string): string =>
+  parseFloat(input).toString()
+export const dateToString = (date: MediaDate): string => {
   if (date.year && date.month && date.day)
     return Object.entries(date)
       .filter(([key]) => key !== '__typename')
@@ -23,7 +26,7 @@ const dateToString = (date: MediaDate): string => {
   return ''
 }
 
-const stringToDate = (date: string): MediaDate => {
+export const stringToDate = (date: string): MediaDate => {
   const types = ['year', 'month', 'day']
   const values = date.split('-')
   return (Object.fromEntries(
@@ -31,39 +34,41 @@ const stringToDate = (date: string): MediaDate => {
   ) as unknown) as MediaDate
 }
 
-const numberRound = (dec: number, input: string): string => {
+export const numberRound = (dec: number, input: string): string => {
   const value = parseFloat(input)
   if (dec && value)
-    return (Math.floor(value * 10 ** dec) / 10 ** dec).toString()
+    return (Math.round(value * 10 ** dec) / 10 ** dec).toString()
   return parseInt(input).toString()
 }
-const min = (n: number, m: string): string => {
+export const min = (n: number, m: string): string => {
   const value = parseInt(m)
   return value > n ? n.toString() : value.toString()
 }
-interface ScoreFormat {
-  round: number
-  max: number
-}
 
-interface ScoreFormat {
+export interface ScoreFormat {
   round: number
   max: number
 }
-interface Arguments {
+export interface ItemData {
   scoreFormat: ScoreFormat
   manga: boolean
   media: Media
   advancedScoring: string[]
+  form: Partial<MutationVariables>
+  stored: Form
 }
 
 export class MediaEditFormItemDirector {
-  [index: string]: (builder: MediaEditFormItemBuilder, arg: Arguments) => void
+  [index: string]: ((builder: MediaEditFormItemBuilder) => void) | ItemData
 
-  public edit1(
-    builder: MediaEditFormItemBuilder,
-    { scoreFormat, manga, media }: Arguments
-  ) {
+  public data: ItemData
+
+  public constructor(data: ItemData) {
+    this.data = data
+  }
+
+  public edit1(builder: MediaEditFormItemBuilder) {
+    const { scoreFormat, manga, media, form, stored } = this.data
     builder.setSelects([
       {
         attrs: {
@@ -81,7 +86,11 @@ export class MediaEditFormItemDirector {
           label: 'Status'
         },
         props: {
-          id: 'status'
+          value: form.status || stored.status,
+          afterTransform: [
+            (e: string) => Object.fromEntries([['status', e]]),
+            edit.changeForm as (v: any) => any
+          ]
         }
       }
     ])
@@ -90,11 +99,12 @@ export class MediaEditFormItemDirector {
       [
         {
           props: {
-            id: 'score',
-            afterTransform: [parseFloat]
-          },
-          attrs: {
-            label: 'score',
+            value: form.score || stored.score,
+            afterTransform: [
+              parseFloat,
+              (e: string) => Object.fromEntries([['score', e]]),
+              edit.changeForm as (v: any) => any
+            ],
             validators: [
               scoreFormat.round ? validFloat : validInteger,
               validScore.bind(null, scoreFormat.max)
@@ -104,17 +114,21 @@ export class MediaEditFormItemDirector {
               numberRound.bind(null, scoreFormat.round)
             ],
             beforeTransform: [(e: any) => e.toString()]
+          },
+          attrs: {
+            label: 'Score'
           }
         },
         {
           props: {
-            id: 'progress',
+            value: form.progress || stored.progress,
+            afterTransform: [
+              parseFloat,
 
-            afterTransform: [parseFloat]
-          },
-          attrs: {
+              (e: string) => Object.fromEntries([['progress', e]]),
+              edit.changeForm as (v: any) => any
+            ],
             beforeTransform: [(e: any) => e.toString()],
-            label: (manga ? 'Chapter' : 'Episode') + ' Progress',
             validators: [validInteger],
             transformations: [
               formatToNumber,
@@ -124,15 +138,20 @@ export class MediaEditFormItemDirector {
                 (manga ? media.chapters : media.episodes) || Infinity
               )
             ]
+          },
+          attrs: {
+            label: (manga ? 'Chapter' : 'Episode') + ' Progress'
           }
         },
         {
           props: {
-            id: 'volumeProgress',
-            afterTransform: [parseFloat]
-          },
-          attrs: {
-            label: 'Volume Progress',
+            value: form.volumeProgress || stored.volumeProgress,
+            afterTransform: [
+              parseFloat,
+
+              (e: string) => Object.fromEntries([['volumeProgress', e]]),
+              edit.changeForm as (v: any) => any
+            ],
             validators: [validInteger],
             transformations: [
               formatToNumber,
@@ -140,33 +159,45 @@ export class MediaEditFormItemDirector {
               min.bind(null, media.volumes || Infinity)
             ],
             beforeTransform: [(e: any) => e.toString()]
+          },
+          attrs: {
+            label: 'Volume Progress'
           }
         }
       ].splice(0, manga ? 3 : 2)
     )
   }
 
-  public edit2(builder: MediaEditFormItemBuilder, { manga }: Arguments) {
+  public edit2(builder: MediaEditFormItemBuilder) {
+    const { manga, form, stored } = this.data
     builder.setDateFields([
       {
         props: {
-          id: 'startedAt',
-          afterTransform: [stringToDate]
+          value: form.startedAt || stored.startedAt,
+          afterTransform: [
+            stringToDate,
+            (e: string) => Object.fromEntries([['startedAt', e]]),
+            edit.changeForm as (v: any) => any
+          ],
+          beforeTransform: [dateToString]
         },
         attrs: {
           label: 'Start Date',
-          beforeTransform: [dateToString],
           clearable: true
         }
       },
       {
         props: {
-          id: 'completedAt',
-          afterTransform: [stringToDate]
+          value: form.completedAt || stored.completedAt,
+          afterTransform: [
+            stringToDate,
+            (e: string) => Object.fromEntries([['completedAt', e]]),
+            edit.changeForm as (v: any) => any
+          ],
+          beforeTransform: [dateToString]
         },
         attrs: {
           label: 'Finish Date',
-          beforeTransform: [dateToString],
           clearable: true
         }
       }
@@ -174,23 +205,32 @@ export class MediaEditFormItemDirector {
     builder.setFields([
       {
         props: {
-          id: 'repeat',
-          afterTransform: [parseFloat]
-        },
-        attrs: {
-          label: 'Total ' + (manga ? 'Rereads' : 'Rewatches'),
+          value: form.repeat || stored.repeat,
+          afterTransform: [
+            parseFloat,
+            (e: string) => Object.fromEntries([['repeat', e]]),
+            edit.changeForm as (v: any) => any
+          ],
           validators: [validInteger],
           transformations: [formatToNumber, numberRound.bind(null, 0)],
           beforeTransform: [(e: any) => e.toString()]
+        },
+        attrs: {
+          label: 'Total ' + (manga ? 'Rereads' : 'Rewatches')
         }
       }
     ])
   }
   public edit3(builder: MediaEditFormItemBuilder) {
+    const { form, stored } = this.data
     builder.setTextareas([
       {
         props: {
-          id: 'notes'
+          value: form.notes || stored.notes,
+          afterTransform: [
+            (e: string) => Object.fromEntries([['notes', e]]),
+            edit.changeForm as (v: any) => any
+          ]
         },
         attrs: {
           label: 'Notes'
@@ -198,23 +238,52 @@ export class MediaEditFormItemDirector {
       }
     ])
   }
-  public edit4(
-    builder: MediaEditFormItemBuilder,
-    { scoreFormat, advancedScoring }: Arguments
-  ) {
+
+  public edit4(builder: MediaEditFormItemBuilder) {
+    const { scoreFormat, advancedScoring, form, stored } = this.data
     builder.setFields(
       advancedScoring.map((label, i) => {
         return {
           props: {
-            id: 'advancedScores',
-            i,
-            afterTransform: [parseFloat]
-          },
-          attrs: {
-            label,
+            value:
+              form.advancedScores && form.advancedScores[i] !== undefined
+                ? form.advancedScores[i]
+                : stored.advancedScores[i],
+            afterTransform: [
+              parseFloat,
+              (e: any) => {
+                const array: any[] =
+                  form['advancedScores'] || stored['advancedScores']
+
+                array[i] = e
+                return array
+              },
+              (advancedScores: number[]) => {
+                const length = advancedScores.length
+                return {
+                  advancedScores,
+                  score: length
+                    ? [
+                        formatToNumber,
+                        numberRound.bind(null, scoreFormat.round),
+                        parseFloat
+                      ].reduce(
+                        (score, mutation: Function) => mutation(score),
+                        (
+                          advancedScores.reduce((acc, v) => acc + v, 0) / length
+                        ).toString()
+                      )
+                    : undefined
+                }
+              },
+              edit.changeForm as (v: any) => any
+            ],
             beforeTransform: [e => e.toString()],
             validators: [scoreFormat.round ? validFloat : validInteger],
             transformations: [formatToNumber]
+          },
+          attrs: {
+            label
           }
         }
       })

@@ -1,10 +1,10 @@
 <template>
   <v-list-item @click>
     <v-list-item-action>
-      <v-switch :input-value="dark" @change="changeTheme"></v-switch>
+      <v-switch v-model="dark"></v-switch>
     </v-list-item-action>
 
-    <v-list-item-content @click="changeTheme">
+    <v-list-item-content @click="dark = !dark">
       <v-list-item-title class="text-capitalize">theme</v-list-item-title>
       <v-list-item-subtitle class="text-capitalize">{{
         dark ? 'dark' : 'light'
@@ -17,13 +17,15 @@ import { Vue, Component } from 'vue-property-decorator'
 
 @Component
 export default class TheDrawerSettingsTheme extends Vue {
-  dark: boolean = localStorage.getItem('THEME') === 'true'
-
   created() {
-    this.changeTheme(this.dark)
+    this.$vuetify.theme.dark = localStorage.getItem('THEME') === 'true'
   }
 
-  changeTheme(dark: boolean = !this.dark) {
+  get dark() {
+    return this.$vuetify.theme.dark
+  }
+
+  set dark(dark) {
     this.$vuetify.theme.dark = dark
     localStorage.setItem('THEME', dark.toString())
   }

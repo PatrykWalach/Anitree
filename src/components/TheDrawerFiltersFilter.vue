@@ -1,11 +1,10 @@
 <template>
   <v-list-item @click>
     <v-list-item-action>
-      <v-switch :input-value="active" @change="changeActive"></v-switch>
-      <!-- <Basevalue v-model="value"/> -->
+      <v-switch v-model="active"></v-switch>
     </v-list-item-action>
 
-    <v-list-item-content @click="changeActive(!active)">
+    <v-list-item-content @click="active = !active">
       <v-list-item-title class="text-capitalize">{{
         relationType.replace(/_/g, ' ').toLowerCase()
       }}</v-list-item-title>
@@ -14,11 +13,7 @@
       }}</v-list-item-subtitle>
     </v-list-item-content>
     <v-list-item-action>
-      <v-checkbox
-        :disabled="!active"
-        :input-value="exclusive"
-        @change="changeExclusive"
-      ></v-checkbox>
+      <v-checkbox :disabled="!active" v-model="exclusive"></v-checkbox>
     </v-list-item-action>
   </v-list-item>
 </template>
@@ -44,17 +39,17 @@ export default class TheDrawerFiltersFilter extends Vue {
     return (this.filter && this.filter.active) || false
   }
 
-  get exclusive(): boolean {
-    return (this.filter && this.filter.exclusive) || false
-  }
-
-  changeActive(active: boolean) {
+  set active(active) {
     this.CHANGE_FILTER({
       active
     })
   }
 
-  changeExclusive(exclusive: boolean) {
+  get exclusive(): boolean {
+    return (this.filter && this.filter.exclusive) || false
+  }
+
+  set exclusive(exclusive) {
     this.CHANGE_FILTER({ exclusive })
   }
 

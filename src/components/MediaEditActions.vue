@@ -21,12 +21,19 @@
         >
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="error" text @click="confirmation = false">Cancel</v-btn>
-          <v-btn :color="media.coverImage.color" @click="remove">Ok</v-btn>
+          <v-btn
+            :color="media.coverImage.color || 'primary'"
+            text
+            @click="confirmation = false"
+            >Cancel</v-btn
+          >
+          <v-btn color="error" @click="remove">Ok</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-btn :color="media.coverImage.color" @click="submit">Save</v-btn>
+    <v-btn :color="media.coverImage.color || 'primary'" @click="submit"
+      >Save</v-btn
+    >
   </v-card-actions>
 </template>
 <script lang="ts">
@@ -49,7 +56,7 @@ export default class MediaEditActions extends Vue {
 
   confirmation: boolean = false
   async submit() {
-    await edit.submit()
+    if (!this.autoSubmit) await edit.submit()
     edit.CHANGE_IS_EDITED(false)
   }
 

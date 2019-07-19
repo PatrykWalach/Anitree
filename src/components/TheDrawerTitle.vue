@@ -1,5 +1,7 @@
 <template>
-  <v-list-item-group mandatory :value="prefered" @change="changePrefered">
+  <v-list-item-group v-model="prefered" 
+  mandatory
+  >
     <v-subheader>Title Language</v-subheader>
     <v-list-item v-for="title in titles" :key="title" dense>
       <v-list-item-content>
@@ -19,13 +21,12 @@ export default class TheDrawerTitle extends Vue {
   get prefered() {
     return title.prefered
   }
+  set prefered(prefered) {
+    title.CHANGE_PREFERED(prefered)
+  }
 
   get titles() {
     return title.titles
-  }
-
-  changePrefered(prefered: number) {
-    return title.CHANGE_PREFERED(prefered)
   }
 }
 </script>

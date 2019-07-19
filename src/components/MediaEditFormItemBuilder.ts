@@ -4,15 +4,15 @@ interface Field {
   attrs: {
     placeholder?: string
     label: string
+    clearable?: boolean
+  }
+  props: {
     validators?: ((v: string) => boolean)[]
     transformations?: ((v: string) => string)[]
     beforeTransform?: ((v: any) => string)[]
     clearable?: boolean
-  }
-  props: {
-    id: string | number
-    i?: number
-    afterTransform?: ((v: string) => any)[]
+    afterTransform?: ((v: any) => any)[]
+    value: any
   }
 }
 
@@ -40,30 +40,28 @@ export class MediaEditFormItemBuilder {
   public setSelects(selects: Select[]) {
     this.fields.push(
       ...selects.map(({ attrs, props }) =>
-        this.h('MediaEditFormItemField', {
-          attrs: Object.assign(attrs, {
+        this.h('BaseField', {
+          props: Object.assign(props, {
             tag: 'v-select'
           }),
-          props
+          attrs
         })
       )
     )
   }
 
   public setFields(selects: Field[]) {
-    this.fields.push(
-      ...selects.map(data => this.h('MediaEditFormItemField', data))
-    )
+    this.fields.push(...selects.map(data => this.h('BaseField', data)))
   }
 
   public setDateFields(selects: Field[]) {
     this.fields.push(
       ...selects.map(({ attrs, props }) =>
-        this.h('MediaEditFormItemField', {
-          attrs: Object.assign(attrs, {
+        this.h('BaseField', {
+          props: Object.assign(props, {
             tag: 'BaseDateField'
           }),
-          props
+          attrs
         })
       )
     )
@@ -71,12 +69,12 @@ export class MediaEditFormItemBuilder {
   public setTextareas(selects: Field[]) {
     this.fields.push(
       ...selects.map(({ attrs, props }) =>
-        this.h('MediaEditFormItemField', {
-          attrs: Object.assign(attrs, {
+        this.h('BaseField', {
+          props: Object.assign(props, {
             tag: 'v-textarea',
             full: true
           }),
-          props
+          attrs
         })
       )
     )

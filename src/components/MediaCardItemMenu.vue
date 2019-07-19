@@ -1,7 +1,8 @@
 <template>
   <component
     :is="!$vuetify.breakpoint.xsOnly ? 'v-menu' : 'v-bottom-sheet'"
-    :offset-y="!$vuetify.breakpoint.xsOnly ? true : undefined"
+    v-model="menu"
+    :offset-y="desktop"
   >
     <template v-slot:activator="{ on, value }">
       <v-fab-transition>
@@ -18,15 +19,20 @@
       </v-fab-transition>
     </template>
 
-    <v-list dense shaped>
-      <v-list-item rel="noopener" target="_blank" :href="media.siteUrl">
+    <v-list :shaped="desktop" :dense="desktop">
+      <v-list-item
+        rel="noopener"
+        target="_blank"
+        :href="media.siteUrl"
+        @click="menu = false"
+      >
         <v-list-item-icon>
           <v-icon>info</v-icon>
         </v-list-item-icon>
         <v-list-item-title>Anilist</v-list-item-title>
       </v-list-item>
 
-      <v-list-item v-clipboard="media.siteUrl" @click>
+      <v-list-item v-clipboard="media.siteUrl" @click="menu = false">
         <v-list-item-icon>
           <v-icon>link</v-icon>
         </v-list-item-icon>
@@ -68,8 +74,14 @@ export default class MediaCardItemMenu extends Vue {
   @Prop()
   readonly media!: Media
 
+  menu = false
+
   get authorized() {
     return auth.authorized
+  }
+
+  get desktop() {
+    return !this.$vuetify.breakpoint.xsOnly ? true : undefined
   }
 
   get isEdited() {
@@ -77,10 +89,12 @@ export default class MediaCardItemMenu extends Vue {
   }
 
   edit() {
+    this.menu = false
     edit.open(this.media.id)
   }
 
   close() {
+    this.menu = false
     edit.CHANGE_IS_EDITED(false)
   }
 }

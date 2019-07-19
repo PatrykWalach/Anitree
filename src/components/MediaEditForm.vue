@@ -1,9 +1,5 @@
 <template>
-  <v-tabs
-    v-model="tab"
-    vertical
-    :slider-color="media.coverImage.color"
-  >
+  <v-tabs v-model="tab" vertical :color="media.coverImage.color">
     <v-tab href="#edit1">
       <v-icon>dashboard</v-icon>
     </v-tab>
@@ -32,6 +28,7 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 
 import { Media, User } from '../types'
 import MediaEditFormItem from './MediaEditFormItem.vue'
+import edit from '../store/modules/edit'
 
 @Component({
   components: {
@@ -39,7 +36,13 @@ import MediaEditFormItem from './MediaEditFormItem.vue'
   }
 })
 export default class MediaEditForm extends Vue {
-  tab = 'edit1'
+  get tab() {
+    return edit.tab
+  }
+
+  set tab(tab: string) {
+    edit.CHANGE_TAB(tab)
+  }
 
   @Prop()
   readonly media!: Media
