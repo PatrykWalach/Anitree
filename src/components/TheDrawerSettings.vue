@@ -1,7 +1,7 @@
 <template>
   <v-list two-line subheader>
     <v-subheader>Settings</v-subheader>
-    <TheDrawerSettingsLogin v-if="!authorized" />
+    <TheDrawerSettingsLogin v-if="!token" />
     <TheDrawerSettingsSubmit v-else />
     <TheDrawerSettingsTheme />
   </v-list>
@@ -25,8 +25,8 @@ const TheDrawerSettingsSubmit = () =>
   }
 })
 export default class TheDrawerSettings extends Vue {
-  get authorized() {
-    return auth.authorized
+  get token() {
+    return auth.token
   }
 }
 </script>

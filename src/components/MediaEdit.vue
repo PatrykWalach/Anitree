@@ -64,11 +64,5 @@ export default class MediaEdit extends Vue {
   get authorized() {
     return auth.authorized
   }
-
-  created() {
-    if (!this.user) {
-      auth.fetchUser()
-    }
-  }
 }
 </script>

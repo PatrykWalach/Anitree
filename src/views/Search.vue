@@ -20,6 +20,7 @@ const MediaTimeline = () =>
 import { Media, Page } from '../types'
 import BaseContainer from '../components/BaseContainer.vue'
 import mediaModule from '../store/modules/media'
+import auth from '../store/modules/auth'
 
 @Component({
   components: {
@@ -32,7 +33,9 @@ export default class Search extends Vue {
   pages: Page[] = []
 
   get query() {
-    return this.$route.query
+    return Object.assign({}, this.$route.query, {
+      isAdult: auth.displayAdultContent ? undefined : false
+    })
   }
 
   get page(): number {

@@ -29,6 +29,16 @@ export class ModuleAuth extends VuexModule {
     return !!(token && user)
   }
 
+  // public get displayAdultContent(): false | undefined {
+  //   return this.user && this.user.options.displayAdultContent
+  //     ? undefined
+  //     : false
+  // }
+
+  public get displayAdultContent(): boolean {
+    return (this.user && this.user.options.displayAdultContent) || false
+  }
+
   @MutationAction
   public async CHANGE_TOKEN(auth: Token | null) {
     if (auth) {

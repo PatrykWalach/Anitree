@@ -1,7 +1,6 @@
 <template>
   <v-app>
-    <TheDrawer v-model="drawerValue" />
-
+    <TheDrawer :value.sync="drawerValue" />
     <TheToolbar @toggle:drawer="toggleDrawer" />
     <v-content>
       <keep-alive :max="10">

@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer :value="value" app @input="input">
+  <v-navigation-drawer v-model="syncedValue" app>
     <TheDrawerFilters v-if="filters.length" :filters="filters" />
     <v-divider></v-divider>
     <TheDrawerTitle />
@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop, Emit } from 'vue-property-decorator'
+import { Vue, Component, PropSync } from 'vue-property-decorator'
 
 import TheDrawerSettings from './TheDrawerSettings.vue'
 import TheDrawerTitle from './TheDrawerTitle.vue'
@@ -26,16 +26,11 @@ import media from '../store/modules/media'
   }
 })
 export default class TheDrawer extends Vue {
-  @Prop({ required: true })
-  readonly value!: boolean
+  @PropSync('value', { required: true })
+  readonly syncedValue!: boolean
 
   get filters() {
     return media.relationTypes
-  }
-
-  @Emit()
-  input(value: boolean) {
-    return value
   }
 }
 </script>

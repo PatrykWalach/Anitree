@@ -42,8 +42,7 @@ const router = new Router({
             .split(/&/)
             .map(el => el.split(/=/))
         )
-        auth.CHANGE_TOKEN(hash || null)
-
+        auth.CHANGE_TOKEN(hash || null).then(auth.fetchUser)
         const route = localStorage.getItem('LAST_ROUTE')
         if (route) {
           return { ...JSON.parse(route), hash: '' }

@@ -25,6 +25,7 @@ export interface MediaListTypeOptions {
 export interface User {
   options: {
     profileColor: string
+    displayAdultContent: boolean
   }
   mediaListOptions: {
     scoreFormat: ScoreFormat
@@ -34,6 +35,7 @@ export interface User {
 }
 
 export interface FetchVariables {
+  isAdult?: boolean
   search?: string
   idIn?: number[] | number
   page?: number

@@ -14,6 +14,7 @@ export const viewerQuery = gql`
     Viewer {
       options {
         profileColor
+        displayAdultContent
       }
       mediaListOptions {
         scoreFormat
@@ -87,6 +88,7 @@ export const mutation = gql`
 
 export const query = gql`
   query(
+    $isAdult: Boolean
     $search: String
     $idIn: [Int]
     $page: Int = 0
@@ -103,6 +105,7 @@ export const query = gql`
         currentPage
       }
       media(
+        isAdult: $isAdult
         search: $search
         id_in: $idIn
         tag_in: $includedTags
