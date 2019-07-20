@@ -5,11 +5,7 @@
     </template>
     <template v-else>
       <MediaTimeline :media-list="media" />
-      <v-pagination
-        :value="page"
-        :length="lastPage"
-        @input="query = Object.assign({}, query, { page })"
-      ></v-pagination>
+      <v-pagination v-model="page" :length="lastPage"></v-pagination>
     </template>
   </base-container>
 </template>
@@ -53,6 +49,10 @@ export default class Search extends Vue {
     if (typeof page === 'string') return parseInt(page)
     if (typeof page === 'number') return page
     return 1
+  }
+
+  set page(page) {
+    this.query = Object.assign({}, this.query, { page })
   }
 
   get currentPage(): Page | null {
