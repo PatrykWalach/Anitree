@@ -8,7 +8,7 @@
       <v-pagination
         :value="page"
         :length="lastPage"
-        @input="changePage"
+        @input="query = Object.assign({}, query, { page })"
       ></v-pagination>
     </template>
   </base-container>
@@ -33,8 +33,18 @@ export default class Search extends Vue {
   pages: Page[] = []
 
   get query() {
-    return Object.assign({}, this.$route.query, {
-      isAdult: auth.displayAdultContent ? undefined : false
+    return Object.assign(
+      {},
+      {
+        isAdult: auth.displayAdultContent ? undefined : false
+      },
+      this.$route.query
+    )
+  }
+
+  set query(query) {
+    this.$router.replace({
+      query
     })
   }
 
@@ -59,12 +69,6 @@ export default class Search extends Vue {
 
   get lastPage() {
     return (this.pageInfo && this.pageInfo.lastPage) || 0
-  }
-
-  changePage(page: number) {
-    this.$router.replace({
-      query: Object.assign({}, this.query, { page })
-    })
   }
 
   @Watch('query', { immediate: true })

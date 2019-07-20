@@ -11,7 +11,7 @@
           :style="{ top: 0, right: 0 }"
           absolute
           icon
-          large
+          small
           v-on="on"
         >
           <v-icon>mdi-dots-vertical</v-icon>
