@@ -9,7 +9,7 @@ interface Field {
   props: {
     validators?: ((v: string) => boolean)[]
     transformations?: ((v: string) => string)[]
-    beforeTransform?: ((v: any) => string)[]
+    beforeTransform?: ((v: any) => any)[]
     clearable?: boolean
     afterTransform?: ((v: any) => any)[]
     value: any

@@ -40,10 +40,10 @@ export default class MediaEditFormField extends Vue {
   readonly transformations!: ((v: string) => string)[]
 
   @Prop({ default: () => [] })
-  readonly beforeTransform!: ((v: any) => string)[]
+  readonly beforeTransform!: ((v: any) => any)[]
 
   @Prop({ default: () => [] })
-  readonly afterTransform!: [((v: string) => any), ...((v: any) => any)[]]
+  readonly afterTransform!: ((v: any) => any)[]
 
   input: string = ''
 

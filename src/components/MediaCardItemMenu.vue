@@ -96,6 +96,7 @@ export default class MediaCardItemMenu extends Vue {
   close() {
     this.menu = false
     edit.CHANGE_IS_EDITED(false)
+    edit.RESET_FORM()
   }
 }
 </script>

@@ -46,9 +46,14 @@ export default class Search extends Vue {
 
   get page(): number {
     const { page } = this.query
-    if (typeof page === 'string') return parseInt(page)
-    if (typeof page === 'number') return page
-    return 1
+    switch (typeof page) {
+      case 'string':
+        return parseInt(page)
+      case 'number':
+        return page
+      default:
+        return 1
+    }
   }
 
   set page(page) {
@@ -56,19 +61,23 @@ export default class Search extends Vue {
   }
 
   get currentPage(): Page | null {
-    return this.pages[this.page] || null
+    const { pages, page } = this
+    return pages[page] || null
   }
 
   get media(): Media[] {
-    return (this.currentPage && this.currentPage.media) || []
+    const { currentPage } = this
+    return (currentPage && currentPage.media) || []
   }
 
   get pageInfo() {
-    return this.currentPage && this.currentPage.pageInfo
+    const { currentPage } = this
+    return currentPage && currentPage.pageInfo
   }
 
   get lastPage() {
-    return (this.pageInfo && this.pageInfo.lastPage) || 0
+    const { pageInfo } = this
+    return (pageInfo && pageInfo.lastPage) || 0
   }
 
   @Watch('query', { immediate: true })

@@ -48,7 +48,7 @@ export default class BaseDateField extends Vue {
   save() {
     const { value, date } = this
 
-    const save: Function = (this.$refs.menu as any).save
+    const save: (score: any) => void = (this.$refs.menu as any).save
     save(date)
 
     if (date !== value) {

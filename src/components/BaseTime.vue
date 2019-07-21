@@ -3,7 +3,7 @@
 </template>
 <script lang="ts">
 import { Prop, Component, Vue } from 'vue-property-decorator'
-import { MediaDate } from '../types'
+import { ValidDate } from '../types'
 
 @Component({
   filters: {
@@ -13,14 +13,15 @@ import { MediaDate } from '../types'
 })
 export default class BaseTime extends Vue {
   @Prop({ required: true })
-  readonly date!: MediaDate
+  readonly date!: ValidDate
 
   @Prop({ default: null })
-  readonly sliceDate!: MediaDate | null
+  readonly sliceDate!: ValidDate | null
 
   get dateParts() {
     return this.formatToParts(this.date)
   }
+
   get sliceDateParts() {
     return this.formatToParts(this.sliceDate)
   }
@@ -29,47 +30,42 @@ export default class BaseTime extends Vue {
     return this.formatToISO(this.date)
   }
 
-  formatToISO(date: MediaDate) {
-    if (this.isValidDate(date)) {
-      return this.toDate(date).toISOString()
-    }
-    return ''
+  formatToISO(date: ValidDate) {
+    return this.toDate(date).toISOString()
   }
 
-  formatToParts(date: MediaDate | null) {
-    if (this.isValidDate(date)) {
+  formatToParts(date: ValidDate | null) {
+    if (date) {
       const fmt = new Intl.DateTimeFormat('en', {
         year: 'numeric',
         month: 'long',
         day: 'numeric'
       })
-      return fmt.formatToParts(this.toDate(date as MediaDate))
+      return fmt.formatToParts(this.toDate(date))
     }
     return []
   }
 
-  toDate(date: MediaDate) {
+  toDate(date: ValidDate) {
     return new Date(
-      date.year || 0,
+      date.year,
       (date.month && date.month - 1) || 0,
-      date.day || 0
+      date.day || 1
     )
   }
 
-  isValidDate = (date: MediaDate | null) =>
-    !!(date && (date.year || date.month || date.day))
-
   get sliced() {
-    if (this.sliceDate) {
-      if (this.toDate(this.sliceDate) > this.toDate(this.date)) {
-        return this.reduceReverse(
-          this.dateParts.slice(),
-          this.sliceDateParts.slice()
-        )
+    const { toDate, sliceDateParts, date, sliceDate, dateParts } = this
+    if (sliceDate) {
+      if (toDate(sliceDate) > toDate(date)) {
+        const { reduceReverse } = this
+        return reduceReverse(dateParts.slice(), sliceDateParts.slice())
       }
-      return this.reduce(this.sliceDateParts.slice(), this.dateParts.slice())
+      const { reduce } = this
+      return reduce(sliceDateParts.slice(), dateParts.slice())
     }
-    return this.dateParts
+
+    return dateParts
   }
 
   reduce(

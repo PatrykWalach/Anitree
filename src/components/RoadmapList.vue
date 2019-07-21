@@ -33,9 +33,8 @@ export default class RoadmapList extends Vue {
   readonly cards!: Cards
 
   get color() {
-    return `${
-      this.allChecked ? (this.anyChecked ? 'orange' : 'red') : 'green'
-    } lighten-2`
+    const { allChecked, anyChecked } = this
+    return `${allChecked ? (anyChecked ? 'orange' : 'red') : 'green'} lighten-2`
   }
   get allChecked() {
     return this.cards.find(

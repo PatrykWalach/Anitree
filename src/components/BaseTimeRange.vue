@@ -8,7 +8,7 @@
 <script lang="ts">
 import { Prop, Component, Vue } from 'vue-property-decorator'
 import BaseTime from './BaseTime.vue'
-import { MediaDate } from '../types'
+import { ValidDate } from '../types'
 
 @Component({
   components: {
@@ -17,9 +17,9 @@ import { MediaDate } from '../types'
 })
 export default class BaseTimeRange extends Vue {
   @Prop({ required: true })
-  readonly startDate!: MediaDate
+  readonly startDate!: ValidDate
   @Prop({ required: true })
-  readonly endDate!: MediaDate
+  readonly endDate!: ValidDate
 
   divider: string = ' - '
 }

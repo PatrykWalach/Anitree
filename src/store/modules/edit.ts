@@ -154,6 +154,7 @@ export class ModuleEdit extends VuexModule {
       await media.ADD_MEDIA(
         mergeDeep(await media.getMedia(mediaId), { mediaListEntry })
       )
+      await this.RESET_FORM()
     }
     return this.CHANGE_LOADING(false)
   }

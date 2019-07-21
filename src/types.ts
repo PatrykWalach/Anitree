@@ -57,11 +57,11 @@ export interface Filter {
   active: boolean
   id: string
 }
-
-export type Next = (to?: string | false | void | Location | undefined) => void
+export type To = string | false | void | Location
+export type Next = (to?: To) => void
 
 export type NextBefore<V extends Vue = Vue> = (
-  to?: string | false | void | Location | ((vm: V) => any) | undefined
+  to?: To | ((vm: V) => any)
 ) => void
 
 export interface Data<T = any> {
@@ -73,6 +73,7 @@ export interface MediaDate {
   month: number | null
   day: number | null
 }
+// export type MediaDate = Nullable<ValidDate>
 export interface MediaNode {
   id: number
   type: string
@@ -152,6 +153,12 @@ export interface MutationVariables extends Partial<Form> {
   mediaId: number
   scoreRaw?: number
   private?: boolean
+}
+export interface ValidDate {
+  [index: string]: null | number
+  year: number
+  month: number | null
+  day: number | null
 }
 export interface Media extends MediaNode {
   filtered?: boolean
@@ -281,8 +288,4 @@ export interface TrelloChecklist {
   idCard: string
   name: string
   pos: number
-}
-
-export interface LoadingState {
-  loading: null | Promise<any>
 }

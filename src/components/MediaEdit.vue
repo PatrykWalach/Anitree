@@ -48,6 +48,8 @@ export default class MediaEdit extends Vue {
 
   set isEdited(isEdited) {
     edit.CHANGE_IS_EDITED(isEdited)
+
+    if (!isEdited) edit.RESET_FORM()
   }
 
   get loading() {
