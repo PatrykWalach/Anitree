@@ -60,11 +60,11 @@ export class ModuleEdit extends VuexModule {
   }
 
   public get stored(): Form {
-    const { media } = this
+    const { media, advancedScoring } = this
     if (media && media.mediaListEntry) {
       const { mediaListEntry } = media
 
-      const advancedScores = this.advancedScoring
+      const advancedScores = advancedScoring
         .map(key => mediaListEntry.advancedScores[key])
         .map(value => value || 0)
 
@@ -83,7 +83,7 @@ export class ModuleEdit extends VuexModule {
       }
     }
 
-    const advancedScores = this.advancedScoring.map(() => 0)
+    const advancedScores = advancedScoring.map(() => 0)
     return {
       status: null,
       notes: '',
@@ -135,9 +135,8 @@ export class ModuleEdit extends VuexModule {
 
   @Action
   public async open(mediaId: number) {
-    await media.getMedia(mediaId)
-    await this.CHANGE_MEDIA_ID(mediaId)
-    this.CHANGE_IS_EDITED(true)
+    await Promise.all([media.getMedia(mediaId), this.CHANGE_MEDIA_ID(mediaId)])
+    return this.CHANGE_IS_EDITED(true)
   }
 
   @Action
@@ -154,9 +153,15 @@ export class ModuleEdit extends VuexModule {
       await media.ADD_MEDIA(
         mergeDeep(await media.getMedia(mediaId), { mediaListEntry })
       )
-      await this.RESET_FORM()
+
+      this.RESET_FORM()
     }
     return this.CHANGE_LOADING(false)
+  }
+
+  @Action
+  public async close() {
+    return Promise.all([this.CHANGE_IS_EDITED(false), this.RESET_FORM()])
   }
 
   @Action
@@ -172,10 +177,10 @@ export class ModuleEdit extends VuexModule {
           mergeDeep(await media.getMedia(mediaId), { mediaListEntry: null })
         )
       }
-      return mutation
     }
     return this.CHANGE_LOADING(false)
   }
 }
+
 export const edit = getModule(ModuleEdit)
 export default edit

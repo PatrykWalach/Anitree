@@ -32,7 +32,7 @@ export default class Search extends Vue {
     return Object.assign(
       {},
       {
-        isAdult: auth.displayAdultContent ? undefined : false
+        isAdult: auth.adultContent ? undefined : false
       },
       this.$route.query
     )
