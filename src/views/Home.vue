@@ -2,7 +2,7 @@
   <base-container>
     <v-flex>
       <v-timeline :dense="$vuetify.breakpoint.smAndDown">
-        <home-item :i="0">
+        <home-item left>
           <template v-slot:title>
             This app is under construction
           </template>
@@ -13,26 +13,28 @@
           for more information
         </home-item>
 
-        <home-item :i="1">
+        <home-item left>
           <template v-slot:opposite>
             <MediaCard v-if="random" :media="random" />
           </template>
-          <template v-slot:title
-            >Media Cards</template
-          >Media cards display media title, type, status, related tags, main
+          <template v-slot:title>
+            Media Cards
+          </template>
+          Media cards display media title, type, status, related tags, main
           studios and list status if user is logged in.
           <br />
           More data may be shown in future: relation type and the description
         </home-item>
-        <home-item :i="2">
+        <home-item left>
           <template v-slot:opposite>
             <v-card>
               <TheDrawerFilters :filters="filters" />
             </v-card>
           </template>
-          <template v-slot:title
-            >Filters</template
-          >
+          <template v-slot:title>
+            Filters
+          </template>
+
           <p>Filters can hide unwanted media.</p>
 
           <p>
@@ -65,7 +67,7 @@
             </a>
           </p>
         </home-item>
-        <home-item :i="3">
+        <home-item left>
           <template v-slot:opposite>
             <v-card>
               <TheDrawerSettings />

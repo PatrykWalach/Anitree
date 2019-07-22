@@ -1,14 +1,10 @@
 <template>
-  <v-list-item
-    :style="{ 'flex-wrap': 'wrap' }"
-    :class="{ 'text-xs-left': true }"
-    three-line
-  >
+  <v-list-item :style="{ 'flex-wrap': 'wrap' }" three-line>
     <MediaCardItemAvatar :media="media" />
     <MediaCardItemMenu :hover="hover" :media="media" />
     <v-list-item-content
       :style="{
-        'min-width': '100px'
+        'min-width': '70%'
       }"
     >
       <MediaCardItemSeason :media="media" />
