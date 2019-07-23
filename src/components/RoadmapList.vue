@@ -1,16 +1,18 @@
 <template>
   <v-timeline-item :color="color" :large="!$vuetify.breakpoint.smAndDown">
     <v-card>
-      <v-card-title :class="color">{{ list.name }}</v-card-title>
-      <v-card-text>
-        <v-list two-line>
-          <RoadmapListCard
-            v-for="card in cards"
-            :key="card.card.id"
-            v-bind="card"
-          />
-        </v-list>
-      </v-card-text>
+      <base-color :color="color" tag="v-toolbar" flat>
+        <div class="headline">
+          {{ list.name }}
+        </div>
+      </base-color>
+      <v-list two-line>
+        <RoadmapListCard
+          v-for="card in cards"
+          :key="card.card.id"
+          v-bind="card"
+        />
+      </v-list>
     </v-card>
   </v-timeline-item>
 </template>
@@ -19,10 +21,12 @@
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import { TrelloList, Cards } from '../types'
 import RoadmapListCard from './RoadmapListCard.vue'
+import BaseColor from './BaseColor.vue'
 
 @Component({
   components: {
-    RoadmapListCard
+    RoadmapListCard,
+    BaseColor
   }
 })
 export default class RoadmapList extends Vue {
