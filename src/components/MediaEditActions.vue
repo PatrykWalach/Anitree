@@ -55,8 +55,13 @@ export default class MediaEditActions extends Vue {
   readonly media!: boolean
 
   confirmation: boolean = false
+
+  get submitRequired() {
+    return !!Object.values(edit.form).length
+  }
+
   async submit() {
-    if (!this.autoSubmit) await edit.submit()
+    if (this.submitRequired) await edit.submit()
     edit.CHANGE_IS_EDITED(false)
   }
 
