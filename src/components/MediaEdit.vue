@@ -10,7 +10,23 @@
         <media-card-banner :media="media">
           <v-overlay absolute></v-overlay>
         </media-card-banner>
-        <MediaCardItem :media="media" />
+        <media-card-item :media="media">
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on }">
+              <v-btn
+                :style="{ top: 0, right: 0 }"
+                absolute
+                icon
+                small
+                @click="close"
+                v-on="on"
+              >
+                <v-icon>close</v-icon>
+              </v-btn>
+            </template>
+            <span>Close</span>
+          </v-tooltip>
+        </media-card-item>
         <v-divider></v-divider>
         <MediaEditForm v-if="authorized" v-bind="{ media, user }" />
       </v-card-text>
@@ -48,8 +64,12 @@ export default class MediaEdit extends Vue {
   }
 
   set isEdited(isEdited) {
-    if (!isEdited) edit.close()
+    if (!isEdited) this.close()
     else edit.CHANGE_IS_EDITED(isEdited)
+  }
+
+  close() {
+    edit.close()
   }
 
   get loading() {

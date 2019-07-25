@@ -3,7 +3,9 @@
     <template v-slot="{ hover }">
       <v-card :ripple="!$vuetify.breakpoint.xsOnly">
         <MediaCardBanner :media="media" />
-        <MediaCardItem :media="media" :hover="hover" />
+        <media-card-item :media="media">
+          <MediaCardItemMenu :hover="hover" :media="media" />
+        </media-card-item>
 
         <v-divider
           v-if="media.tags.length || media.studios.nodes.length"
@@ -21,6 +23,7 @@ import MediaCardBanner from './MediaCardBanner.vue'
 import MediaCardItem from './MediaCardItem.vue'
 import MediaCardStatus from './MediaCardStatus.vue'
 import MediaCardActions from './MediaCardActions.vue'
+import MediaCardItemMenu from './MediaCardItemMenu.vue'
 
 import { Media } from '../types'
 
@@ -29,7 +32,8 @@ import { Media } from '../types'
     MediaCardBanner,
     MediaCardItem,
     MediaCardStatus,
-    MediaCardActions
+    MediaCardActions,
+    MediaCardItemMenu
   }
 })
 export default class MediaCard extends Vue {

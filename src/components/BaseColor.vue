@@ -1,5 +1,11 @@
 <template>
-  <component :is="tag" v-bind="$attrs" :[theme]="true" :color="color">
+  <component
+    :is="tag"
+    v-bind="$attrs"
+    :[theme]="true"
+    v-on="$listeners"
+    :color="color"
+  >
     <slot :[theme]="true" :theme="theme"></slot>
   </component>
 </template>

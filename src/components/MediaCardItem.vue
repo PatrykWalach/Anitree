@@ -1,7 +1,7 @@
 <template>
   <v-list-item :style="{ 'flex-wrap': 'wrap' }" three-line>
     <MediaCardItemAvatar :media="media" />
-    <MediaCardItemMenu :hover="hover" :media="media" />
+    <slot></slot>
     <v-list-item-content
       :style="{
         'min-width': '70%'
@@ -22,7 +22,6 @@ import { Media } from '../types'
 import MediaCardItemTitle from './MediaCardItemTitle.vue'
 import MediaCardItemSubheading from './MediaCardItemSubheading.vue'
 import MediaCardItemAvatar from './MediaCardItemAvatar.vue'
-import MediaCardItemMenu from './MediaCardItemMenu.vue'
 import MediaCardItemSeason from './MediaCardItemSeason.vue'
 import MediaCardItemDescription from './MediaCardItemDescription.vue'
 
@@ -32,15 +31,11 @@ import MediaCardItemDescription from './MediaCardItemDescription.vue'
     MediaCardItemTitle,
     MediaCardItemSubheading,
     MediaCardItemSeason,
-    MediaCardItemAvatar,
-    MediaCardItemMenu
+    MediaCardItemAvatar
   }
 })
 export default class MediaCardItem extends Vue {
   @Prop({ required: true })
   readonly media!: Media
-
-  @Prop({ default: true })
-  readonly hover!: boolean
 }
 </script>

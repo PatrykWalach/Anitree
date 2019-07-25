@@ -62,13 +62,13 @@ export default class MediaCardStatus extends Vue {
       { manga: 'Plan to read', text: 'Plan to watch', value: 'PLANNING' },
       { manga: 'Completed', text: 'Completed', value: 'COMPLETED' },
       {
-        manga: 'Rereading' + stringValue,
-        text: 'Rewatching' + stringValue,
+        manga: 'Rereading ' + stringValue,
+        text: 'Rewatching ' + stringValue,
         value: 'REPEATING'
       },
       {
-        manga: 'Paused' + stringValue,
-        text: 'Paused' + stringValue,
+        manga: 'Paused ' + stringValue,
+        text: 'Paused ' + stringValue,
         value: 'PAUSED'
       },
       { manga: 'Dropped', text: 'Dropped', value: 'DROPPED' }

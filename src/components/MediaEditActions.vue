@@ -21,30 +21,35 @@
         >
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn
+          <base-color
+            tag="v-btn"
             :color="media.coverImage.color || 'primary'"
-            text
             @click="confirmation = false"
-            >Cancel</v-btn
+            >Cancel</base-color
           >
-          <v-btn color="error" @click="remove">Ok</v-btn>
+          <v-btn text color="error" @click="remove">Ok</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-btn :color="media.coverImage.color || 'primary'" @click="submit"
-      >Save</v-btn
+    <base-color
+      tag="v-btn"
+      :color="media.coverImage.color || 'primary'"
+      @click="submit"
+      >Save</base-color
     >
   </v-card-actions>
 </template>
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import MediaEditIcon from './MediaEditIcon.vue'
+import BaseColor from './BaseColor.vue'
 import edit from '../store/modules/edit'
 import submit from '../store/modules/submit'
 
 @Component({
   components: {
-    MediaEditIcon
+    MediaEditIcon,
+    BaseColor
   }
 })
 export default class MediaEditActions extends Vue {

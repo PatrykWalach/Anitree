@@ -36,7 +36,10 @@
         v-if="navigator.share"
         @click="
           navigator
-            .share({ url, title: media.title[preferedTitle] })
+            .share({
+              url,
+              title: media.title[preferedTitle]
+            })
             .then(() => (menu = false))
         "
       >
@@ -46,7 +49,7 @@
         <v-list-item-title>Share</v-list-item-title>
       </v-list-item>
 
-      <v-list-item v-else v-clipboard="url" @click="menu = false">
+      <v-list-item v-else v-clipboard="url" @click @success="menu = false">
         <v-list-item-icon>
           <v-icon>link</v-icon>
         </v-list-item-icon>
@@ -58,13 +61,6 @@
           <v-icon>edit</v-icon>
         </v-list-item-icon>
         <v-list-item-title>Edit</v-list-item-title>
-      </v-list-item>
-
-      <v-list-item v-if="isEdited" @click="close">
-        <v-list-item-icon>
-          <v-icon>close</v-icon>
-        </v-list-item-icon>
-        <v-list-item-title>Close</v-list-item-title>
       </v-list-item>
     </v-list>
   </component>
@@ -116,11 +112,6 @@ export default class MediaCardItemMenu extends Vue {
   edit() {
     this.menu = false
     edit.open(this.media.id)
-  }
-
-  close() {
-    this.menu = false
-    edit.close()
   }
 }
 </script>
