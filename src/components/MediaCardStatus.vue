@@ -61,8 +61,16 @@ export default class MediaCardStatus extends Vue {
       },
       { manga: 'Plan to read', text: 'Plan to watch', value: 'PLANNING' },
       { manga: 'Completed', text: 'Completed', value: 'COMPLETED' },
-      { manga: 'Rereading', text: 'Rewatching', value: 'REPEATING' },
-      { manga: 'Paused', text: 'Paused', value: 'PAUSED' },
+      {
+        manga: 'Rereading' + stringValue,
+        text: 'Rewatching' + stringValue,
+        value: 'REPEATING'
+      },
+      {
+        manga: 'Paused' + stringValue,
+        text: 'Paused' + stringValue,
+        value: 'PAUSED'
+      },
       { manga: 'Dropped', text: 'Dropped', value: 'DROPPED' }
     ].find(({ value }) => value === this.status)
   }

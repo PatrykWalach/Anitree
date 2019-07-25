@@ -90,7 +90,7 @@ export default class MediaCardItemMenu extends Vue {
 
   menu = false
 
-  share = navigator.share
+  share = (navigator as any).share
 
   get preferedTitle() {
     return title.preferedTitle
