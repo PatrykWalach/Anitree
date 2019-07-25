@@ -33,10 +33,11 @@
       </v-list-item>
 
       <v-list-item
-        v-if="share"
+        v-if="navigator.share"
         @click="
-          menu = false
-          share({ url, title: media.title[preferedTitle] })
+          navigator
+            .share({ url, title: media.title[preferedTitle] })
+            .then(() => (menu = false))
         "
       >
         <v-list-item-icon>
@@ -90,7 +91,7 @@ export default class MediaCardItemMenu extends Vue {
 
   menu = false
 
-  share = (navigator as any).share
+  navigator = navigator
 
   get preferedTitle() {
     return title.preferedTitle
