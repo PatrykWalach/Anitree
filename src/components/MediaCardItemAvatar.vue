@@ -1,5 +1,9 @@
 <template>
-  <v-list-item-avatar size="80" :style="{ 'align-self': 'center' }">
+  <v-list-item-avatar
+    color="grey darken-2"
+    size="80"
+    :style="{ 'align-self': 'center' }"
+  >
     <base-lazy-img
       :src="media.coverImage.extraLarge"
       :lazy-src="media.coverImage.small"

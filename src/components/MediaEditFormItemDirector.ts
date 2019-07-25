@@ -142,6 +142,11 @@ export class MediaEditFormItemDirector {
             ]
           },
           attrs: {
+            suffix: (manga
+            ? media.chapters
+            : media.episodes)
+              ? '/' + (manga ? media.chapters : media.episodes)
+              : undefined,
             label: (manga ? 'Chapter' : 'Episode') + ' Progress'
           }
         },
@@ -163,6 +168,7 @@ export class MediaEditFormItemDirector {
             beforeTransform: [(e: string) => e.toString()]
           },
           attrs: {
+            suffix: media.volumes ? '/' + media.volumes : undefined,
             label: 'Volume Progress'
           }
         }

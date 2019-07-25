@@ -1,7 +1,7 @@
 <template>
   <v-hover>
     <template v-slot="{ hover }">
-      <v-card ripple>
+      <v-card :ripple="!$vuetify.breakpoint.xsOnly">
         <MediaCardBanner :media="media" />
         <MediaCardItem :media="media" :hover="hover" />
 

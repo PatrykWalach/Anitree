@@ -1,11 +1,12 @@
 <template>
   <v-tooltip bottom>
     <template v-slot:activator="{ on }">
-      <v-toolbar
+      <v-progress-linear
         v-if="media.mediaListEntry"
-        :class="'v-card__status ' + color"
+        :color="color"
+        :value="value"
         v-on="on"
-      ></v-toolbar>
+      ></v-progress-linear>
     </template>
     <span>{{ (tip && (manga ? tip.manga : tip.text)) || '' }}</span>
   </v-tooltip>
@@ -28,9 +29,36 @@ export default class MediaCardStatus extends Vue {
     return mediaListEntry && mediaListEntry.status
   }
 
+  get progress() {
+    return (
+      (this.media.mediaListEntry && this.media.mediaListEntry.progress) || 0
+    )
+  }
+
+  get episodes() {
+    const { media, manga } = this
+    const { episodes, chapters } = media
+    return manga ? chapters : episodes
+  }
+
+  get value() {
+    const { episodes, progress } = this
+    return (episodes && (progress / episodes) * 100) || (progress ? 50 : 100)
+  }
+
+  get stringValue() {
+    const { episodes, progress } = this
+    return progress + '/' + (episodes || '')
+  }
+
   get tip() {
+    const { stringValue } = this
     return [
-      { manga: 'Reading', text: 'Watching', value: 'CURRENT' },
+      {
+        manga: 'Reading ' + stringValue,
+        text: 'Watching ' + stringValue,
+        value: 'CURRENT'
+      },
       { manga: 'Plan to read', text: 'Plan to watch', value: 'PLANNING' },
       { manga: 'Completed', text: 'Completed', value: 'COMPLETED' },
       { manga: 'Rereading', text: 'Rewatching', value: 'REPEATING' },

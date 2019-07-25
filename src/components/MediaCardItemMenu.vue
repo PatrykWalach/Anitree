@@ -23,7 +23,7 @@
       <v-list-item
         rel="noopener"
         target="_blank"
-        :href="media.siteUrl"
+        :href="url"
         @click="menu = false"
       >
         <v-list-item-icon>
@@ -32,7 +32,20 @@
         <v-list-item-title>Anilist</v-list-item-title>
       </v-list-item>
 
-      <v-list-item v-clipboard="media.siteUrl" @click="menu = false">
+      <v-list-item
+        v-if="share"
+        @click="
+          menu = false
+          share({ url, title: media.title[preferedTitle] })
+        "
+      >
+        <v-list-item-icon>
+          <v-icon>share</v-icon>
+        </v-list-item-icon>
+        <v-list-item-title>Share</v-list-item-title>
+      </v-list-item>
+
+      <v-list-item v-else v-clipboard="url" @click="menu = false">
         <v-list-item-icon>
           <v-icon>link</v-icon>
         </v-list-item-icon>
@@ -61,6 +74,7 @@ import { Media } from '../types'
 import auth from '../store/modules/auth'
 import edit from '../store/modules/edit'
 import { clipboard } from 'vue-clipboards'
+import title from '../store/modules/title'
 
 @Component({
   directives: {
@@ -75,6 +89,16 @@ export default class MediaCardItemMenu extends Vue {
   readonly media!: Media
 
   menu = false
+
+  share = navigator.share
+
+  get preferedTitle() {
+    return title.preferedTitle
+  }
+
+  get url() {
+    return this.media.siteUrl
+  }
 
   get authorized() {
     return auth.authorized

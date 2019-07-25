@@ -14,9 +14,11 @@ export default class MediaCardItemSubheading extends Vue {
   readonly media!: Media
 
   get subheading() {
-    const { format, status } = this.media
-    return [format, status]
-      .map(this.clean)
+    const { format, status, chapters, episodes, type } = this.media
+    return [
+      ...[format, status].map(this.clean),
+      type === 'MANGA' ? chapters + ' Chapters' : episodes + ' Episodes'
+    ]
       .filter(str => str)
       .join(' · ')
   }

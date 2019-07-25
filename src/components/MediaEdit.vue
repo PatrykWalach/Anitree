@@ -11,9 +11,10 @@
           <v-overlay absolute></v-overlay>
         </media-card-banner>
         <MediaCardItem :media="media" />
-
+        <v-divider></v-divider>
         <MediaEditForm v-if="authorized" v-bind="{ media, user }" />
       </v-card-text>
+      <v-divider></v-divider>
 
       <MediaEditActions v-bind="{ authorized, media }" />
     </v-card>
@@ -48,9 +49,7 @@ export default class MediaEdit extends Vue {
 
   set isEdited(isEdited) {
     if (!isEdited) edit.close()
-    else
-    edit.CHANGE_IS_EDITED(isEdited)
-
+    else edit.CHANGE_IS_EDITED(isEdited)
   }
 
   get loading() {
