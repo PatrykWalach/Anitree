@@ -8,7 +8,7 @@
         v-on="on"
       ></v-progress-linear>
     </template>
-    <span>{{ (tip && (manga ? tip.manga : tip.text)) || '' }}</span>
+    <span>{{ tip }}</span>
   </v-tooltip>
 </template>
 <script lang="ts">
@@ -30,9 +30,8 @@ export default class MediaCardStatus extends Vue {
   }
 
   get progress() {
-    return (
-      (this.media.mediaListEntry && this.media.mediaListEntry.progress) || 0
-    )
+    const { mediaListEntry } = this.media
+    return (mediaListEntry && mediaListEntry.progress) || 0
   }
 
   get episodes() {
@@ -41,9 +40,21 @@ export default class MediaCardStatus extends Vue {
     return manga ? chapters : episodes
   }
 
-  get value() {
-    const { episodes, progress } = this
-    return (episodes && (progress / episodes) * 100) || (progress ? 50 : 100)
+  get value(): number {
+    const { status } = this
+
+    switch (status) {
+      case 'COMPLETED':
+        return 100
+      case 'PLANNING':
+        return 100
+      case 'DROPPED':
+        return 100
+      default: {
+        const { episodes, progress } = this
+        return (episodes && (progress / episodes) * 100) || 50
+      }
+    }
   }
 
   get stringValue() {
@@ -52,27 +63,50 @@ export default class MediaCardStatus extends Vue {
   }
 
   get tip() {
-    const { stringValue } = this
-    return [
-      {
-        manga: 'Reading ' + stringValue,
-        text: 'Watching ' + stringValue,
-        value: 'CURRENT'
-      },
-      { manga: 'Plan to read', text: 'Plan to watch', value: 'PLANNING' },
-      { manga: 'Completed', text: 'Completed', value: 'COMPLETED' },
-      {
-        manga: 'Rereading ' + stringValue,
-        text: 'Rewatching ' + stringValue,
-        value: 'REPEATING'
-      },
-      {
-        manga: 'Paused ' + stringValue,
-        text: 'Paused ' + stringValue,
-        value: 'PAUSED'
-      },
-      { manga: 'Dropped', text: 'Dropped', value: 'DROPPED' }
-    ].find(({ value }) => value === this.status)
+    const { status, tipString, stringValue } = this
+
+    switch (status) {
+      case 'COMPLETED':
+        return tipString
+      case 'PLANNING':
+        return tipString
+      case 'DROPPED':
+        return tipString
+      default:
+        return tipString + ' ' + stringValue
+    }
+  }
+
+  get tipString() {
+    const { tipObject, manga } = this
+    return (tipObject && ((manga && tipObject.manga) || tipObject.text)) || ''
+  }
+
+  get tipObject() {
+    switch (this.status) {
+      case 'CURRENT':
+        return {
+          manga: 'Reading',
+          text: 'Watching'
+        }
+      case 'PLANNING':
+        return { manga: 'Plan to read', text: 'Plan to watch' }
+      case 'COMPLETED':
+        return { text: 'Completed' }
+      case 'REPEATING':
+        return {
+          manga: 'Rereading',
+          text: 'Rewatching'
+        }
+      case 'PAUSED':
+        return {
+          text: 'Paused'
+        }
+      case 'DROPPED':
+        return { text: 'Dropped' }
+      default:
+        return ''
+    }
   }
 
   get color() {
@@ -95,8 +129,3 @@ export default class MediaCardStatus extends Vue {
   }
 }
 </script>
-<style lang="scss" scoped>
-.v-card__status {
-  height: 3px;
-}
-</style>
