@@ -14,13 +14,22 @@ export default class MediaCardItemSubheading extends Vue {
   readonly media!: Media
 
   get subheading() {
-    const { format, status, chapters, episodes, type } = this.media
-    return [
-      ...[format, status].map(this.clean),
-      type === 'MANGA' ? chapters + ' Chapters' : episodes + ' Episodes'
-    ]
+    const { chapters, media, clean } = this
+    const { format, status } = media
+
+    return [...[format, status].map(clean), chapters]
       .filter(str => str)
       .join(' · ')
+  }
+
+  get chapters() {
+    const { chapters, episodes, type } = this.media
+
+    return (
+      ((chapters || episodes) && type === 'MANGA'
+        ? chapters + ' Chapters'
+        : episodes + ' Episodes') || null
+    )
   }
 
   clean(str: string | null) {
