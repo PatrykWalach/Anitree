@@ -26,9 +26,9 @@ export default class MediaCardItemSubheading extends Vue {
     const { chapters, episodes, type } = this.media
 
     return (
-      ((chapters || episodes) && type === 'MANGA'
-        ? chapters + ' Chapters'
-        : episodes + ' Episodes') || null
+      ((chapters || episodes) &&
+        (type === 'MANGA' ? chapters + ' Chapters' : episodes + ' Episodes')) ||
+      null
     )
   }
 
