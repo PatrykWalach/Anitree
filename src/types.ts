@@ -22,6 +22,12 @@ export interface MediaListTypeOptions {
   advancedScoring: string[]
   advancedScoringEnabled: boolean
 }
+export interface ShareOptions {
+  url?: string
+  title?: string
+  text?: string
+}
+
 export interface User {
   options: {
     profileColor: string

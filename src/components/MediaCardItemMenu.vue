@@ -33,27 +33,17 @@
       </v-list-item>
 
       <v-list-item
-        v-if="navigator.share"
         @click="
-          navigator
-            .share({
-              url,
-              title: media.title[preferedTitle]
-            })
-            .then(() => (menu = false))
+          share({
+            url: url,
+            title: media.title[preferedTitle]
+          }).then(() => (menu = false))
         "
       >
         <v-list-item-icon>
           <v-icon>share</v-icon>
         </v-list-item-icon>
         <v-list-item-title>Share</v-list-item-title>
-      </v-list-item>
-
-      <v-list-item v-else v-clipboard="url" @click @success="menu = false">
-        <v-list-item-icon>
-          <v-icon>link</v-icon>
-        </v-list-item-icon>
-        <v-list-item-title>Copy link</v-list-item-title>
       </v-list-item>
 
       <v-list-item v-if="!isEdited && authorized" @click="edit">
@@ -67,17 +57,14 @@
 </template>
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
-import { Media } from '../types'
+import { Media, ShareOptions } from '../types'
 import auth from '../store/modules/auth'
 import edit from '../store/modules/edit'
-import { clipboard } from 'vue-clipboards'
-import title from '../store/modules/title'
 
-@Component({
-  directives: {
-    clipboard
-  }
-})
+import title from '../store/modules/title'
+import share from '../store/modules/share'
+
+@Component
 export default class MediaCardItemMenu extends Vue {
   @Prop()
   readonly hover!: boolean
@@ -87,7 +74,21 @@ export default class MediaCardItemMenu extends Vue {
 
   menu = false
 
-  navigator = navigator
+  share: (options: ShareOptions) => Promise<any> =
+    (navigator as any).share || this.desktopShare
+  // (navigator.share &&
+  //   navigator
+  //     .share({
+  //       url: this.url,
+  //       title: this.media.title[this.preferedTitle]
+  //     })
+  //     .then(() => (this.menu = false))) ||
+  // this.desktopShare
+
+  async desktopShare(options: ShareOptions) {
+    await share.CHANGE_OPTIONS(options)
+    share.CHANGE_IS_SHARED(true)
+  }
 
   get preferedTitle() {
     return title.preferedTitle

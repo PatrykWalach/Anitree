@@ -92,7 +92,6 @@ import MediaCard from '@/components/MediaCard.vue'
 import HomeItem from '@/components/HomeItem.vue'
 import media from '../store/modules/media'
 
-
 @Component({
   components: {
     TheDrawerFilters,

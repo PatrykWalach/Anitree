@@ -6,7 +6,8 @@
       <keep-alive :max="10">
         <router-view />
       </keep-alive>
-      <MediaEdit :media="media" />
+      <MediaEdit :media="editMedia" />
+      <BaseShare :options="shareOptions" />
     </v-content>
     <TheFooter />
   </v-app>
@@ -18,12 +19,15 @@ import TheFooter from './components/TheFooter.vue'
 import TheToolbar from './components/TheToolbar.vue'
 import MediaEdit from './components/MediaEdit.vue'
 import edit from './store/modules/edit'
+import share from './store/modules/share'
+import BaseShare from './components/BaseShare.vue'
 
 @Component({
   components: {
     TheFooter,
     MediaEdit,
     TheToolbar,
+    BaseShare,
     TheDrawer
   }
 })
@@ -34,8 +38,12 @@ export default class App extends Vue {
     this.drawerValue = !this.drawerValue
   }
 
-  get media() {
+  get editMedia() {
     return edit.media
+  }
+
+  get shareOptions() {
+    return share.options
   }
 }
 </script>
