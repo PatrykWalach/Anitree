@@ -53,7 +53,7 @@
             <FontAwesomeIcon :icon="['fab', 'reddit-alien']" />
           </base-share-item>
           <base-share-item :href="`mailto:?body=${url}`" title="E-mail">
-            <v-icon>email</v-icon>
+            <v-icon dark>email</v-icon>
           </base-share-item>
         </v-slide-group>
 

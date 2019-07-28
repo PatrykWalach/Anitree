@@ -2,7 +2,7 @@
   <v-slide-item>
     <v-card flat :href="href" target="_blank" rel="noopener">
       <v-card-title :style="{ 'justify-content': 'center' }">
-        <v-avatar :color="color">
+        <v-avatar :color="color" class="white--text">
           <slot></slot>
         </v-avatar>
       </v-card-title>

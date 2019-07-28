@@ -34,7 +34,7 @@
 
       <v-list-item
         @click="
-          share({
+          ;(navigator.share || desktopShare)({
             url: url,
             title: media.title[preferedTitle]
           }).then(() => (menu = false))
@@ -73,9 +73,10 @@ export default class MediaCardItemMenu extends Vue {
   readonly media!: Media
 
   menu = false
+  navigator = navigator
 
-  share: (options: ShareOptions) => Promise<any> =
-    (navigator as any).share || this.desktopShare
+  // share: (options: ShareOptions) => Promise<any> =
+  //   (navigator as any).share || this.desktopShare
   // (navigator.share &&
   //   navigator
   //     .share({
