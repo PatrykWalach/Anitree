@@ -23,13 +23,24 @@ export default class MediaCardItemSubheading extends Vue {
   }
 
   get chapters() {
-    const { chapters, episodes, type } = this.media
+    const { chaptersNumber, manga } = this
 
     return (
-      ((chapters || episodes) &&
-        (type === 'MANGA' ? chapters + ' Chapters' : episodes + ' Episodes')) ||
+      (chaptersNumber &&
+        chaptersNumber +
+          (manga ? ' Chapter' : ' Episode') +
+          (chaptersNumber === 1 ? '' : 's')) ||
       null
     )
+  }
+  get manga() {
+    return this.media.type === 'MANGA'
+  }
+
+  get chaptersNumber(): number {
+    const { manga, media } = this
+    const { chapters, episodes } = media
+    return ((chapters || episodes) && (manga ? chapters : episodes)) || 0
   }
 
   clean(str: string | null) {
