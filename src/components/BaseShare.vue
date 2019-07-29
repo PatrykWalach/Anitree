@@ -1,9 +1,5 @@
 <template>
   <v-dialog v-model="isShared" scrollable max-width="440px">
-    <template v-slot:activator="{ on }">
-      <slot v-bind="{ on }"></slot>
-    </template>
-
     <v-card>
       <v-tooltip bottom>
         <template v-slot:activator="{ on }">

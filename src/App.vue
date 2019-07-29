@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <TheDrawer :value.sync="drawerValue" />
-    <TheToolbar @toggle:drawer="toggleDrawer" />
+    <TheAppBar @toggle:drawer="toggleDrawer" />
     <v-content>
       <keep-alive :max="10">
         <router-view />
@@ -16,7 +16,7 @@
 import { Vue, Component } from 'vue-property-decorator'
 import TheDrawer from './components/TheDrawer.vue'
 import TheFooter from './components/TheFooter.vue'
-import TheToolbar from './components/TheToolbar.vue'
+import TheAppBar from './components/TheAppBar.vue'
 import MediaEdit from './components/MediaEdit.vue'
 import edit from './store/modules/edit'
 import share from './store/modules/share'
@@ -26,7 +26,7 @@ import BaseShare from './components/BaseShare.vue'
   components: {
     TheFooter,
     MediaEdit,
-    TheToolbar,
+    TheAppBar,
     BaseShare,
     TheDrawer
   }
