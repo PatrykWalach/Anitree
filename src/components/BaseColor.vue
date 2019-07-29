@@ -3,8 +3,8 @@
     :is="tag"
     v-bind="$attrs"
     :[theme]="true"
-    v-on="$listeners"
     :color="color"
+    v-on="$listeners"
   >
     <slot :[theme]="true" :theme="theme"></slot>
   </component>

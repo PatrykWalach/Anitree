@@ -22,10 +22,13 @@ export interface MediaListTypeOptions {
   advancedScoring: string[]
   advancedScoringEnabled: boolean
 }
-export interface ShareOptions {
+export interface ShareData {
   url?: string
   title?: string
   text?: string
+}
+export interface NewNavigator extends Navigator {
+  share?: (data: ShareData) => Promise<void>
 }
 
 export interface User {

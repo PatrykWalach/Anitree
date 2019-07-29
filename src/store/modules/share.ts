@@ -5,15 +5,15 @@ import {
   MutationAction
 } from 'vuex-module-decorators'
 import store from '@/store'
-import { ShareOptions } from '@/types'
+import { ShareData } from '@/types'
 
 @Module({ namespaced: true, name: 'share', store, dynamic: true })
 export class ModuleShare extends VuexModule {
-  public options: ShareOptions | null = null
+  public options: ShareData | null = null
   public isShared: boolean = false
 
   @MutationAction
-  public async CHANGE_OPTIONS(options: ShareOptions | null) {
+  public async CHANGE_OPTIONS(options: ShareData | null) {
     return { options }
   }
 

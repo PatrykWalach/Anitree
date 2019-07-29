@@ -96,7 +96,7 @@ import BaseShareItem from './BaseShareItem.vue'
 library.add(faFacebookF, faTwitter, faRedditAlien, faTumblr)
 import { clipboard } from 'vue-clipboards'
 import share from '../store/modules/share'
-import { ShareOptions } from '../types'
+import { ShareData } from '../types'
 
 @Component({
   directives: {
@@ -119,6 +119,6 @@ export default class BaseShare extends Vue {
   }
 
   @Prop({ required: true })
-  readonly options!: ShareOptions | null
+  readonly options!: ShareData | null
 }
 </script>

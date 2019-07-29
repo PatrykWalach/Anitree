@@ -32,14 +32,7 @@
         <v-list-item-title>Anilist</v-list-item-title>
       </v-list-item>
 
-      <v-list-item
-        @click="
-          ;(navigator.share || desktopShare)({
-            url: url,
-            title: media.title[preferedTitle]
-          }).then(() => (menu = false))
-        "
-      >
+      <v-list-item @click="share">
         <v-list-item-icon>
           <v-icon>share</v-icon>
         </v-list-item-icon>
@@ -57,7 +50,7 @@
 </template>
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
-import { Media, ShareOptions } from '../types'
+import { Media, ShareData, NewNavigator } from '../types'
 import auth from '../store/modules/auth'
 import edit from '../store/modules/edit'
 
@@ -73,21 +66,31 @@ export default class MediaCardItemMenu extends Vue {
   readonly media!: Media
 
   menu = false
-  navigator = navigator
 
-  // share: (options: ShareOptions) => Promise<any> =
-  //   (navigator as any).share || this.desktopShare
-  // (navigator.share &&
-  //   navigator
-  //     .share({
-  //       url: this.url,
-  //       title: this.media.title[this.preferedTitle]
-  //     })
-  //     .then(() => (this.menu = false))) ||
-  // this.desktopShare
+  share() {
+    const { desktopShare, url, title } = this
 
-  async desktopShare(options: ShareOptions) {
-    await share.CHANGE_OPTIONS(options)
+    const share = (navigator as NewNavigator).share || desktopShare
+
+    share
+      .call(navigator, {
+        url,
+        title
+      })
+      .then(() => (this.menu = false))
+  }
+
+  created() {
+    console.log(navigator)
+  }
+
+  get title() {
+    const { media, preferedTitle } = this
+    return media.title[preferedTitle]
+  }
+
+  async desktopShare(data: ShareData) {
+    await share.CHANGE_OPTIONS(data)
     share.CHANGE_IS_SHARED(true)
   }
 
