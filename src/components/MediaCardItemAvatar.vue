@@ -6,7 +6,7 @@
   >
     <base-lazy-img
       :src="media.coverImage.extraLarge"
-      :lazy-src="media.coverImage.small"
+      :lazy-src="media.coverImage.medium"
       :srcset="srcset"
     ></base-lazy-img>
   </v-list-item-avatar>

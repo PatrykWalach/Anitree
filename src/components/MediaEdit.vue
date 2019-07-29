@@ -5,7 +5,7 @@
     :fullscreen="$vuetify.breakpoint.xsOnly"
     max-width="720px"
   >
-    <v-card outlined :loading="loading">
+    <v-card :loading="loading">
       <v-card-text class="pa-0">
         <media-card-banner :media="media">
           <v-overlay absolute></v-overlay>

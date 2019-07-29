@@ -1,6 +1,6 @@
 <template>
   <v-tabs v-model="tab" vertical :color="media.coverImage.color">
-    <v-tab href="#edit1">
+    <v-tab href="#edit1" :style="{ 'margin-left': 0 }">
       <v-icon>dashboard</v-icon>
     </v-tab>
     <v-tab href="#edit2">
