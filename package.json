@@ -9,7 +9,7 @@
     "release": "release-it"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^1.2.20",
+    "@fortawesome/fontawesome-svg-core": "^1.2.21",
     "@fortawesome/free-brands-svg-icons": "^5.10.0",
     "@fortawesome/vue-fontawesome": "^0.1.5",
     "apollo-boost": "^0.4.3",
