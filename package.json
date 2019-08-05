@@ -35,7 +35,7 @@
     "@mdi/font": "^3.8.95",
     "@types/graphql": "^14.2.3",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
-    "@vue/cli-plugin-babel": "^3.9.2",
+    "@vue/cli-plugin-babel": "^3.10.0",
     "@vue/cli-plugin-eslint": "^3.10.0",
     "@vue/cli-plugin-pwa": "^3.10.0",
     "@vue/cli-plugin-typescript": "^3.9.0",
