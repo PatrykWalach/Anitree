@@ -1,44 +1,27 @@
 <template>
-  <h6 :id="media.id" class="title">
-    <v-hover>
-      <template v-slot="{ hover }">
-        <router-link
-          class="link"
-          :style="{
-            '--hover': media.coverImage.color
-          }"
-          :to="{
-            name: 'media',
-            params: {
-              mediaId: media.id,
-              mediaType: media.type.toLowerCase()
-            }
-          }"
-        >
-          {{ title }}
-        </router-link>
-      </template>
-    </v-hover>
-  </h6>
+  <v-list-item-title class="headline">
+    <MediaCardItemTitleReady v-if="media" :media="media"/>
+    <MediaCardProgress v-else width="75%"
+  /></v-list-item-title>
 </template>
 
 <script lang="ts">
-import { Prop, Component, Vue } from 'vue-property-decorator'
-import { Media } from '../types'
+import MediaCardItemTitleReady from './MediaCardItemTitleReady.vue'
 
-import title from '../store/modules/title'
-@Component
-export default class MediaCardItemTitle extends Vue {
-  @Prop({ required: true })
-  readonly media!: Media
-
-  get preferedTitle() {
-    return title.preferedTitle
-  }
-
-  get title() {
-    const { media, preferedTitle } = this
-    return media.title[preferedTitle] || media.title.romaji
-  }
+import MediaCardProgress from './MediaCardProgress.vue'
+import { Media } from '../apollo/schema/media'
+import { createComponent } from 'vue-function-api'
+interface Props {
+  media: Media | null
 }
+export default createComponent({
+  components: {
+    MediaCardItemTitleReady,
+
+    MediaCardProgress
+  },
+  props: {
+    media: { required: true }
+  }
+})
 </script>

@@ -1,0 +1,5 @@
+  fragment FuzzyDateFields on FuzzyDate {
+    year
+    month
+    day
+  }

@@ -2,96 +2,91 @@
   <time :datetime="dateISO">{{ sliced | combine }}</time>
 </template>
 <script lang="ts">
-import { Prop, Component, Vue } from 'vue-property-decorator'
 import { ValidDate } from '../types'
+import { createComponent, computed } from 'vue-function-api'
+interface Props {
+  date: ValidDate
+  sliceDate: ValidDate | null
+}
 
-@Component({
+export default createComponent({
   filters: {
     combine: (parts: Intl.DateTimeFormatPart[]) =>
       parts.map(({ value }) => value).join('')
+  },
+  props: ({
+    date: { required: true },
+    sliceDate: { default: null }
+  } as unknown) as Readonly<Props>,
+  setup(props) {
+    const toDate = (date: ValidDate) =>
+      new Date(date.year, (date.month && date.month - 1) || 0, date.day || 1)
+
+    const formatToParts = (date: ValidDate | null) => {
+      if (date) {
+        const fmt = new Intl.DateTimeFormat('en', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        })
+        return fmt.formatToParts(toDate(date))
+      }
+      return []
+    }
+
+    const formatToISO = (date: ValidDate) => toDate(date).toISOString()
+
+    const partsAreEqual = (
+      start: Intl.DateTimeFormatPart,
+      end: Intl.DateTimeFormatPart
+    ) => end && start && end.type === start.type && end.value === start.value
+
+    const reduce = (
+      start: Intl.DateTimeFormatPart[],
+      end: Intl.DateTimeFormatPart[]
+    ): Intl.DateTimeFormatPart[] => {
+      if (partsAreEqual(start[0], end[0])) {
+        end.shift()
+        return reduce(start, end)
+      }
+      return end
+    }
+
+    const reduceReverse = (
+      start: Intl.DateTimeFormatPart[],
+      end: Intl.DateTimeFormatPart[]
+    ): Intl.DateTimeFormatPart[] => {
+      if (partsAreEqual(start[start.length - 1], end[start.length - 1])) {
+        start.pop()
+        return reduceReverse(start, end)
+      }
+      return start
+    }
+
+    const dateParts = computed(() => {
+      return formatToParts(props.date)
+    })
+
+    const sliceDateParts = computed(() => {
+      return formatToParts(props.sliceDate)
+    })
+
+    const dateISO = computed(() => {
+      return formatToISO(props.date)
+    })
+
+    const sliced = computed(() => {
+      if (props.sliceDate) {
+        if (toDate(props.sliceDate) > toDate(props.date)) {
+          return reduceReverse(dateParts.value.slice(), sliceDateParts.value)
+        }
+        return reduce(sliceDateParts.value, dateParts.value.slice())
+      }
+
+      return dateParts.value
+    })
+
+    return { dateParts, sliceDateParts, dateISO, sliced }
   }
 })
-export default class BaseTime extends Vue {
-  @Prop({ required: true })
-  readonly date!: ValidDate
-
-  @Prop({ default: null })
-  readonly sliceDate!: ValidDate | null
-
-  get dateParts() {
-    return this.formatToParts(this.date)
-  }
-
-  get sliceDateParts() {
-    return this.formatToParts(this.sliceDate)
-  }
-
-  get dateISO() {
-    return this.formatToISO(this.date)
-  }
-
-  formatToISO(date: ValidDate) {
-    return this.toDate(date).toISOString()
-  }
-
-  formatToParts(date: ValidDate | null) {
-    if (date) {
-      const fmt = new Intl.DateTimeFormat('en', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-      })
-      return fmt.formatToParts(this.toDate(date))
-    }
-    return []
-  }
-
-  toDate(date: ValidDate) {
-    return new Date(
-      date.year,
-      (date.month && date.month - 1) || 0,
-      date.day || 1
-    )
-  }
-
-  get sliced() {
-    const { toDate, sliceDateParts, date, sliceDate, dateParts } = this
-    if (sliceDate) {
-      if (toDate(sliceDate) > toDate(date)) {
-        const { reduceReverse } = this
-        return reduceReverse(dateParts.slice(), sliceDateParts.slice())
-      }
-      const { reduce } = this
-      return reduce(sliceDateParts.slice(), dateParts.slice())
-    }
-
-    return dateParts
-  }
-
-  reduce(
-    start: Intl.DateTimeFormatPart[],
-    end: Intl.DateTimeFormatPart[]
-  ): Intl.DateTimeFormatPart[] {
-    if (this.partsAreEqual(start[0], end[0])) {
-      end.shift()
-      return this.reduce(start, end)
-    }
-    return end
-  }
-
-  reduceReverse(
-    start: Intl.DateTimeFormatPart[],
-    end: Intl.DateTimeFormatPart[]
-  ): Intl.DateTimeFormatPart[] {
-    if (this.partsAreEqual(start[start.length - 1], end[start.length - 1])) {
-      start.pop()
-      return this.reduceReverse(start, end)
-    }
-    return start
-  }
-
-  partsAreEqual(start: Intl.DateTimeFormatPart, end: Intl.DateTimeFormatPart) {
-    return end && start && end.type === start.type && end.value === start.value
-  }
-}
 </script>

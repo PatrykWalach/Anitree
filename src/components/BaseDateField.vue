@@ -10,12 +10,12 @@
     full-width
     min-width="290px"
   >
-    <template v-slot:activator="{ on }">
+    <template v-slot:activator="{ on, attrs }">
       <v-text-field
         v-model="date"
         prepend-inner-icon="event"
         readonly
-        v-bind="$attrs"
+        v-bind="{ ...attrs, ...$attrs }"
         v-on="on"
         @click:clear="clear"
       ></v-text-field>
@@ -28,41 +28,43 @@
   </v-menu>
 </template>
 <script lang="ts">
-import { Vue, Component, Prop, Watch, Emit } from 'vue-property-decorator'
+import { watch, value as binding, createComponent } from 'vue-function-api'
 
-@Component({
-  inheritAttrs: false
-})
-export default class BaseDateField extends Vue {
-  @Prop()
-  readonly value!: string
-
-  date: string = ''
-  menu: boolean = false
-
-  @Watch('value', { immediate: true })
-  changeDate(value: string) {
-    this.date = value
-  }
-
-  save() {
-    const { value, date } = this
-
-    const save: (score: any) => void = (this.$refs.menu as any).save
-    save(date)
-
-    if (date !== value) {
-      this.change(date)
-    }
-  }
-
-  clear() {
-    this.change('')
-  }
-
-  @Emit()
-  change(date: string) {
-    return date
-  }
+interface Props {
+  value: string
 }
+
+export default createComponent({
+  inheritAttrs: false,
+  props: ({
+    value: {
+      required: true,
+      type: String
+    }
+  } as unknown) as Readonly<Props>,
+  setup(props, { emit, refs }) {
+    const date = binding('')
+    const menu = binding(false)
+
+    watch(() => props.value, value => (date.value = value))
+
+    function save() {
+      const save: (score: string) => void = (refs.menu as any).save
+
+      const _date = date.value
+
+      save(_date)
+
+      if (_date !== props.value) {
+        emit('change', _date)
+      }
+    }
+
+    function clear() {
+      emit('change', '')
+    }
+
+    return { date, menu, save, clear }
+  }
+})
 </script>

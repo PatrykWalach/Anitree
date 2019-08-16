@@ -1,17 +1,21 @@
 import Vue from 'vue'
-import App from './App.vue'
-import router from './router'
-import store from './store/index'
-import vuetify from './vuetify'
+import router from '@/router'
+import vuetify from '@/vuetify'
+import { apolloProvider } from '@/apollo'
 
-import './registerServiceWorker'
-import './assets/css/style.scss'
+import App from '@/App.vue'
+
+import { plugin } from 'vue-function-api'
+Vue.use(plugin)
+
+import '@/registerServiceWorker'
+import '@/assets/css/style.scss'
 
 Vue.config.productionTip = false
 
 new Vue({
   router,
-  store,
   vuetify,
+  apolloProvider,
   render: h => h(App)
 }).$mount('#app')

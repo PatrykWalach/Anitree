@@ -1,0 +1,73 @@
+#import "./MediaListFields.gql"
+#import "./FuzzyDateFields.gql"
+ 
+ fragment MediaFields on Media {
+    id
+    season
+    seasonInt
+    episodes
+    rankings {
+      rank
+      year
+      type
+      context
+      allTime
+    }
+    isFavourite
+    bannerImage
+    coverImage {
+      extraLarge
+      large
+      medium
+      color
+    }
+    format
+    status
+    tags {
+      id
+      name
+      rank
+    }
+    siteUrl
+    type
+    studios(isMain: true) {
+      nodes {
+        id
+        name
+      }
+    }
+    startDate {
+      ...FuzzyDateFields
+    }
+    endDate {
+      ...FuzzyDateFields
+    }
+    title {
+      romaji
+      english
+      native
+    }
+    description
+    volumes
+    chapters
+    relations {
+      edges {
+        id
+        relationType
+        node {
+          id
+          type
+        }
+        relationType
+      }
+    }
+    stats {
+      scoreDistribution {
+        score
+        amount
+      }
+    }
+    mediaListEntry {
+      ...MediaListFields
+    }
+  }

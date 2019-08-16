@@ -1,93 +1,114 @@
 <template>
-  <base-container :loading="loading">
-    <template v-if="!media.length">
-      No results found
-    </template>
-    <template v-else>
-      <MediaTimeline :media-list="media" />
-      <v-pagination v-model="page" :length="lastPage"></v-pagination>
-    </template>
-  </base-container>
+  <ApolloQuery
+    v-slot="{ result: { data: viewer } }"
+    :tag="null"
+    :query="require('@/apollo/queries/Viewer.gql')"
+    :skip="!token"
+  >
+    <v-container fluid fill-height grid-list-lg>
+      <TheSearchList :user="viewer && viewer.Viewer" v-if="isSearched" />
+      <ApolloQuery
+        v-else
+        v-slot="{ result: { error, data }, isLoading, query }"
+        :query="require('@/apollo/queries/Page.gql')"
+        :tag="null"
+        fetch-policy="cache-and-network"
+        :variables="
+          Object.assign(
+            {
+              isAdult:
+                viewer && viewer.Viewer.options.displayAdultContent
+                  ? undefined
+                  : false
+            },
+            query
+          )
+        "
+      >
+        <v-layout
+          v-if="isLoading || error || !data.Page.media.length"
+          justify-center
+          align-center
+        >
+          <v-progress-circular
+            v-if="isLoading"
+            indeterminate
+            color="primary"
+          ></v-progress-circular>
+          <template v-else-if="error">
+            There was an error
+            <!-- <v-btn @click="query.refetch()">Retry</v-btn> -->
+          </template>
+          <template v-else>
+            No results found
+          </template>
+        </v-layout>
+        <media-timeline v-else :media-list="data.Page.media">
+          <v-pagination
+            v-model="page"
+            :length="data.Page.pageInfo.lastPage"
+          ></v-pagination>
+        </media-timeline>
+      </ApolloQuery>
+    </v-container>
+  </ApolloQuery>
 </template>
 <script lang="ts">
-import { Vue, Component, Watch } from 'vue-property-decorator'
-const MediaTimeline = () =>
-  import(/* webpackPrefetch: true */ '../components/MediaTimeline.vue')
-import { Media, Page } from '../types'
-import BaseContainer from '../components/BaseContainer.vue'
-import mediaModule from '../store/modules/media'
-import auth from '../store/modules/auth'
+import MediaTimeline from '../components/MediaTimeline.vue'
+import TheSearchList from '../components/TheSearchList.vue'
 
-@Component({
+import { createComponent, computed } from 'vue-function-api'
+import useAuth from '../store/auth'
+
+export default createComponent({
   components: {
     MediaTimeline,
-    BaseContainer
-  }
-})
-export default class Search extends Vue {
-  loading: boolean = true
-  pages: Page[] = []
-
-  get query() {
-    return Object.assign(
-      {},
-      {
-        isAdult: auth.adultContent ? undefined : false
-      },
-      this.$route.query
+    TheSearchList
+  },
+  setup(_, { root }) {
+    const query = computed(
+      () => root.$route.query,
+      query =>
+        root.$router.replace({
+          query
+        })
     )
-  }
 
-  set query(query) {
-    this.$router.replace({
-      query
+    const isSearched = computed(() => {
+      for (const prop in query.value) {
+        if (query.value.hasOwnProperty(prop)) {
+          return false
+        }
+      }
+      return true
     })
-  }
 
-  get page(): number {
-    const { page } = this.query
-    switch (typeof page) {
-      case 'string':
-        return parseInt(page)
-      case 'number':
-        return page
-      default:
-        return 1
+    const page = computed(
+      () => {
+        const page = query.value.page
+        switch (typeof page) {
+          case 'string':
+            return parseInt(page)
+          case 'number':
+            return page
+          default:
+            return 1
+        }
+      },
+
+      page => {
+        query.value = Object.assign({}, query.value, { page })
+      }
+    )
+
+    const { token } = useAuth()
+
+    return {
+      token,
+      query,
+      page,
+      isSearched
     }
   }
-
-  set page(page) {
-    this.query = Object.assign({}, this.query, { page })
-  }
-
-  get currentPage(): Page | null {
-    const { pages, page } = this
-    return pages[page] || null
-  }
-
-  get media(): Media[] {
-    const { currentPage } = this
-    return (currentPage && currentPage.media) || []
-  }
-
-  get pageInfo() {
-    const { currentPage } = this
-    return currentPage && currentPage.pageInfo
-  }
-
-  get lastPage() {
-    const { pageInfo } = this
-    return (pageInfo && pageInfo.lastPage) || 0
-  }
-
-  @Watch('query', { immediate: true })
-  async fetchMedia() {
-    this.loading = true
-    const page = await mediaModule.fetchMediaPage({
-      ...this.query
-    })
-    Vue.set(this.pages, this.page, page)
-    this.loading = false
-  }
-}
+})
 </script>

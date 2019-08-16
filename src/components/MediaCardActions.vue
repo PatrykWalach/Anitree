@@ -1,60 +1,126 @@
 <template>
-  <v-card-actions v-if="media.tags.length || media.studios.nodes.length">
-    <div :style="{ display: 'flex', 'flex-wrap': 'wrap' }">
-      <base-color
-        v-for="tag in tags"
-        :key="`tag-${tag.id}`"
-        small
-        label
-        link
-        :style="{ margin: '4px 8px 4px 0' }"
-        :color="media.coverImage.color"
-        tag="v-chip"
-        :to="{ name: 'search', query: { includedTags: tag.name } }"
-      >
-        {{ tag.name.toLowerCase() }}
-      </base-color>
-      <v-chip
-        v-for="studio in media.studios.nodes"
-        :key="`studio-${studio.id}`"
-        small
-        outlined
-        label
-        :style="{ margin: '4px 8px 4px 0' }"
-        >{{ studio.name }}</v-chip
-      >
-    </div>
+  <v-card-actions>
+    <v-spacer></v-spacer>
+
+    <v-tooltip top>
+      <template v-slot:activator="{ attrs, on }">
+        <v-btn
+          v-on="on"
+          v-bind="attrs"
+          icon
+          :disabled="!media"
+          rel="noopener"
+          target="_blank"
+          :href="url"
+        >
+          <v-icon>open_in_new</v-icon>
+        </v-btn>
+      </template>
+      <span>Anilist</span>
+    </v-tooltip>
+
+    <v-tooltip top>
+      <template v-slot:activator="{ attrs, on }">
+        <v-btn v-on="on" v-bind="attrs" icon :disabled="!media" @click="share">
+          <v-icon>share</v-icon>
+        </v-btn>
+      </template>
+      <span>Share</span>
+    </v-tooltip>
+
+    <v-tooltip v-if="Viewer" top>
+      <template v-slot:activator="{ attrs, on }">
+        <v-btn v-on="on" v-bind="attrs" icon :disabled="!media" @click="edit">
+          <v-icon>edit</v-icon>
+        </v-btn>
+      </template>
+      <span>Edit</span>
+    </v-tooltip>
   </v-card-actions>
 </template>
+
 <script lang="ts">
-import { Prop, Component, Vue } from 'vue-property-decorator'
-import BaseColor from './BaseColor.vue'
-import { Media } from '../types'
+import { ShareData, NewNavigator } from '../types'
 
-@Component({ components: { BaseColor } })
-export default class MediaCardActions extends Vue {
-  @Prop({ required: true })
-  readonly media!: Media
+import BaseLazyImg from './BaseLazyImg.vue'
+import MediaCardItemOverline from './MediaCardItemOverline.vue'
+import MediaCardItemAvatar from './MediaCardItemAvatar.vue'
+import MediaCardProgress from './MediaCardProgress.vue'
 
-  get tags() {
-    return this.media.tags
-      .filter(({ rank }) => rank >= this.medianRank)
-      .slice(0, 5)
+import { VIEWER } from '@/apollo'
+import { Media } from '@/apollo/schema/media'
+
+import { VMenu, VBottomSheet } from 'vuetify/lib'
+import { createComponent, computed } from 'vue-function-api'
+import useTitle from '../store/title'
+import useShareModule from '../store/share'
+import useEdit from '../store/edit'
+import useAuth from '../store/auth'
+
+function useShare(props: Props) {
+  const { CHANGE_OPTIONS, CHANGE_IS_SHARED } = useShareModule()
+  const { title: _title } = useTitle()
+
+  const desktopShare = async (data: ShareData) => {
+    await CHANGE_OPTIONS(data)
+    CHANGE_IS_SHARED(true)
   }
 
-  get medianRank() {
-    const tags = this.media.tags.map(({ rank }) => rank)
-    const mid = Math.floor(tags.length / 2)
-    return this.media.tags.length % 2
-      ? tags[mid]
-      : (tags[mid - 1] + tags[mid]) / 2
+  const title = computed(() => _title.value(props.media && props.media.title))
+
+  const url = computed(() => (props.media && props.media.siteUrl) || '')
+
+  const share = () => {
+    const share = (navigator as NewNavigator).share || desktopShare
+
+    share.call(navigator, {
+      url: url.value,
+      title: title.value
+    })
   }
+
+  return { url, title, share }
 }
+
+interface Props {
+  media: Media | null
+}
+
+export default createComponent({
+  components: {
+    BaseLazyImg,
+    MediaCardItemOverline,
+    MediaCardItemAvatar,
+    MediaCardProgress,
+    VMenu,
+    VBottomSheet
+  },
+  apollo: {
+    Viewer: {
+      query: VIEWER,
+      skip() {
+        return !useAuth().token.value
+      }
+    }
+  },
+  props: ({
+    media: { required: true }
+  } as unknown) as Readonly<Props>,
+  setup(props) {
+    const { media } = props
+
+    const { open } = useEdit()
+
+    const edit = () => {
+      if (media) {
+        open(media.id)
+      }
+    }
+
+    return {
+      edit,
+      ...useShare(props)
+    }
+  }
+})
 </script>
-<style lang="scss" scoped>
-.v-card__actions {
-  display: flex;
-  align-items: flex-end;
-  grid-area: actions;
-}
-</style>

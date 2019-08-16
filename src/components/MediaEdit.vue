@@ -1,90 +1,116 @@
 <template>
-  <v-dialog
-    v-model="isEdited"
-    scrollable
-    :fullscreen="$vuetify.breakpoint.xsOnly"
-    max-width="720px"
+  <ApolloQuery
+    v-slot="{ result: { error, data }, isLoading }"
+    :query="require('@/apollo/queries/Media.gql')"
+    :variables="{
+      id: id || 1,
+      format: (Viewer && Viewer.mediaListOptions.scoreFormat) || undefined
+    }"
+    :skip="!id"
+    :tag="null"
   >
-    <v-card :loading="loading">
-      <v-card-text class="pa-0">
-        <media-card-banner :media="media">
-          <v-overlay absolute></v-overlay>
-        </media-card-banner>
-        <media-card-item :media="media">
-          <v-tooltip bottom>
-            <template v-slot:activator="{ on }">
-              <v-btn
-                :style="{ top: 0, right: 0 }"
-                absolute
-                icon
-                small
-                @click="close"
-                v-on="on"
-              >
-                <v-icon>close</v-icon>
-              </v-btn>
-            </template>
-            <span>Close</span>
-          </v-tooltip>
-        </media-card-item>
-        <v-divider></v-divider>
-        <MediaEditForm v-if="authorized" v-bind="{ media, user }" />
-      </v-card-text>
-      <v-divider></v-divider>
+    <v-dialog
+      :style="{ position: 'absolute', top: 0, right: 0 }"
+      v-model="isEdited"
+      scrollable
+      :fullscreen="$vuetify.breakpoint.xsOnly"
+      max-width="720px"
+    >
+      <v-card :loading="loading">
+        <MediaEditLoading
+          v-if="$apollo.loading || !!isLoading || !!$apollo.error || !!error"
+          :loading="$apollo.loading || !!isLoading"
+          :error="!!$apollo.error || !!error"
+        />
+        <v-card-text v-else class="pa-0">
+          <media-card-banner :media="data && data.Media">
+            <v-overlay absolute></v-overlay>
+          </media-card-banner>
+          <media-card-item :media="data && data.Media">
+            <!-- <MediaEditSync
+              :style="{ position: 'absolute', top: 0, right: 0 }"
+            /> -->
+          </media-card-item>
 
-      <MediaEditActions v-bind="{ authorized, media }" />
-    </v-card>
-  </v-dialog>
+          <v-divider></v-divider>
+          <MediaEditTabs :media="data && data.Media" :user="Viewer" />
+        </v-card-text>
+        <v-divider></v-divider>
+        <MediaEditActions :media="data && data.Media" :user="Viewer" />
+      </v-card>
+    </v-dialog>
+  </ApolloQuery>
 </template>
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator'
+import MediaEditActions from './MediaEditActions.vue'
+import MediaEditLoading from './MediaEditLoading.vue'
 
 import MediaCardBanner from './MediaCardBanner.vue'
 import MediaCardItem from './MediaCardItem.vue'
-import edit from '../store/modules/edit'
-import MediaEditActions from './MediaEditActions.vue'
-import auth from '../store/modules/auth'
-import { Media } from '../types'
+import MediaEditTabs from './MediaEditTabs.vue'
 
-const TheDrawerSettingsLogin = () => import('./TheDrawerSettingsLogin.vue')
-const MediaEditForm = () => import('./MediaEditForm.vue')
+import { VIEWER } from '@/apollo'
 
-@Component({
+import { createComponent, computed } from 'vue-function-api'
+import useEdit from '../store/edit'
+import useAuth from '../store/auth'
+
+interface Props {
+  id: number | null
+}
+
+export default createComponent({
+  props: {
+    id: { required: true }
+  },
   components: {
-    MediaCardBanner,
-    MediaCardItem,
-    MediaEditForm,
+    MediaEditTabs,
     MediaEditActions,
-    TheDrawerSettingsLogin
+    MediaEditLoading,
+    MediaCardBanner,
+    MediaCardItem
+    // MediaEditSync
+  },
+  setup() {
+    const { close, _isEdited, CHANGE_IS_EDITED, loading } = useEdit()
+
+    const isEdited = computed(
+      () => _isEdited.value,
+      isEdited => {
+        if (!isEdited) {
+          close()
+        } else {
+          CHANGE_IS_EDITED(isEdited)
+        }
+      }
+    )
+
+    return {
+      loading,
+      close,
+      isEdited
+    }
+  },
+  apollo: {
+    // Media: {
+    //   query: MEDIA,
+    //   variables() {
+    //     const { Viewer, id } = this
+    //     return {
+    //       id: id || 1,
+    //       format: (Viewer && Viewer.mediaListOptions.scoreFormat) || undefined
+    //     }
+    //   },
+    //   skip() {
+    //     return !this.id
+    //   }
+    // },
+    Viewer: {
+      query: VIEWER,
+      skip() {
+        return !useAuth().token.value
+      }
+    }
   }
 })
-export default class MediaEdit extends Vue {
-  get isEdited() {
-    return edit.isEdited
-  }
-
-  set isEdited(isEdited) {
-    if (!isEdited) this.close()
-    else edit.CHANGE_IS_EDITED(isEdited)
-  }
-
-  close() {
-    edit.close()
-  }
-
-  get loading() {
-    return edit.loading
-  }
-
-  @Prop()
-  media!: Media
-
-  get user() {
-    return auth.user
-  }
-
-  get authorized() {
-    return auth.authorized
-  }
-}
 </script>

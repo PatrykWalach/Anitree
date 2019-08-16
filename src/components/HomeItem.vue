@@ -23,10 +23,5 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
-
-@Component({
-  inheritAttrs: false
-})
-export default class HomeItem extends Vue {}
+export default { inheritAttrs: false }
 </script>

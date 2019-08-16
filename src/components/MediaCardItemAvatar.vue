@@ -1,46 +1,47 @@
 <template>
   <v-list-item-avatar
-    color="grey darken-2"
-    size="80"
+    :color="color"
+    :size="size"
     :style="{ 'align-self': 'center' }"
   >
     <base-lazy-img
-      :src="media.coverImage.extraLarge"
+      v-if="media"
+      :srcset="
+        `${media.coverImage.medium} 1x, 
+            ${media.coverImage.large} 2x, 
+            ${media.coverImage.extraLarge} 3x`
+      "
       :lazy-src="media.coverImage.medium"
-      :srcset="srcset"
-    ></base-lazy-img>
+      :src="media.coverImage.extraLarge"
+    >
+    </base-lazy-img>
   </v-list-item-avatar>
 </template>
 
 <script lang="ts">
-import { Prop, Component, Vue } from 'vue-property-decorator'
-import { Media } from '../types'
+import { Media } from '@/apollo/schema/media'
 
 import BaseLazyImg from './BaseLazyImg.vue'
+import { createComponent, computed, inject, Wrapper } from 'vue-function-api'
+import { useTheme } from './MediaCardProgress.vue'
 
-@Component({
+interface Props {
+  media: Media | null
+  size: number | string
+}
+
+export default createComponent({
   components: {
     BaseLazyImg
+  },
+  props: {
+    media: { required: true },
+    size: {
+      default: 80
+    }
+  },
+  setup() {
+    return useTheme()
   }
 })
-export default class MediaCardItem extends Vue {
-  @Prop({ required: true })
-  readonly media!: Media
-
-  get srcset() {
-    const { extraLarge, large, medium } = this.media.coverImage
-    return `${medium} 1x,
-    ${large} 2x,
-     ${extraLarge} 3x`
-
-    // return `${medium} 0.5x,
-    // ${large} 1x,
-    //  ${extraLarge} 1.5x`
-    // return [...new Set([medium, large, extraLarge])]
-    //  .map((url, i) => [url, i + 1])
-    //  .filter(([url]) => url)
-    //  .map(([url, i]) => `${url} ${i}x`)
-    //  .join(', ')
-  }
-}
 </script>

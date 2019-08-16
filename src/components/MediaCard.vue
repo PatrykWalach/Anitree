@@ -1,43 +1,60 @@
 <template>
-  <v-hover>
-    <template v-slot="{ hover }">
-      <v-card :ripple="!$vuetify.breakpoint.xsOnly">
-        <MediaCardBanner :media="media" />
-        <media-card-item :media="media">
-          <MediaCardItemMenu :hover="hover" :media="media" />
-        </media-card-item>
+  <ApolloQuery
+    v-slot="{ result: { error, data }, isLoading, query }"
+    :query="require('@/apollo/queries/Media.gql')"
+    :variables="variables"
+    :tag="null"
+  >
+    <v-banner v-if="error" icon="warning" two-line :tile="false">
+      There was an error while loading the data. Please make sure your have a
+      stable internet connection and try again.
 
-        <v-divider
-          v-if="media.tags.length || media.studios.nodes.length"
-        ></v-divider>
-        <MediaCardActions :media="media" />
+      <template v-slot:actions>
+        <v-btn color="error" text @click="query.refetch()">Retry</v-btn>
+      </template>
+    </v-banner>
 
-        <MediaCardStatus :media="media" />
-      </v-card>
-    </template>
-  </v-hover>
+    <v-card v-else>
+      <MediaCardBanner :media="data && data.Media" />
+      <MediaCardTabs :media="data && data.Media" />
+      <v-divider class="mx-4"></v-divider>
+      <MediaCardActions :media="data && data.Media" />
+      <MediaCardStatus :media="data && data.Media" />
+    </v-card>
+  </ApolloQuery>
 </template>
 <script lang="ts">
-import { Prop, Component, Vue } from 'vue-property-decorator'
 import MediaCardBanner from './MediaCardBanner.vue'
-import MediaCardItem from './MediaCardItem.vue'
 import MediaCardStatus from './MediaCardStatus.vue'
+import MediaCardTabs from './MediaCardTabs.vue'
 import MediaCardActions from './MediaCardActions.vue'
-import MediaCardItemMenu from './MediaCardItemMenu.vue'
 
-import { Media } from '../types'
+import { Variables } from '@/apollo/schema/media'
 
-@Component({
+import { createComponent, Wrapper, computed } from 'vue-function-api'
+
+export default createComponent({
+  setup(props) {
+    const variables: Wrapper<Variables> = computed(() => {
+      return { id: props.id }
+    })
+
+    return { variables }
+  },
   components: {
     MediaCardBanner,
-    MediaCardItem,
+    MediaCardTabs,
     MediaCardStatus,
-    MediaCardActions,
-    MediaCardItemMenu
-  }
+    MediaCardActions
+  },
+  props: ({
+    id: {
+      type: Number,
+      required: true
+    }
+  } as unknown) as Readonly<Props>
 })
-export default class MediaCard extends Vue {
-  @Prop({ required: true })
-  readonly media!: Media
+interface Props {
+  id: number
 }
 </script>

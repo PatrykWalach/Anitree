@@ -6,21 +6,25 @@
   </span>
 </template>
 <script lang="ts">
-import { Prop, Component, Vue } from 'vue-property-decorator'
 import BaseTime from './BaseTime.vue'
 import { ValidDate } from '../types'
+import { value as binding, createComponent } from 'vue-function-api'
 
-@Component({
+interface Props {
+  startDate: ValidDate
+  endDate: ValidDate
+}
+export default createComponent({
   components: {
     BaseTime
-  }
+  },
+  setup() {
+    const divider = binding(' - ')
+    return { divider }
+  },
+  props: ({
+    startDate: { required: true },
+    endDate: { required: true }
+  } as unknown) as Readonly<Props>
 })
-export default class BaseTimeRange extends Vue {
-  @Prop({ required: true })
-  readonly startDate!: ValidDate
-  @Prop({ required: true })
-  readonly endDate!: ValidDate
-
-  divider: string = ' - '
-}
 </script>

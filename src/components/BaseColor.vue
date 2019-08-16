@@ -11,37 +11,60 @@
 </template>
 
 <script lang="ts">
-import { Prop, Component, Vue } from 'vue-property-decorator'
+import { VChip, VToolbar, VBtn } from 'vuetify/lib'
+import { computed, createComponent } from 'vue-function-api'
 
-@Component
-export default class BaseColor extends Vue {
-  @Prop({ required: true })
-  readonly color!: string | null
-
-  @Prop({ default: 'span' })
-  readonly tag!: string
-
-  get colors() {
-    const { color } = this
-    return color && color.substring(1).match(/.{1,2}/g)
-  }
-
-  get l() {
-    const { colors } = this
-    const r = [0.299, 0.587, 0.114]
-    return (
-      colors &&
-      colors
-        .map(color => parseInt(color, 16))
-        .reduce((acc, color, i) => acc + color * r[i], 0)
-    )
-  }
-
-  get theme() {
-    if (this.l) {
-      return !(this.l > 186) ? 'dark' : 'light'
-    }
-    return null
-  }
+// const VChip = () => import('vuetify/lib/components/VChip')
+// const VBtn = () => import('vuetify/lib/components/VBtn')
+// const VToolbar = () => import('vuetify/lib/components/VToolbar')
+interface Props {
+  color: string
+  tag: string
 }
+export default createComponent({
+  components: {
+    VChip,
+    VBtn,
+    VToolbar
+  },
+  props: ({
+    color: {
+      type: String,
+      required: true
+    },
+    tag: {
+      type: String,
+      default: 'span'
+    }
+  } as unknown) as Readonly<Props>,
+
+  setup(props) {
+    const colors = computed(
+      () =>
+        (props.color &&
+          (props.color.substring(1).match(/.{1,2}/g) as string[])) ||
+        []
+    )
+
+    const l = computed(() => {
+      const r = [0.299, 0.587, 0.114]
+
+      return (
+        colors.value &&
+        colors.value
+          .map(color => parseInt(color, 16))
+          .reduce((acc, color, i) => acc + color * r[i], 0)
+      )
+    })
+
+    const theme = computed(() => {
+      if (l.value) {
+        return !(l.value > 186) ? 'dark' : 'light'
+      }
+      return null
+    })
+
+    return { colors, l, theme }
+  }
+})
 </script>

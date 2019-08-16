@@ -1,0 +1,27 @@
+#import "../fragments/MediaListTypeOptionsFields.gql"
+
+  query Viewer {
+    Viewer {
+      id
+      name
+      siteUrl
+      avatar{
+        large 
+        medium
+      }
+      options {
+        profileColor
+        displayAdultContent
+      }
+      mediaListOptions {
+        scoreFormat
+        animeList {
+          ...MediaListTypeOptionsFields
+        }
+        mangaList {
+          ...MediaListTypeOptionsFields
+        }
+      }
+    }
+  }
+

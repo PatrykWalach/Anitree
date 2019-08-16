@@ -1,31 +1,34 @@
 <template>
   <base-lazy-img
-    v-if="banner"
-    :src="media.bannerImage"
+    v-if="(!media || media.bannerImage) && !$vuetify.breakpoint.smAndDown"
+    :src="(media && media.bannerImage) || ''"
     v-bind="$attrs"
     min-width="100%"
     :aspect-ratio="500 / 150"
   >
+    <template v-slot:placeholder>
+      <MediaCardProgress height="100%" />
+    </template>
     <slot></slot>
   </base-lazy-img>
 </template>
 
 <script lang="ts">
-import { Prop, Component, Vue } from 'vue-property-decorator'
-import { Media } from '../types'
+import MediaCardProgress from './MediaCardProgress.vue'
+import { Media } from '../apollo/schema/media'
+import { createComponent } from 'vue-function-api'
 
 const BaseLazyImg = () => import('./BaseLazyImg.vue')
-@Component({
+interface Props {
+  media: Media | null
+}
+export default createComponent({
   components: {
-    BaseLazyImg
+    BaseLazyImg,
+    MediaCardProgress
+  },
+  props: {
+    media: { required: true }
   }
 })
-export default class MediaCardImg extends Vue {
-  @Prop({ required: true })
-  readonly media!: Media
-
-  get banner() {
-    return this.media.bannerImage && !this.$vuetify.breakpoint.smAndDown
-  }
-}
 </script>

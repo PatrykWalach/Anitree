@@ -1,54 +1,57 @@
 <template>
-  <v-app-bar app :hide-on-scroll="$vuetify.breakpoint.xsOnly">
-    <v-tooltip v-if="search && $vuetify.breakpoint.xsOnly" bottom>
-      <template v-slot:activator="{ on }">
-        <v-btn icon v-on="on" @click="search = false"
+  <v-app-bar app elevate-on-scroll>
+    <v-tooltip v-if="search || settings" bottom>
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn icon v-bind="attrs" v-on="on" @click="$router.back()"
           ><v-icon>arrow_back</v-icon></v-btn
         >
       </template>
       <span>Back</span>
     </v-tooltip>
 
-    <template v-else>
-      <v-app-bar-nav-icon @click.stop="toggleDrawer"> </v-app-bar-nav-icon>
+    <template v-if="!search">
       <v-toolbar-title>
-        <v-btn text to="/" rel="canonical" exact>Anitree</v-btn>
-      </v-toolbar-title>
-      <v-spacer></v-spacer>
-
-      <v-tooltip v-if="$vuetify.breakpoint.xsOnly" bottom>
-        <template v-slot:activator="{ on }">
-          <v-btn icon v-on="on" @click="search = true"
-            ><v-icon>search</v-icon></v-btn
-          >
+        <template v-if="settings">
+          Settings
         </template>
-        <span>Search</span>
-      </v-tooltip>
+        <v-btn v-else text to="/" rel="canonical" exact>Anitree</v-btn>
+      </v-toolbar-title>
     </template>
 
+    <v-spacer v-if="!search"></v-spacer>
     <TheAppBarSearch
-      v-if="!$vuetify.breakpoint.xsOnly || search"
-      @submit="search = false"
-      @keydown:esc="search = false"
+      v-if="(!settings && !$vuetify.breakpoint.xsOnly) || search"
     />
+    <TheAppBarViewer v-if="!search" />
+    <v-dialog v-else max-width="720px">
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn icon v-on="on" v-bind="attrs">
+          <v-icon>tune</v-icon>
+        </v-btn>
+      </template>
+
+      <SearchFilters />
+    </v-dialog>
   </v-app-bar>
 </template>
 <script lang="ts">
-import { Vue, Component, Emit } from 'vue-property-decorator'
-
 import TheAppBarSearch from './TheAppBarSearch.vue'
+import TheAppBarViewer from './TheAppBarViewer.vue'
+import SearchFilters from './SearchFilters.vue'
 
-@Component({
+import { createComponent, computed } from 'vue-function-api'
+
+export default createComponent({
   components: {
-    TheAppBarSearch
+    TheAppBarSearch,
+    TheAppBarViewer,
+    SearchFilters
+  },
+  setup(_, { root }) {
+    const search = computed(() => root.$route.name === 'search')
+    const settings = computed(() => root.$route.name === 'settings')
+
+    return { search, settings }
   }
 })
-export default class TheAppBar extends Vue {
-  search: boolean = false
-
-  @Emit('toggle:drawer')
-  toggleDrawer(e: Event) {
-    return e
-  }
-}
 </script>

@@ -7,25 +7,29 @@
             This app is under construction
           </template>
           Please visit
-          <router-link class="link primary--text" to="/roadmap">
-            roadmap
-          </router-link>
-          for more information
+          <router-link to="/roadmap"> roadmap </router-link>for more information
         </home-item>
 
         <home-item left>
           <template v-slot:opposite>
-            <MediaCard v-if="random" :media="random" />
+            <ApolloQuery
+              :query="require('@/apollo/queries/Media.gql')"
+              :variables="{ id: 21450 }"
+              fetch-policy="cache-and-network"
+              :tag="null"
+            >
+              <MediaCard :id="21450" />
+            </ApolloQuery>
           </template>
           <template v-slot:title>
             Media Cards
           </template>
           Media cards display media title, type, status, related tags, main
           studios and list status if user is logged in.
-          <br />
-          More data may be shown in future: relation type and the description
+          <br />More data may be shown in future: relation type and the
+          description
         </home-item>
-        <home-item left>
+        <!-- <home-item left>
           <template v-slot:opposite>
             <v-card>
               <TheDrawerFilters :filters="filters" />
@@ -58,25 +62,23 @@
             directly related media is shown, it is the same way related media is
             shown on
             <a
-              class="link primary--text"
               href="https://anilist.co"
               target="_blank"
               rel="noopener"
             >
               Anilist
+              <v-icon>open_in_new</icon>
             </a>
           </p>
-        </home-item>
+        </home-item>-->
         <home-item left>
           <template v-slot:opposite>
-            <v-card>
-              <TheDrawerSettings />
-            </v-card>
+            <TheSettings />
           </template>
           <template v-slot:title>
             Settings
           </template>
-          The settings are stored in browser cache.
+          The settings are stored in the browser cache.
         </home-item>
       </v-timeline>
     </v-flex>
@@ -84,43 +86,17 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
-import TheDrawerFilters from '@/components/TheDrawerFilters.vue'
-import TheDrawerSettings from '@/components/TheDrawerSettings.vue'
 import BaseContainer from '@/components/BaseContainer.vue'
 import MediaCard from '@/components/MediaCard.vue'
 import HomeItem from '@/components/HomeItem.vue'
-import media from '../store/modules/media'
+import TheSettings from '@/components/TheSettings.vue'
 
-@Component({
+export default {
   components: {
-    TheDrawerFilters,
-    TheDrawerSettings,
     BaseContainer,
     MediaCard,
-    HomeItem
-  }
-})
-export default class Home extends Vue {
-  filters = ['CHARACTER']
-  loading: boolean = false
-
-  async created() {
-    this.loading = true
-    await media.fetchMedia({ sort: 'POPULARITY_DESC' })
-    this.loading = false
-  }
-
-  get media() {
-    return media.media
-  }
-
-  get random() {
-    if (!this.loading) {
-      const media = Object.values(this.media)
-      return media[Math.floor(Math.random() * media.length)]
-    }
-    return null
+    HomeItem,
+    TheSettings
   }
 }
 </script>

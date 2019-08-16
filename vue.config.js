@@ -1,5 +1,18 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')
+
 module.exports = {
   configureWebpack: {
-    devtool: 'source-map'
+    devtool: 'source-map',
+    plugins: [new VuetifyLoaderPlugin()]
+  },
+
+  chainWebpack: config => {
+    config.module
+      .rule('graphql')
+      .test(/\.(graphql|gql)$/)
+      .use('graphql-tag/loader')
+      .loader('graphql-tag/loader')
+      .end()
   }
 }

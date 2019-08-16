@@ -4,19 +4,18 @@ module.exports = {
     node: true
   },
   extends: [
-    'plugin:@typescript-eslint/recommended',
-    'prettier/@typescript-eslint',
-    'plugin:vue/recommended',
+    'plugin:vue/essential',
     '@vue/prettier',
-    '@vue/typescript'
+    '@vue/typescript',
   ],
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'vue/valid-v-on': 0,
+    // "no-unused-vars": ["error", { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }]
+    // 'vue/valid-v-on': 0,
     '@typescript-eslint/no-unused-vars': 2,
-    '@typescript-eslint/explicit-function-return-type': 0,
-    '@typescript-eslint/no-explicit-any': 0
+    // '@typescript-eslint/explicit-function-return-type': 0,
+    // '@typescript-eslint/no-explicit-any': 0
   },
   parserOptions: {
     parser: '@typescript-eslint/parser'

@@ -1,41 +1,45 @@
 <template>
-  <v-list-item :style="{ 'flex-wrap': 'wrap' }" three-line>
+  <v-list-item :[lines]="true">
     <MediaCardItemAvatar :media="media" />
     <slot></slot>
-    <v-list-item-content
-      :style="{
-        'min-width': '70%'
-      }"
-    >
-      <MediaCardItemSeason :media="media" />
+    <v-list-item-content>
+      <MediaCardItemOverline :media="media" />
       <MediaCardItemTitle :media="media" />
-      <MediaCardItemSubheading :media="media" />
-      <MediaCardItemDescription :media="media" />
+      <MediaCardItemSubtitle :media="media" />
     </v-list-item-content>
   </v-list-item>
 </template>
 
 <script lang="ts">
-import { Prop, Component, Vue } from 'vue-property-decorator'
-import { Media } from '../types'
-
 import MediaCardItemTitle from './MediaCardItemTitle.vue'
-import MediaCardItemSubheading from './MediaCardItemSubheading.vue'
+import MediaCardItemSubtitle from './MediaCardItemSubtitle.vue'
 import MediaCardItemAvatar from './MediaCardItemAvatar.vue'
-import MediaCardItemSeason from './MediaCardItemSeason.vue'
-import MediaCardItemDescription from './MediaCardItemDescription.vue'
+import MediaCardItemOverline from './MediaCardItemOverline.vue'
 
-@Component({
-  components: {
-    MediaCardItemDescription,
-    MediaCardItemTitle,
-    MediaCardItemSubheading,
-    MediaCardItemSeason,
-    MediaCardItemAvatar
-  }
-})
-export default class MediaCardItem extends Vue {
-  @Prop({ required: true })
-  readonly media!: Media
+import MediaCardProgress from './MediaCardProgress.vue'
+import { Media } from '../apollo/schema/media'
+import { createComponent, computed } from 'vue-function-api'
+
+interface Props {
+  media: Media | null
 }
+export default createComponent({
+  components: {
+    MediaCardProgress,
+    MediaCardItemTitle,
+    MediaCardItemSubtitle,
+    MediaCardItemOverline,
+    MediaCardItemAvatar
+  },
+  setup(props) {
+    const lines = computed(() =>
+      !props.media || props.media.description ? 'three-line' : 'two-line'
+    )
+
+    return { lines }
+  },
+  props: ({
+    media: { required: true }
+  } as unknown) as Readonly<Props>
+})
 </script>
