@@ -1,16 +1,19 @@
 <template>
   <v-card-text>
-    <v-subheader v-if="value.length">Score Distribution</v-subheader>
-    <v-sparkline
-      smooth
-      type="bar"
-      :labels="labels"
-      :value="value"
-      :gradient="['#f72047', '#ffd200', '#1feaea']"
-      gradient-direction="left"
-      auto-line-width
-      :color="theme.isDark ? 'white' : 'black'"
-    ></v-sparkline>
+    <template v-if="value.length">
+      <v-subheader>Score Distribution</v-subheader>
+      <v-sparkline
+        smooth
+        type="bar"
+        :labels="labels"
+        :value="value"
+        :gradient="['#f72047', '#ffd200', '#1feaea']"
+        gradient-direction="left"
+        auto-line-width
+        :color="theme.isDark ? 'white' : 'black'"
+      ></v-sparkline>
+    </template>
+    <v-subheader v-else>There are no stats for this show yet</v-subheader>
   </v-card-text>
 </template>
 
@@ -30,12 +33,12 @@ export default createComponent({
       () => props.media.stats.scoreDistribution || []
     )
 
-    const value = computed(
-      () => scoreDistribution.value.map(({ amount }) => amount) || []
+    const value = computed(() =>
+      scoreDistribution.value.map(({ amount }) => amount)
     )
 
-    const labels = computed(
-      () => scoreDistribution.value.map(({ score }) => score) || []
+    const labels = computed(() =>
+      scoreDistribution.value.map(({ score }) => score)
     )
 
     const { theme } = useTheme()

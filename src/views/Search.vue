@@ -6,7 +6,7 @@
     :skip="!token"
   >
     <v-container fill-height grid-list-lg>
-      <TheSearchList :user="viewer && viewer.Viewer" v-if="isSearched" />
+      <TheSearchList :user="viewer && viewer.Viewer" v-if="!isSearched" />
       <ApolloQuery
         v-else
         v-slot="{ result: { error, data }, isLoading, query }"
@@ -74,14 +74,7 @@ export default createComponent({
         })
     })
 
-    const isSearched = computed(() => {
-      for (const prop in query.value) {
-        if (query.value.hasOwnProperty(prop)) {
-          return false
-        }
-      }
-      return true
-    })
+    const isSearched = computed(() => !!Object.values(query.value).length)
 
     const page = computed({
       get: () => {

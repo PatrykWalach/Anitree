@@ -6,11 +6,7 @@ export interface HTMLElementEvent<T extends HTMLElement = HTMLElement>
   target: T
   currentTarget: T
 }
-export interface Token {
-  access_token: string
-  token_type: string
-  expires_in: string
-}
+
 export interface MediaListFetchVariables {
   type: 'ANIME' | 'MANGA'
   id: number
