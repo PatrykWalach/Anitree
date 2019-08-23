@@ -17,7 +17,7 @@
     </v-tab>
 
     <v-tab-item value="info">
-      <MediaCardItem :media="media" />
+      <MediaCardItem :hover="hover" :media="media" />
     </v-tab-item>
 
     <template v-if="media">
@@ -80,6 +80,9 @@ export default createComponent({
   },
   props: {
     media: {
+      required: true
+    },
+    hover: {
       required: true
     }
   }

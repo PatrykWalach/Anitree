@@ -1,6 +1,6 @@
 <template>
   <v-list-item-title class="headline">
-    <MediaCardItemTitleReady v-if="media" :media="media"/>
+    <MediaCardItemTitleReady :hover="hover" v-if="media" :media="media"/>
     <MediaCardProgress v-else width="75%"
   /></v-list-item-title>
 </template>
@@ -21,7 +21,8 @@ export default createComponent({
     MediaCardProgress
   },
   props: {
-    media: { required: true }
+    media: { required: true },
+    hover: { required: true }
   }
 })
 </script>

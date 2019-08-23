@@ -4,7 +4,7 @@
     <slot></slot>
     <v-list-item-content>
       <MediaCardItemOverline :media="media" />
-      <MediaCardItemTitle :media="media" />
+      <MediaCardItemTitle :media="media" :hover="hover" />
       <MediaCardItemSubtitle :media="media" />
     </v-list-item-content>
   </v-list-item>
@@ -39,7 +39,8 @@ export default createComponent({
     return { lines }
   },
   props: {
-    media: { required: true }
+    media: { required: true },
+    hover: { required: true }
   }
 })
 </script>

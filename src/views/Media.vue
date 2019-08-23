@@ -82,9 +82,10 @@ export default createComponent({
           .then(resolve)
       })
 
-    watch(async onCleanup => {
+    watch(currentId, async (currentId, oldId, onCleanup) => {
+      mediaList.value = []
       loading.value = true
-      await fetchMedia([currentId.value])
+      await fetchMedia([currentId])
       loading.value = false
 
       onCleanup(() => {

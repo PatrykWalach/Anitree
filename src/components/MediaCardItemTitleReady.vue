@@ -1,19 +1,14 @@
 <template>
-  <v-tooltip top>
-    <template v-slot:activator="{ on, attrs }">
-      <span v-on="on" v-bind="attrs">
-        <router-link
-          :to="{
-            name: 'media',
-            params
-          }"
-        >
-          {{ title }}
-        </router-link>
-      </span>
-    </template>
-    <span>{{ title }}</span>
-  </v-tooltip>
+  <span v-on="hover.on" v-bind="hover.attrs">
+    <router-link
+      :to="{
+        name: 'media',
+        params
+      }"
+    >
+      {{ title }}
+    </router-link>
+  </span>
 </template>
 
 <script lang="ts">
@@ -28,7 +23,8 @@ interface Props {
 }
 export default createComponent({
   props: {
-    media: { required: true }
+    media: { required: true },
+    hover: { required: true }
   },
   setup(props: Readonly<Props>) {
     const { title: _title } = useTitle()

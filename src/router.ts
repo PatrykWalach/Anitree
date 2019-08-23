@@ -85,7 +85,7 @@ const router = new Router({
         )
         const { CHANGE_TOKEN } = useAuth()
 
-        CHANGE_TOKEN(hash || null)
+        CHANGE_TOKEN(hash.access_token || null)
 
         const route = localStorage.getItem('LAST_ROUTE')
         if (route) {

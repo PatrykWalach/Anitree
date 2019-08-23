@@ -15,7 +15,16 @@
     </v-banner>
     <v-card v-else>
       <MediaCardBanner :media="data && data.Media" />
-      <MediaCardTabs :media="data && data.Media" />
+
+      <v-tooltip top>
+        <template v-slot:activator="hover">
+          <!-- <div v-on="on" v-bind="attrs"> -->
+          <MediaCardTabs :hover="hover" :media="data && data.Media" />
+          <!-- </div> -->
+        </template>
+        <span>{{ title(data && data.Media.title) }}</span>
+      </v-tooltip>
+
       <v-divider class="mx-4"></v-divider>
       <MediaCardActions :media="data && data.Media" />
       <MediaCardStatus :media="data && data.Media" />
@@ -31,14 +40,15 @@ import MediaCardActions from './MediaCardActions.vue'
 import { Variables } from '@/apollo/schema/media'
 
 import { createComponent, Ref, computed } from 'vue-function-api'
-
+import useTitle from '@/store/title'
 export default createComponent({
   setup(props: Readonly<Props>) {
     const variables: Ref<Variables> = computed(() => {
       return { id: props.id }
     })
+    const { title } = useTitle()
 
-    return { variables }
+    return { variables, title }
   },
   components: {
     MediaCardBanner,
