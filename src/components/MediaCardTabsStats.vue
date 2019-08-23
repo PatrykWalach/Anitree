@@ -15,16 +15,17 @@
 </template>
 
 <script lang="ts">
-import { createComponent, computed, inject, Wrapper } from 'vue-function-api'
+import { createComponent, computed } from 'vue-function-api'
 import { Media } from '../apollo/schema/media'
+import { useTheme } from './MediaCardProgress.vue'
 
 interface Props {
   media: Media
 }
 
 export default createComponent({
-  props: ({ media: { required: true } } as unknown) as Readonly<Props>,
-  setup(props) {
+  props: { media: { required: true } },
+  setup(props: Readonly<Props>) {
     const scoreDistribution = computed(
       () => props.media.stats.scoreDistribution || []
     )
@@ -36,9 +37,8 @@ export default createComponent({
     const labels = computed(
       () => scoreDistribution.value.map(({ score }) => score) || []
     )
-    const theme: void | Wrapper<{
-      isDark: boolean
-    }> = inject('theme')
+
+    const { theme } = useTheme()
 
     return { value, labels, theme }
   }

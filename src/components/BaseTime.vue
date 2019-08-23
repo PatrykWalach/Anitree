@@ -14,11 +14,11 @@ export default createComponent({
     combine: (parts: Intl.DateTimeFormatPart[]) =>
       parts.map(({ value }) => value).join('')
   },
-  props: ({
+  props: {
     date: { required: true },
     sliceDate: { default: null }
-  } as unknown) as Readonly<Props>,
-  setup(props) {
+  },
+  setup(props: Readonly<Props>) {
     const toDate = (date: ValidDate) =>
       new Date(date.year, (date.month && date.month - 1) || 0, date.day || 1)
 
@@ -77,7 +77,7 @@ export default createComponent({
 
     const sliced = computed(() => {
       if (props.sliceDate) {
-        if (toDate(props.sliceDate) > toDate(props.date)) {
+        if (toDate(props.sliceDate) && toDate(props.date)) {
           return reduceReverse(dateParts.value.slice(), sliceDateParts.value)
         }
         return reduce(sliceDateParts.value, dateParts.value.slice())

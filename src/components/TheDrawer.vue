@@ -48,17 +48,17 @@ interface Props {
 }
 import { createComponent, computed } from 'vue-function-api'
 export default createComponent({
-  props: ({
+  props: {
     value: {
       required: true,
       type: Boolean
     }
-  } as unknown) as Readonly<Props>,
-  setup(props, { emit }) {
-    const syncedValue = computed(
-      () => props.value,
-      value => emit('update:value', value)
-    )
+  },
+  setup(props: Readonly<Props>, { emit }) {
+    const syncedValue = computed({
+      get: () => props.value,
+      set: value => emit('update:value', value)
+    })
 
     return { syncedValue }
   }

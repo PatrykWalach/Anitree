@@ -1,13 +1,13 @@
-import { value as binding, Wrapper, computed, plugin } from 'vue-function-api'
+import VueFunctionApi, { ref, Ref, computed } from 'vue-function-api'
 import { MediaTitle } from '@/apollo/schema/media'
 import Vue from 'vue'
-Vue.use(plugin)
+Vue.use(VueFunctionApi)
 
 const stored: string | null = localStorage.getItem('TITLE')
 
-const _prefered = binding((stored && parseInt(stored)) || 0)
+const _prefered = ref((stored && parseInt(stored)) || 0)
 
-const titles: Wrapper<['romaji', 'english', 'native']> = binding([
+const titles: Ref<['romaji', 'english', 'native']> = ref([
   'romaji',
   'english',
   'native'
@@ -26,12 +26,12 @@ const CHANGE_PREFERED_TILE = (payload: keyof MediaTitle) => {
   CHANGE_PREFERED(titles.value.indexOf(payload))
 }
 
-const preferedTitle = computed(
-  () => titles.value[_prefered.value],
-  CHANGE_PREFERED_TILE
-)
+const preferedTitle = computed({
+  get: () => titles.value[_prefered.value],
+  set: CHANGE_PREFERED_TILE
+})
 
-const prefered = computed(() => _prefered.value, CHANGE_PREFERED)
+const prefered = computed({ get: () => _prefered.value, set: CHANGE_PREFERED })
 
 export default function useTitle() {
   return {

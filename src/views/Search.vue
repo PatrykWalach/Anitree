@@ -5,7 +5,7 @@
     :query="require('@/apollo/queries/Viewer.gql')"
     :skip="!token"
   >
-    <v-container fluid fill-height grid-list-lg>
+    <v-container fill-height grid-list-lg>
       <TheSearchList :user="viewer && viewer.Viewer" v-if="isSearched" />
       <ApolloQuery
         v-else
@@ -66,13 +66,13 @@ export default createComponent({
     TheSearchList
   },
   setup(_, { root }) {
-    const query = computed(
-      () => root.$route.query,
-      query =>
+    const query = computed({
+      get: () => root.$route.query,
+      set: query =>
         root.$router.replace({
           query
         })
-    )
+    })
 
     const isSearched = computed(() => {
       for (const prop in query.value) {
@@ -83,8 +83,8 @@ export default createComponent({
       return true
     })
 
-    const page = computed(
-      () => {
+    const page = computed({
+      get: () => {
         const page = query.value.page
         switch (typeof page) {
           case 'string':
@@ -96,10 +96,10 @@ export default createComponent({
         }
       },
 
-      page => {
+      set: page => {
         query.value = Object.assign({}, query.value, { page })
       }
-    )
+    })
 
     const { token } = useAuth()
 

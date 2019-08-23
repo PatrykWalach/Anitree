@@ -8,11 +8,7 @@
 </template>
 
 <script lang="ts">
-import {
-  createComponent,
-  value as react,
-  computed as get
-} from 'vue-function-api'
+import { ref, computed as get, createComponent } from 'vue-function-api'
 
 export default createComponent({
   directives: {
@@ -31,8 +27,8 @@ export default createComponent({
       }
     }
   },
-  setup(props) {
-    const inView = react(false)
+  setup(props: Readonly<Props>) {
+    const inView = ref(false)
 
     const computed = get(() => {
       if (inView.value) {
@@ -50,7 +46,7 @@ export default createComponent({
 
     return { inView, changeInView, computed }
   },
-  props: ({
+  props: {
     src: {
       type: String,
       required: true
@@ -63,7 +59,7 @@ export default createComponent({
       type: String,
       default: ''
     }
-  } as unknown) as Readonly<Props>
+  }
 })
 interface Props {
   lazySrc: string

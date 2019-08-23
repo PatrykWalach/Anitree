@@ -9,7 +9,7 @@
             icon
             small
             v-bind="attrs"
-            @click.stop="isShared = false"
+            @click="isShared = false"
             v-on="on"
           >
             <v-icon>close</v-icon>
@@ -56,7 +56,7 @@
 
         <v-snackbar v-model="snackbar" left>
           Link copied to clipboard
-          <v-btn color="accent" text @click.stop="snackbar = false">
+          <v-btn color="accent" text @click="snackbar = false">
             Close
           </v-btn>
         </v-snackbar>
@@ -100,7 +100,7 @@ library.add(faFacebookF, faTwitter, faRedditAlien, faTumblr)
 import { clipboard } from 'vue-clipboards'
 
 import { ShareData } from '../types'
-import { createComponent, computed, value as binding } from 'vue-function-api'
+import { createComponent, computed, ref } from 'vue-function-api'
 import useShare from '../store/share'
 interface Props {
   options: ShareData | null
@@ -110,16 +110,16 @@ export default createComponent({
     clipboard
   },
   components: { FontAwesomeIcon, BaseShareItem },
-  setup(props) {
-    const snackbar = binding(false)
+  setup(props: Readonly<Props>) {
+    const snackbar = ref(false)
     const { isShared } = useShare()
 
     const url = computed(() => (props.options && props.options.url) || '')
 
     return { isShared, url, snackbar }
   },
-  props: ({
+  props: {
     options: { required: true }
-  } as unknown) as Readonly<Props>
+  }
 })
 </script>

@@ -6,14 +6,14 @@
   >
     <template v-slot:activator="{ on, attrs }">
       <v-btn v-on="on" v-bind="attrs" icon>
-        <v-avatar :size="$vuetify.breakpoint.xsOnly ? 30 : 40">
+        <v-avatar :size="24">
           <v-img :src="Viewer.avatar.large"></v-img>
         </v-avatar>
       </v-btn>
     </template>
     <v-card>
       <v-list-item>
-        <v-list-item-avatar :size="$vuetify.breakpoint.xsOnly ? 30 : 40">
+        <v-list-item-avatar>
           <v-img :src="Viewer.avatar.large"></v-img>
         </v-list-item-avatar>
         <v-list-item-content>

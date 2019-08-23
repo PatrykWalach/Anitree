@@ -4,20 +4,14 @@
       <v-icon left>info</v-icon> Info
     </v-tab>
 
-    <!-- v-if="!media || media.description" -->
     <v-tab :disabled="!media" href="#description">
       <v-icon left>description</v-icon> Description
     </v-tab>
-    <!-- v-if="
-        !media ||
-          (media.stats.scoreDistribution &&
-            media.stats.scoreDistribution.length)
-      " -->
+
     <v-tab :disabled="!media" href="#stats">
       <v-icon left>bar_chart</v-icon> Stats
     </v-tab>
 
-    <!-- v-if="!media || media.tags.length" -->
     <v-tab :disabled="!media" href="#tags">
       <v-icon left>class</v-icon> Tags
     </v-tab>
@@ -57,14 +51,12 @@
       </v-tab-item>
     </template>
   </v-tabs>
-  <!-- <MediaCardItem v-else :media="media" /> -->
 </template>
 <script lang="ts">
-import { createComponent, value as binding, computed } from 'vue-function-api'
+import { createComponent, ref, computed } from 'vue-function-api'
 
 import MediaCardItem from './MediaCardItem.vue'
 import MediaCardTabsStats from './MediaCardTabsStats.vue'
-import MediaCardTabsMenu from './MediaCardTabsMenu.vue'
 import BaseColor from './BaseColor.vue'
 
 import { Media } from '@/apollo/schema/media'
@@ -72,26 +64,25 @@ import { Media } from '@/apollo/schema/media'
 import useTitle from '@/store/title'
 
 export default createComponent({
-  setup(props) {
+  setup(props: Readonly<Props>) {
     const { title: _title } = useTitle()
 
     const title = computed(() => _title.value(props.media && props.media.title))
 
-    const tab = binding('info')
+    const tab = ref('info')
 
     return { tab, title }
   },
   components: {
     MediaCardItem,
     MediaCardTabsStats,
-    BaseColor,
-    MediaCardTabsMenu
+    BaseColor
   },
-  props: ({
+  props: {
     media: {
       required: true
     }
-  } as unknown) as Readonly<Props>
+  }
 })
 interface Props {
   media: Media | null

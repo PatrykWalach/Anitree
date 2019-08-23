@@ -1,6 +1,6 @@
 <template>
-  <v-list-item>
-    <v-list-item-content>
+  <v-list-item @click.stop>
+    <v-list-item-content @click="auto = !auto">
       <v-list-item-title>Autosave</v-list-item-title>
       <v-list-item-subtitle
         >Changes made to the list entry are{{

@@ -10,9 +10,9 @@
     </v-tooltip>
 
     <template v-if="!search">
-      <v-toolbar-title>
+      <v-toolbar-title class="text-capitalize">
         <template v-if="settings">
-          Settings
+          {{ $route.name }}
         </template>
         <v-btn v-else text to="/" rel="canonical" exact>Anitree</v-btn>
       </v-toolbar-title>
@@ -22,22 +22,18 @@
     <TheAppBarSearch
       v-if="(!settings && !$vuetify.breakpoint.xsOnly) || search"
     />
-    <TheAppBarViewer v-if="!search" />
-    <v-dialog v-else max-width="720px">
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn icon v-on="on" v-bind="attrs">
-          <v-icon>tune</v-icon>
-        </v-btn>
-      </template>
+    <template v-if="!search">
+      <v-btn icon :to="{ name: 'search' }"><v-icon>search</v-icon></v-btn>
+      <TheAppBarViewer />
+    </template>
 
-      <SearchFilters />
-    </v-dialog>
+    <TheAppBarFilters v-else />
   </v-app-bar>
 </template>
 <script lang="ts">
 import TheAppBarSearch from './TheAppBarSearch.vue'
 import TheAppBarViewer from './TheAppBarViewer.vue'
-import SearchFilters from './SearchFilters.vue'
+import TheAppBarFilters from './TheAppBarFilters.vue'
 
 import { createComponent, computed } from 'vue-function-api'
 
@@ -45,7 +41,7 @@ export default createComponent({
   components: {
     TheAppBarSearch,
     TheAppBarViewer,
-    SearchFilters
+    TheAppBarFilters
   },
   setup(_, { root }) {
     const search = computed(() => root.$route.name === 'search')

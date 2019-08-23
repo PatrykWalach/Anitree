@@ -1,24 +1,13 @@
 <template>
-  <component
-    :is="tag"
-    v-model="input"
-    v-bind="$attrs"
-    filled
-    rounded
-    @change="changeInput"
-  >
+  <component :is="tag" v-model="input" v-bind="$attrs" @change="changeInput">
+    <slot></slot>
   </component>
 </template>
 
 <script lang="ts">
 const BaseDateField = () => import('./BaseDateField.vue')
-import { VTextField, VTextarea, VSelect } from 'vuetify/lib'
-import {
-  createComponent,
-  value as react,
-  watch,
-  computed
-} from 'vue-function-api'
+import { VTextField, VTextarea, VSelect, VChipGroup } from 'vuetify/lib'
+import { ref, watch, computed, createComponent } from 'vue-function-api'
 
 interface Props {
   validators: ((v: string) => boolean)[]
@@ -35,9 +24,10 @@ export default createComponent({
     BaseDateField,
     VTextField,
     VTextarea,
-    VSelect
+    VSelect,
+    VChipGroup
   },
-  props: ({
+  props: {
     tag: {
       default: 'v-text-field',
       type: String
@@ -49,21 +39,18 @@ export default createComponent({
     value: {
       default: ''
     }
-  } as unknown) as Readonly<Props>,
-  setup(props, { emit }) {
-    const input = react('')
+  },
+  setup(props: Readonly<Props>, { emit }) {
+    const input = ref('')
     const transform = (input: any, transformations: Function[]) =>
       transformations.reduce(
         (str, transformation) => transformation(str),
         input
       )
 
-    watch(
-      () => props.value,
-      value => {
-        input.value = transform(value, props.beforeTransform)
-      }
-    )
+    watch(() => {
+      input.value = transform(props.value, props.beforeTransform)
+    })
 
     const isValid = computed(() => {
       for (const validator of props.validators) {

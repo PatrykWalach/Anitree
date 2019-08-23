@@ -21,7 +21,13 @@
 
     <v-tooltip top>
       <template v-slot:activator="{ attrs, on }">
-        <v-btn v-on="on" v-bind="attrs" icon :disabled="!media" @click="share">
+        <v-btn
+          v-on="on"
+          v-bind="attrs"
+          icon
+          :disabled="!media"
+          @click.stop="share"
+        >
           <v-icon>share</v-icon>
         </v-btn>
       </template>
@@ -30,7 +36,13 @@
 
     <v-tooltip v-if="Viewer" top>
       <template v-slot:activator="{ attrs, on }">
-        <v-btn v-on="on" v-bind="attrs" icon :disabled="!media" @click="edit">
+        <v-btn
+          v-on="on"
+          v-bind="attrs"
+          icon
+          :disabled="!media"
+          @click.stop="edit"
+        >
           <v-icon>edit</v-icon>
         </v-btn>
       </template>
@@ -58,12 +70,12 @@ import useEdit from '../store/edit'
 import useAuth from '../store/auth'
 
 function useShare(props: Props) {
-  const { CHANGE_OPTIONS, CHANGE_IS_SHARED } = useShareModule()
+  const { options, isShared } = useShareModule()
   const { title: _title } = useTitle()
 
   const desktopShare = async (data: ShareData) => {
-    await CHANGE_OPTIONS(data)
-    CHANGE_IS_SHARED(true)
+    options.value = data
+    isShared.value = true
   }
 
   const title = computed(() => _title.value(props.media && props.media.title))
@@ -103,10 +115,10 @@ export default createComponent({
       }
     }
   },
-  props: ({
+  props: {
     media: { required: true }
-  } as unknown) as Readonly<Props>,
-  setup(props) {
+  },
+  setup(props: Readonly<Props>) {
     const { media } = props
 
     const { open } = useEdit()

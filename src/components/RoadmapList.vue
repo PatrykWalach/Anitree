@@ -32,11 +32,11 @@ export default createComponent({
     RoadmapListCard,
     BaseColor
   },
-  props: ({
+  props: {
     list: { required: true },
     cards: { required: true }
-  } as unknown) as Readonly<Props>,
-  setup(props) {
+  },
+  setup(props: Readonly<Props>) {
     const allChecked = computed(() =>
       props.cards.find(
         ({ card }) => card.badges.checkItemsChecked !== card.badges.checkItems

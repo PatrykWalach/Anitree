@@ -19,15 +19,15 @@
 </template>
 
 <script lang="ts">
-import { createComponent, inject, computed, Wrapper } from 'vue-function-api'
+import { createComponent, inject, computed } from 'vue-function-api'
 
 export function useTheme() {
-  const theme: void | Wrapper<{
+  const theme: {
     isDark: boolean
-  }> = inject('theme')
+  } = inject('theme', { isDark: false })
 
   const color = computed(() =>
-    theme && theme.value.isDark ? 'grey darken-2' : 'grey lighten-2'
+    theme && theme.isDark ? 'grey darken-2' : 'grey lighten-2'
   )
 
   return { theme, color }
@@ -44,8 +44,6 @@ export default createComponent({
       type: String
     }
   },
-  setup() {
-    return useTheme()
-  }
+  setup: useTheme
 })
 </script>

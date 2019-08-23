@@ -8,12 +8,7 @@
   </base-container>
 </template>
 <script lang="ts">
-import {
-  createComponent,
-  value as binding,
-  onCreated,
-  Wrapper
-} from 'vue-function-api'
+import { ref, onCreated, Ref, createComponent } from 'vue-function-api'
 
 import axios from 'axios'
 import RoadmapList from '../components/RoadmapList.vue'
@@ -24,14 +19,14 @@ import { TrelloList, Cards, TrelloCard, TrelloChecklist } from '../types'
 export default createComponent({
   components: { RoadmapList, BaseContainer },
   setup() {
-    const loading = binding(false)
+    const loading = ref(false)
 
-    const lists: Wrapper<
+    const lists: Ref<
       {
         list: TrelloList
         cards: Cards
       }[]
-    > = binding([])
+    > = ref([])
 
     const get = (el: string) => {
       const id = '5d06a49849ca095384351145'

@@ -37,9 +37,9 @@ export const dateToString = (date: FuzzyDate): string => {
 export const stringToDate = (date: string): FuzzyDate => {
   const types = ['year', 'month', 'day']
   const values = date.split('-')
-  return (Object.fromEntries(
+  return Object.fromEntries(
     types.map((type, i) => [type, parseInt(values[i]) || null])
-  ) as unknown) as FuzzyDate
+  ) as FuzzyDate
 }
 
 export const numberRound = (dec: number, input: string): string => {

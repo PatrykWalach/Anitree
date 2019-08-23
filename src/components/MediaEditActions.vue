@@ -35,13 +35,9 @@
     </v-dialog>
     <v-spacer></v-spacer>
 
-    <v-btn text color="primary" @click.stop="close">Cancel</v-btn>
+    <v-btn text color="primary" @click="close">Cancel</v-btn>
 
-    <v-btn
-      :disabled="!submitRequired"
-      outlined
-      color="primary"
-      @click.stop="submit"
+    <v-btn :disabled="!submitRequired" outlined color="primary" @click="submit"
       >Save</v-btn
     >
   </v-card-actions>
@@ -51,12 +47,7 @@ import MediaEditIcon from './MediaEditIcon.vue'
 
 import { Media } from '@/apollo/schema/media'
 import { DELETE_MEDIA_LIST_ENTRY } from '@/apollo'
-import {
-  createComponent,
-  value as binding,
-  computed,
-  SetupContext
-} from 'vue-function-api'
+import { ref, computed, createComponent, SetupContext } from 'vue-function-api'
 import { User } from '../apollo/schema/viewer'
 import useEdit from '../store/edit'
 
@@ -65,17 +56,17 @@ interface Props {
   media: Media | null
 }
 
-function useActions(props: Props, { root }: SetupContext) {
-  const confirmation = binding(false)
+function useActions(props: Readonly<Props>, { root }: SetupContext) {
+  const confirmation = ref(false)
 
-  const { close, form, submit: _submit, CHANGE_IS_EDITED } = useEdit()
+  const { close, form, submit: _submit, isEdited } = useEdit()
 
   const submitRequired = computed(() => !!Object.values(form.value).length)
 
   const submit = async () => {
     await _submit()
 
-    CHANGE_IS_EDITED(false)
+    isEdited.value = false
   }
 
   const remove = async () => {
@@ -85,7 +76,7 @@ function useActions(props: Props, { root }: SetupContext) {
         mutation: DELETE_MEDIA_LIST_ENTRY,
         variables: { id: props.media.mediaListEntry.id }
       })
-      CHANGE_IS_EDITED(false)
+      isEdited.value = false
     }
   }
 
@@ -96,11 +87,11 @@ export default createComponent({
   components: {
     MediaEditIcon
   },
-  props: ({
+  props: {
     user: { required: true },
     media: { required: true }
-  } as unknown) as Readonly<Props>,
-  setup(props, context) {
+  },
+  setup(props: Readonly<Props>, context) {
     return useActions(props, context)
   }
 })

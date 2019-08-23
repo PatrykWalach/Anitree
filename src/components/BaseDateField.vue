@@ -1,7 +1,7 @@
 <template>
   <v-menu
     ref="menu"
-    v-model="menu"
+    v-model="menuActive"
     :close-on-content-click="false"
     :nudge-right="40"
     :return-value.sync="date"
@@ -22,13 +22,13 @@
     </template>
     <v-date-picker v-model="date" no-title scrollable>
       <v-spacer></v-spacer>
-      <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
+      <v-btn text color="primary" @click="menuActive = false">Cancel</v-btn>
       <v-btn text color="primary" @click="save">OK</v-btn>
     </v-date-picker>
   </v-menu>
 </template>
 <script lang="ts">
-import { watch, value as binding, createComponent } from 'vue-function-api'
+import { watch, ref, Ref, createComponent } from 'vue-function-api'
 
 interface Props {
   value: string
@@ -36,20 +36,23 @@ interface Props {
 
 export default createComponent({
   inheritAttrs: false,
-  props: ({
+  props: {
     value: {
       required: true,
       type: String
     }
-  } as unknown) as Readonly<Props>,
-  setup(props, { emit, refs }) {
-    const date = binding('')
-    const menu = binding(false)
+  },
+  setup(props: Readonly<Props>, { emit }) {
+    const date = ref('')
+    const menuActive = ref(false)
+    const menu: Ref<any> = ref(null)
 
-    watch(() => props.value, value => (date.value = value))
+    watch(() => {
+      date.value = props.value
+    })
 
     function save() {
-      const save: (score: string) => void = (refs.menu as any).save
+      const save: (score: string) => void = menu.value.save
 
       const _date = date.value
 
@@ -64,7 +67,7 @@ export default createComponent({
       emit('change', '')
     }
 
-    return { date, menu, save, clear }
+    return { date, menuActive, save, clear, menu }
   }
 })
 </script>

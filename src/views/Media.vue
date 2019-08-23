@@ -1,5 +1,5 @@
 <template>
-  <base-container :loading="loading">
+  <base-container grid-list-lg :loading="loading">
     <MediaTimeline :media-list="mediaList" />
   </base-container>
 </template>
@@ -8,17 +8,12 @@ const MediaTimeline = () =>
   import(/* webpackPreload: true */ '../components/MediaTimeline.vue')
 
 import BaseContainer from '../components/BaseContainer.vue'
+
 import { PAGE } from '@/apollo'
 import { Media } from '@/apollo/schema/media'
 import { Page, Variables as PageVariables } from '../apollo/schema/page'
 
-import {
-  createComponent,
-  value as binding,
-  computed,
-  watch,
-  Wrapper
-} from 'vue-function-api'
+import { ref, computed, watch, Ref, createComponent } from 'vue-function-api'
 
 const getYear = (seasonInt: number) => {
   const year = Math.floor(seasonInt / 10)
@@ -31,8 +26,8 @@ export default createComponent({
     BaseContainer
   },
   setup(_, { root }) {
-    const loading = binding(false)
-    const mediaList: Wrapper<Media[]> = binding([])
+    const loading = ref(false)
+    const mediaList: Ref<Media[]> = ref([])
 
     const currentId = computed(() => parseInt(root.$route.params.mediaId, 10))
 
@@ -87,11 +82,14 @@ export default createComponent({
           .then(resolve)
       })
 
-    watch(currentId, async currentId => {
-      mediaList.value = []
+    watch(async onCleanup => {
       loading.value = true
-      await fetchMedia([currentId])
+      await fetchMedia([currentId.value])
       loading.value = false
+
+      onCleanup(() => {
+        mediaList.value = []
+      })
     })
 
     const mediaRelations = computed(() =>

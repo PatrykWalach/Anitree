@@ -21,13 +21,14 @@ interface Props {
   color: string
   tag: string
 }
+
 export default createComponent({
   components: {
     VChip,
     VBtn,
     VToolbar
   },
-  props: ({
+  props: {
     color: {
       type: String,
       required: true
@@ -36,9 +37,8 @@ export default createComponent({
       type: String,
       default: 'span'
     }
-  } as unknown) as Readonly<Props>,
-
-  setup(props) {
+  },
+  setup(props: Readonly<Props>) {
     const colors = computed(
       () =>
         (props.color &&

@@ -9,11 +9,9 @@
 <script lang="ts">
 import TheSettings from '@/components/TheSettings.vue'
 
-import { createComponent } from 'vue-function-api'
-
-export default createComponent({
+export default {
   components: {
     TheSettings
   }
-})
+}
 </script>

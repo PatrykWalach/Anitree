@@ -21,10 +21,10 @@ interface Props {
   media: Media
 }
 export default createComponent({
-  props: ({
+  props: {
     media: { required: true }
-  } as unknown) as Readonly<Props>,
-  setup(props) {
+  },
+  setup(props: Readonly<Props>) {
     const manga = computed(() => props.media.type === 'MANGA')
 
     const status = computed(

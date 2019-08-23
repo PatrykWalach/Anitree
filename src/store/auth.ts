@@ -1,13 +1,11 @@
-import { value as binding, Wrapper, computed, plugin } from 'vue-function-api'
+import VueFunctionApi, { ref, Ref, computed } from 'vue-function-api'
 import Vue from 'vue'
-Vue.use(plugin)
+Vue.use(VueFunctionApi)
 
 import { Token } from '@/types'
 const stored = localStorage.getItem('AUTH')
 
-const auth: Wrapper<Token | null> = binding(
-  (stored && JSON.parse(stored)) || null
-)
+const auth: Ref<Token | null> = ref((stored && JSON.parse(stored)) || null)
 
 const token = computed(() => {
   if (

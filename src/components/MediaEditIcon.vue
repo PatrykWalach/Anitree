@@ -6,13 +6,13 @@
   ></v-btn>
 </template>
 <script lang="ts">
-import { createComponent } from 'vue-function-api'
+import { createComponent, SetupContext } from 'vue-function-api'
 
 export default createComponent({
   props: {
     value: { required: true, type: Boolean }
   },
-  setup(props, { emit }) {
+  setup(props: Readonly<Props>, { emit }: SetupContext) {
     const change = () => emit('change', !props.value)
     return { change }
   }

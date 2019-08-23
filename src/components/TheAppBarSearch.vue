@@ -1,5 +1,5 @@
 <template>
-  <v-layout justify-center>
+  <v-layout justify-center class="mx-2">
     <v-form
       v-model="valid"
       :style="{ display: 'contents' }"
@@ -25,19 +25,14 @@
   ></v-layout>
 </template>
 <script lang="ts">
-import {
-  createComponent,
-  value as binding,
-  Wrapper,
-  computed
-} from 'vue-function-api'
+import { ref, Ref, computed, createComponent } from 'vue-function-api'
 
 export default createComponent({
   setup(_, { emit, root }) {
-    const search = binding('')
-    const valid = binding(false)
+    const search = ref('')
+    const valid = ref(false)
 
-    const rules: Wrapper<((search: string) => string | true)[]> = binding([
+    const rules: Ref<((search: string) => string | true)[]> = ref([
       (search: string) => !!search.length || 'stop it'
     ])
 

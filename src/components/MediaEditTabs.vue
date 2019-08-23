@@ -39,10 +39,10 @@ interface Props {
 }
 
 export default createComponent({
-  props: ({
+  props: {
     media: { required: true },
     user: { required: true }
-  } as unknown) as Readonly<Props>,
+  },
   components: {
     MediaEditTabsTab
   },

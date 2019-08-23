@@ -25,10 +25,10 @@ export default createComponent({
     BaseTimeRange,
     BaseTime
   },
-  props: ({
+  props: {
     media: { required: true }
-  } as unknown) as Readonly<Props>,
-  setup(props) {
+  },
+  setup(props: Readonly<Props>) {
     const isValidDate = (date: FuzzyDate): date is ValidDate =>
       date.year !== null && date.month !== null
 

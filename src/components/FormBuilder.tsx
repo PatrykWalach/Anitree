@@ -7,14 +7,14 @@ interface Field {
     label: string
     clearable?: boolean
   }
-  props:{
+  props: {
     validators?: ((v: string) => boolean)[]
     transformations?: ((v: string) => string)[]
     beforeTransform?: ((v: any) => any)[]
     clearable?: boolean
     afterTransform?: ((v: any) => any)[]
-    value: any}
-  
+    value: any
+  }
 }
 
 interface Textarea extends Field {
@@ -46,49 +46,51 @@ export default class FormBuilder {
   }
 
   public setSelects = (selects: Select[]) => {
+    /*eslint-disable-next-line @typescript-eslint/no-unused-vars*/
     const h = createElement
     this.fields.push(
-      ...selects.map(props =>
-      <VFlex xs12 md6>
-        <BaseField {...props} tag="v-select" />
-      </VFlex>
-      )
-    )
-  }
-
-  public setFields = (selects: Field[])=> {
-    const h = createElement
-    this.fields.push(
-      ...selects.map(props =>
-        <VFlex xs12 md6 >
-          <BaseField {...props}/>
+      ...selects.map(props => (
+        <VFlex xs12 md6>
+          <BaseField {...props} tag="v-select" />
         </VFlex>
-      )
+      ))
     )
   }
 
-  public setDateFields=(selects: Field[]) =>{
+  public setFields = (selects: Field[]) => {
+    /*eslint-disable-next-line @typescript-eslint/no-unused-vars*/
+    const h = createElement
+    this.fields.push(
+      ...selects.map(props => (
+        <VFlex xs12 md6>
+          <BaseField {...props} />
+        </VFlex>
+      ))
+    )
+  }
+
+  public setDateFields = (selects: Field[]) => {
+    /*eslint-disable-next-line @typescript-eslint/no-unused-vars*/
     const h = createElement
 
     this.fields.push(
-      ...selects.map(props =>
-    <VFlex xs12 md6 >
-      <BaseField {...props} tag="BaseDateField"/>
-    </VFlex>
-
-      )
+      ...selects.map(props => (
+        <VFlex xs12 md6>
+          <BaseField {...props} tag="BaseDateField" />
+        </VFlex>
+      ))
     )
   }
 
-  public setTextareas=(selects: Textarea[])=> {
-    
-  const h = createElement
+  public setTextareas = (selects: Textarea[]) => {
+    /*eslint-disable-next-line @typescript-eslint/no-unused-vars*/
+    const h = createElement
     this.fields.push(
-      ...selects.map(props =>
-    <VFlex xs12 >
-      <BaseField {...props} tag="v-textarea"/>
-    </VFlex>
-      )
+      ...selects.map(props => (
+        <VFlex xs12>
+          <BaseField {...props} tag="v-textarea" />
+        </VFlex>
+      ))
     )
   }
 

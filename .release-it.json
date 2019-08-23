@@ -5,8 +5,5 @@
     },
     "npm": {
         "publish": false
-    },
-    "hooks": {
-        "before:init": ["npm up"]
     }
 }

@@ -27,10 +27,10 @@ interface Props {
   media: Media
 }
 export default createComponent({
-  props: ({
+  props: {
     media: { required: true }
-  } as unknown) as Readonly<Props>,
-  setup(props) {
+  },
+  setup(props: Readonly<Props>) {
     const { title: _title } = useTitle()
 
     const title = computed(() => _title.value(props.media.title))

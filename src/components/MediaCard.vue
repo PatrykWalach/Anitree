@@ -13,7 +13,6 @@
         <v-btn color="error" text @click="query.refetch()">Retry</v-btn>
       </template>
     </v-banner>
-
     <v-card v-else>
       <MediaCardBanner :media="data && data.Media" />
       <MediaCardTabs :media="data && data.Media" />
@@ -31,11 +30,11 @@ import MediaCardActions from './MediaCardActions.vue'
 
 import { Variables } from '@/apollo/schema/media'
 
-import { createComponent, Wrapper, computed } from 'vue-function-api'
+import { createComponent, Ref, computed } from 'vue-function-api'
 
 export default createComponent({
-  setup(props) {
-    const variables: Wrapper<Variables> = computed(() => {
+  setup(props: Readonly<Props>) {
+    const variables: Ref<Variables> = computed(() => {
       return { id: props.id }
     })
 
@@ -47,14 +46,87 @@ export default createComponent({
     MediaCardStatus,
     MediaCardActions
   },
-  props: ({
+  props: {
     id: {
       type: Number,
       required: true
     }
-  } as unknown) as Readonly<Props>
+  }
 })
 interface Props {
   id: number
 }
 </script>
+
+<!--
+<script lang="tsx">
+import MediaCardBanner from './MediaCardBanner.vue'
+import MediaCardStatus from './MediaCardStatus.vue'
+import MediaCardTabs from './MediaCardTabs.vue'
+import MediaCardActions from './MediaCardActions.vue'
+import { VDivider, VBtn, VBanner, VCard } from 'vuetify/lib'
+
+import { MEDIA } from '@/apollo'
+import { Media } from '@/apollo/schema/media'
+
+import { createElement } from 'vue-function-api'
+
+export default createComponent({
+  setup: () => {
+    const h = createElement
+
+    return (props: Readonly<Props>) => {
+      const card = (media: Media | null) => (
+        <VCard>
+          <MediaCardBanner media={media} />
+          <MediaCardTabs media={media} />
+          <VDivider class="mx-4"></VDivider>
+          <MediaCardActions media={media} />
+          <MediaCardStatus media={media} />
+        </VCard>
+      )
+
+      const banner = query => (
+        <VBanner
+          icon="warning"
+          two-line
+          tile={false}
+          scopedSlots={{
+            actions: () => (
+              <VBtn color="error" text onClick={query.refetch()}>
+                Retry
+              </VBtn>
+            )
+          }}
+        >
+          There was an error while loading the data. Please make sure your have
+          a stable internet connection and try again.
+        </VBanner>
+      )
+
+      return (
+        <ApolloQuery
+          scopedSlots={{
+            default: ({ result: { error, data }, query }) =>
+              error ? banner(query) : card(data && data.Media)
+          }}
+          query={MEDIA}
+          variables={{ id: props.id }}
+          tag={null}
+        ></ApolloQuery>
+      )
+    }
+  },
+  props: {
+    id: {
+      type: Number,
+      required: true
+    }
+  } 
+})
+
+interface Props {
+  id: number
+}
+</script>
+-->

@@ -13,10 +13,10 @@ interface Props {
   media: Media
 }
 export default createComponent({
-  props: ({
+  props: {
     media: { required: true }
-  } as unknown) as Readonly<Props>,
-  setup(props) {
+  },
+  setup(props: Readonly<Props>) {
     const clean = (str: string | null) =>
       (str &&
         str

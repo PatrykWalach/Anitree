@@ -18,10 +18,10 @@ interface Props {
   media: Media
 }
 export default createComponent({
-  props: ({
+  props: {
     media: { required: true }
-  } as unknown) as Readonly<Props>,
-  setup(props) {
+  },
+  setup(props: Readonly<Props>) {
     const year = computed(() => {
       if (props.media.seasonInt) {
         const year = Math.floor(props.media.seasonInt / 10)

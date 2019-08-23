@@ -22,7 +22,7 @@
 import { Media } from '@/apollo/schema/media'
 
 import BaseLazyImg from './BaseLazyImg.vue'
-import { createComponent, computed, inject, Wrapper } from 'vue-function-api'
+import { createComponent } from 'vue-function-api'
 import { useTheme } from './MediaCardProgress.vue'
 
 interface Props {

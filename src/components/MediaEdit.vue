@@ -69,21 +69,20 @@ export default createComponent({
     MediaEditLoading,
     MediaCardBanner,
     MediaCardItem
-    // MediaEditSync
   },
   setup() {
-    const { close, _isEdited, CHANGE_IS_EDITED, loading } = useEdit()
+    const { close, isEdited: _isEdited, loading } = useEdit()
 
-    const isEdited = computed(
-      () => _isEdited.value,
-      isEdited => {
+    const isEdited = computed({
+      get: () => _isEdited.value,
+      set: isEdited => {
         if (!isEdited) {
           close()
         } else {
-          CHANGE_IS_EDITED(isEdited)
+          _isEdited.value = isEdited
         }
       }
-    )
+    })
 
     return {
       loading,

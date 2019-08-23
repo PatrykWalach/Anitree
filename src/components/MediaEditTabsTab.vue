@@ -20,7 +20,7 @@ import { VLayout } from 'vuetify/lib'
 
 export default createComponent({
   inheritAttrs: false,
-  props: ({
+  props: {
     method: {
       required: true,
       type: String
@@ -31,8 +31,8 @@ export default createComponent({
     media: {
       required: true
     }
-  } as unknown) as Readonly<Props>,
-  setup: props => {
+  },
+  setup: (props: Readonly<Props>) => {
     const manga = computed(() => {
       return (props.media && props.media.type === 'MANGA') || false
     })
@@ -100,6 +100,7 @@ export default createComponent({
 
     const director = new FormDirector()
 
+    /*eslint-disable-next-line @typescript-eslint/no-unused-vars*/
     const h = createElement
 
     return (props: Readonly<Props>) => {

@@ -22,9 +22,9 @@ export default createComponent({
   components: {
     MediaCardStatusReady
   },
-  props: ({
+  props: {
     media: { required: true }
-  } as unknown) as Readonly<Props>,
+  },
   setup() {
     return useTheme()
   }

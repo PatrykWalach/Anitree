@@ -31,15 +31,15 @@ export default createComponent({
     MediaCardItemOverline,
     MediaCardItemAvatar
   },
-  setup(props) {
+  setup(props: Readonly<Props>) {
     const lines = computed(() =>
       !props.media || props.media.description ? 'three-line' : 'two-line'
     )
 
     return { lines }
   },
-  props: ({
+  props: {
     media: { required: true }
-  } as unknown) as Readonly<Props>
+  }
 })
 </script>

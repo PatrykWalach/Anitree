@@ -17,7 +17,7 @@ import MediaCardTime from './MediaCardTime.vue'
 import MediaCard from './MediaCard.vue'
 
 import { Media } from '@/apollo/schema/media'
-import { createComponent, computed } from 'vue-function-api'
+import { createComponent, computed, SetupContext } from 'vue-function-api'
 
 interface Props {
   media: Media | null
@@ -27,10 +27,10 @@ export default createComponent({
     MediaCardTime,
     MediaCard
   },
-  props: ({
+  props: {
     media: { required: true }
-  } as unknown) as Readonly<Props>,
-  setup(props, { root }) {
+  },
+  setup(props: Readonly<Props>, { root }: SetupContext) {
     const color = computed(
       () =>
         (props.media && props.media.coverImage.color) ||

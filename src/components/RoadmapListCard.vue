@@ -15,18 +15,18 @@
 
 <script lang="ts">
 import { TrelloCard, TrelloChecklist } from '../types'
-import { computed, createComponent } from 'vue-function-api'
+import { computed } from 'vue-function-api'
 interface Props {
   card: TrelloCard
   checklists: TrelloChecklist[]
 }
 
-export default createComponent({
-  props: ({
+export default {
+  props: {
     card: { required: true },
     checklists: { required: true }
-  } as unknown) as Readonly<Props>,
-  setup(props) {
+  },
+  setup(props: Readonly<Props>) {
     const progress = computed(
       () =>
         (props.card.badges.checkItemsChecked / props.card.badges.checkItems) *
@@ -46,5 +46,5 @@ export default createComponent({
 
     return { progress, color }
   }
-})
+}
 </script>

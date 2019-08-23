@@ -22,7 +22,7 @@ import BaseShare from './components/BaseShare.vue'
 
 const TheBottomNavigation = () => import('@/components/TheBottomNavigation.vue')
 
-import { value as binding, createComponent, onCreated } from 'vue-function-api'
+import { ref, onCreated, createComponent } from 'vue-function-api'
 import useEdit from './store/edit'
 import useShare from './store/share'
 
@@ -35,7 +35,7 @@ export default createComponent({
     TheBottomNavigation
   },
   setup(_, { root }) {
-    const drawer = binding(false)
+    const drawer = ref(false)
 
     const toggleDrawer = () => {
       drawer.value = !drawer.value

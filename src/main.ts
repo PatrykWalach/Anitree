@@ -5,8 +5,8 @@ import { apolloProvider } from '@/apollo'
 
 import App from '@/App.vue'
 
-import { plugin } from 'vue-function-api'
-Vue.use(plugin)
+import VueFunctionApi from 'vue-function-api'
+Vue.use(VueFunctionApi)
 
 import '@/registerServiceWorker'
 import '@/assets/css/style.scss'

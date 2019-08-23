@@ -8,7 +8,7 @@
 <script lang="ts">
 import BaseTime from './BaseTime.vue'
 import { ValidDate } from '../types'
-import { value as binding, createComponent } from 'vue-function-api'
+import { ref, createComponent } from 'vue-function-api'
 
 interface Props {
   startDate: ValidDate
@@ -19,12 +19,12 @@ export default createComponent({
     BaseTime
   },
   setup() {
-    const divider = binding(' - ')
+    const divider = ref(' - ')
     return { divider }
   },
-  props: ({
+  props: {
     startDate: { required: true },
     endDate: { required: true }
-  } as unknown) as Readonly<Props>
+  }
 })
 </script>

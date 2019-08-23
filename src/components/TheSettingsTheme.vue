@@ -1,6 +1,6 @@
 <template>
-  <v-list-item>
-    <v-list-item-content>
+  <v-list-item @click.stop>
+    <v-list-item-content @click="dark = !dark">
       <v-list-item-title class="text-capitalize">theme</v-list-item-title>
       <v-list-item-subtitle class="text-capitalize">{{
         dark ? 'dark' : 'light'
@@ -16,13 +16,13 @@ import { createComponent, computed } from 'vue-function-api'
 
 export default createComponent({
   setup(_, { root }) {
-    const dark = computed(
-      () => root.$vuetify.theme.dark,
-      dark => {
+    const dark = computed({
+      get: () => root.$vuetify.theme.dark,
+      set: dark => {
         root.$vuetify.theme.dark = dark
         localStorage.setItem('THEME', dark.toString())
       }
-    )
+    })
 
     return { dark }
   }

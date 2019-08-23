@@ -61,18 +61,15 @@
 </template>
 
 <script lang="ts">
-import { createComponent } from 'vue-function-api'
 import { User } from '../apollo/schema/viewer'
 
 interface Props {
-  isSearched: boolean
   user: null | User
 }
 
-export default createComponent({
-  props: ({
+export default {
+  props: {
     user: { required: true }
-  } as unknown) as Readonly<Props>,
-  setup() {}
-})
+  }
+}
 </script>
