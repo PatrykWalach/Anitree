@@ -4,7 +4,7 @@
     :size="size"
     :style="{ 'align-self': 'center' }"
   >
-    <base-lazy-img
+    <BaseLazyImg
       v-if="media"
       :srcset="
         `${media.coverImage.medium} 1x, 
@@ -13,8 +13,7 @@
       "
       :lazy-src="media.coverImage.medium"
       :src="media.coverImage.extraLarge"
-    >
-    </base-lazy-img>
+    />
   </v-list-item-avatar>
 </template>
 
@@ -22,22 +21,22 @@
 import { Media } from '@/apollo/schema/media'
 
 import BaseLazyImg from './BaseLazyImg.vue'
-import { createComponent } from 'vue-function-api'
+import { createComponent } from '@vue/composition-api'
 import { useTheme } from './MediaCardProgress.vue'
 
-interface Props {
+export interface Props {
   media: Media | null
   size: number | string
 }
 
-export default createComponent({
+export default createComponent<Readonly<Props>>({
   components: {
     BaseLazyImg
   },
   props: {
-    media: { required: true },
+    media: { required: true,type:null,default:null },
     size: {
-      default: 80
+      default: 80,type:[Number,String],required:false
     }
   },
   setup() {

@@ -1,20 +1,15 @@
 import { VNode } from 'vue'
-import { createElement } from 'vue-function-api'
+import { createElement } from '@vue/composition-api'
+const h = createElement
 
+import BaseField, { Props } from './BaseField.vue'
 interface Field {
   attrs: {
     placeholder?: string
     label: string
     clearable?: boolean
   }
-  props: {
-    validators?: ((v: string) => boolean)[]
-    transformations?: ((v: string) => string)[]
-    beforeTransform?: ((v: any) => any)[]
-    clearable?: boolean
-    afterTransform?: ((v: any) => any)[]
-    value: any
-  }
+  props: Partial<Props>
 }
 
 interface Textarea extends Field {
@@ -35,8 +30,8 @@ interface Select extends Field {
   }
 }
 
-import BaseField from './BaseField.vue'
-import { VFlex } from 'vuetify/lib'
+//@ts-ignore
+import { VCol } from 'vuetify/lib'
 
 export default class FormBuilder {
   public fields: VNode[]
@@ -46,51 +41,119 @@ export default class FormBuilder {
   }
 
   public setSelects = (selects: Select[]) => {
-    /*eslint-disable-next-line @typescript-eslint/no-unused-vars*/
-    const h = createElement
     this.fields.push(
-      ...selects.map(props => (
-        <VFlex xs12 md6>
-          <BaseField {...props} tag="v-select" />
-        </VFlex>
-      ))
+      ...selects.map(({ attrs, props }) =>
+        h(
+          VCol,
+          {
+            props: {
+              cols: 12,
+
+              md: 6
+            }
+          },
+          [
+            h(BaseField, {
+              attrs: {
+                ...attrs,
+                rounded: true,
+                filled: true
+              },
+              props: {
+                ...props,
+                tag: 'v-select'
+              }
+            })
+          ]
+        )
+      )
     )
   }
 
   public setFields = (selects: Field[]) => {
-    /*eslint-disable-next-line @typescript-eslint/no-unused-vars*/
-    const h = createElement
     this.fields.push(
-      ...selects.map(props => (
-        <VFlex xs12 md6>
-          <BaseField {...props} />
-        </VFlex>
-      ))
+      ...selects.map(({ attrs, props }) =>
+        h(
+          VCol,
+          {
+            props: {
+              cols: 12,
+
+              md: 6
+            }
+          },
+          [
+            h(BaseField, {
+              attrs: {
+                ...attrs,
+                rounded: true,
+                filled: true
+              },
+              props: {
+                ...props,
+                tag: 'BaseDateField'
+              }
+            })
+          ]
+        )
+      )
     )
   }
 
   public setDateFields = (selects: Field[]) => {
-    /*eslint-disable-next-line @typescript-eslint/no-unused-vars*/
-    const h = createElement
-
     this.fields.push(
-      ...selects.map(props => (
-        <VFlex xs12 md6>
-          <BaseField {...props} tag="BaseDateField" />
-        </VFlex>
-      ))
+      ...selects.map(({ attrs, props }) =>
+        h(
+          VCol,
+          {
+            props: {
+              cols: 12,
+              md: 6
+            }
+          },
+          [
+            h(BaseField, {
+              attrs: {
+                ...attrs,
+                rounded: true,
+                filled: true
+              },
+              props: {
+                ...props,
+                tag: 'base-date-field'
+              }
+            })
+          ]
+        )
+      )
     )
   }
 
   public setTextareas = (selects: Textarea[]) => {
-    /*eslint-disable-next-line @typescript-eslint/no-unused-vars*/
-    const h = createElement
     this.fields.push(
-      ...selects.map(props => (
-        <VFlex xs12>
-          <BaseField {...props} tag="v-textarea" />
-        </VFlex>
-      ))
+      ...selects.map(({ attrs, props }) =>
+        h(
+          VCol,
+          {
+            props: {
+              cols: 12
+            }
+          },
+          [
+            h(BaseField, {
+              attrs: {
+                ...attrs,
+                rounded: true,
+                filled: true
+              },
+              props: {
+                ...props,
+                tag: 'v-textarea'
+              }
+            })
+          ]
+        )
+      )
     )
   }
 

@@ -11,15 +11,15 @@ import MediaCardItemOverlineReady from './MediaCardItemOverlineReady.vue'
 
 import MediaCardProgress from './MediaCardProgress.vue'
 import { Media } from '../apollo/schema/media'
-import { createComponent } from 'vue-function-api'
-interface Props {
+import { createComponent } from '@vue/composition-api'
+export interface Props {
   media: Media | null
 }
-export default createComponent({
+export default createComponent<Readonly<Props>>({
   components: {
     MediaCardItemOverlineReady,
     MediaCardProgress
   },
-  props: { media: { required: true } }
+  props: { media: { required: true,default:null,type:null } }
 })
 </script>

@@ -16,11 +16,11 @@ import TheSettingsTitle from '@/components/TheSettingsTitle.vue'
 const TheSettingsLogin = () => import('@/components/TheSettingsLogin.vue')
 const TheSettingsSubmit = () => import('@/components/TheSettingsSubmit.vue')
 
-import { createComponent } from 'vue-function-api'
+import { createComponent } from '@vue/composition-api'
 
 import useAuth from '@/store/auth'
 
-export default createComponent({
+export default createComponent<{}>({
   components: {
     TheSettingsTheme,
     TheSettingsLogin,

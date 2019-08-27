@@ -1,17 +1,13 @@
-import VueFunctionApi, { ref, Ref, computed } from 'vue-function-api'
+import CompositionApi, { ref, computed } from '@vue/composition-api'
 import { MediaTitle } from '@/apollo/schema/media'
 import Vue from 'vue'
-Vue.use(VueFunctionApi)
+Vue.use(CompositionApi)
 
 const stored: string | null = localStorage.getItem('TITLE')
 
 const _prefered = ref((stored && parseInt(stored)) || 0)
 
-const titles: Ref<['romaji', 'english', 'native']> = ref([
-  'romaji',
-  'english',
-  'native'
-])
+const titles = ref(['romaji', 'english', 'native'] as const)
 
 const title = computed(() => (title: MediaTitle | null) =>
   (title && (title[preferedTitle.value] || title.romaji)) || ''

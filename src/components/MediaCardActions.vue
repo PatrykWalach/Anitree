@@ -63,7 +63,7 @@ import { VIEWER } from '@/apollo'
 import { Media } from '@/apollo/schema/media'
 
 import { VMenu, VBottomSheet } from 'vuetify/lib'
-import { createComponent, computed } from 'vue-function-api'
+import { createComponent, computed } from '@vue/composition-api'
 import useTitle from '../store/title'
 import useShareModule from '../store/share'
 import useEdit from '../store/edit'
@@ -94,11 +94,11 @@ function useShare(props: Props) {
   return { url, title, share }
 }
 
-interface Props {
+export interface Props {
   media: Media | null
 }
 
-export default createComponent({
+export default createComponent<Readonly<Props>>({
   components: {
     BaseLazyImg,
     MediaCardItemOverline,
@@ -116,9 +116,9 @@ export default createComponent({
     }
   },
   props: {
-    media: { required: true }
+    media: { required: true, default: null, type: null }
   },
-  setup(props: Readonly<Props>) {
+  setup(props){
     const { media } = props
 
     const { open } = useEdit()

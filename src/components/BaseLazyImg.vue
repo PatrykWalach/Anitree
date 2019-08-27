@@ -8,9 +8,9 @@
 </template>
 
 <script lang="ts">
-import { ref, computed as get, createComponent } from 'vue-function-api'
+import { ref, computed as get, createComponent } from '@vue/composition-api'
 
-export default createComponent({
+export default createComponent<Readonly<Props>>({
   directives: {
     lazy: {
       bind(el, { value }) {
@@ -27,7 +27,7 @@ export default createComponent({
       }
     }
   },
-  setup(props: Readonly<Props>) {
+  setup(props){
     const inView = ref(false)
 
     const computed = get(() => {
@@ -49,19 +49,23 @@ export default createComponent({
   props: {
     src: {
       type: String,
-      required: true
+      required: true,
+      default: ''
     },
     srcset: {
+      required: false,
       type: String,
       default: ''
     },
     lazySrc: {
+      required: false,
       type: String,
       default: ''
     }
   }
 })
-interface Props {
+
+export interface Props {
   lazySrc: string
   srcset: string
   src: string

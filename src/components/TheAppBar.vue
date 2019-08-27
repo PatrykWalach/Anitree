@@ -35,9 +35,9 @@ import TheAppBarSearch from './TheAppBarSearch.vue'
 import TheAppBarViewer from './TheAppBarViewer.vue'
 import TheAppBarFilters from './TheAppBarFilters.vue'
 
-import { createComponent, computed } from 'vue-function-api'
+import { createComponent, computed } from '@vue/composition-api'
 
-export default createComponent({
+export default createComponent<{}>({
   components: {
     TheAppBarSearch,
     TheAppBarViewer,

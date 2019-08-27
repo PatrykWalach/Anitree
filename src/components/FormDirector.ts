@@ -35,11 +35,12 @@ export const dateToString = (date: FuzzyDate): string => {
 }
 
 export const stringToDate = (date: string): FuzzyDate => {
-  const types = ['year', 'month', 'day']
   const values = date.split('-')
-  return Object.fromEntries(
-    types.map((type, i) => [type, parseInt(values[i]) || null])
-  ) as FuzzyDate
+  return {
+    year: parseInt(values[0]) || null,
+    month: parseInt(values[1]) || null,
+    day: parseInt(values[2]) || null
+  }
 }
 
 export const numberRound = (dec: number, input: string): string => {
@@ -68,9 +69,9 @@ export interface ItemData {
 }
 
 export default class FormDirector {
-  [index: string]: any
+  // [index: string]: any
 
-  public constructor() {}
+  // public constructor() {}
 
   public edit1(builder: FormBuilder, data: ItemData) {
     const { scoreFormat, manga, media, form, stored } = data
@@ -286,7 +287,7 @@ export default class FormDirector {
               },
               useEdit().changeForm
             ],
-            beforeTransform: [e => e.toString()],
+            beforeTransform: [(e:any) => e.toString()],
             validators: [scoreFormat.round ? validFloat : validInteger],
             transformations: [formatToNumber]
           },

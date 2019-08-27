@@ -8,15 +8,15 @@
 
 <script lang="ts">
 import { Media } from '@/apollo/schema/media'
-import { computed, createComponent } from 'vue-function-api'
-interface Props {
+import { computed, createComponent } from '@vue/composition-api'
+export interface Props {
   media: Media
 }
-export default createComponent({
+export default createComponent<Readonly<Props>>({
   props: {
-    media: { required: true }
+    media: { required: true, default: null, type: Object }
   },
-  setup(props: Readonly<Props>) {
+  setup(props) {
     const clean = (str: string | null) =>
       (str &&
         str

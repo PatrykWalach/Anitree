@@ -1,6 +1,6 @@
-import VueFunctionApi, { ref, Ref, computed } from 'vue-function-api'
+import CompositionApi, { ref, Ref, computed } from '@vue/composition-api'
 import Vue from 'vue'
-Vue.use(VueFunctionApi)
+Vue.use(CompositionApi)
 
 const stored = localStorage.getItem('AUTH')
 

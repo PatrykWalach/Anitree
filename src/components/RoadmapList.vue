@@ -21,22 +21,23 @@
 import { TrelloList, Cards } from '../types'
 import RoadmapListCard from './RoadmapListCard.vue'
 import BaseColor from './BaseColor.vue'
-import { createComponent, computed } from 'vue-function-api'
+import { createComponent, computed } from '@vue/composition-api'
 
-interface Props {
+export interface Props {
   list: TrelloList
   cards: Cards
 }
-export default createComponent({
+
+export default createComponent<Readonly<Props>>({
   components: {
     RoadmapListCard,
     BaseColor
   },
   props: {
-    list: { required: true },
-    cards: { required: true }
+    list: { required: true, type: Object, default: null },
+    cards: { required: true, type: Object, default: null }
   },
-  setup(props: Readonly<Props>) {
+  setup(props) {
     const allChecked = computed(() =>
       props.cards.find(
         ({ card }) => card.badges.checkItemsChecked !== card.badges.checkItems

@@ -13,15 +13,15 @@
 
 <script lang="ts">
 import { Media } from '@/apollo/schema/media'
-import { createComponent, computed } from 'vue-function-api'
-interface Props {
+import { createComponent, computed } from '@vue/composition-api'
+export interface Props {
   media: Media
 }
-export default createComponent({
+export default createComponent<Readonly<Props>>({
   props: {
-    media: { required: true }
+    media: { required: true, default: null, type: Object }
   },
-  setup(props: Readonly<Props>) {
+  setup(props){
     const year = computed(() => {
       if (props.media.seasonInt) {
         const year = Math.floor(props.media.seasonInt / 10)

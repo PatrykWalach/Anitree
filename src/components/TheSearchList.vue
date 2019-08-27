@@ -1,5 +1,5 @@
 <template>
-  <v-layout justify-center align-start>
+  <v-col justify="center" align="start">
     <v-card max-width="720px" width="100%">
       <v-subheader>
         Here are just some of the things you can see
@@ -57,19 +57,19 @@
         </v-list-item>
       </v-list>
     </v-card>
-  </v-layout>
+  </v-col>
 </template>
 
 <script lang="ts">
 import { User } from '../apollo/schema/viewer'
 
-interface Props {
+export interface Props {
   user: null | User
 }
 
 export default {
   props: {
-    user: { required: true }
+    user: { required: true, type:null, default:null }
   }
 }
 </script>

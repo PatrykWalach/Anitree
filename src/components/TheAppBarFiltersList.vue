@@ -1,9 +1,9 @@
 <template>
   <v-card-text class="pa-0">
     <v-container fluid>
-      <v-layout column>
+      <v-col>
         <v-subheader>Type</v-subheader>
-        <v-flex>
+        <v-row cols="12">
           <v-chip-group
             @change="
               e => {
@@ -23,10 +23,10 @@
               {{ type.toLowerCase() }}
             </v-chip>
           </v-chip-group>
-        </v-flex>
+        </v-row>
 
         <v-subheader>Sort</v-subheader>
-        <v-flex>
+        <v-row cols="12">
           <v-chip-group
             @change="
               e => {
@@ -75,11 +75,11 @@
               {{ text }}
             </v-chip>
           </v-chip-group>
-        </v-flex>
+        </v-row>
         <v-subheader>Status</v-subheader>
-        <v-flex>
+        <v-row cols="12">
           <base-field
-            :value="syncedForm.status || query.status"
+            :value="syncedForm.status || query.status || []"
             @input="
               e => {
                 syncedForm.status = e
@@ -112,29 +112,29 @@
               }}
             </v-chip></base-field
           >
-        </v-flex>
-      </v-layout>
+        </v-row>
+      </v-col>
     </v-container>
   </v-card-text>
 </template>
 
 <script lang="ts">
-import { createComponent, computed } from 'vue-function-api'
+import { createComponent, computed } from '@vue/composition-api'
 
 import { Variables } from '@/apollo/schema/page'
 import BaseField from './BaseField.vue'
-interface Props {
+export interface Props {
   form: Partial<Variables>
 }
 
-export default createComponent({
+export default createComponent<Readonly<Props>>({
   components: {
     BaseField
   },
   props: {
-    form: { required: true }
+    form: { required: true, type: Object, default: null }
   },
-  setup(props: Readonly<Props>, { root, emit }) {
+  setup(props, { root, emit }) {
     const query = computed(() => root.$route.query)
 
     const syncedForm = computed({

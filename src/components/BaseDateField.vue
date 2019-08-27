@@ -28,21 +28,22 @@
   </v-menu>
 </template>
 <script lang="ts">
-import { watch, ref, Ref, createComponent } from 'vue-function-api'
+import { watch, ref, Ref, createComponent } from '@vue/composition-api'
 
-interface Props {
+export interface Props {
   value: string
 }
 
-export default createComponent({
+export default createComponent<Readonly<Props>>({
   inheritAttrs: false,
   props: {
     value: {
       required: true,
-      type: String
+      type: String,
+      default: ''
     }
   },
-  setup(props: Readonly<Props>, { emit }) {
+  setup(props, { emit }) {
     const date = ref('')
     const menuActive = ref(false)
     const menu: Ref<any> = ref(null)

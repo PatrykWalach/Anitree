@@ -100,17 +100,17 @@ library.add(faFacebookF, faTwitter, faRedditAlien, faTumblr)
 import { clipboard } from 'vue-clipboards'
 
 import { ShareData } from '../types'
-import { createComponent, computed, ref } from 'vue-function-api'
+import { createComponent, computed, ref } from '@vue/composition-api'
 import useShare from '../store/share'
-interface Props {
+export interface Props {
   options: ShareData | null
 }
-export default createComponent({
+export default createComponent<Readonly<Props>>({
   directives: {
     clipboard
   },
   components: { FontAwesomeIcon, BaseShareItem },
-  setup(props: Readonly<Props>) {
+  setup(props){
     const snackbar = ref(false)
     const { isShared } = useShare()
 
@@ -119,7 +119,7 @@ export default createComponent({
     return { isShared, url, snackbar }
   },
   props: {
-    options: { required: true }
+    options: { required: true, type: null, default: null }
   }
 })
 </script>

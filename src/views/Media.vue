@@ -1,5 +1,5 @@
 <template>
-  <base-container grid-list-lg :loading="loading">
+  <base-container :loading="loading">
     <MediaTimeline :media-list="mediaList" />
   </base-container>
 </template>
@@ -7,20 +7,27 @@
 const MediaTimeline = () =>
   import(/* webpackPreload: true */ '../components/MediaTimeline.vue')
 
+// import MediaTimeline from '../components/MediaTimeline.vue'
 import BaseContainer from '../components/BaseContainer.vue'
 
 import { PAGE } from '@/apollo'
 import { Media } from '@/apollo/schema/media'
 import { Page, Variables as PageVariables } from '../apollo/schema/page'
 
-import { ref, computed, watch, Ref, createComponent } from 'vue-function-api'
+import {
+  ref,
+  computed,
+  watch,
+  Ref,
+  createComponent
+} from '@vue/composition-api'
 
 const getYear = (seasonInt: number) => {
   const year = Math.floor(seasonInt / 10)
   return year > 50 ? 1900 + year : 2000 + year
 }
 
-export default createComponent({
+export default createComponent<{}>({
   components: {
     MediaTimeline,
     BaseContainer
@@ -33,12 +40,12 @@ export default createComponent({
 
     const fetch = (variables: PageVariables) =>
       root.$apollo
-        .query<{ Page: Page }>({
+        .query({
           query: PAGE,
           variables,
           fetchPolicy: 'network-only'
         })
-        .then(({ data }) => data.Page.media)
+        .then(({ data }: { data: { Page: Page } }) => data.Page.media)
         .then(media => {
           mediaList.value.push(...media)
           return media
@@ -71,8 +78,6 @@ export default createComponent({
               )
               .filter(id => !mediaList.value.find(media => media.id === id))
 
-            console.log(newMedia)
-
             if (newMedia.length) {
               return fetchMedia(newMedia)
             }
@@ -83,7 +88,6 @@ export default createComponent({
       })
 
     watch(currentId, async (currentId, oldId, onCleanup) => {
-      mediaList.value = []
       loading.value = true
       await fetchMedia([currentId])
       loading.value = false

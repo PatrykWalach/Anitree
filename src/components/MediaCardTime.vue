@@ -12,23 +12,23 @@
 <script lang="ts">
 import { ValidDate } from '../types'
 import { Media, FuzzyDate } from '@/apollo/schema/media'
-import { createComponent, computed } from 'vue-function-api'
+import { createComponent, computed } from '@vue/composition-api'
 const BaseTimeRange = () => import('./BaseTimeRange.vue')
 const BaseTime = () => import('./BaseTime.vue')
 
-interface Props {
+export interface Props {
   media: Media
 }
 
-export default createComponent({
+export default createComponent<Readonly<Props>>({
   components: {
     BaseTimeRange,
     BaseTime
   },
   props: {
-    media: { required: true }
+    media: { required: true, type: Object, default: null }
   },
-  setup(props: Readonly<Props>) {
+  setup(props) {
     const isValidDate = (date: FuzzyDate): date is ValidDate =>
       date.year !== null && date.month !== null
 

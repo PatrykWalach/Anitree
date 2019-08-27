@@ -16,19 +16,19 @@
 <script lang="ts">
 import MediaCardProgress from './MediaCardProgress.vue'
 import { Media } from '../apollo/schema/media'
-import { createComponent } from 'vue-function-api'
+import { createComponent } from '@vue/composition-api'
 
 const BaseLazyImg = () => import('./BaseLazyImg.vue')
-interface Props {
+export interface Props {
   media: Media | null
 }
-export default createComponent({
+export default createComponent<Readonly<Props>>({
   components: {
     BaseLazyImg,
     MediaCardProgress
   },
   props: {
-    media: { required: true }
+    media: { required: true,default:null,type:null }
   }
 })
 </script>

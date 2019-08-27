@@ -9,21 +9,21 @@
 
 <script lang="ts">
 import { Media } from '@/apollo/schema/media'
-import { createComponent } from 'vue-function-api'
+import { createComponent } from '@vue/composition-api'
 import MediaCardStatusReady from './MediaCardStatusReady.vue'
 
-interface Props {
+export interface Props {
   media: Media | null
 }
 
 import { useTheme } from './MediaCardProgress.vue'
 
-export default createComponent({
+export default createComponent<Readonly<Props>>({
   components: {
     MediaCardStatusReady
   },
   props: {
-    media: { required: true }
+    media: { required: true,type:null,default:null }
   },
   setup() {
     return useTheme()

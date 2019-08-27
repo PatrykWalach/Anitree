@@ -50,7 +50,9 @@ const router = new Router({
               }
             })
           })
-          .catch(() => next(false))
+          .catch(() => {
+            next(from ? false : { name: 'home' })
+          })
       }
     },
     {

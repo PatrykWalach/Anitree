@@ -15,7 +15,7 @@
       <v-card-actions>
         <v-spacer> </v-spacer>
         <v-btn text color="error" @click="close">cancel</v-btn>
-        <v-btn text color="primary" @click="submit" :active="submitRequired"
+        <v-btn text color="primary" @click="submit" :disabled="!submitRequired"
           >submit</v-btn
         >
       </v-card-actions>
@@ -24,10 +24,10 @@
 </template>
 
 <script lang="ts">
-import { createComponent, ref, computed } from 'vue-function-api'
+import { createComponent, ref, computed } from '@vue/composition-api'
 import TheAppBarFiltersList from './TheAppBarFiltersList.vue'
 
-export default createComponent({
+export default createComponent<{}>({
   components: {
     TheAppBarFiltersList
   },
@@ -39,8 +39,14 @@ export default createComponent({
       form.value = {}
       dialog.value = false
     }
+
     const submit = () => {
-      root.$router.replace({ query: form.value })
+      root.$router.replace({
+        query: {
+          ...root.$route.query,
+          ...form.value
+        }
+      })
       close()
     }
 

@@ -39,10 +39,13 @@ import MediaCardActions from './MediaCardActions.vue'
 
 import { Variables } from '@/apollo/schema/media'
 
-import { createComponent, Ref, computed } from 'vue-function-api'
+interface RawBindings {}
+
+import { createComponent, Ref, computed } from '@vue/composition-api'
 import useTitle from '@/store/title'
-export default createComponent({
-  setup(props: Readonly<Props>) {
+
+export default createComponent<Readonly<Props>>({
+  setup(props){
     const variables: Ref<Variables> = computed(() => {
       return { id: props.id }
     })
@@ -59,11 +62,12 @@ export default createComponent({
   props: {
     id: {
       type: Number,
-      required: true
+      required: true,
+      default: 2
     }
   }
 })
-interface Props {
+export interface Props {
   id: number
 }
 </script>
@@ -79,13 +83,13 @@ import { VDivider, VBtn, VBanner, VCard } from 'vuetify/lib'
 import { MEDIA } from '@/apollo'
 import { Media } from '@/apollo/schema/media'
 
-import { createElement } from 'vue-function-api'
+import { createElement } from '@vue/composition-api'
 
-export default createComponent({
+export default createComponent<Readonly<Props>>({
   setup: () => {
     const h = createElement
 
-    return (props: Readonly<Props>) => {
+    return (props ) => {
       const card = (media: Media | null) => (
         <VCard>
           <MediaCardBanner media={media} />
@@ -135,7 +139,7 @@ export default createComponent({
   } 
 })
 
-interface Props {
+export interface Props {
   id: number
 }
 </script>

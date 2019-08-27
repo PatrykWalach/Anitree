@@ -15,14 +15,13 @@
   </v-list-item>
 </template>
 <script lang="ts">
-import { createComponent } from 'vue-function-api'
 import useSubmit from '@/store/submit'
 
-export default createComponent({
+export default {
   setup() {
     const { auto } = useSubmit()
 
     return { auto }
   }
-})
+}
 </script>

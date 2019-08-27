@@ -5,7 +5,7 @@
     :query="require('@/apollo/queries/Viewer.gql')"
     :skip="!token"
   >
-    <v-container fill-height grid-list-lg>
+    <v-container>
       <TheSearchList :user="viewer && viewer.Viewer" v-if="!isSearched" />
       <ApolloQuery
         v-else
@@ -25,10 +25,10 @@
           )
         "
       >
-        <v-layout
+        <v-col
           v-if="isLoading || error || !data.Page.media.length"
-          justify-center
-          align-center
+          justify="center"
+          align="center"
         >
           <v-progress-circular
             v-if="isLoading"
@@ -42,7 +42,7 @@
           <template v-else>
             No results found
           </template>
-        </v-layout>
+        </v-col>
         <media-timeline v-else :media-list="data.Page.media">
           <v-pagination
             v-model="page"
@@ -57,10 +57,10 @@
 import MediaTimeline from '../components/MediaTimeline.vue'
 import TheSearchList from '../components/TheSearchList.vue'
 
-import { createComponent, computed } from 'vue-function-api'
+import { computed, createComponent } from '@vue/composition-api'
 import useAuth from '../store/auth'
 
-export default createComponent({
+export default createComponent<{}>({
   components: {
     MediaTimeline,
     TheSearchList

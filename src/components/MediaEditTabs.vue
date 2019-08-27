@@ -21,9 +21,9 @@
     </v-tab>
 
     <v-tab-item v-for="i in 4" :key="i" :value="'edit' + i">
-      <v-container fluid grid-list-md>
+      <v-card-text>
         <MediaEditTabsTab :method="'edit' + i" :user="user" :media="media" />
-      </v-container>
+      </v-card-text>
     </v-tab-item>
   </v-tabs>
 </template>
@@ -31,17 +31,17 @@
 import MediaEditTabsTab from './MediaEditTabsTab.vue'
 import { Media } from '@/apollo/schema/media'
 import { User } from '@/apollo/schema/viewer'
-import { createComponent } from 'vue-function-api'
+import { createComponent } from '@vue/composition-api'
 import useEdit from '../store/edit'
-interface Props {
+export interface Props {
   media: Media
   user: User
 }
 
-export default createComponent({
+export default createComponent<Readonly<Props>>({
   props: {
-    media: { required: true },
-    user: { required: true }
+    media: { required: true,type:Object,default:null },
+    user: { required: true,type:Object,default:null }
   },
   components: {
     MediaEditTabsTab

@@ -18,17 +18,17 @@
 </template>
 
 <script lang="ts">
-import { createComponent, computed } from 'vue-function-api'
+import { createComponent, computed } from '@vue/composition-api'
 import { Media } from '../apollo/schema/media'
 import { useTheme } from './MediaCardProgress.vue'
 
-interface Props {
+export interface Props {
   media: Media
 }
 
-export default createComponent({
-  props: { media: { required: true } },
-  setup(props: Readonly<Props>) {
+export default createComponent<Readonly<Props>>({
+  props: { media: { required: true, type: Object, default: null } },
+  setup(props) {
     const scoreDistribution = computed(
       () => props.media.stats.scoreDistribution || []
     )

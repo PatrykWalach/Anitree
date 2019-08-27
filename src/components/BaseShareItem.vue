@@ -13,19 +13,20 @@
   </v-slide-item>
 </template>
 <script lang="ts">
+
 export default {
   props: {
     color: {
       default: 'grey darken-2',
-      type: String
+      type: String,required:false
     },
     title: {
       required: true,
-      type: String
+      type: String,default:''
     },
     href: {
       required: true,
-      type: String
+      type: String,default:''
     }
   }
 }

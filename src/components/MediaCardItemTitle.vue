@@ -10,19 +10,20 @@ import MediaCardItemTitleReady from './MediaCardItemTitleReady.vue'
 
 import MediaCardProgress from './MediaCardProgress.vue'
 import { Media } from '../apollo/schema/media'
-import { createComponent } from 'vue-function-api'
-interface Props {
+import { createComponent } from '@vue/composition-api'
+import { Tooltip } from '../types'
+export interface Props {
   media: Media | null
+  hover: Tooltip | null
 }
-export default createComponent({
+export default createComponent<Readonly<Props>>({
   components: {
     MediaCardItemTitleReady,
-
     MediaCardProgress
   },
   props: {
-    media: { required: true },
-    hover: { required: true }
+    media: { required: true, default: null, type: null },
+    hover: { required: false, default: null, type: null }
   }
 })
 </script>

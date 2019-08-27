@@ -1,11 +1,11 @@
 <template>
-  <v-container fill-height v-bind="$attrs">
+  <v-container v-bind="$attrs">
     <template v-if="!loading">
       <slot></slot>
     </template>
-    <v-layout justify-center align-center wrap v-else>
+    <v-row justify="center" align="center" v-else>
       <v-progress-circular indeterminate color="primary"></v-progress-circular>
-    </v-layout>
+    </v-row>
   </v-container>
 </template>
 <script lang="ts">
@@ -14,7 +14,8 @@ export default {
   props: {
     loading: {
       default: false,
-      type: Boolean
+      type: Boolean,
+      required:true
     }
   }
 }

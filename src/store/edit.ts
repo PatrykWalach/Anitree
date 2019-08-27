@@ -7,11 +7,11 @@ import { MediaList } from '@/apollo/schema/mediaListCollection'
 
 import { SAVE_MEDIA_LIST_ENTRY } from '@/apollo'
 
-import VueFunctionApi, { Ref, ref } from 'vue-function-api'
+import CompositionApi, { Ref, ref } from '@vue/composition-api'
 
 import useSubmit from './submit'
 import Vue from 'vue'
-Vue.use(VueFunctionApi)
+Vue.use(CompositionApi)
 
 const mediaId: Ref<number | null> = ref(null)
 const isEdited = ref(false)

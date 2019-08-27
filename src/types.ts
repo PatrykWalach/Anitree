@@ -1,24 +1,6 @@
 import { Location } from 'vue-router'
 import Vue from 'vue'
 import { MediaStatus, FuzzyDate, Media } from './apollo/schema/media'
-export interface HTMLElementEvent<T extends HTMLElement = HTMLElement>
-  extends Event {
-  target: T
-  currentTarget: T
-}
-
-export interface MediaListFetchVariables {
-  type: 'ANIME' | 'MANGA'
-  id: number
-  chunk: number
-}
-export interface MediaListCollection {
-  lists: {
-    entries: MediaList[]
-    status: MediaStatus
-  }[]
-  hasNextChunk: boolean
-}
 
 export interface ShareData {
   url?: string
@@ -34,6 +16,21 @@ export type RawFilter = (
   index: number,
   array: MediaEdgeExtended[]
 ) => boolean
+export interface Tooltip {
+  attrs: {
+    type?: 'button'
+    role: 'button'
+    'aria-haspopup': true
+    'aria-expanded': 'true' | 'false'
+  }
+  on: {
+    blur: Function
+    focus: Function
+    keydown: Function
+    mouseenter: Function
+    mouseleave: Function
+  }
+}
 
 export interface Filter {
   filter: RawFilter

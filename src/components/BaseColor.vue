@@ -12,17 +12,17 @@
 
 <script lang="ts">
 import { VChip, VToolbar, VBtn } from 'vuetify/lib'
-import { computed, createComponent } from 'vue-function-api'
+import { computed, createComponent } from '@vue/composition-api'
 
 // const VChip = () => import('vuetify/lib/components/VChip')
 // const VBtn = () => import('vuetify/lib/components/VBtn')
 // const VToolbar = () => import('vuetify/lib/components/VToolbar')
-interface Props {
+export interface Props {
   color: string
   tag: string
 }
 
-export default createComponent({
+export default createComponent<Readonly<Props>>({
   components: {
     VChip,
     VBtn,
@@ -31,14 +31,16 @@ export default createComponent({
   props: {
     color: {
       type: String,
+      default: '#ffffff',
       required: true
     },
     tag: {
       type: String,
-      default: 'span'
+      default: 'span',
+      required:false
     }
   },
-  setup(props: Readonly<Props>) {
+  setup(props){
     const colors = computed(
       () =>
         (props.color &&

@@ -45,13 +45,13 @@
   </components>
 </template>
 <script lang="ts">
-import { createComponent } from 'vue-function-api'
+import { createComponent } from '@vue/composition-api'
 
 import useAuth from '@/store/auth'
 import { VIEWER } from '@/apollo'
 import { VMenu, VBottomSheet } from 'vuetify/lib'
 
-export default createComponent({
+export default createComponent<{}>({
   components: {
     VMenu,
     VBottomSheet

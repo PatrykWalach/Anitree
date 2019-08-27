@@ -1,8 +1,8 @@
-import VueFunctionApi, { ref, Ref } from 'vue-function-api'
+import CompositionApi, { ref, Ref } from '@vue/composition-api'
 
 import { ShareData } from '@/types'
 import Vue from 'vue'
-Vue.use(VueFunctionApi)
+Vue.use(CompositionApi)
 
 const options: Ref<ShareData | null> = ref(null)
 

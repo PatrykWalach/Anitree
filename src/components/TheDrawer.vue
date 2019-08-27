@@ -43,18 +43,21 @@
 </template>
 
 <script lang="ts">
-interface Props {
-  value: boolean
+import { computed, createComponent } from '@vue/composition-api'
+
+interface Props{
+value:boolean
 }
-import { createComponent, computed } from 'vue-function-api'
-export default createComponent({
+
+export default createComponent<Readonly<Props>>({
   props: {
     value: {
       required: true,
-      type: Boolean
+      type: Boolean,
+      default: false
     }
   },
-  setup(props: Readonly<Props>, { emit }) {
+  setup(props, { emit }) {
     const syncedValue = computed({
       get: () => props.value,
       set: value => emit('update:value', value)

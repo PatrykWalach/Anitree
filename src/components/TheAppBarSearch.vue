@@ -1,5 +1,5 @@
 <template>
-  <v-layout justify-center class="mx-2">
+  <v-col justify="center" class="mx-2">
     <v-form
       v-model="valid"
       :style="{ display: 'contents' }"
@@ -22,12 +22,12 @@
         label="Search"
         @keydown.esc="$emit('keydown:esc')"
       ></v-text-field> </v-form
-  ></v-layout>
+  ></v-col>
 </template>
 <script lang="ts">
-import { ref, Ref, computed, createComponent } from 'vue-function-api'
+import { ref, Ref, computed, createComponent } from '@vue/composition-api'
 
-export default createComponent({
+export default createComponent<{}>({
   setup(_, { emit, root }) {
     const search = ref('')
     const valid = ref(false)

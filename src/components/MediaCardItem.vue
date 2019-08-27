@@ -18,12 +18,14 @@ import MediaCardItemOverline from './MediaCardItemOverline.vue'
 
 import MediaCardProgress from './MediaCardProgress.vue'
 import { Media } from '../apollo/schema/media'
-import { createComponent, computed } from 'vue-function-api'
+import { createComponent, computed } from '@vue/composition-api'
+import { Tooltip } from '../types'
 
-interface Props {
+export interface Props {
   media: Media | null
+  hover: Tooltip | null
 }
-export default createComponent({
+export default createComponent<Readonly<Props>>({
   components: {
     MediaCardProgress,
     MediaCardItemTitle,
@@ -31,7 +33,7 @@ export default createComponent({
     MediaCardItemOverline,
     MediaCardItemAvatar
   },
-  setup(props: Readonly<Props>) {
+  setup(props){
     const lines = computed(() =>
       !props.media || props.media.description ? 'three-line' : 'two-line'
     )
@@ -39,8 +41,8 @@ export default createComponent({
     return { lines }
   },
   props: {
-    media: { required: true },
-    hover: { required: true }
+    media: { required: true, default: null, type: null },
+    hover: { required: false, default: null, type: null }
   }
 })
 </script>

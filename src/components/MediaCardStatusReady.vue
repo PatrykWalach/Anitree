@@ -15,16 +15,16 @@
 
 <script lang="ts">
 import { Media } from '@/apollo/schema/media'
-import { createComponent, computed } from 'vue-function-api'
+import { createComponent, computed } from '@vue/composition-api'
 
-interface Props {
+export interface Props {
   media: Media
 }
-export default createComponent({
+export default createComponent<Readonly<Props>>({
   props: {
-    media: { required: true }
+    media: { required: true, default: null, type: Object }
   },
-  setup(props: Readonly<Props>) {
+  setup(props) {
     const manga = computed(() => props.media.type === 'MANGA')
 
     const status = computed(
@@ -49,10 +49,10 @@ export default createComponent({
           return 100
         case 'DROPPED':
           return 100
-        default:
-          return (
-            (episodes.value && (progress.value / episodes.value) * 100) || 50
-          )
+        default: {
+          if (episodes.value) return (progress.value / episodes.value) * 100
+          return 50
+        }
       }
     })
 

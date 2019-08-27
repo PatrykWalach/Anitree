@@ -1,5 +1,5 @@
 <template>
-  <span v-on="hover.on" v-bind="hover.attrs">
+  <span v-if="hover" v-on="hover.on" v-bind="hover.attrs">
     <router-link
       :to="{
         name: 'media',
@@ -9,24 +9,36 @@
       {{ title }}
     </router-link>
   </span>
+  <router-link
+    v-else
+    :to="{
+      name: 'media',
+      params
+    }"
+  >
+    {{ title }}
+  </router-link>
 </template>
 
 <script lang="ts">
 import { Media } from '@/apollo/schema/media'
 
-import { createComponent, computed } from 'vue-function-api'
+import { createComponent, computed } from '@vue/composition-api'
 
 import useTitle from '@/store/title'
+import { Tooltip } from '../types'
 
-interface Props {
+export interface Props {
   media: Media
+  hover: Tooltip | null
 }
-export default createComponent({
+
+export default createComponent<Readonly<Props>>({
   props: {
-    media: { required: true },
-    hover: { required: true }
+    media: { required: true, default: Object, type: null },
+    hover: { required: false, default: null, type: null }
   },
-  setup(props: Readonly<Props>) {
+  setup(props) {
     const { title: _title } = useTitle()
 
     const title = computed(() => _title.value(props.media.title))

@@ -53,7 +53,7 @@
   </v-tabs>
 </template>
 <script lang="ts">
-import { createComponent, ref, computed } from 'vue-function-api'
+import { createComponent, ref, computed } from '@vue/composition-api'
 
 import MediaCardItem from './MediaCardItem.vue'
 import MediaCardTabsStats from './MediaCardTabsStats.vue'
@@ -62,9 +62,10 @@ import BaseColor from './BaseColor.vue'
 import { Media } from '@/apollo/schema/media'
 
 import useTitle from '@/store/title'
+import { Tooltip } from '../types'
 
-export default createComponent({
-  setup(props: Readonly<Props>) {
+export default createComponent<Readonly<Props>>({
+  setup(props) {
     const { title: _title } = useTitle()
 
     const title = computed(() => _title.value(props.media && props.media.title))
@@ -80,14 +81,20 @@ export default createComponent({
   },
   props: {
     media: {
-      required: true
+      required: true,
+      type: null,
+      default: null
     },
     hover: {
-      required: true
+      required: true,
+      type: Object,
+      default: null
     }
   }
 })
-interface Props {
+
+export interface Props {
   media: Media | null
+  hover: Tooltip
 }
 </script>

@@ -1,5 +1,9 @@
 <script lang="tsx">
-import { createComponent, computed, createElement } from 'vue-function-api'
+import {
+  createComponent,
+  computed,
+  createElement as h
+} from '@vue/composition-api'
 
 import FormBuilder from './FormBuilder'
 import FormDirector from './FormDirector'
@@ -11,28 +15,34 @@ import { Form } from '../types'
 
 import useEdit from '../store/edit'
 
-interface Props {
-  method: string
+export interface Props {
+  method: keyof FormDirector
   user: User
   media: Media
 }
-import { VLayout } from 'vuetify/lib'
 
-export default createComponent({
+import { VContainer, VRow } from 'vuetify/lib'
+
+export default createComponent<Readonly<Props>>({
   inheritAttrs: false,
   props: {
     method: {
       required: true,
-      type: String
+      type: String,
+      default: ''
     },
     user: {
-      required: true
+      required: true,
+      type: Object,
+      default: null
     },
     media: {
-      required: true
+      required: true,
+      type: Object,
+      default: null
     }
   },
-  setup: (props: Readonly<Props>) => {
+  setup: (props) => {
     const manga = computed(() => {
       return (props.media && props.media.type === 'MANGA') || false
     })
@@ -67,8 +77,8 @@ export default createComponent({
           .map(key => mediaListEntry.advancedScores[key])
           .map(value => value || 0)
 
-        return Object.assign(
-          Object.fromEntries(
+        return {
+          ...(Object.fromEntries(
             Object.entries(mediaListEntry)
               .filter(
                 ([key, value]) =>
@@ -77,9 +87,9 @@ export default createComponent({
                   key !== 'advancedScores'
               )
               .map(([key, value]) => [key, value || 0])
-          ) as Form,
-          { advancedScores }
-        )
+          ) as Form),
+          advancedScores
+        }
       }
 
       const advancedScores = advancedScoring.value.map(() => 0)
@@ -101,9 +111,8 @@ export default createComponent({
     const director = new FormDirector()
 
     /*eslint-disable-next-line @typescript-eslint/no-unused-vars*/
-    const h = createElement
 
-    return (props: Readonly<Props>) => {
+    return (props )=> {
       const builder = new FormBuilder()
 
       director[props.method](builder, {
@@ -115,7 +124,11 @@ export default createComponent({
         advancedScoring: advancedScoring.value
       })
 
-      return <VLayout wrap>{builder.getFields()}</VLayout>
+      return h(VContainer, { props: { fluid: true } }, [
+        h(VRow, [builder.getFields()])
+      ])
+
+      //<VLayout wrap>{builder.getFields()}</VLayout>
     }
   }
 })

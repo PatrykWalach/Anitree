@@ -1,6 +1,6 @@
-import VueFunctionApi, { ref } from 'vue-function-api'
+import CompositionApi, { ref } from '@vue/composition-api'
 import Vue from 'vue'
-Vue.use(VueFunctionApi)
+Vue.use(CompositionApi)
 
 const stored: string | null = localStorage.getItem('SUBMIT')
 

@@ -3,22 +3,22 @@
 </template>
 <script lang="ts">
 import { ValidDate } from '../types'
-import { createComponent, computed } from 'vue-function-api'
-interface Props {
+import { createComponent, computed } from '@vue/composition-api'
+export interface Props {
   date: ValidDate
   sliceDate: ValidDate | null
 }
 
-export default createComponent({
+export default createComponent<Readonly<Props>>({
   filters: {
     combine: (parts: Intl.DateTimeFormatPart[]) =>
       parts.map(({ value }) => value).join('')
   },
   props: {
-    date: { required: true },
-    sliceDate: { default: null }
+    date: { required: true, default: Object, type: null },
+    sliceDate: { required: false, default: null, type: null }
   },
-  setup(props: Readonly<Props>) {
+  setup(props){
     const toDate = (date: ValidDate) =>
       new Date(date.year, (date.month && date.month - 1) || 0, date.day || 1)
 

@@ -1,36 +1,38 @@
 <template>
-  <v-container v-if="loading" fill-height>
-    <v-layout justify-center align-center>
-      <v-progress-circular indeterminate></v-progress-circular>
-    </v-layout>
-  </v-container>
-  <v-card-text v-else-if="error">
-    <v-subheader>
-      There was an error
-    </v-subheader>
-  </v-card-text>
-  <v-card-text v-else>
-    <v-subheader>
-      Please log in
-    </v-subheader>
-    <TheSettingsLogin />
+  <v-card-text>
+    <v-container v-if="loading">
+      <v-row justify="center" align="center">
+        <v-progress-circular indeterminate></v-progress-circular>
+      </v-row>
+    </v-container>
+    <template v-else-if="error">
+      <v-subheader>
+        Please try to refresh the page
+      </v-subheader>
+    </template>
+    <template v-else>
+      <v-subheader>
+        Please log in
+      </v-subheader>
+      <TheSettingsLogin />
+    </template>
   </v-card-text>
 </template>
 <script lang="ts">
-import { createComponent } from 'vue-function-api'
+import { createComponent } from '@vue/composition-api'
 
 const TheSettingsLogin = () => import('./TheSettingsLogin.vue')
 
-interface Props {
+export interface Props {
   loading: boolean
   error: boolean
 }
-export default createComponent({
+export default createComponent<Readonly<Props>>({
   props: {
-    loading: { required: true, type: Boolean },
-    error: { required: true, type: Boolean }
+    loading: { required: true, type: Boolean,
+    default:false },
+    error: { required: true, type: Boolean, default:false }
   },
-
   components: {
     TheSettingsLogin
   }

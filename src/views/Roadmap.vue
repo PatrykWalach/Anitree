@@ -1,14 +1,20 @@
 <template>
   <base-container :loading="loading">
-    <v-flex>
-      <v-timeline :dense="$vuetify.breakpoint.smAndDown">
-        <RoadmapList v-for="list in lists" :key="list.list.id" v-bind="list" />
-      </v-timeline>
-    </v-flex>
+    <v-col>
+      <v-row>
+        <v-timeline :dense="$vuetify.breakpoint.smAndDown">
+          <RoadmapList
+            v-for="list in lists"
+            :key="list.list.id"
+            v-bind="list"
+          />
+        </v-timeline>
+      </v-row>
+    </v-col>
   </base-container>
 </template>
 <script lang="ts">
-import { ref, onCreated, Ref, createComponent } from 'vue-function-api'
+import { ref, Ref } from '@vue/composition-api'
 
 import axios from 'axios'
 import RoadmapList from '../components/RoadmapList.vue'
@@ -16,7 +22,7 @@ import BaseContainer from '../components/BaseContainer.vue'
 
 import { TrelloList, Cards, TrelloCard, TrelloChecklist } from '../types'
 
-export default createComponent({
+export default {
   components: { RoadmapList, BaseContainer },
   setup() {
     const loading = ref(false)
@@ -48,15 +54,9 @@ export default createComponent({
     const makeRequests = () =>
       Promise.all([getLists(), getCards(), getChecklists()])
 
-    onCreated(async () => {
-      loading.value = true
-      const [_lists, cards, checklists]: [
-        TrelloList[],
-        TrelloCard[],
-        TrelloChecklist[]
-      ] = await makeRequests()
-      loading.value = false
+    loading.value = true
 
+    makeRequests().then(([_lists, cards, checklists]) => {
       lists.value = _lists.map(list => {
         return {
           list,
@@ -72,9 +72,11 @@ export default createComponent({
             })
         }
       })
+
+      loading.value = false
     })
 
     return { loading, lists }
   }
-})
+}
 </script>

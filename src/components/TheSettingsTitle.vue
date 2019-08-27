@@ -37,11 +37,11 @@
 </template>
 
 <script lang="ts">
-import { createComponent, ref } from 'vue-function-api'
+import { createComponent, ref } from '@vue/composition-api'
 import useTitle from '@/store/title'
 import { VDialog, VBottomSheet } from 'vuetify/lib'
 
-export default createComponent({
+export default createComponent<{}>({
   components: {
     VDialog,
     VBottomSheet

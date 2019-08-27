@@ -1,8 +1,8 @@
 <template>
-  <v-container fill-height>
-    <v-layout justify-center align-start>
+  <v-container>
+    <v-col justify="center" align="start">
       <TheSettings />
-    </v-layout>
+    </v-col>
   </v-container>
 </template>
 

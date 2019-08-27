@@ -9,10 +9,10 @@
   </v-tooltip>
 </template>
 <script lang="ts">
-import { createComponent, computed } from 'vue-function-api'
+import { createComponent, computed } from '@vue/composition-api'
 import useSubmit from '../store/submit'
 
-export default createComponent({
+export default createComponent<{}>({
   inheritAttrs: false,
   setup() {
     const { auto } = useSubmit()

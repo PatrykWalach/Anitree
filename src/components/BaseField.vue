@@ -7,9 +7,10 @@
 <script lang="ts">
 const BaseDateField = () => import('./BaseDateField.vue')
 import { VTextField, VTextarea, VSelect, VChipGroup } from 'vuetify/lib'
-import { ref, watch, computed, createComponent } from 'vue-function-api'
 
-interface Props {
+import { ref, watch, computed, createComponent } from '@vue/composition-api'
+
+export interface Props {
   validators: ((v: string) => boolean)[]
   transformations: ((v: string) => string)[]
   tag: string
@@ -18,7 +19,7 @@ interface Props {
   value: any
 }
 
-export default createComponent({
+export default createComponent<Readonly<Props>>({
   inheritAttrs: false,
   components: {
     BaseDateField,
@@ -29,18 +30,21 @@ export default createComponent({
   },
   props: {
     tag: {
+      required: false,
       default: 'v-text-field',
       type: String
     },
-    validators: { default: () => [], type: Array },
-    transformations: { default: () => [], type: Array },
-    beforeTransform: { default: () => [], type: Array },
-    afterTransform: { default: () => [], type: Array },
+    validators: { required: false, default: () => [], type: Array },
+    transformations: { required: false, default: () => [], type: Array },
+    beforeTransform: { required: false, default: () => [], type: Array },
+    afterTransform: { required: false, default: () => [], type: Array },
     value: {
-      default: ''
+      required: false,
+      default: '',
+      type: null
     }
   },
-  setup(props: Readonly<Props>, { emit }) {
+  setup(props, { emit }) {
     const input = ref('')
     const transform = (input: any, transformations: Function[]) =>
       transformations.reduce(
@@ -48,9 +52,12 @@ export default createComponent({
         input
       )
 
-    watch(() => {
-      input.value = transform(props.value, props.beforeTransform)
-    })
+    watch(
+      () => props.value,
+      _value => {
+        input.value = transform(_value, props.beforeTransform)
+      }
+    )
 
     const isValid = computed(() => {
       for (const validator of props.validators) {

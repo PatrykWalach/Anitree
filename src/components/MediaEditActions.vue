@@ -47,11 +47,16 @@ import MediaEditIcon from './MediaEditIcon.vue'
 
 import { Media } from '@/apollo/schema/media'
 import { DELETE_MEDIA_LIST_ENTRY } from '@/apollo'
-import { ref, computed, createComponent, SetupContext } from 'vue-function-api'
+import {
+  ref,
+  computed,
+  createComponent,
+  SetupContext
+} from '@vue/composition-api'
 import { User } from '../apollo/schema/viewer'
 import useEdit from '../store/edit'
 
-interface Props {
+export interface Props {
   user: User | null
   media: Media | null
 }
@@ -83,15 +88,15 @@ function useActions(props: Readonly<Props>, { root }: SetupContext) {
   return { confirmation, close, submitRequired, submit, remove }
 }
 
-export default createComponent({
+export default createComponent<Readonly<Props>>({
   components: {
     MediaEditIcon
   },
   props: {
-    user: { required: true },
-    media: { required: true }
+    user: { required: true, type: null, default: null },
+    media: { required: true, type: null, default: null }
   },
-  setup(props: Readonly<Props>, context) {
+  setup(props, context) {
     return useActions(props, context)
   }
 })

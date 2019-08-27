@@ -20,13 +20,15 @@ import TheAppBar from './components/TheAppBar.vue'
 import MediaEdit from './components/MediaEdit.vue'
 import BaseShare from './components/BaseShare.vue'
 
+// import TheBottomNavigation from './components/TheBottomNavigation.vue'
+
 const TheBottomNavigation = () => import('@/components/TheBottomNavigation.vue')
 
-import { ref, onCreated, createComponent } from 'vue-function-api'
+import { ref, createComponent } from '@vue/composition-api'
 import useEdit from './store/edit'
 import useShare from './store/share'
 
-export default createComponent({
+export default createComponent<{}>({
   components: {
     MediaEdit,
     TheAppBar,
@@ -44,10 +46,7 @@ export default createComponent({
     const { mediaId } = useEdit()
     const { options } = useShare()
 
-    onCreated(
-      () =>
-        (root.$vuetify.theme.dark = localStorage.getItem('THEME') === 'true')
-    )
+    root.$vuetify.theme.dark = localStorage.getItem('THEME') === 'true'
 
     return {
       drawer,

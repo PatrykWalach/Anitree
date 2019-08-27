@@ -1,6 +1,6 @@
 <template>
   <ApolloQuery
-    v-slot="{ result: { error, data }, isLoading }"
+    v-slot="{ result: { error, data, loading } }"
     :query="require('@/apollo/queries/Media.gql')"
     :variables="{
       id: id || 1,
@@ -18,19 +18,15 @@
     >
       <v-card :loading="loading">
         <MediaEditLoading
-          v-if="$apollo.loading || !!isLoading || !!$apollo.error || !!error"
-          :loading="$apollo.loading || !!isLoading"
+          v-if="$apollo.loading || loading || !!$apollo.error || !!error"
+          :loading="$apollo.loading || loading"
           :error="!!$apollo.error || !!error"
         />
         <v-card-text v-else class="pa-0">
           <media-card-banner :media="data && data.Media">
             <v-overlay absolute></v-overlay>
           </media-card-banner>
-          <media-card-item :media="data && data.Media">
-            <!-- <MediaEditSync
-              :style="{ position: 'absolute', top: 0, right: 0 }"
-            /> -->
-          </media-card-item>
+          <MediaCardItem :media="data && data.Media" />
 
           <v-divider></v-divider>
           <MediaEditTabs :media="data && data.Media" :user="Viewer" />
@@ -51,17 +47,17 @@ import MediaEditTabs from './MediaEditTabs.vue'
 
 import { VIEWER } from '@/apollo'
 
-import { createComponent, computed } from 'vue-function-api'
+import { createComponent, computed } from '@vue/composition-api'
 import useEdit from '../store/edit'
 import useAuth from '../store/auth'
 
-interface Props {
+export interface Props {
   id: number | null
 }
 
-export default createComponent({
+export default createComponent<Readonly<Props>>({
   props: {
-    id: { required: true }
+    id: { required: true, type:null, default:null }
   },
   components: {
     MediaEditTabs,
@@ -91,19 +87,6 @@ export default createComponent({
     }
   },
   apollo: {
-    // Media: {
-    //   query: MEDIA,
-    //   variables() {
-    //     const { Viewer, id } = this
-    //     return {
-    //       id: id || 1,
-    //       format: (Viewer && Viewer.mediaListOptions.scoreFormat) || undefined
-    //     }
-    //   },
-    //   skip() {
-    //     return !this.id
-    //   }
-    // },
     Viewer: {
       query: VIEWER,
       skip() {
