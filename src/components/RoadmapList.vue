@@ -18,35 +18,43 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator'
 import { TrelloList, Cards } from '../types'
 import RoadmapListCard from './RoadmapListCard.vue'
 import BaseColor from './BaseColor.vue'
+import { createComponent, computed } from '@vue/composition-api'
 
-@Component({
+export interface Props {
+  list: TrelloList
+  cards: Cards
+}
+
+export default createComponent<Readonly<Props>>({
   components: {
     RoadmapListCard,
     BaseColor
+  },
+  props: {
+    list: { required: true, type: Object, default: null },
+    cards: { required: true, type: Object, default: null }
+  },
+  setup(props) {
+    const allChecked = computed(() =>
+      props.cards.find(
+        ({ card }) => card.badges.checkItemsChecked !== card.badges.checkItems
+      )
+    )
+
+    const anyChecked = computed(() =>
+      props.cards.find(card => !!card.card.badges.checkItemsChecked)
+    )
+
+    const color = computed(
+      () =>
+        `${
+          allChecked.value ? (anyChecked.value ? 'orange' : 'red') : 'green'
+        } lighten-2`
+    )
+    return { color, allChecked, anyChecked }
   }
 })
-export default class RoadmapList extends Vue {
-  @Prop({ required: true })
-  readonly list!: TrelloList
-
-  @Prop({ required: true })
-  readonly cards!: Cards
-
-  get color() {
-    const { allChecked, anyChecked } = this
-    return `${allChecked ? (anyChecked ? 'orange' : 'red') : 'green'} lighten-2`
-  }
-  get allChecked() {
-    return this.cards.find(
-      ({ card }) => card.badges.checkItemsChecked !== card.badges.checkItems
-    )
-  }
-  get anyChecked() {
-    return this.cards.find(card => !!card.card.badges.checkItemsChecked)
-  }
-}
 </script>

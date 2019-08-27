@@ -1,49 +1,59 @@
 <template>
   <v-app>
-    <TheDrawer :value.sync="drawerValue" />
+    <TheDrawer :value.sync="drawer" />
     <TheAppBar @toggle:drawer="toggleDrawer" />
+    <TheBottomNavigation v-if="$vuetify.breakpoint.xsOnly" />
     <v-content>
-      <keep-alive :max="10">
-        <router-view />
+      <keep-alive>
+        <v-fade-transition hide-on-leave>
+          <router-view />
+        </v-fade-transition>
       </keep-alive>
-      <MediaEdit :media="editMedia" />
-      <BaseShare :options="shareOptions" />
+      <MediaEdit :id="mediaId" />
+      <BaseShare :options="options" />
     </v-content>
-    <TheFooter />
   </v-app>
 </template>
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator'
 import TheDrawer from './components/TheDrawer.vue'
-import TheFooter from './components/TheFooter.vue'
 import TheAppBar from './components/TheAppBar.vue'
 import MediaEdit from './components/MediaEdit.vue'
-import edit from './store/modules/edit'
-import share from './store/modules/share'
 import BaseShare from './components/BaseShare.vue'
 
-@Component({
+// import TheBottomNavigation from './components/TheBottomNavigation.vue'
+
+const TheBottomNavigation = () => import('@/components/TheBottomNavigation.vue')
+
+import { ref, createComponent } from '@vue/composition-api'
+import useEdit from './store/edit'
+import useShare from './store/share'
+
+export default createComponent<{}>({
   components: {
-    TheFooter,
     MediaEdit,
     TheAppBar,
     BaseShare,
-    TheDrawer
+    TheDrawer,
+    TheBottomNavigation
+  },
+  setup(_, { root }) {
+    const drawer = ref(false)
+
+    const toggleDrawer = () => {
+      drawer.value = !drawer.value
+    }
+
+    const { mediaId } = useEdit()
+    const { options } = useShare()
+
+    root.$vuetify.theme.dark = localStorage.getItem('THEME') === 'true'
+
+    return {
+      drawer,
+      toggleDrawer,
+      mediaId,
+      options
+    }
   }
 })
-export default class App extends Vue {
-  drawerValue: boolean = false
-
-  toggleDrawer() {
-    this.drawerValue = !this.drawerValue
-  }
-
-  get editMedia() {
-    return edit.media
-  }
-
-  get shareOptions() {
-    return share.options
-  }
-}
 </script>

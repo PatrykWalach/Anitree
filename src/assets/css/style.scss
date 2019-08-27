@@ -4,13 +4,3 @@ html {
 
  
 
-.v-application a.link {
-  color: unset;
-  text-decoration: none;
-  transition:  .15s
-}
-
-.v-application a.link:hover {
-   color: var(--hover);
-   opacity: 0.8
-}

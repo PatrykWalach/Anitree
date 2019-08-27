@@ -5,49 +5,47 @@
     :color="color"
   >
     <template v-slot:opposite>
-      <MediaCardTime :media="media" />
+      <MediaCardTime v-if="media" :media="media" />
     </template>
-    <!-- <div :style="{ display: 'flex' }"> -->
-    <MediaCard :media="media" />
-    <!-- </div> -->
+
+    <MediaCard :id="media.id" />
   </v-timeline-item>
 </template>
 <script lang="ts">
-import { Prop, Component, Vue } from 'vue-property-decorator'
-
 import MediaCardTime from './MediaCardTime.vue'
 
 import MediaCard from './MediaCard.vue'
-import moduleMedia from '../store/modules/media'
-import media from '../store/modules/media'
 
-@Component({
+import { Media } from '@/apollo/schema/media'
+import { createComponent, computed, SetupContext } from '@vue/composition-api'
+
+export interface Props {
+  media: Media | null
+}
+
+export default createComponent<Readonly<Props>>({
   components: {
     MediaCardTime,
     MediaCard
+  },
+  props: {
+    media: { required: true, type: null, default: null }
+  },
+  setup(props, { root }: SetupContext) {
+    const color = computed(
+      () =>
+        (props.media && props.media.coverImage.color) ||
+        (root.$vuetify.theme.dark ? '#555' : '#e0e0e0')
+    )
+
+    const currentId = computed(() => parseInt(root.$route.params.mediaId, 10))
+
+    const large = computed(
+      () =>
+        !!currentId.value && (props.media && props.media.id === currentId.value)
+    )
+
+    return { color, currentId, large }
   }
 })
-export default class MediaTimelineItem extends Vue {
-  @Prop({ required: true })
-  readonly mediaId!: number
-
-  get media() {
-    return media.media[this.mediaId]
-  }
-
-  get color() {
-    return (
-      this.media.coverImage.color ||
-      (this.$vuetify.theme.dark ? '#555' : '#e0e0e0')
-    )
-  }
-
-  get currentId() {
-    return moduleMedia.currentId
-  }
-
-  get large() {
-    return !!this.currentId && this.media.id === this.currentId
-  }
-}
 </script>

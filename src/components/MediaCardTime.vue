@@ -10,39 +10,42 @@
   </v-chip>
 </template>
 <script lang="ts">
-import { Prop, Component, Vue } from 'vue-property-decorator'
-import { Media, MediaDate, ValidDate } from '../types'
+import { ValidDate } from '../types'
+import { Media, FuzzyDate } from '@/apollo/schema/media'
+import { createComponent, computed } from '@vue/composition-api'
 const BaseTimeRange = () => import('./BaseTimeRange.vue')
 const BaseTime = () => import('./BaseTime.vue')
 
-@Component({
+export interface Props {
+  media: Media
+}
+
+export default createComponent<Readonly<Props>>({
   components: {
     BaseTimeRange,
     BaseTime
+  },
+  props: {
+    media: { required: true, type: Object, default: null }
+  },
+  setup(props) {
+    const isValidDate = (date: FuzzyDate): date is ValidDate =>
+      date.year !== null && date.month !== null
+
+    const validStartDate = computed(() => isValidDate(props.media.startDate))
+
+    const isRange = computed((): boolean => {
+      const { startDate, endDate } = props.media
+      if (isValidDate(startDate) && isValidDate(endDate)) {
+        const start = Object.values(startDate)
+        const end = Object.values(endDate)
+
+        return !!start.filter((date, i) => date !== end[i]).length
+      }
+      return false
+    })
+
+    return { validStartDate, isRange }
   }
 })
-export default class MediaCardTime extends Vue {
-  @Prop({ required: true })
-  readonly media!: Media
-
-  get validStartDate() {
-    const { isValidDate, media } = this
-    return isValidDate(media.startDate)
-  }
-
-  get isRange(): boolean {
-    const { isValidDate, media } = this
-    const { startDate, endDate } = media
-    if (isValidDate(startDate) && isValidDate(endDate)) {
-      const start = Object.values(startDate)
-      const end = Object.values(endDate)
-
-      return !!start.filter((date, i) => date !== end[i]).length
-    }
-    return false
-  }
-
-  isValidDate = (date: MediaDate): date is ValidDate =>
-    date.year !== null && date.month !== null
-}
 </script>

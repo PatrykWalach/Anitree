@@ -1,29 +1,41 @@
 <template>
-  <v-flex xs12>
-    <v-timeline :dense="$vuetify.breakpoint.smAndDown">
-      <MediaTimelineItem
-        v-for="media in mediaList"
-        :key="media.id"
-        :media-id="media.id"
-      />
-    </v-timeline>
-  </v-flex>
+  <v-row justify="center" align="center">
+    <v-col cols="12" v-if="!$vuetify.breakpoint.xsOnly">
+      <v-timeline :dense="$vuetify.breakpoint.smAndDown">
+        <MediaTimelineItem
+          v-for="media in mediaList"
+          :key="media.id"
+          :media="media"
+        />
+      </v-timeline>
+    </v-col>
+
+    <template v-else>
+      <v-col cols="12" v-for="media in mediaList" :key="media.id">
+        <MediaCard :id="media.id" />
+      </v-col>
+    </template>
+
+    <slot></slot>
+  </v-row>
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator'
-
 import MediaTimelineItem from './MediaTimelineItem.vue'
+import MediaCard from './MediaCard.vue'
+import { Media } from '../apollo/schema/media'
 
-import { Media } from '../types'
+export interface Props {
+  mediaList: Media[]
+}
 
-@Component({
+export default {
   components: {
-    MediaTimelineItem
+    MediaTimelineItem,
+    MediaCard
+  },
+  props: {
+    mediaList: { required: true,type:Array,default:()=>[] }
   }
-})
-export default class MediaTimeline extends Vue {
-  @Prop({ required: true })
-  readonly mediaList!: Media[]
 }
 </script>

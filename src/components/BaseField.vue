@@ -1,85 +1,83 @@
 <template>
-  <v-flex xs12 :md6="!full">
-    <component
-      :is="tag"
-      v-model="input"
-      v-bind="$attrs"
-      filled
-      rounded
-      @change="changeInput"
-    >
-    </component>
-  </v-flex>
+  <component :is="tag" v-model="input" v-bind="$attrs" @change="changeInput">
+    <slot></slot>
+  </component>
 </template>
 
 <script lang="ts">
-import { Prop, Component, Vue, Watch } from 'vue-property-decorator'
-
 const BaseDateField = () => import('./BaseDateField.vue')
+import { VTextField, VTextarea, VSelect, VChipGroup } from 'vuetify/lib'
 
-@Component({
+import { ref, watch, computed, createComponent } from '@vue/composition-api'
+
+export interface Props {
+  validators: ((v: string) => boolean)[]
+  transformations: ((v: string) => string)[]
+  tag: string
+  beforeTransform: ((v: any) => any)[]
+  afterTransform: ((v: any) => any)[]
+  value: any
+}
+
+export default createComponent<Readonly<Props>>({
   inheritAttrs: false,
   components: {
-    BaseDateField
-  }
-})
-export default class MediaEditFormField extends Vue {
-  @Prop({ default: 'v-text-field' })
-  readonly tag!: string
-
-  @Prop({ default: '' })
-  readonly value!: any
-
-  @Prop({ default: false })
-  readonly full!: boolean
-
-  @Prop({ default: () => [] })
-  readonly validators!: ((v: string) => boolean)[]
-
-  @Prop({ default: () => [] })
-  readonly transformations!: ((v: string) => string)[]
-
-  @Prop({ default: () => [] })
-  readonly beforeTransform!: ((v: any) => any)[]
-
-  @Prop({ default: () => [] })
-  readonly afterTransform!: ((v: any) => any)[]
-
-  input: string = ''
-
-  transform(input: any, transformations: Function[]) {
-    return transformations.reduce(
-      (str, transformation) => transformation(str),
-      input
-    )
-  }
-
-  @Watch('value', { immediate: true })
-  valueChange(newValue: any) {
-    const { transform, beforeTransform } = this
-    const value = transform(newValue, beforeTransform)
-    this.input = value
-  }
-
-  changeInput(newValue: string) {
-    const { afterTransform, transform, transformations } = this
-    this.input = transform(newValue, transformations)
-    if (this.isValid) {
-      this.$emit('input', transform(this.input, afterTransform))
-    } else {
-      const { value, beforeTransform } = this
-      this.input = transform(value, beforeTransform)
+    BaseDateField,
+    VTextField,
+    VTextarea,
+    VSelect,
+    VChipGroup
+  },
+  props: {
+    tag: {
+      required: false,
+      default: 'v-text-field',
+      type: String
+    },
+    validators: { required: false, default: () => [], type: Array },
+    transformations: { required: false, default: () => [], type: Array },
+    beforeTransform: { required: false, default: () => [], type: Array },
+    afterTransform: { required: false, default: () => [], type: Array },
+    value: {
+      required: false,
+      default: '',
+      type: null
     }
-  }
+  },
+  setup(props, { emit }) {
+    const input = ref('')
+    const transform = (input: any, transformations: Function[]) =>
+      transformations.reduce(
+        (str, transformation) => transformation(str),
+        input
+      )
 
-  get isValid() {
-    const { validators, input } = this
-    for (const validator of validators) {
-      if (!validator(input)) {
-        return false
+    watch(
+      () => props.value,
+      _value => {
+        input.value = transform(_value, props.beforeTransform)
+      }
+    )
+
+    const isValid = computed(() => {
+      for (const validator of props.validators) {
+        if (!validator(input.value)) {
+          return false
+        }
+      }
+      return true
+    })
+
+    const changeInput = (newValue: string) => {
+      input.value = transform(newValue, props.transformations)
+      if (isValid.value) {
+        emit('input', transform(input.value, props.afterTransform))
+      } else {
+        input.value = transform(props.value, props.beforeTransform)
       }
     }
-    return true
+
+    return { input, isValid, changeInput }
   }
-}
+})
 </script>

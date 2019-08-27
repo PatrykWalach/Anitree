@@ -1,23 +1,22 @@
 <template>
-  <v-container fill-height>
-    <v-layout justify-center align-center wrap>
-      <template v-if="!loading">
-        <slot></slot>
-      </template>
-      <v-progress-circular
-        v-else
-        indeterminate
-        color="primary"
-      ></v-progress-circular>
-    </v-layout>
+  <v-container v-bind="$attrs">
+    <template v-if="!loading">
+      <slot></slot>
+    </template>
+    <v-row justify="center" align="center" v-else>
+      <v-progress-circular indeterminate color="primary"></v-progress-circular>
+    </v-row>
   </v-container>
 </template>
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator'
-
-@Component
-export default class BaseContainer extends Vue {
-  @Prop({ default: false })
-  loading!: boolean
+export default {
+  inheritAttrs: false,
+  props: {
+    loading: {
+      default: false,
+      type: Boolean,
+      required:true
+    }
+  }
 }
 </script>

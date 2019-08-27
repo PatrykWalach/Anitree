@@ -1,14 +1,20 @@
 <template>
   <base-container :loading="loading">
-    <v-flex>
-      <v-timeline :dense="$vuetify.breakpoint.smAndDown">
-        <RoadmapList v-for="list in lists" :key="list.list.id" v-bind="list" />
-      </v-timeline>
-    </v-flex>
+    <v-col>
+      <v-row>
+        <v-timeline :dense="$vuetify.breakpoint.smAndDown">
+          <RoadmapList
+            v-for="list in lists"
+            :key="list.list.id"
+            v-bind="list"
+          />
+        </v-timeline>
+      </v-row>
+    </v-col>
   </base-container>
 </template>
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator'
+import { ref, Ref } from '@vue/composition-api'
 
 import axios from 'axios'
 import RoadmapList from '../components/RoadmapList.vue'
@@ -16,69 +22,61 @@ import BaseContainer from '../components/BaseContainer.vue'
 
 import { TrelloList, Cards, TrelloCard, TrelloChecklist } from '../types'
 
-@Component({
-  components: { RoadmapList, BaseContainer }
-})
-export default class Roadmap extends Vue {
-  loading: boolean = false
+export default {
+  components: { RoadmapList, BaseContainer },
+  setup() {
+    const loading = ref(false)
 
-  lists: {
-    list: TrelloList
-    cards: Cards
-  }[] = []
+    const lists: Ref<
+      {
+        list: TrelloList
+        cards: Cards
+      }[]
+    > = ref([])
 
-  async created() {
-    this.loading = true
-    const [lists, cards, checklists]: [
-      TrelloList[],
-      TrelloCard[],
-      TrelloChecklist[]
-    ] = await this.makeRequests()
-    this.loading = false
+    const get = (el: string) => {
+      const id = '5d06a49849ca095384351145'
+      const key = process.env.VUE_APP_TRELLO_KEY
+      const token = process.env.VUE_APP_TRELLO_TOKEN
+      return axios
+        .get(`https://api.trello.com/1/boards/${id}/${el}`, {
+          params: { key, token }
+        })
+        .then(({ data }) => data)
+    }
 
-    this.lists = lists.map(list => {
-      return {
-        list,
-        cards: cards
-          .filter(card => card.idList === list.id)
-          .map(card => {
-            return {
-              card,
-              checklists: checklists.filter(
-                checklist => checklist.idCard === card.id
-              )
-            }
-          })
-      }
-    })
-  }
+    const getLists = (): Promise<TrelloList[]> => get('lists')
 
-  makeRequests() {
-    const { getLists, getCards, getChecklists } = this
-    return Promise.all([getLists(), getCards(), getChecklists()])
-  }
+    const getCards = (): Promise<TrelloCard[]> => get('cards')
 
-  get(el: string) {
-    const id = '5d06a49849ca095384351145'
-    const key = process.env.VUE_APP_TRELLO_KEY
-    const token = process.env.VUE_APP_TRELLO_TOKEN
-    return axios
-      .get(`https://api.trello.com/1/boards/${id}/${el}`, {
-        params: { key, token }
+    const getChecklists = (): Promise<TrelloChecklist[]> => get('checklists')
+
+    const makeRequests = () =>
+      Promise.all([getLists(), getCards(), getChecklists()])
+
+    loading.value = true
+
+    makeRequests().then(([_lists, cards, checklists]) => {
+      lists.value = _lists.map(list => {
+        return {
+          list,
+          cards: cards
+            .filter(card => card.idList === list.id)
+            .map(card => {
+              return {
+                card,
+                checklists: checklists.filter(
+                  checklist => checklist.idCard === card.id
+                )
+              }
+            })
+        }
       })
-      .then(({ data }) => data)
-  }
 
-  getLists(): Promise<TrelloList[]> {
-    return this.get('lists')
-  }
+      loading.value = false
+    })
 
-  getCards(): Promise<TrelloCard[]> {
-    return this.get('cards')
-  }
-
-  getChecklists(): Promise<TrelloChecklist[]> {
-    return this.get('checklists')
+    return { loading, lists }
   }
 }
 </script>

@@ -1,43 +1,146 @@
 <template>
-  <v-hover>
-    <template v-slot="{ hover }">
-      <v-card :ripple="!$vuetify.breakpoint.xsOnly">
-        <MediaCardBanner :media="media" />
-        <media-card-item :media="media">
-          <MediaCardItemMenu :hover="hover" :media="media" />
-        </media-card-item>
+  <ApolloQuery
+    v-slot="{ result: { error, data }, isLoading, query }"
+    :query="require('@/apollo/queries/Media.gql')"
+    :variables="variables"
+    :tag="null"
+  >
+    <v-banner v-if="error" icon="warning" two-line :tile="false">
+      There was an error while loading the data. Please make sure your have a
+      stable internet connection and try again.
 
-        <v-divider
-          v-if="media.tags.length || media.studios.nodes.length"
-        ></v-divider>
-        <MediaCardActions :media="media" />
+      <template v-slot:actions>
+        <v-btn color="error" text @click="query.refetch()">Retry</v-btn>
+      </template>
+    </v-banner>
+    <v-card v-else>
+      <MediaCardBanner :media="data && data.Media" />
 
-        <MediaCardStatus :media="media" />
-      </v-card>
-    </template>
-  </v-hover>
+      <v-tooltip top>
+        <template v-slot:activator="hover">
+          <!-- <div v-on="on" v-bind="attrs"> -->
+          <MediaCardTabs :hover="hover" :media="data && data.Media" />
+          <!-- </div> -->
+        </template>
+        <span>{{ title(data && data.Media.title) }}</span>
+      </v-tooltip>
+
+      <v-divider class="mx-4"></v-divider>
+      <MediaCardActions :media="data && data.Media" />
+      <MediaCardStatus :media="data && data.Media" />
+    </v-card>
+  </ApolloQuery>
 </template>
 <script lang="ts">
-import { Prop, Component, Vue } from 'vue-property-decorator'
 import MediaCardBanner from './MediaCardBanner.vue'
-import MediaCardItem from './MediaCardItem.vue'
 import MediaCardStatus from './MediaCardStatus.vue'
+import MediaCardTabs from './MediaCardTabs.vue'
 import MediaCardActions from './MediaCardActions.vue'
-import MediaCardItemMenu from './MediaCardItemMenu.vue'
 
-import { Media } from '../types'
+import { Variables } from '@/apollo/schema/media'
 
-@Component({
+interface RawBindings {}
+
+import { createComponent, Ref, computed } from '@vue/composition-api'
+import useTitle from '@/store/title'
+
+export default createComponent<Readonly<Props>>({
+  setup(props){
+    const variables: Ref<Variables> = computed(() => {
+      return { id: props.id }
+    })
+    const { title } = useTitle()
+
+    return { variables, title }
+  },
   components: {
     MediaCardBanner,
-    MediaCardItem,
+    MediaCardTabs,
     MediaCardStatus,
-    MediaCardActions,
-    MediaCardItemMenu
+    MediaCardActions
+  },
+  props: {
+    id: {
+      type: Number,
+      required: true,
+      default: 2
+    }
   }
 })
-export default class MediaCard extends Vue {
-  @Prop({ required: true })
-  readonly media!: Media
+export interface Props {
+  id: number
 }
 </script>
+
+<!--
+<script lang="tsx">
+import MediaCardBanner from './MediaCardBanner.vue'
+import MediaCardStatus from './MediaCardStatus.vue'
+import MediaCardTabs from './MediaCardTabs.vue'
+import MediaCardActions from './MediaCardActions.vue'
+import { VDivider, VBtn, VBanner, VCard } from 'vuetify/lib'
+
+import { MEDIA } from '@/apollo'
+import { Media } from '@/apollo/schema/media'
+
+import { createElement } from '@vue/composition-api'
+
+export default createComponent<Readonly<Props>>({
+  setup: () => {
+    const h = createElement
+
+    return (props ) => {
+      const card = (media: Media | null) => (
+        <VCard>
+          <MediaCardBanner media={media} />
+          <MediaCardTabs media={media} />
+          <VDivider class="mx-4"></VDivider>
+          <MediaCardActions media={media} />
+          <MediaCardStatus media={media} />
+        </VCard>
+      )
+
+      const banner = query => (
+        <VBanner
+          icon="warning"
+          two-line
+          tile={false}
+          scopedSlots={{
+            actions: () => (
+              <VBtn color="error" text onClick={query.refetch()}>
+                Retry
+              </VBtn>
+            )
+          }}
+        >
+          There was an error while loading the data. Please make sure your have
+          a stable internet connection and try again.
+        </VBanner>
+      )
+
+      return (
+        <ApolloQuery
+          scopedSlots={{
+            default: ({ result: { error, data }, query }) =>
+              error ? banner(query) : card(data && data.Media)
+          }}
+          query={MEDIA}
+          variables={{ id: props.id }}
+          tag={null}
+        ></ApolloQuery>
+      )
+    }
+  },
+  props: {
+    id: {
+      type: Number,
+      required: true
+    }
+  } 
+})
+
+export interface Props {
+  id: number
+}
+</script>
+-->

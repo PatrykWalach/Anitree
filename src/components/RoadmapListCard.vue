@@ -14,27 +14,45 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator'
 import { TrelloCard, TrelloChecklist } from '../types'
-
-@Component
-export default class RoadmapListCard extends Vue {
-  @Prop({ required: true })
-  readonly card!: TrelloCard
-
-  @Prop({ required: true })
-  readonly checklists!: TrelloChecklist[]
-
-  get progress() {
-    return (
-      (this.card.badges.checkItemsChecked / this.card.badges.checkItems) * 100
-    )
-  }
-
-  get color() {
-    return `${
-      this.progress === 100 ? 'green' : this.progress === 0 ? 'red' : 'orange'
-    } lighten-2`
-  }
+import { computed, createComponent } from '@vue/composition-api'
+export interface Props {
+  card: TrelloCard
+  checklists: TrelloChecklist[]
 }
+
+export default createComponent<Readonly<Props>>({
+  props: {
+    card: {
+      required: true,
+      type: Object,
+      default: null
+    },
+    checklists: {
+      required: true,
+      type: Array,
+      default: ()=>[]
+    }
+  },
+  setup(props) {
+    const progress = computed(
+      () =>
+        (props.card.badges.checkItemsChecked / props.card.badges.checkItems) *
+        100
+    )
+
+    const color = computed(
+      () =>
+        `${
+          progress.value === 100
+            ? 'green'
+            : progress.value === 0
+            ? 'red'
+            : 'orange'
+        } lighten-2`
+    )
+
+    return { progress, color }
+  }
+})
 </script>

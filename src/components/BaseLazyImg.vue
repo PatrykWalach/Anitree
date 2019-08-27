@@ -1,13 +1,16 @@
 <template>
   <v-img v-lazy="changeInView" v-bind="{ ...$attrs, ...computed, lazySrc }">
     <slot :inView="inView"></slot>
+    <template v-slot:placeholder>
+      <slot name="placeholder" :inView="inView"></slot>
+    </template>
   </v-img>
 </template>
 
 <script lang="ts">
-import { Prop, Component, Vue } from 'vue-property-decorator'
+import { ref, computed as get, createComponent } from '@vue/composition-api'
 
-@Component({
+export default createComponent<Readonly<Props>>({
   directives: {
     lazy: {
       bind(el, { value }) {
@@ -23,34 +26,48 @@ import { Prop, Component, Vue } from 'vue-property-decorator'
         }
       }
     }
+  },
+  setup(props){
+    const inView = ref(false)
+
+    const computed = get(() => {
+      if (inView.value) {
+        return {
+          src: props.src,
+          srcset: props.srcset
+        }
+      }
+      return {}
+    })
+
+    const changeInView = () => {
+      inView.value = true
+    }
+
+    return { inView, changeInView, computed }
+  },
+  props: {
+    src: {
+      type: String,
+      required: true,
+      default: ''
+    },
+    srcset: {
+      required: false,
+      type: String,
+      default: ''
+    },
+    lazySrc: {
+      required: false,
+      type: String,
+      default: ''
+    }
   }
 })
-export default class MediaCardImg extends Vue {
-  inView: boolean = false
-  @Prop({ required: true })
-  readonly src!: string
 
-  @Prop({ required: false })
-  readonly srcset!: string
-
-  @Prop({ required: false })
-  readonly lazySrc!: string
-
-  get computed() {
-    if (this.inView) {
-      const { src, srcset } = this
-      return {
-        src,
-        srcset
-      }
-    }
-    return {
-      //   src:undefined
-    }
-  }
-
-  async changeInView() {
-    this.inView = true
-  }
+export interface Props {
+  lazySrc: string
+  srcset: string
+  src: string
 }
 </script>

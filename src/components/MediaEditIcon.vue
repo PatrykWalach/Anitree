@@ -6,16 +6,18 @@
   ></v-btn>
 </template>
 <script lang="ts">
-import { Vue, Component, Prop, Emit } from 'vue-property-decorator'
+import { createComponent } from '@vue/composition-api'
 
-@Component
-export default class MediaEditIcon extends Vue {
-  @Prop({ required: true })
-  readonly value!: boolean
-
-  @Emit()
-  change() {
-    return !this.value
-  }
+export interface Props {
+  value: boolean
 }
+export default createComponent<Readonly<Props>>({
+  props: {
+    value: { required: true, type: Boolean, default: false }
+  },
+  setup(props, { emit }) {
+    const change = () => emit('change', !props.value)
+    return { change }
+  }
+})
 </script>

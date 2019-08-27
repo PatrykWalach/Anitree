@@ -2,12 +2,13 @@
   <v-dialog v-model="isShared" scrollable max-width="440px">
     <v-card>
       <v-tooltip bottom>
-        <template v-slot:activator="{ on }">
+        <template v-slot:activator="{ on, attrs }">
           <v-btn
             :style="{ top: 0, right: 0 }"
             absolute
             icon
             small
+            v-bind="attrs"
             @click="isShared = false"
             v-on="on"
           >
@@ -53,8 +54,15 @@
           </base-share-item>
         </v-slide-group>
 
+        <v-snackbar v-model="snackbar" left>
+          Link copied to clipboard
+          <v-btn color="accent" text @click="snackbar = false">
+            Close
+          </v-btn>
+        </v-snackbar>
+
         <v-card flat>
-          <v-list-item v-clipboard="url" @click>
+          <v-list-item v-clipboard="url" @click.stop @success="snackbar = true">
             <v-list-item-content>
               <v-list-item-subtitle>
                 <v-text-field
@@ -79,7 +87,6 @@
   </v-dialog>
 </template>
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import {
   faFacebookF,
@@ -91,30 +98,28 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import BaseShareItem from './BaseShareItem.vue'
 library.add(faFacebookF, faTwitter, faRedditAlien, faTumblr)
 import { clipboard } from 'vue-clipboards'
-import share from '../store/modules/share'
-import { ShareData } from '../types'
 
-@Component({
+import { ShareData } from '../types'
+import { createComponent, computed, ref } from '@vue/composition-api'
+import useShare from '../store/share'
+export interface Props {
+  options: ShareData | null
+}
+export default createComponent<Readonly<Props>>({
   directives: {
     clipboard
   },
-  components: { FontAwesomeIcon, BaseShareItem }
+  components: { FontAwesomeIcon, BaseShareItem },
+  setup(props){
+    const snackbar = ref(false)
+    const { isShared } = useShare()
+
+    const url = computed(() => (props.options && props.options.url) || '')
+
+    return { isShared, url, snackbar }
+  },
+  props: {
+    options: { required: true, type: null, default: null }
+  }
 })
-export default class BaseShare extends Vue {
-  get isShared() {
-    return share.isShared
-  }
-
-  set isShared(value) {
-    share.CHANGE_IS_SHARED(value)
-  }
-
-  get url() {
-    const { options } = this
-    return (options && options.url) || ''
-  }
-
-  @Prop({ required: true })
-  readonly options!: ShareData | null
-}
 </script>
