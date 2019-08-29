@@ -1,0 +1,20 @@
+#import "../fragments/MediaListFields.gql"
+
+  query MediaListCollection(
+    $type: MediaType
+    $userId: Int
+    $format: ScoreFormat
+    $chunk: Int
+  ) {
+    MediaListCollection(userId: $userId, type: $type, chunk: $chunk) {
+      lists {
+        entries {
+          ...MediaListFields
+        }
+        status
+        name
+        isCustomList
+      }
+      hasNextChunk
+    }
+  }

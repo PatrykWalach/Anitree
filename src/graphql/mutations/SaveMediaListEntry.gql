@@ -1,0 +1,37 @@
+#import "../fragments/MediaListFields.gql"
+
+  mutation SaveMediaListEntry(
+    $id: Int
+    $mediaId: Int
+    $status: MediaListStatus
+    $score: Float
+    $scoreRaw: Int
+    $progress: Int
+    $progressVolumes: Int
+    $repeat: Int
+    $private: Boolean
+    $notes: String
+    $advancedScores: [Float]
+    $startedAt: FuzzyDateInput
+    $completedAt: FuzzyDateInput
+    $format: ScoreFormat
+  ) {
+    SaveMediaListEntry(
+      id: $id
+      mediaId: $mediaId
+      status: $status
+      score: $score
+      scoreRaw: $scoreRaw
+      progress: $progress
+      progressVolumes: $progressVolumes
+      repeat: $repeat
+      private: $private
+      notes: $notes
+      advancedScores: $advancedScores
+      startedAt: $startedAt
+      completedAt: $completedAt
+    ) {
+      ...MediaListFields
+    }
+  }
+
