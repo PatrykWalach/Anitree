@@ -2,7 +2,7 @@
   <ApolloQuery
     v-slot="{ result: { data: viewer } }"
     :tag="null"
-    :query="require('@/apollo/queries/Viewer.gql')"
+    :query="require('@/graphql/queries/Viewer.gql')"
     :skip="!token"
   >
     <v-container>
@@ -10,7 +10,7 @@
       <ApolloQuery
         v-else
         v-slot="{ result: { error, data }, isLoading, query }"
-        :query="require('@/apollo/queries/Page.gql')"
+        :query="require('@/graphql/queries/Page.gql')"
         :tag="null"
         fetch-policy="cache-and-network"
         :variables="

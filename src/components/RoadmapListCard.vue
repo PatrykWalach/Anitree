@@ -31,7 +31,7 @@ export default createComponent<Readonly<Props>>({
     checklists: {
       required: true,
       type: Array,
-      default: ()=>[]
+      default: () => []
     }
   },
   setup(props) {

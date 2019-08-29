@@ -11,7 +11,7 @@
 </template>
 <script lang="ts">
 import { ValidDate } from '../types'
-import { Media, FuzzyDate } from '@/apollo/schema/media'
+import { Media, FuzzyDate } from '@/graphql/schema/media'
 import { createComponent, computed } from '@vue/composition-api'
 const BaseTimeRange = () => import('./BaseTimeRange.vue')
 const BaseTime = () => import('./BaseTime.vue')

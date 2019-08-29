@@ -9,7 +9,7 @@
 import MediaCardItemTitleReady from './MediaCardItemTitleReady.vue'
 
 import MediaCardProgress from './MediaCardProgress.vue'
-import { Media } from '../apollo/schema/media'
+import { Media } from '@/graphql/schema/media'
 import { createComponent } from '@vue/composition-api'
 import { Tooltip } from '../types'
 export interface Props {

@@ -23,8 +23,8 @@ export default createComponent<Readonly<Props>>({
     return { divider }
   },
   props: {
-    startDate: { required: true,type:Object,default:null },
-    endDate: { required: true,type:Object,default:null }
+    startDate: { required: true, type: Object, default: null },
+    endDate: { required: true, type: Object, default: null }
   }
 })
 </script>

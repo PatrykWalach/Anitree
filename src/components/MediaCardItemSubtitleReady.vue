@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts">
-import { Media } from '@/apollo/schema/media'
+import { Media } from '@/graphql/schema/media'
 import { computed, createComponent } from '@vue/composition-api'
 export interface Props {
   media: Media

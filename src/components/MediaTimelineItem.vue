@@ -16,7 +16,7 @@ import MediaCardTime from './MediaCardTime.vue'
 
 import MediaCard from './MediaCard.vue'
 
-import { Media } from '@/apollo/schema/media'
+import { Media } from '@/graphql/schema/media'
 import { createComponent, computed, SetupContext } from '@vue/composition-api'
 
 export interface Props {

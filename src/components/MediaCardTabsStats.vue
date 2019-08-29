@@ -19,7 +19,7 @@
 
 <script lang="ts">
 import { createComponent, computed } from '@vue/composition-api'
-import { Media } from '../apollo/schema/media'
+import { Media } from '@/graphql/schema/media'
 import { useTheme } from './MediaCardProgress.vue'
 
 export interface Props {

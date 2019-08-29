@@ -121,7 +121,7 @@
 <script lang="ts">
 import { createComponent, computed } from '@vue/composition-api'
 
-import { Variables } from '@/apollo/schema/page'
+import { Variables } from '@/graphql/schema/page'
 import BaseField from './BaseField.vue'
 export interface Props {
   form: Partial<Variables>

@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import router from '@/router'
 import vuetify from '@/vuetify'
-import { apolloProvider } from '@/apollo'
+import { apolloProvider } from '@/graphql'
 
 import App from '@/App.vue'
 

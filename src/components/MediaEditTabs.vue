@@ -29,8 +29,8 @@
 </template>
 <script lang="ts">
 import MediaEditTabsTab from './MediaEditTabsTab.vue'
-import { Media } from '@/apollo/schema/media'
-import { User } from '@/apollo/schema/viewer'
+import { Media } from '@/graphql/schema/media'
+import { User } from '@/graphql/schema/viewer'
 import { createComponent } from '@vue/composition-api'
 import useEdit from '../store/edit'
 export interface Props {
@@ -40,8 +40,8 @@ export interface Props {
 
 export default createComponent<Readonly<Props>>({
   props: {
-    media: { required: true,type:Object,default:null },
-    user: { required: true,type:Object,default:null }
+    media: { required: true, type: Object, default: null },
+    user: { required: true, type: Object, default: null }
   },
   components: {
     MediaEditTabsTab

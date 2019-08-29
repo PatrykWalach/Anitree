@@ -1,7 +1,7 @@
 <template>
   <ApolloQuery
     v-slot="{ result: { error, data }, isLoading, query }"
-    :query="require('@/apollo/queries/Media.gql')"
+    :query="require('@/graphql/queries/Media.gql')"
     :variables="variables"
     :tag="null"
   >
@@ -37,7 +37,7 @@ import MediaCardStatus from './MediaCardStatus.vue'
 import MediaCardTabs from './MediaCardTabs.vue'
 import MediaCardActions from './MediaCardActions.vue'
 
-import { Variables } from '@/apollo/schema/media'
+import { Variables } from '@/graphql/schema/media'
 
 interface RawBindings {}
 
@@ -45,7 +45,7 @@ import { createComponent, Ref, computed } from '@vue/composition-api'
 import useTitle from '@/store/title'
 
 export default createComponent<Readonly<Props>>({
-  setup(props){
+  setup(props) {
     const variables: Ref<Variables> = computed(() => {
       return { id: props.id }
     })
@@ -80,8 +80,8 @@ import MediaCardTabs from './MediaCardTabs.vue'
 import MediaCardActions from './MediaCardActions.vue'
 import { VDivider, VBtn, VBanner, VCard } from 'vuetify/lib'
 
-import { MEDIA } from '@/apollo'
-import { Media } from '@/apollo/schema/media'
+import { MEDIA } from '@/graphql'
+import { Media } from '@/graphql/schema/media'
 
 import { createElement } from '@vue/composition-api'
 

@@ -22,9 +22,11 @@
     <TheAppBarSearch
       v-if="(!settings && !$vuetify.breakpoint.xsOnly) || search"
     />
-    
+
     <template v-if="!search">
-      <v-btn v-if="$vuetify.breakpoint.xsOnly" icon :to="{ name: 'search' }"><v-icon>search</v-icon></v-btn>
+      <v-btn v-if="$vuetify.breakpoint.xsOnly" icon :to="{ name: 'search' }"
+        ><v-icon>search</v-icon></v-btn
+      >
       <TheAppBarViewer />
     </template>
 

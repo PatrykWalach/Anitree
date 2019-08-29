@@ -48,7 +48,7 @@
 import { createComponent } from '@vue/composition-api'
 
 import useAuth from '@/store/auth'
-import { VIEWER } from '@/apollo'
+import { VIEWER } from '@/graphql'
 import { VMenu, VBottomSheet } from 'vuetify/lib'
 
 export default createComponent<{}>({

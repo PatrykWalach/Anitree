@@ -23,7 +23,7 @@
 <script lang="ts">
 import MediaTimelineItem from './MediaTimelineItem.vue'
 import MediaCard from './MediaCard.vue'
-import { Media } from '../apollo/schema/media'
+import { Media } from '@/graphql/schema/media'
 
 export interface Props {
   mediaList: Media[]
@@ -35,7 +35,7 @@ export default {
     MediaCard
   },
   props: {
-    mediaList: { required: true,type:Array,default:()=>[] }
+    mediaList: { required: true, type: Array, default: () => [] }
   }
 }
 </script>

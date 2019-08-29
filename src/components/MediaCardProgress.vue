@@ -31,19 +31,19 @@ export function useTheme() {
   return { theme, color }
 }
 
-interface Props{
-  height:string
-  wifth:string
+interface Props {
+  height: string
+  wifth: string
 }
 export default createComponent<Readonly<Props>>({
   props: {
     height: {
-      required:false,
+      required: false,
       default: '1em',
       type: String
     },
     width: {
-      required:false,
+      required: false,
       default: '100%',
       type: String
     }

@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts">
-import { Media } from '@/apollo/schema/media'
+import { Media } from '@/graphql/schema/media'
 
 import BaseLazyImg from './BaseLazyImg.vue'
 import { createComponent } from '@vue/composition-api'
@@ -34,9 +34,11 @@ export default createComponent<Readonly<Props>>({
     BaseLazyImg
   },
   props: {
-    media: { required: true,type:null,default:null },
+    media: { required: true, type: null, default: null },
     size: {
-      default: 80,type:[Number,String],required:false
+      default: 80,
+      type: [Number, String],
+      required: false
     }
   },
   setup() {

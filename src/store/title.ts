@@ -1,5 +1,5 @@
 import CompositionApi, { ref, computed } from '@vue/composition-api'
-import { MediaTitle } from '@/apollo/schema/media'
+import { MediaTitle } from '@/graphql/schema/media'
 import Vue from 'vue'
 Vue.use(CompositionApi)
 

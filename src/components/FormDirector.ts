@@ -1,8 +1,8 @@
 import FormBuilder from './FormBuilder'
 import { Form } from '@/types'
 
-import { SaveVariables } from '@/apollo/schema/listEntry'
-import { FuzzyDate, Media } from '@/apollo/schema/media'
+import { SaveVariables } from '@/graphql/schema/listEntry'
+import { FuzzyDate, Media } from '@/graphql/schema/media'
 import useEdit from '@/store/edit'
 
 export const validFloat = (input: string): boolean =>
@@ -287,7 +287,7 @@ export default class FormDirector {
               },
               useEdit().changeForm
             ],
-            beforeTransform: [(e:any) => e.toString()],
+            beforeTransform: [(e: any) => e.toString()],
             validators: [scoreFormat.round ? validFloat : validInteger],
             transformations: [formatToNumber]
           },

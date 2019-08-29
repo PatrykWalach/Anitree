@@ -17,7 +17,7 @@ import MediaCardItemAvatar from './MediaCardItemAvatar.vue'
 import MediaCardItemOverline from './MediaCardItemOverline.vue'
 
 import MediaCardProgress from './MediaCardProgress.vue'
-import { Media } from '../apollo/schema/media'
+import { Media } from '@/graphql/schema/media'
 import { createComponent, computed } from '@vue/composition-api'
 import { Tooltip } from '../types'
 
@@ -33,7 +33,7 @@ export default createComponent<Readonly<Props>>({
     MediaCardItemOverline,
     MediaCardItemAvatar
   },
-  setup(props){
+  setup(props) {
     const lines = computed(() =>
       !props.media || props.media.description ? 'three-line' : 'two-line'
     )

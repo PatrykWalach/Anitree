@@ -15,7 +15,7 @@ export default {
     loading: {
       default: false,
       type: Boolean,
-      required:true
+      required: true
     }
   }
 }

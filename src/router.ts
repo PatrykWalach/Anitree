@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import useAuth from './store/auth'
-import apollo, { MEDIA } from '@/apollo'
-import { Media as MediaT, Variables } from './apollo/schema/media'
+import apollo, { MEDIA } from '@/graphql'
+import { Media as MediaT, Variables } from '@/graphql/schema/media'
 
 const Home = () => import(/* webpackPrefetch: true */ './views/Home.vue')
 const Media = () => import(/* webpackPrefetch: true */ './views/Media.vue')

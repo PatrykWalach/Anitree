@@ -110,7 +110,7 @@ export default createComponent<Readonly<Props>>({
     clipboard
   },
   components: { FontAwesomeIcon, BaseShareItem },
-  setup(props){
+  setup(props) {
     const snackbar = ref(false)
     const { isShared } = useShare()
 

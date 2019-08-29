@@ -59,7 +59,7 @@ import MediaCardItem from './MediaCardItem.vue'
 import MediaCardTabsStats from './MediaCardTabsStats.vue'
 import BaseColor from './BaseColor.vue'
 
-import { Media } from '@/apollo/schema/media'
+import { Media } from '@/graphql/schema/media'
 
 import useTitle from '@/store/title'
 import { Tooltip } from '../types'

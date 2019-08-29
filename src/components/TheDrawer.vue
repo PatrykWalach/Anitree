@@ -45,8 +45,8 @@
 <script lang="ts">
 import { computed, createComponent } from '@vue/composition-api'
 
-interface Props{
-value:boolean
+interface Props {
+  value: boolean
 }
 
 export default createComponent<Readonly<Props>>({

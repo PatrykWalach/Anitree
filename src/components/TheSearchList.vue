@@ -61,7 +61,7 @@
 </template>
 
 <script lang="ts">
-import { User } from '../apollo/schema/viewer'
+import { User } from '@/graphql/schema/viewer'
 
 export interface Props {
   user: null | User
@@ -69,7 +69,7 @@ export interface Props {
 
 export default {
   props: {
-    user: { required: true, type:null, default:null }
+    user: { required: true, type: null, default: null }
   }
 }
 </script>

@@ -29,9 +29,8 @@ export interface Props {
 }
 export default createComponent<Readonly<Props>>({
   props: {
-    loading: { required: true, type: Boolean,
-    default:false },
-    error: { required: true, type: Boolean, default:false }
+    loading: { required: true, type: Boolean, default: false },
+    error: { required: true, type: Boolean, default: false }
   },
   components: {
     TheSettingsLogin

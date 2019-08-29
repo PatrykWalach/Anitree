@@ -8,9 +8,9 @@ import {
 import FormBuilder from './FormBuilder'
 import FormDirector from './FormDirector'
 
-import { Media } from '@/apollo/schema/media'
+import { Media } from '@/graphql/schema/media'
 
-import { User, MediaListTypeOptions } from '@/apollo/schema/viewer'
+import { User, MediaListTypeOptions } from '@/graphql/schema/viewer'
 import { Form } from '../types'
 
 import useEdit from '../store/edit'
@@ -42,7 +42,7 @@ export default createComponent<Readonly<Props>>({
       default: null
     }
   },
-  setup: (props) => {
+  setup: props => {
     const manga = computed(() => {
       return (props.media && props.media.type === 'MANGA') || false
     })
@@ -112,7 +112,7 @@ export default createComponent<Readonly<Props>>({
 
     /*eslint-disable-next-line @typescript-eslint/no-unused-vars*/
 
-    return (props )=> {
+    return props => {
       const builder = new FormBuilder()
 
       director[props.method](builder, {

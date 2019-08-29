@@ -1,6 +1,6 @@
 import { Location } from 'vue-router'
 import Vue from 'vue'
-import { MediaStatus, FuzzyDate, Media } from './apollo/schema/media'
+import { MediaStatus, FuzzyDate, Media } from '@/graphql/schema/media'
 
 export interface ShareData {
   url?: string

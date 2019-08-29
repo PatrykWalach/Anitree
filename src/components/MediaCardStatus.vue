@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts">
-import { Media } from '@/apollo/schema/media'
+import { Media } from '@/graphql/schema/media'
 import { createComponent } from '@vue/composition-api'
 import MediaCardStatusReady from './MediaCardStatusReady.vue'
 
@@ -23,7 +23,7 @@ export default createComponent<Readonly<Props>>({
     MediaCardStatusReady
   },
   props: {
-    media: { required: true,type:null,default:null }
+    media: { required: true, type: null, default: null }
   },
   setup() {
     return useTheme()

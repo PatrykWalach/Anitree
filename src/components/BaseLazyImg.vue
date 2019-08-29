@@ -27,7 +27,7 @@ export default createComponent<Readonly<Props>>({
       }
     }
   },
-  setup(props){
+  setup(props) {
     const inView = ref(false)
 
     const computed = get(() => {

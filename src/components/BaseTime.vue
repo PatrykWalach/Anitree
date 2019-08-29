@@ -18,7 +18,7 @@ export default createComponent<Readonly<Props>>({
     date: { required: true, default: Object, type: null },
     sliceDate: { required: false, default: null, type: null }
   },
-  setup(props){
+  setup(props) {
     const toDate = (date: ValidDate) =>
       new Date(date.year, (date.month && date.month - 1) || 0, date.day || 1)
 

@@ -45,15 +45,15 @@
 <script lang="ts">
 import MediaEditIcon from './MediaEditIcon.vue'
 
-import { Media } from '@/apollo/schema/media'
-import { DELETE_MEDIA_LIST_ENTRY } from '@/apollo'
+import { Media } from '@/graphql/schema/media'
+import { DELETE_MEDIA_LIST_ENTRY } from '@/graphql'
 import {
   ref,
   computed,
   createComponent,
   SetupContext
 } from '@vue/composition-api'
-import { User } from '../apollo/schema/viewer'
+import { User } from '@/graphql/schema/viewer'
 import useEdit from '../store/edit'
 
 export interface Props {

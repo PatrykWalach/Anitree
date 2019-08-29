@@ -59,8 +59,8 @@ import MediaCardItemOverline from './MediaCardItemOverline.vue'
 import MediaCardItemAvatar from './MediaCardItemAvatar.vue'
 import MediaCardProgress from './MediaCardProgress.vue'
 
-import { VIEWER } from '@/apollo'
-import { Media } from '@/apollo/schema/media'
+import { VIEWER } from '@/graphql'
+import { Media } from '@/graphql/schema/media'
 
 import { VMenu, VBottomSheet } from 'vuetify/lib'
 import { createComponent, computed } from '@vue/composition-api'
@@ -118,7 +118,7 @@ export default createComponent<Readonly<Props>>({
   props: {
     media: { required: true, default: null, type: null }
   },
-  setup(props){
+  setup(props) {
     const { media } = props
 
     const { open } = useEdit()

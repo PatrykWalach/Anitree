@@ -1,7 +1,7 @@
 <template>
   <ApolloQuery
     v-slot="{ result: { error, data, loading } }"
-    :query="require('@/apollo/queries/Media.gql')"
+    :query="require('@/graphql/queries/Media.gql')"
     :variables="{
       id: id || 1,
       format: (Viewer && Viewer.mediaListOptions.scoreFormat) || undefined
@@ -45,7 +45,7 @@ import MediaCardBanner from './MediaCardBanner.vue'
 import MediaCardItem from './MediaCardItem.vue'
 import MediaEditTabs from './MediaEditTabs.vue'
 
-import { VIEWER } from '@/apollo'
+import { VIEWER } from '@/graphql'
 
 import { createComponent, computed } from '@vue/composition-api'
 import useEdit from '../store/edit'
@@ -57,7 +57,7 @@ export interface Props {
 
 export default createComponent<Readonly<Props>>({
   props: {
-    id: { required: true, type:null, default:null }
+    id: { required: true, type: null, default: null }
   },
   components: {
     MediaEditTabs,

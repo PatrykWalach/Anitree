@@ -1,106 +1,101 @@
-<template>
-  <v-container>
-    <v-col>
-      <v-row>
-        <v-timeline :dense="$vuetify.breakpoint.smAndDown">
-          <home-item left>
-            <template v-slot:title>
-              This app is under construction
-            </template>
-            Please visit
-            <router-link to="/roadmap"> roadmap </router-link>for more
-            information
-          </home-item>
-
-          <home-item left>
-            <template v-slot:opposite>
-              <ApolloQuery
-                :query="require('@/apollo/queries/Media.gql')"
-                :variables="{ id: 21450 }"
-                fetch-policy="cache-and-network"
-                :tag="null"
-              >
-                <MediaCard :id="21450" />
-              </ApolloQuery>
-            </template>
-            <template v-slot:title>
-              Media Cards
-            </template>
-            Media cards display media title, type, status, related tags, main
-            studios and list status if user is logged in.
-            <br />More data may be shown in future: relation type and the
-            description
-          </home-item>
-          <!-- <home-item left>
-          <template v-slot:opposite>
-            <v-card>
-              <TheDrawerFilters :filters="filters" />
-            </v-card>
-          </template>
-          <template v-slot:title>
-            Filters
-          </template>
-
-          <p>Filters can hide unwanted media.</p>
-
-          <p>
-            There are two different modes <strong>inclusive</strong> and
-            <strong>excluisve</strong>.
-          </p>
-
-          <div class="subheading">The Latter Mode</div>
-          <p>
-            In the latter mode closest related media of given type as well as
-            all media related to this media are hidden.
-          </p>
-          <div class="subheading">The Former Mode</div>
-          <p>
-            In the former mode closest related media of given type is shown all
-            media related to this media is hidden
-          </p>
-
-          <p>
-            If <strong>all</strong> filters are enabled and inclusive, only the
-            directly related media is shown, it is the same way related media is
-            shown on
-            <a
-              href="https://anilist.co"
-              target="_blank"
-              rel="noopener"
-            >
-              Anilist
-              <v-icon>open_in_new</icon>
-            </a>
-          </p>
-        </home-item>-->
-          <home-item left>
-            <template v-slot:opposite>
-              <TheSettings />
-            </template>
-            <template v-slot:title>
-              Settings
-            </template>
-            The settings are stored in the browser cache.
-          </home-item>
-        </v-timeline>
-      </v-row>
-    </v-col>
-  </v-container>
-</template>
-
-<script lang="ts">
-
+<script lang="tsx">
 import MediaCard from '@/components/MediaCard.vue'
 import HomeItem from '@/components/HomeItem.vue'
+
 import TheSettings from '@/components/TheSettings.vue'
+import { createComponent, createElement, SetupContext } from '@vue/composition-api'
 
+//@ts-ignore
+import { VContainer, VCol, VRow, VTimeline, VTimelineItem } from 'vuetify/lib'
 
-export default {
+export default createComponent({
+  setup: () => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const h = createElement
+
+    const content = [
+      [
+        <home-item
+          scopedSlots={{
+            title: () => 'This app is under construction'
+          }}
+        >
+          Please visit
+          <router-link to="/roadmap"> roadmap </router-link>for more information
+        </home-item>
+      ],
+      [
+        <home-item
+          scopedSlots={{
+            title: () => 'Media Cards'
+          }}
+        >
+          Media cards display media title, type, status, related tags, main
+          studios and list status if user is logged in.
+          <br />
+          More data may be shown in future: relation type and the description
+        </home-item>,
+
+        <apollo-query
+          query={require('@/graphql/queries/Media.gql')}
+          variables={{ id: 21450 }}
+          fetch-policy="cache-and-network"
+          tag={null}
+        >
+          <media-card id={21450} />
+        </apollo-query>
+      ],
+      [
+        <home-item scopedSlots={{ title: () => 'Settings' }}>
+          The settings are stored in the browser cache.
+        </home-item>,
+        <the-settings />
+      ]
+    ]
+
+    return (_:{}, { root }:SetupContext) => {
+      const timeline = root.$vuetify.breakpoint.xsOnly ? (
+        content.flat().map(el => <v-col cols="12">{el}</v-col>)
+      ) : (
+        <v-col>
+          <v-timeline dense={root.$vuetify.breakpoint.smAndDown}>
+            {content.map((el,i) =>
+              // root.$vuetify.breakpoint.smAndDown ?
+               (
+                el.map((el,j) => <v-timeline-item large={!root.$vuetify.breakpoint.smAndDown&&j===0}
+                small={root.$vuetify.breakpoint.smAndDown&&j===1}
+                left={i%2} right={(i+1)%2}>{el}</v-timeline-item>).flat()
+              )
+              //  : (
+              //   <v-timeline-item
+              //     scopedSlots={{
+              //       opposite: () => el[1]
+              //     }}
+              //   >
+              //     {el[0]}
+              //   </v-timeline-item>
+              // )
+            )}
+          </v-timeline>
+        </v-col>
+      )
+
+      return (
+        <v-container>
+          <v-row>{timeline}</v-row>
+        </v-container>
+      )
+    }
+  },
   components: {
-    
-    MediaCard,
+    VContainer,
+    VCol,
+    VRow,
+    VTimeline,
+    VTimelineItem,
     HomeItem,
     TheSettings
-  }
-}
+ ,
+ MediaCard }
+})
 </script>

@@ -37,10 +37,10 @@ export default createComponent<Readonly<Props>>({
     tag: {
       type: String,
       default: 'span',
-      required:false
+      required: false
     }
   },
-  setup(props){
+  setup(props) {
     const colors = computed(
       () =>
         (props.color &&

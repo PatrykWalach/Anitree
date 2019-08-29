@@ -10,9 +10,9 @@ const MediaTimeline = () =>
 // import MediaTimeline from '../components/MediaTimeline.vue'
 import BaseContainer from '../components/BaseContainer.vue'
 
-import { PAGE } from '@/apollo'
-import { Media } from '@/apollo/schema/media'
-import { Page, Variables as PageVariables } from '../apollo/schema/page'
+import { PAGE } from '@/graphql'
+import { Media } from '@/graphql/schema/media'
+import { Page, Variables as PageVariables } from '@/graphql/schema/page'
 
 import {
   ref,

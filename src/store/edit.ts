@@ -1,11 +1,11 @@
 import { mergeDeep } from 'apollo-utilities'
-import apollo from '@/apollo'
+import apollo from '@/graphql'
 
-import { SaveVariables } from '@/apollo/schema/listEntry'
+import { SaveVariables } from '@/graphql/schema/listEntry'
 
-import { MediaList } from '@/apollo/schema/mediaListCollection'
+import { MediaList } from '@/graphql/schema/mediaListCollection'
 
-import { SAVE_MEDIA_LIST_ENTRY } from '@/apollo'
+import { SAVE_MEDIA_LIST_ENTRY } from '@/graphql'
 
 import CompositionApi, { Ref, ref } from '@vue/composition-api'
 

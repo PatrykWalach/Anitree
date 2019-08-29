@@ -1,5 +1,0 @@
-  fragment MediaListTypeOptionsFields on MediaListTypeOptions {
-    customLists
-    advancedScoring
-    advancedScoringEnabled
-  }

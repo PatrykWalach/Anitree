@@ -21,7 +21,7 @@
 </template>
 
 <script lang="ts">
-import { Media } from '@/apollo/schema/media'
+import { Media } from '@/graphql/schema/media'
 
 import { createComponent, computed } from '@vue/composition-api'
 
