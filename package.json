@@ -44,7 +44,7 @@
         "eslint-plugin-prettier": "^3.1.0",
         "eslint-plugin-vue": "^5.2.3",
         "prettier": "^1.18.2",
-        "release-it": "^12.3.5",
+        "release-it": "^12.3.6",
         "sass": "^1.22.10",
         "sass-loader": "^7.3.1",
         "typescript": "^3.5.3",
