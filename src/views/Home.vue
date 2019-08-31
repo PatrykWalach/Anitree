@@ -1,9 +1,13 @@
 <script lang="tsx">
 import MediaCard from '@/components/MediaCard.vue'
 import HomeItem from '@/components/HomeItem.vue'
-
 import TheSettings from '@/components/TheSettings.vue'
-import { createComponent, createElement, SetupContext } from '@vue/composition-api'
+
+import {
+  createComponent,
+  createElement,
+  SetupContext
+} from '@vue/composition-api'
 
 //@ts-ignore
 import { VContainer, VCol, VRow, VTimeline, VTimelineItem } from 'vuetify/lib'
@@ -53,19 +57,27 @@ export default createComponent({
       ]
     ]
 
-    return (_:{}, { root }:SetupContext) => {
+    return (_: {}, { root }: SetupContext) => {
       const timeline = root.$vuetify.breakpoint.xsOnly ? (
         content.flat().map(el => <v-col cols="12">{el}</v-col>)
       ) : (
         <v-col>
           <v-timeline dense={root.$vuetify.breakpoint.smAndDown}>
-            {content.map((el,i) =>
-              // root.$vuetify.breakpoint.smAndDown ?
-               (
-                el.map((el,j) => <v-timeline-item large={!root.$vuetify.breakpoint.smAndDown&&j===0}
-                small={root.$vuetify.breakpoint.smAndDown&&j===1}
-                left={i%2} right={(i+1)%2}>{el}</v-timeline-item>).flat()
-              )
+            {content.map(
+              (el, i) =>
+                // root.$vuetify.breakpoint.smAndDown ?
+                el
+                  .map((el, j) => (
+                    <v-timeline-item
+                      large={!root.$vuetify.breakpoint.smAndDown && j === 0}
+                      small={root.$vuetify.breakpoint.smAndDown && j !== 0}
+                      left={i % 2}
+                      right={(i + 1) % 2}
+                    >
+                      {el}
+                    </v-timeline-item>
+                  ))
+                  .flat()
               //  : (
               //   <v-timeline-item
               //     scopedSlots={{
@@ -94,8 +106,8 @@ export default createComponent({
     VTimeline,
     VTimelineItem,
     HomeItem,
-    TheSettings
- ,
- MediaCard }
+    TheSettings,
+    MediaCard
+  }
 })
 </script>

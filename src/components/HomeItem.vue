@@ -8,3 +8,6 @@
     </v-card-text>
   </v-card>
 </template>
+<script lang="ts">
+export default {}
+</script>
