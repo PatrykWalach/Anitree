@@ -16,14 +16,7 @@
     <v-card v-else>
       <MediaCardBanner :media="data && data.Media" />
 
-      <v-tooltip top>
-        <template v-slot:activator="hover">
-          <!-- <div v-on="on" v-bind="attrs"> -->
-          <MediaCardTabs :hover="hover" :media="data && data.Media" />
-          <!-- </div> -->
-        </template>
-        <span>{{ title(data && data.Media.title) }}</span>
-      </v-tooltip>
+      <MediaCardTabs :media="data && data.Media" />
 
       <v-divider class="mx-4"></v-divider>
       <MediaCardActions :media="data && data.Media" />
@@ -42,16 +35,14 @@ import { Variables } from '@/graphql/schema/media'
 interface RawBindings {}
 
 import { createComponent, Ref, computed } from '@vue/composition-api'
-import useTitle from '@/store/title'
 
 export default createComponent<Readonly<Props>>({
   setup(props) {
     const variables: Ref<Variables> = computed(() => {
       return { id: props.id }
     })
-    const { title } = useTitle()
 
-    return { variables, title }
+    return { variables }
   },
   components: {
     MediaCardBanner,

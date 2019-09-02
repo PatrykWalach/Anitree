@@ -17,5 +17,5 @@ new Vue({
   apolloProvider,
   render: h => h(App),
   router,
-  vuetify,
+  vuetify
 }).$mount('#app')

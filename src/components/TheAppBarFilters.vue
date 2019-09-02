@@ -27,7 +27,7 @@
 import { createComponent, ref, computed } from '@vue/composition-api'
 import TheAppBarFiltersList from './TheAppBarFiltersList.vue'
 
-export default createComponent<{}>({
+export default createComponent({
   components: {
     TheAppBarFiltersList
   },

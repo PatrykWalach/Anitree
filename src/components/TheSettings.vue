@@ -20,7 +20,7 @@ import { createComponent } from '@vue/composition-api'
 
 import useAuth from '@/store/auth'
 
-export default createComponent<{}>({
+export default createComponent({
   components: {
     TheSettingsTheme,
     TheSettingsLogin,

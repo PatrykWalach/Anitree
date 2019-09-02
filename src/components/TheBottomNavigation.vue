@@ -17,7 +17,7 @@
 
 <script lang="ts">
 import { createComponent, computed } from '@vue/composition-api'
-export default createComponent<{}>({
+export default createComponent({
   setup(_, { root }) {
     const value = computed(() => root.$route.name)
     return { value }

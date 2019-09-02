@@ -14,7 +14,7 @@
 <script lang="ts">
 import { createComponent, computed } from '@vue/composition-api'
 
-export default createComponent<{}>({
+export default createComponent({
   setup(_, { root }) {
     const dark = computed({
       get: () => root.$vuetify.theme.dark,

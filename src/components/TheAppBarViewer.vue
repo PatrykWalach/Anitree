@@ -51,7 +51,7 @@ import useAuth from '@/store/auth'
 import { VIEWER } from '@/graphql'
 import { VMenu, VBottomSheet } from 'vuetify/lib'
 
-export default createComponent<{}>({
+export default createComponent({
   components: {
     VMenu,
     VBottomSheet

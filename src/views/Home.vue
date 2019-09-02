@@ -3,17 +3,13 @@ import MediaCard from '@/components/MediaCard.vue'
 import HomeItem from '@/components/HomeItem.vue'
 import TheSettings from '@/components/TheSettings.vue'
 
-import {
-  createComponent,
-  createElement,
-  SetupContext
-} from '@vue/composition-api'
+import { createComponent, createElement } from '@vue/composition-api'
 
 //@ts-ignore
 import { VContainer, VCol, VRow, VTimeline, VTimelineItem } from 'vuetify/lib'
 
 export default createComponent({
-  setup: () => {
+  setup: (_, { root }) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const h = createElement
 
@@ -57,7 +53,7 @@ export default createComponent({
       ]
     ]
 
-    return (_: {}, { root }: SetupContext) => {
+    return () => {
       const timeline = root.$vuetify.breakpoint.xsOnly ? (
         content.flat().map(el => <v-col cols="12">{el}</v-col>)
       ) : (

@@ -27,7 +27,7 @@ const getYear = (seasonInt: number) => {
   return year > 50 ? 1900 + year : 2000 + year
 }
 
-export default createComponent<{}>({
+export default createComponent({
   components: {
     MediaTimeline,
     BaseContainer

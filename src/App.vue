@@ -20,15 +20,15 @@ import TheAppBar from './components/TheAppBar.vue'
 import MediaEdit from './components/MediaEdit.vue'
 import BaseShare from './components/BaseShare.vue'
 
-// import TheBottomNavigation from './components/TheBottomNavigation.vue'
+import TheBottomNavigation from './components/TheBottomNavigation.vue'
 
-const TheBottomNavigation = () => import('@/components/TheBottomNavigation.vue')
+// const TheBottomNavigation = () => import('@/components/TheBottomNavigation.vue')
 
 import { ref, createComponent } from '@vue/composition-api'
 import useEdit from './store/edit'
 import useShare from './store/share'
 
-export default createComponent<{}>({
+export default createComponent({
   components: {
     MediaEdit,
     TheAppBar,

@@ -27,7 +27,7 @@
 <script lang="ts">
 import { ref, Ref, computed, createComponent } from '@vue/composition-api'
 
-export default createComponent<{}>({
+export default createComponent({
   setup(_, { emit, root }) {
     const search = ref('')
     const valid = ref(false)

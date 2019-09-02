@@ -4,7 +4,7 @@
     <slot></slot>
     <v-list-item-content>
       <MediaCardItemOverline :media="media" />
-      <MediaCardItemTitle :media="media" :hover="hover" />
+      <MediaCardItemTitle :media="media" />
       <MediaCardItemSubtitle :media="media" />
     </v-list-item-content>
   </v-list-item>
@@ -19,12 +19,11 @@ import MediaCardItemOverline from './MediaCardItemOverline.vue'
 import MediaCardProgress from './MediaCardProgress.vue'
 import { Media } from '@/graphql/schema/media'
 import { createComponent, computed } from '@vue/composition-api'
-import { Tooltip } from '../types'
 
 export interface Props {
   media: Media | null
-  hover: Tooltip | null
 }
+
 export default createComponent<Readonly<Props>>({
   components: {
     MediaCardProgress,
@@ -41,8 +40,7 @@ export default createComponent<Readonly<Props>>({
     return { lines }
   },
   props: {
-    media: { required: true, default: null, type: null },
-    hover: { required: false, default: null, type: null }
+    media: { required: true, default: null, type: null }
   }
 })
 </script>

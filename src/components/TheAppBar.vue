@@ -19,14 +19,15 @@
     </template>
 
     <v-spacer v-if="!search"></v-spacer>
-    <TheAppBarSearch
-      v-if="(!settings && !$vuetify.breakpoint.xsOnly) || search"
-    />
 
-    <template v-if="!search">
-      <v-btn v-if="$vuetify.breakpoint.xsOnly" icon :to="{ name: 'search' }"
+    <template v-if="!settings">
+      <TheAppBarSearch v-if="!$vuetify.breakpoint.xsOnly || search" />
+      <v-btn v-else icon :to="{ name: 'search' }"
         ><v-icon>search</v-icon></v-btn
       >
+    </template>
+
+    <template v-if="!search">
       <TheAppBarViewer />
     </template>
 
@@ -40,7 +41,7 @@ import TheAppBarFilters from './TheAppBarFilters.vue'
 
 import { createComponent, computed } from '@vue/composition-api'
 
-export default createComponent<{}>({
+export default createComponent({
   components: {
     TheAppBarSearch,
     TheAppBarViewer,

@@ -60,7 +60,7 @@ import TheSearchList from '../components/TheSearchList.vue'
 import { computed, createComponent } from '@vue/composition-api'
 import useAuth from '../store/auth'
 
-export default createComponent<{}>({
+export default createComponent({
   components: {
     MediaTimeline,
     TheSearchList

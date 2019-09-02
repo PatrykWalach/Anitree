@@ -17,7 +17,7 @@
     </v-tab>
 
     <v-tab-item value="info">
-      <MediaCardItem :hover="hover" :media="media" />
+      <MediaCardItem :media="media" />
     </v-tab-item>
 
     <template v-if="media">
@@ -62,7 +62,6 @@ import BaseColor from './BaseColor.vue'
 import { Media } from '@/graphql/schema/media'
 
 import useTitle from '@/store/title'
-import { Tooltip } from '../types'
 
 export default createComponent<Readonly<Props>>({
   setup(props) {
@@ -84,17 +83,11 @@ export default createComponent<Readonly<Props>>({
       required: true,
       type: null,
       default: null
-    },
-    hover: {
-      required: true,
-      type: Object,
-      default: null
     }
   }
 })
 
 export interface Props {
   media: Media | null
-  hover: Tooltip
 }
 </script>
