@@ -59,30 +59,20 @@ export default createComponent({
       ) : (
         <v-col>
           <v-timeline dense={root.$vuetify.breakpoint.smAndDown}>
-            {content.map(
-              (el, i) =>
-                // root.$vuetify.breakpoint.smAndDown ?
-                el
-                  .map((el, j) => (
-                    <v-timeline-item
-                      large={!root.$vuetify.breakpoint.smAndDown && j === 0}
-                      small={root.$vuetify.breakpoint.smAndDown && j !== 0}
-                      left={i % 2}
-                      right={(i + 1) % 2}
-                    >
-                      {el}
-                    </v-timeline-item>
-                  ))
-                  .flat()
-              //  : (
-              //   <v-timeline-item
-              //     scopedSlots={{
-              //       opposite: () => el[1]
-              //     }}
-              //   >
-              //     {el[0]}
-              //   </v-timeline-item>
-              // )
+            {content.map((el, i) =>
+              // root.$vuetify.breakpoint.smAndDown ?
+              el
+                .map((el, j) => (
+                  <v-timeline-item
+                    large={!root.$vuetify.breakpoint.smAndDown && j === 0}
+                    small={root.$vuetify.breakpoint.smAndDown && j !== 0}
+                    left={!!(i % 2)}
+                    right={!!((i + 1) % 2)}
+                  >
+                    {el}
+                  </v-timeline-item>
+                ))
+                .flat()
             )}
           </v-timeline>
         </v-col>
