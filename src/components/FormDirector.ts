@@ -152,7 +152,7 @@ export default class FormDirector {
         },
         {
           props: {
-            value: form.volumeProgress || stored.volumeProgress,
+            value: form.progressVolumes || stored.progressVolumes,
             afterTransform: [
               parseFloat,
 
