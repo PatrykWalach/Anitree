@@ -89,10 +89,7 @@ export default class FormBuilder {
                 rounded: true,
                 filled: true
               },
-              props: {
-                ...props,
-                tag: 'BaseDateField'
-              }
+              props
             })
           ]
         )
