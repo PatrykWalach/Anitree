@@ -3,7 +3,6 @@
     ref="menu"
     v-model="menuActive"
     :close-on-content-click="false"
-    :nudge-right="40"
     :return-value.sync="date"
     transition="scale-transition"
     offset-y
@@ -48,23 +47,22 @@ export default createComponent<Readonly<Props>>({
     const menuActive = ref(false)
     const menu: Ref<any> = ref(null)
 
-    watch(() => {
-      date.value = props.value
-    })
+    watch(
+      () => props.value,
+      value => {
+        date.value = value
+      }
+    )
 
-    function save() {
-      const save: (score: string) => void = menu.value.save
+    const save = () => {
+      menu.value.save(date.value)
 
-      const _date = date.value
-
-      save(_date)
-
-      if (_date !== props.value) {
-        emit('change', _date)
+      if (date.value !== props.value) {
+        emit('change', date.value)
       }
     }
 
-    function clear() {
+    const clear = () => {
       emit('change', '')
     }
 
