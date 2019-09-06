@@ -6,7 +6,14 @@ import TheSettings from '@/components/TheSettings.vue'
 import { createComponent, createElement } from '@vue/composition-api'
 
 //@ts-ignore
-import { VContainer, VCol, VRow, VTimeline, VTimelineItem } from 'vuetify/lib'
+import {
+  VContainer,
+  VCol,
+  VIcon,
+  VRow,
+  VTimeline,
+  VTimelineItem
+} from 'vuetify/lib'
 
 export default createComponent({
   setup: (_, { root }) => {
@@ -20,8 +27,24 @@ export default createComponent({
             title: () => 'This app is under construction'
           }}
         >
-          Please visit
-          <router-link to="/roadmap"> roadmap </router-link>for more information
+          <p>
+            All features are subjects to change. Please visit
+            <router-link to="/roadmap"> roadmap </router-link>for more
+            information about planned features.
+          </p>
+          <p>
+            If you encounter any problems you may have to clean your cache:
+            <br />
+            <code>F12</code>
+            <v-icon x-small>arrow_right_alt</v-icon>
+            <code>Application</code>
+            <v-icon>arrow_right_alt</v-icon>
+            <code>
+              <v-icon color="#BD4147">delete</v-icon>Clear storage
+            </code>
+            <v-icon>arrow_right_alt</v-icon>
+            <code>Clear site data</code>
+          </p>
         </home-item>
       ],
       [
@@ -30,10 +53,9 @@ export default createComponent({
             title: () => 'Media Cards'
           }}
         >
-          Media cards display media title, type, status, related tags, main
-          studios and list status if user is logged in.
+          Media cards display various informations about the media.
           <br />
-          More data may be shown in future: relation type and the description
+          Their layout and amount of information may change in future.
         </home-item>,
 
         <apollo-query
@@ -47,7 +69,7 @@ export default createComponent({
       ],
       [
         <home-item scopedSlots={{ title: () => 'Settings' }}>
-          The settings are stored in the browser cache.
+          The settings are cached.
         </home-item>,
         <the-settings />
       ]
@@ -89,6 +111,7 @@ export default createComponent({
     VContainer,
     VCol,
     VRow,
+    VIcon,
     VTimeline,
     VTimelineItem,
     HomeItem,
