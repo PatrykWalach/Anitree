@@ -1,40 +1,18 @@
 <template>
-  <v-navigation-drawer
-    v-model="syncedValue"
-    app
-    mini-variant
-    permanent
-    v-if="!$vuetify.breakpoint.xsOnly"
-  >
+  <v-navigation-drawer v-model="syncedValue" app mini-variant permanent>
     <v-list>
-      <v-list-item exact :to="{ name: 'home' }">
+      <v-list-item
+        :key="title"
+        exact
+        :to="to"
+        v-for="{ to, title, icon } in elements"
+      >
         <v-list-item-icon>
-          <v-icon>home</v-icon>
+          <v-icon>{{ icon }}</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
           <v-list-item-title>
-            Home
-          </v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
-      <v-list-item exact :to="{ name: 'search' }">
-        <v-list-item-icon>
-          <v-icon>search</v-icon>
-        </v-list-item-icon>
-        <v-list-item-content>
-          <v-list-item-title>
-            Search
-          </v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
-
-      <v-list-item exact :to="{ name: 'settings' }">
-        <v-list-item-icon>
-          <v-icon>settings</v-icon>
-        </v-list-item-icon>
-        <v-list-item-content>
-          <v-list-item-title>
-            Settings
+            {{ title }}
           </v-list-item-title>
         </v-list-item-content>
       </v-list-item>
@@ -48,7 +26,7 @@ import { computed, createComponent } from '@vue/composition-api'
 interface Props {
   value: boolean
 }
-
+import useNavigation from '@/store/navigation'
 export default createComponent<Readonly<Props>>({
   props: {
     value: {
@@ -63,7 +41,8 @@ export default createComponent<Readonly<Props>>({
       set: value => emit('update:value', value)
     })
 
-    return { syncedValue }
+    const { elements } = useNavigation()
+    return { elements, syncedValue }
   }
 })
 </script>
