@@ -1,12 +1,12 @@
 <template>
-  <v-footer class="caption" absolute>
-    <v-spacer></v-spacer>
+  <v-footer class="caption" absolute app>
     <div v-if="!$vuetify.breakpoint.xsOnly">
       Powered by
     </div>
     <v-btn href="https://anilist.co" target="_blank" text rel="noopener">
       Anilist
     </v-btn>
+    <v-spacer></v-spacer>
 
     <div v-if="!$vuetify.breakpoint.xsOnly">
       Made by

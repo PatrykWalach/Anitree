@@ -1,8 +1,8 @@
 <template>
   <v-app>
-    <TheDrawer :value.sync="drawer" />
-    <TheAppBar @toggle:drawer="toggleDrawer" />
     <TheBottomNavigation v-if="$vuetify.breakpoint.xsOnly" />
+    <TheDrawer v-else :value.sync="drawer" />
+    <TheAppBar @toggle:drawer="toggleDrawer" />
     <v-content>
       <keep-alive>
         <v-fade-transition hide-on-leave>
@@ -12,6 +12,7 @@
       <MediaEdit :id="mediaId" />
       <BaseShare :options="options" />
     </v-content>
+    <TheFooter />
   </v-app>
 </template>
 <script lang="ts">
@@ -19,6 +20,7 @@ import TheDrawer from './components/TheDrawer.vue'
 import TheAppBar from './components/TheAppBar.vue'
 import MediaEdit from './components/MediaEdit.vue'
 import BaseShare from './components/BaseShare.vue'
+import TheFooter from './components/TheFooter.vue'
 
 import TheBottomNavigation from './components/TheBottomNavigation.vue'
 
@@ -28,15 +30,18 @@ import { ref, createComponent } from '@vue/composition-api'
 import useEdit from './store/edit'
 import useShare from './store/share'
 
+import { useTheme } from '@/components/TheSettingsTheme.vue'
+
 export default createComponent({
   components: {
     MediaEdit,
+    TheFooter,
     TheAppBar,
     BaseShare,
     TheDrawer,
     TheBottomNavigation
   },
-  setup(_, { root }) {
+  setup(_, context) {
     const drawer = ref(false)
 
     const toggleDrawer = () => {
@@ -45,8 +50,19 @@ export default createComponent({
 
     const { mediaId } = useEdit()
     const { options } = useShare()
+    const { dark } = useTheme(context)
 
-    root.$vuetify.theme.dark = localStorage.getItem('THEME') === 'true'
+    const stored = localStorage.getItem('THEME')
+
+    if (stored === null) {
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(e => {
+        if (e.matches) {
+          dark.value = true
+        }
+      })
+    } else {
+      dark.value = localStorage.getItem('THEME') === 'true'
+    }
 
     return {
       drawer,
