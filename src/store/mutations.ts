@@ -140,7 +140,6 @@ const SAVE_MEDIA_LIST_ENTRY = async (e: Event) => {
   await command.saveState()
   await command.execute()
 
-  console.log(elements.value)
   return command
 }
 
