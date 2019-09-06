@@ -1,8 +1,11 @@
 <template>
   <v-container>
-    <v-col justify="center" align="start">
-      <TheSettings />
-    </v-col>
+    <v-subheader>Settings</v-subheader>
+    <v-row justify="center" align="start">
+      <v-col>
+        <TheSettings />
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
