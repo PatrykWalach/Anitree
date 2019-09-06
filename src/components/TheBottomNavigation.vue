@@ -8,45 +8,18 @@
 </template>
 
 <script lang="ts">
-import {
-  createComponent,
-  computed
-  // createElement as h
-} from '@vue/composition-api'
-// import NavigationDirector from './NavigationDirector'
-// import NavigationBuilder from './NavigationBuilder'
-
-// import { VBottomNavigation } from 'vuetify/lib'
+import { createComponent, computed } from '@vue/composition-api'
 import useNavigation from '@/store/navigation'
 
 export default createComponent({
   setup(_, { root }) {
     const value = computed(() => root.$route.name)
 
-    // const director = new NavigationDirector()
     const { elements } = useNavigation()
     return {
       value,
       elements
     }
-
-    // return () => {
-    //   const builder = new NavigationBuilder()
-
-    //   director.bottomNavigation(builder)
-
-    //   return h(
-    //     VBottomNavigation,
-    //     {
-    //       props: {
-    //         app: true,
-    //         value: value.value,
-    //         color: 'primary'
-    //       }
-    //     },
-    //     builder.getItems()
-    //   )
-    // }
   }
 })
 </script>

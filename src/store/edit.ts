@@ -39,10 +39,7 @@ const close = async () => {
 const submit = async () => {
   if (mediaId.value) {
     loading.value = true
-    // await apollo.mutate<MediaList, SaveVariables>({
-    //   mutation: SAVE_MEDIA_LIST_ENTRY,
-    //   variables: { mediaId: mediaId.value, ...form.value }
-    // })
+
     await useMutations().SAVE_MEDIA_LIST_ENTRY({
       mediaId: mediaId.value,
       variables: form.value

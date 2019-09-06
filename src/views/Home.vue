@@ -82,7 +82,6 @@ export default createComponent({
         <v-col>
           <v-timeline dense={root.$vuetify.breakpoint.smAndDown}>
             {content.map((el, i) =>
-              // root.$vuetify.breakpoint.smAndDown ?
               el
                 .map((el, j) => (
                   <v-timeline-item
