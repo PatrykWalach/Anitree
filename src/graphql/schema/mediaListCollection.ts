@@ -9,6 +9,7 @@ export interface Variables {
 }
 
 export interface MediaList {
+  __typename: 'MediaList'
   id: number
   mediaId: number
   status: MediaStatus

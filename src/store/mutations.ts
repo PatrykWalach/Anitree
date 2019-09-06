@@ -8,7 +8,11 @@ import apollo, {
 } from '@/graphql'
 import { SaveVariables } from '@/graphql/schema/listEntry'
 Vue.use(CompositionApi)
-import { Variables as MediaVariables, Media } from '@/graphql/schema/media'
+import {
+  Variables as MediaVariables,
+  Media,
+  FuzzyDate
+} from '@/graphql/schema/media'
 import { MediaList } from '@/graphql/schema/mediaListCollection'
 
 import { User } from '@/graphql/schema/viewer'
@@ -72,7 +76,14 @@ export class SaveMediaListEntry {
               mediaListEntry,
               mediaListOptions.mangaList.advancedScoring
             )
-          ).filter(([key]) => variables.hasOwnProperty(key))
+          )
+            .filter(([key]) => variables.hasOwnProperty(key))
+            .map(([key, value]) => {
+              if (isDate(value)) {
+                delete value.__typename
+              }
+              return [key, value]
+            })
         ) as Form
       }
     )
@@ -81,23 +92,25 @@ export class SaveMediaListEntry {
   undo() {
     const { backup, mediaId } = this
 
-    return (
-      apollo
-        .mutate<MediaList, SaveVariables>({
-          mutation: SAVE_MEDIA_LIST_ENTRY_MUTATION,
-          variables: {
-            mediaId,
-            ...backup
-          }
-        })
-        .then(() => {
-          this.done = false
-        })
-        // .catch(console.error)
-        .catch(() => {
-          // this.done = true
-        })
-    )
+    if (this.done)
+      return (
+        apollo
+          .mutate<MediaList, SaveVariables>({
+            mutation: SAVE_MEDIA_LIST_ENTRY_MUTATION,
+            variables: {
+              mediaId,
+              ...backup
+            }
+          })
+          .then(() => {
+            this.done = false
+          })
+          // .catch(console.error)
+          .catch(() => {
+            // this.done = true
+            elements.value.push(this)
+          })
+      )
   }
 
   execute() {
@@ -185,3 +198,26 @@ export const mediaListToForm = (
     advancedScores
   }
 }
+
+// export const removeTypename = (e: any) => {
+//   const { __typename, ...result } = e
+//   return result
+// }
+
+// export const recurse = <T>(
+//   e: T,
+//   condition: (e: T) => boolean,
+//   f: (e: T) => any
+// ) => {
+//   if (condition(e))
+//     return Object.fromEntries(
+//       Object.entries(f(e)).map(([key, value]) => [
+//         key,
+//         recurse(f(value), condition, f)
+//       ])
+//     )
+
+//   return e
+// }
+
+export const isDate = (e: any): e is FuzzyDate => e.__typename === 'FuzzyDate'

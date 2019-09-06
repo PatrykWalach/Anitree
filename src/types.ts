@@ -1,6 +1,6 @@
 import { Location } from 'vue-router'
 import Vue from 'vue'
-import { MediaStatus, FuzzyDate, Media } from '@/graphql/schema/media'
+import { MediaStatus, FuzzyDate } from '@/graphql/schema/media'
 
 export interface ShareData {
   url?: string
@@ -11,33 +11,35 @@ export interface NewNavigator extends Navigator {
   share?: (data: ShareData) => Promise<void>
 }
 
-export type RawFilter = (
-  value: MediaEdgeExtended,
-  index: number,
-  array: MediaEdgeExtended[]
-) => boolean
-export interface Tooltip {
-  attrs: {
-    type?: 'button'
-    role: 'button'
-    'aria-haspopup': true
-    'aria-expanded': 'true' | 'false'
-  }
-  on: {
-    blur: Function
-    focus: Function
-    keydown: Function
-    mouseenter: Function
-    mouseleave: Function
-  }
-}
+// export type RawFilter = (
+//   value: MediaEdgeExtended,
+//   index: number,
+//   array: MediaEdgeExtended[]
+// ) => boolean
 
-export interface Filter {
-  filter: RawFilter
-  exclusive: boolean
-  active: boolean
-  id: string
-}
+// export interface Tooltip {
+//   attrs: {
+//     type?: 'button'
+//     role: 'button'
+//     'aria-haspopup': true
+//     'aria-expanded': 'true' | 'false'
+//   }
+//   on: {
+//     blur: Function
+//     focus: Function
+//     keydown: Function
+//     mouseenter: Function
+//     mouseleave: Function
+//   }
+// }
+
+// export interface Filter {
+//   filter: RawFilter
+//   exclusive: boolean
+//   active: boolean
+//   id: string
+// }
+
 export type To = string | false | void | Location
 export type Next = (to?: To) => void
 
@@ -49,8 +51,6 @@ export interface Data<T = any> {
   [index: string]: T
 }
 
-// export type FuzzyDate = Nullable<ValidDate>
-
 export type RecursivePartial<T> = {
   [P in keyof T]?: T[P] extends (infer U)[]
     ? RecursivePartial<U>[]
@@ -60,29 +60,22 @@ export type RecursivePartial<T> = {
 }
 
 export interface Form {
-  // [index: string]: any
   status: MediaStatus | null
   score: number
   progress: number
-
   progressVolumes: number
-  startedAt: FuzzyDate
-  completedAt: FuzzyDate
+  startedAt: Omit<FuzzyDate, '__typename'>
+  completedAt: Omit<FuzzyDate, '__typename'>
   repeat: number
   notes: string
   advancedScores: number[]
 }
 
 export interface ValidDate {
-  [index: string]: null | number
+  // [index: string]: null | number
   year: number
   month: number | null
   day: number | null
-}
-
-export interface MediaEdgeExtended {
-  node: Media
-  relationType: string
 }
 
 //trello
