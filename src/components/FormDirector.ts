@@ -34,7 +34,7 @@ export const dateToString = (date: FuzzyDate): string => {
   return ''
 }
 
-export const stringToDate = (date: string): FuzzyDate => {
+export const stringToDate = (date: string): Omit<FuzzyDate, '__typename'> => {
   const values = date.split('-')
   return {
     year: parseInt(values[0]) || null,

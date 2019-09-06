@@ -18,7 +18,9 @@ const CHANGE_PREFERED = (payload: number) => {
   _prefered.value = payload
 }
 
-const CHANGE_PREFERED_TILE = (payload: keyof MediaTitle) => {
+const CHANGE_PREFERED_TILE = (
+  payload: keyof Omit<MediaTitle, '__typename'>
+) => {
   CHANGE_PREFERED(titles.value.indexOf(payload))
 }
 
