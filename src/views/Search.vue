@@ -45,7 +45,7 @@
               {{ $route.query.search }}
             </span>
             <v-spacer></v-spacer>
-            <v-select
+            <!-- <v-select
               hide-details
               solo
               single-line
@@ -55,7 +55,7 @@
               <template v-slot:append>
                 <v-icon>sort</v-icon>
               </template>
-            </v-select>
+            </v-select> -->
           </v-subheader>
 
           <media-timeline :media-list="data.Page.media">
