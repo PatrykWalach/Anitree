@@ -8,7 +8,7 @@
       <template v-slot:activator="{ on, attrs }">
         <v-list-item-content v-on="on" v-bind="attrs">
           <v-list-item-title class="text-capitalize"
-            >Title Language - {{ preferedTitle }}</v-list-item-title
+            >Title language - {{ preferedTitle }}</v-list-item-title
           >
           <v-list-item-subtitle
             >Select your prefered language for all the
@@ -22,15 +22,17 @@
           Select prefered language
         </v-card-title>
         <v-divider></v-divider>
-        <v-list-item-group @change="changePreferedTitle">
-          <v-list-item v-for="title in titles" :value="title" :key="title">
-            <v-list-item-content>
-              <v-list-item-title class="text-capitalize">
-                {{ title }}
-              </v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list-item-group>
+        <v-list>
+          <v-list-item-group @change="changePreferedTitle">
+            <v-list-item v-for="title in titles" :value="title" :key="title">
+              <v-list-item-content>
+                <v-list-item-title>
+                  {{ title }}
+                </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list-item-group>
+        </v-list>
       </v-card>
     </component>
   </v-list-item>

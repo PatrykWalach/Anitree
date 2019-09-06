@@ -1,11 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import useAuth from './store/auth'
+import useSettings from './store/settings'
 import apollo, { MEDIA } from '@/graphql'
 import { Media as MediaT, Variables } from '@/graphql/schema/media'
 
 const Home = () => import(/* webpackPrefetch: true */ './views/Home.vue')
 const Media = () => import(/* webpackPrefetch: true */ './views/Media.vue')
+
+const Changes = () => import(/* webpackPrefetch: true */ './views/Changes.vue')
 
 const Roadmap = () => import('./views/Roadmap.vue')
 const Settings = () =>
@@ -66,6 +68,11 @@ const router = new Router({
       component: Roadmap
     },
     {
+      path: '/changes',
+      name: 'changes',
+      component: Changes
+    },
+    {
       path: '/search',
       name: 'search',
       component: Search
@@ -85,9 +92,9 @@ const router = new Router({
             .split(/&/)
             .map(el => el.split(/=/))
         )
-        const { CHANGE_TOKEN } = useAuth()
+        const { token } = useSettings()
 
-        CHANGE_TOKEN(hash.access_token || null)
+        token.value = hash.access_token || null
 
         const route = localStorage.getItem('LAST_ROUTE')
         if (route) {

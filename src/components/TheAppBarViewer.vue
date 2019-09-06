@@ -6,7 +6,12 @@
   >
     <template v-slot:activator="{ on, attrs }">
       <v-btn v-on="on" v-bind="attrs" icon>
-        <v-avatar :size="24">
+        <v-avatar
+          :size="
+            //24
+            40
+          "
+        >
           <v-img :src="Viewer.avatar.large"></v-img>
         </v-avatar>
       </v-btn>
@@ -47,7 +52,7 @@
 <script lang="ts">
 import { createComponent } from '@vue/composition-api'
 
-import useAuth from '@/store/auth'
+import useSettings from '@/store/settings'
 import { VIEWER } from '@/graphql'
 import { VMenu, VBottomSheet } from 'vuetify/lib'
 
@@ -60,14 +65,16 @@ export default createComponent({
     Viewer: {
       query: VIEWER,
       skip() {
-        return !useAuth().token.value
+        return !useSettings().token.value
       }
     }
   },
 
   setup() {
-    const { CHANGE_TOKEN } = useAuth()
-    const logout = () => CHANGE_TOKEN(null)
+    const { token } = useSettings()
+    const logout = () => {
+      token.value = null
+    }
 
     return { logout }
   }

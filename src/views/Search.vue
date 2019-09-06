@@ -5,27 +5,23 @@
     :query="require('@/graphql/queries/Viewer.gql')"
     :skip="!token"
   >
-    <v-container>
-      <TheSearchList :user="viewer && viewer.Viewer" v-if="!isSearched" />
-      <ApolloQuery
-        v-else
-        v-slot="{ result: { error, data }, isLoading, query }"
-        :query="require('@/graphql/queries/Page.gql')"
-        :tag="null"
-        fetch-policy="cache-and-network"
-        :variables="
-          Object.assign(
-            {
-              isAdult:
-                viewer && viewer.Viewer.options.displayAdultContent
-                  ? undefined
-                  : false
-            },
-            query
-          )
-        "
-      >
-        <v-col
+    <TheSearchList :user="viewer && viewer.Viewer" v-if="!isSearched" />
+    <ApolloQuery
+      v-else
+      v-slot="{ result: { error, data }, isLoading, query }"
+      :query="require('@/graphql/queries/Page.gql')"
+      :tag="null"
+      fetch-policy="cache-and-network"
+      :variables="{
+        isAdult:
+          viewer && viewer.Viewer.options.displayAdultContent
+            ? undefined
+            : false,
+        ...query
+      }"
+    >
+      <v-container :fill-height="isLoading">
+        <v-row
           v-if="isLoading || error || !data.Page.media.length"
           justify="center"
           align="center"
@@ -37,20 +33,40 @@
           ></v-progress-circular>
           <template v-else-if="error">
             There was an error
-            <!-- <v-btn @click="query.refetch()">Retry</v-btn> -->
           </template>
           <template v-else>
             No results found
           </template>
-        </v-col>
-        <media-timeline v-else :media-list="data.Page.media">
-          <v-pagination
-            v-model="page"
-            :length="data.Page.pageInfo.lastPage"
-          ></v-pagination>
-        </media-timeline>
-      </ApolloQuery>
-    </v-container>
+        </v-row>
+        <template v-else>
+          <v-subheader>
+            <span v-if="$route.query.search">
+              Search resuts for:
+              {{ $route.query.search }}
+            </span>
+            <v-spacer></v-spacer>
+            <v-select
+              hide-details
+              solo
+              single-line
+              label="Sort"
+              :items="['one', 'two']"
+            >
+              <template v-slot:append>
+                <v-icon>sort</v-icon>
+              </template>
+            </v-select>
+          </v-subheader>
+
+          <media-timeline :media-list="data.Page.media">
+            <v-pagination
+              v-model="page"
+              :length="data.Page.pageInfo.lastPage"
+            ></v-pagination>
+          </media-timeline>
+        </template>
+      </v-container>
+    </ApolloQuery>
   </ApolloQuery>
 </template>
 <script lang="ts">
@@ -58,7 +74,7 @@ import MediaTimeline from '../components/MediaTimeline.vue'
 import TheSearchList from '../components/TheSearchList.vue'
 
 import { computed, createComponent } from '@vue/composition-api'
-import useAuth from '../store/auth'
+import useSettings from '../store/settings'
 
 export default createComponent({
   components: {
@@ -94,7 +110,7 @@ export default createComponent({
       }
     })
 
-    const { token } = useAuth()
+    const { token } = useSettings()
 
     return {
       token,

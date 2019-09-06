@@ -67,7 +67,7 @@ import { createComponent, computed } from '@vue/composition-api'
 import useTitle from '../store/title'
 import useShareModule from '../store/share'
 import useEdit from '../store/edit'
-import useAuth from '../store/auth'
+import useSettings from '../store/settings'
 
 function useShare(props: Props) {
   const { options, isShared } = useShareModule()
@@ -111,7 +111,7 @@ export default createComponent<Readonly<Props>>({
     Viewer: {
       query: VIEWER,
       skip() {
-        return !useAuth().token.value
+        return !useSettings().token.value
       }
     }
   },

@@ -7,7 +7,7 @@ import VueApollo from 'vue-apollo'
 import Vue from 'vue'
 import { PersistentStorage, PersistedData } from 'apollo-cache-persist/types'
 
-import useAuth from '@/store/auth'
+import useSettings from '@/store/settings'
 
 import { Variables } from '@/graphql/schema/media'
 
@@ -16,7 +16,7 @@ const link = new HttpLink({
 })
 
 const middle = new ApolloLink((operation, forward) => {
-  const { token } = useAuth()
+  const { token } = useSettings()
   if (token.value) {
     operation.setContext({
       headers: {
@@ -39,12 +39,14 @@ const cache = new InMemoryCache({
   }
 })
 
-persistCache({
-  cache,
-  storage: window.localStorage as PersistentStorage<
-    PersistedData<NormalizedCacheObject>
-  >
-})
+if (useSettings().cacheApollo.value) {
+  persistCache({
+    cache,
+    storage: window.localStorage as PersistentStorage<
+      PersistedData<NormalizedCacheObject>
+    >
+  })
+}
 
 const apollo = new ApolloClient({
   link: concat(middle, link),

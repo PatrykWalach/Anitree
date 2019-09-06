@@ -1,22 +1,21 @@
 import { mergeDeep } from 'apollo-utilities'
-import apollo from '@/graphql'
 
 import { SaveVariables } from '@/graphql/schema/listEntry'
 
-import { MediaList } from '@/graphql/schema/mediaListCollection'
-
-import { SAVE_MEDIA_LIST_ENTRY } from '@/graphql'
-
 import CompositionApi, { Ref, ref } from '@vue/composition-api'
 
-import useSubmit from './submit'
+import useSettings from './settings'
 import Vue from 'vue'
+import { Form } from '@/types'
+import useMutations from './mutations'
+
 Vue.use(CompositionApi)
 
 const mediaId: Ref<number | null> = ref(null)
+
 const isEdited = ref(false)
 const loading = ref(false)
-const form: Ref<Partial<SaveVariables>> = ref({})
+const form: Ref<Partial<Form>> = ref({})
 const tab = ref('edit1')
 
 const CHANGE_FORM = (payload: Partial<SaveVariables>) => {
@@ -40,10 +39,15 @@ const close = async () => {
 const submit = async () => {
   if (mediaId.value) {
     loading.value = true
-    await apollo.mutate<MediaList, SaveVariables>({
-      mutation: SAVE_MEDIA_LIST_ENTRY,
-      variables: { mediaId: mediaId.value, ...form.value }
+    // await apollo.mutate<MediaList, SaveVariables>({
+    //   mutation: SAVE_MEDIA_LIST_ENTRY,
+    //   variables: { mediaId: mediaId.value, ...form.value }
+    // })
+    await useMutations().SAVE_MEDIA_LIST_ENTRY({
+      mediaId: mediaId.value,
+      variables: form.value
     })
+
     await RESET_FORM()
     loading.value = false
   }
@@ -51,7 +55,7 @@ const submit = async () => {
 
 const changeForm = async (form: Partial<SaveVariables>) => {
   await CHANGE_FORM(form)
-  if (useSubmit().auto.value) {
+  if (useSettings().syncChanges.value) {
     submit()
   }
 }

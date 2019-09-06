@@ -2,7 +2,7 @@
   <v-tooltip bottom>
     <template v-slot:activator="{ on, attrs }">
       <v-icon v-bind="{ ...attrs, ...$attrs }" v-on="on">
-        sync {{ auto ? '' : '_disabled' }}
+        sync {{ syncChanges ? '' : '_disabled' }}
       </v-icon>
     </template>
     <span>{{ caption }}</span>
@@ -10,20 +10,20 @@
 </template>
 <script lang="ts">
 import { createComponent, computed } from '@vue/composition-api'
-import useSubmit from '../store/submit'
+import useSettings from '../store/settings'
 
 export default createComponent({
   inheritAttrs: false,
   setup() {
-    const { auto } = useSubmit()
+    const { syncChanges } = useSettings()
 
     const caption = computed(
-      () => 'autoupdates are ' + (auto.value ? 'enabled' : 'disabled')
+      () => 'autoupdates are ' + (syncChanges.value ? 'enabled' : 'disabled')
     )
 
     return {
       caption,
-      auto
+      syncChanges
     }
   }
 })

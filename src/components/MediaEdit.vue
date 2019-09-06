@@ -18,7 +18,7 @@
     >
       <v-card :loading="loading">
         <MediaEditLoading
-          v-if="$apollo.loading || loading || !!$apollo.error || !!error"
+          v-if="$apollo.loading || !data"
           :loading="$apollo.loading || loading"
           :error="!!$apollo.error || !!error"
         />
@@ -27,7 +27,6 @@
             <v-overlay absolute></v-overlay>
           </media-card-banner>
           <MediaCardItem :media="data && data.Media" />
-
           <v-divider></v-divider>
           <MediaEditTabs :media="data && data.Media" :user="Viewer" />
         </v-card-text>
@@ -49,7 +48,7 @@ import { VIEWER } from '@/graphql'
 
 import { createComponent, computed } from '@vue/composition-api'
 import useEdit from '../store/edit'
-import useAuth from '../store/auth'
+import useSettings from '../store/settings'
 
 export interface Props {
   id: number | null
@@ -90,7 +89,7 @@ export default createComponent<Readonly<Props>>({
     Viewer: {
       query: VIEWER,
       skip() {
-        return !useAuth().token.value
+        return !useSettings().token.value
       }
     }
   }

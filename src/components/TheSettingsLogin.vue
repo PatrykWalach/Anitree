@@ -6,7 +6,7 @@
     "
   >
     <v-list-item-content>
-      <v-list-item-title>Login</v-list-item-title>
+      <v-list-item-title class="text-capitalize">Login</v-list-item-title>
       <v-list-item-subtitle>Login with AniList</v-list-item-subtitle>
     </v-list-item-content>
   </v-list-item>
