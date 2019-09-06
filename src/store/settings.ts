@@ -6,10 +6,10 @@ Vue.use(CompositionApi)
 const stored = localStorage.getItem('SETTINGS')
 const settings = stored && JSON.parse(stored)
 
-const cacheApollo = ref(settings.cacheApollo || false)
-const cacheChanges = ref(settings.cacheChanges || false)
-const token = ref(settings.token || false)
-const syncChanges = ref(settings.syncChanges || false)
+const cacheApollo = ref((settings && settings.cacheApollo) || false)
+const cacheChanges = ref((settings && settings.cacheChanges) || false)
+const token = ref((settings && settings.token) || false)
+const syncChanges = ref((settings && settings.syncChanges) || false)
 
 watch(
   // [cacheApollo, token],
