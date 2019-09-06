@@ -11,18 +11,16 @@ const cacheChanges = ref((settings && settings.cacheChanges) || false)
 const token = ref((settings && settings.token) || false)
 const syncChanges = ref((settings && settings.syncChanges) || false)
 
-watch(
-  // [cacheApollo, token],
-  () =>
-    localStorage.setItem(
-      'SETTINGS',
-      JSON.stringify({
-        cacheApollo: cacheApollo.value,
-        cacheChanges: cacheChanges.value,
-        syncChanges: syncChanges.value,
-        token: token.value
-      })
-    )
+watch(() =>
+  localStorage.setItem(
+    'SETTINGS',
+    JSON.stringify({
+      cacheApollo: cacheApollo.value,
+      cacheChanges: cacheChanges.value,
+      syncChanges: syncChanges.value,
+      token: token.value
+    })
+  )
 )
 
 export default function useSettings() {
