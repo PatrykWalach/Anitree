@@ -1,16 +1,12 @@
-<script lang="tsx">
-import {
-  createComponent,
-  computed,
-  createElement as h
-} from '@vue/composition-api'
+<script lang="ts">
+import { createComponent, createElement as h } from '@vue/composition-api'
 
 import FormBuilder from './FormBuilder'
 import FormDirector from './FormDirector'
 
 import { Media } from '@/graphql/schema/media'
 
-import { User, MediaListTypeOptions } from '@/graphql/schema/viewer'
+import { User } from '@/graphql/schema/viewer'
 import { Form } from '../types'
 
 import useEdit from '../store/edit'
@@ -19,6 +15,13 @@ export interface Props {
   method: keyof FormDirector
   user: User
   media: Media
+  stored: Form
+  scoreFormat: {
+    round: number
+    max: number
+  }
+  advancedScoring: string[]
+  manga: boolean
 }
 
 import { VContainer, VRow } from 'vuetify/lib'
@@ -40,72 +43,29 @@ export default createComponent<Readonly<Props>>({
       required: true,
       type: Object,
       default: null
+    },
+    stored: {
+      required: true,
+      type: Object,
+      default: null
+    },
+    scoreFormat: {
+      required: true,
+      type: Object,
+      default: null
+    },
+    advancedScoring: {
+      required: true,
+      type: Array,
+      default: () => []
+    },
+    manga: {
+      required: true,
+      type: Boolean,
+      default: false
     }
   },
   setup: props => {
-    const manga = computed(() => {
-      return (props.media && props.media.type === 'MANGA') || false
-    })
-
-    const mediaListOptions = computed((): MediaListTypeOptions | null => {
-      return (
-        props.user &&
-        (manga.value
-          ? props.user.mediaListOptions.mangaList
-          : props.user.mediaListOptions.animeList)
-      )
-    })
-
-    const advancedScoring = computed(
-      () =>
-        (mediaListOptions.value && mediaListOptions.value.advancedScoring) || []
-    )
-
-    const scoreFormat = computed(() => {
-      const split = props.user.mediaListOptions.scoreFormat.split('_')
-      return {
-        round: split[2] === 'DECIMAL' ? 1 : 0,
-        max: parseInt(split[1])
-      }
-    })
-
-    const stored = computed(() => {
-      if (props.media && props.media.mediaListEntry) {
-        const { mediaListEntry } = props.media
-
-        const advancedScores = advancedScoring.value
-          .map(key => mediaListEntry.advancedScores[key])
-          .map(value => value || 0)
-
-        return {
-          ...(Object.fromEntries(
-            Object.entries(mediaListEntry)
-              .filter(
-                ([key, value]) =>
-                  value !== null &&
-                  key !== '__typename' &&
-                  key !== 'advancedScores'
-              )
-              .map(([key, value]) => [key, value || 0])
-          ) as Form),
-          advancedScores
-        }
-      }
-
-      const advancedScores = advancedScoring.value.map(() => 0)
-      return {
-        status: null,
-        notes: '',
-        score: 0,
-        progress: 0,
-        progressVolumes: 0,
-        repeat: 0,
-        startedAt: { day: null, year: null, month: null },
-        completedAt: { day: null, year: null, month: null },
-        advancedScores
-      }
-    })
-
     const { form } = useEdit()
 
     const director = new FormDirector()
@@ -117,18 +77,12 @@ export default createComponent<Readonly<Props>>({
 
       director[props.method](builder, {
         form: form.value,
-        stored: stored.value,
-        scoreFormat: scoreFormat.value,
-        manga: manga.value,
-        media: props.media,
-        advancedScoring: advancedScoring.value
+        ...props
       })
 
       return h(VContainer, { props: { fluid: true } }, [
         h(VRow, [builder.getFields()])
       ])
-
-      //<VLayout wrap>{builder.getFields()}</VLayout>
     }
   }
 })
