@@ -1,6 +1,9 @@
 <template>
   <base-lazy-img
-    v-if="(!media || media.bannerImage) && !$vuetify.breakpoint.smAndDown"
+    v-if="
+      !media || media.bannerImage
+      //&& !$vuetify.breakpoint.smAndDown
+    "
     :src="(media && media.bannerImage) || ''"
     v-bind="$attrs"
     min-width="100%"

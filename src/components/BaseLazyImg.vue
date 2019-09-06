@@ -9,23 +9,26 @@
 
 <script lang="ts">
 import { ref, computed as get, createComponent } from '@vue/composition-api'
+import { DirectiveOptions } from 'vue'
+
+export const lazy: DirectiveOptions = {
+  bind(el, { value }) {
+    if (value) {
+      new IntersectionObserver((entries, observer) =>
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            value(event)
+            observer.disconnect()
+          }
+        })
+      ).observe(el)
+    }
+  }
+}
 
 export default createComponent<Readonly<Props>>({
   directives: {
-    lazy: {
-      bind(el, { value }) {
-        if (value) {
-          new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-              if (entry.isIntersecting) {
-                value(event)
-                observer.disconnect()
-              }
-            })
-          }).observe(el)
-        }
-      }
-    }
+    lazy
   },
   setup(props) {
     const inView = ref(false)

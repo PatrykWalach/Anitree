@@ -1,28 +1,29 @@
 <template>
-  <v-col justify="center" class="mx-2">
-    <v-form
-      v-model="valid"
-      :style="{ display: 'contents' }"
-      @submit.prevent="submit"
-    >
-      <v-text-field
-        :style="{ 'max-width': '720px' }"
-        prepend-inner-icon="search"
-        v-model="search"
-        autofocus
-        clearable
-        @click:clear="move"
-        @click="move"
-        @input="move"
-        single-line
-        filled
-        rounded
-        hide-details
-        name="search"
-        label="Search"
-        @keydown.esc="$emit('keydown:esc')"
-      ></v-text-field> </v-form
-  ></v-col>
+  <v-container>
+    <v-row justify="center">
+      <v-col cols="12" md="6">
+        <v-form v-model="valid" @submit.prevent="submit">
+          <v-text-field
+            full-width
+            prepend-inner-icon="search"
+            v-model="search"
+            autofocus
+            clearable
+            @click:clear="move"
+            @click="move"
+            @input="move"
+            single-line
+            filled
+            rounded
+            hide-details
+            name="search"
+            label="Search"
+            @keydown.esc="$emit('keydown:esc')"
+          ></v-text-field
+        ></v-form>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 <script lang="ts">
 import { ref, Ref, computed, createComponent } from '@vue/composition-api'

@@ -1,5 +1,5 @@
 <template>
-  <v-container v-bind="$attrs">
+  <v-container :fill-height="loading" v-bind="$attrs">
     <template v-if="!loading">
       <slot></slot>
     </template>

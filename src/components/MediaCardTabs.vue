@@ -1,7 +1,7 @@
 <template>
-  <v-tabs v-model="tab" grow color="primary" hide-slider>
+  <v-tabs v-model="tab" grow color="primary" :hide-slider="false">
     <v-tab href="#info" :disabled="!media">
-      <v-icon left>info</v-icon> Info
+      <v-icon left>info</v-icon> Summary
     </v-tab>
 
     <v-tab :disabled="!media" href="#description">
@@ -32,7 +32,7 @@
 
       <v-tab-item value="tags">
         <v-card-text>
-          <base-color
+          <v-chip
             v-for="{ id, rank, name } in media.tags
               .slice()
               .sort(({ rank: a }, { rank: b }) => b - a)"
@@ -40,13 +40,19 @@
             link
             label
             :style="{ margin: '4px 8px 4px 0' }"
-            :color="media.coverImage.color || ''"
-            tag="v-chip"
             :to="{ name: 'search', query: { includedTags: name } }"
           >
             <v-avatar left> {{ rank }} </v-avatar>
             {{ name.toLowerCase() }}
-          </base-color>
+          </v-chip>
+          <v-chip
+            v-for="{ id, name } in media.studios.nodes"
+            :key="`studio-${id}`"
+            outlined
+            label
+            :style="{ margin: '4px 8px 4px 0' }"
+            >{{ name }}
+          </v-chip>
         </v-card-text>
       </v-tab-item>
     </template>

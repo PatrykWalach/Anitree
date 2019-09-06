@@ -18,10 +18,11 @@
       </v-toolbar-title>
     </template>
 
-    <v-spacer v-if="!search"></v-spacer>
-
+    <v-spacer v-if="$vuetify.breakpoint.xsOnly || !search"></v-spacer>
     <template v-if="!settings">
-      <TheAppBarSearch v-if="!$vuetify.breakpoint.xsOnly || search" />
+      <template v-if="!$vuetify.breakpoint.xsOnly || search">
+        <TheAppBarSearch />
+      </template>
       <v-btn v-else icon :to="{ name: 'search' }"
         ><v-icon>search</v-icon></v-btn
       >
