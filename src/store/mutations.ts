@@ -103,12 +103,12 @@ export class SaveMediaListEntry {
             }
           })
           .then(() => {
-            this.done = false
+            elements.value.pop()
           })
           // .catch(console.error)
           .catch(() => {
             // this.done = true
-            elements.value.push(this)
+            // elements.value.push(this)
           })
       )
   }
