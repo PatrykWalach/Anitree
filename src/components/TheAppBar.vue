@@ -1,46 +1,105 @@
 <template>
-  <v-app-bar app elevate-on-scroll>
-    <v-tooltip v-if="search || settings" bottom>
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn icon v-bind="attrs" v-on="on" @click="$router.back()"
-          ><v-icon>arrow_back</v-icon></v-btn
+  <ApolloQuery
+    v-slot="{ result: { error, data }, isLoading, query }"
+    :query="require('@/graphql/queries/Media.gql')"
+    :variables="{ id: parseInt($route.params.mediaId) }"
+    :tag="null"
+    :skip="!$route.params.mediaId"
+  >
+    <v-app-bar
+      :src="(route('title') && data && data.Media.bannerImage) || undefined"
+      app
+      elevate-on-scroll
+      :shrink-on-scroll="route('title')"
+      fade-img-on-scroll
+    >
+      <template v-slot:img="{ props }">
+        <v-img v-bind="props">
+          <!--    :gradient="
+            `to top right, 
+          ${(data &&
+            data.Media.coverImage.color &&
+            color(data.Media.coverImage.color)
+              .alpha(0.4)
+              .hsl()
+              .string()) ||
+            'rgba(0, 47, 75, .7)'}, ${(data &&
+              data.Media.coverImage.color &&
+              color(data.Media.coverImage.color)
+                .negate()
+
+                .alpha(0.4)
+                .hsl()
+                .string()) ||
+              'rgba(220, 66, 37, .7)'}`
+          "-->
+
+          <v-overlay absolute></v-overlay
+        ></v-img>
+      </template>
+      <template v-if="route('title')" v-slot:extension>
+        <v-tabs align-with-title background-color="transparent">
+          <v-tab href="#edit1">
+            test1
+          </v-tab>
+
+          <v-tab href="#edit2">
+            test2
+          </v-tab></v-tabs
         >
       </template>
-      <span>Back</span>
-    </v-tooltip>
 
-    <template v-if="!search">
-      <v-toolbar-title class="text-capitalize">
-        <template v-if="settings">
-          {{ $route.name }}
+      <v-tooltip v-if="!route('home')" bottom>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn icon v-bind="attrs" v-on="on" @click="$router.back()"
+            ><v-icon>arrow_back</v-icon></v-btn
+          >
         </template>
-        <v-btn v-else text to="/" rel="canonical" exact>Anitree</v-btn>
-      </v-toolbar-title>
-    </template>
+        <span>Back</span>
+      </v-tooltip>
 
-    <v-spacer v-if="$vuetify.breakpoint.xsOnly || !search"></v-spacer>
-    <template v-if="!settings">
-      <template v-if="!$vuetify.breakpoint.xsOnly || search">
-        <TheAppBarSearch />
+      <template v-if="!route('search')">
+        <v-toolbar-title class="text-capitalize">
+          <template v-if="route('title')">
+            {{ title(data && data.Media.title) }}
+          </template>
+          <template v-else-if="!route('home')">
+            {{ $route.name }}
+          </template>
+          <template v-else>
+            Anitree
+          </template>
+        </v-toolbar-title>
       </template>
-      <v-btn v-else icon :to="{ name: 'search' }"
-        ><v-icon>search</v-icon></v-btn
-      >
-    </template>
 
-    <template v-if="!search">
-      <TheAppBarViewer />
-    </template>
-
-    <TheAppBarFilters v-else />
-  </v-app-bar>
+      <template v-if="!route('search')">
+        <v-spacer></v-spacer>
+        <!-- <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn icon v-bind="attrs" v-on="on" :to="{ name: 'search' }">
+              <v-icon>search</v-icon></v-btn
+            >
+          </template>
+          <span>Search</span>
+        </v-tooltip> -->
+        <v-btn icon :to="{ name: 'search' }"> <v-icon>search</v-icon></v-btn>
+        <TheAppBarViewer />
+      </template>
+      <template v-else>
+        <TheAppBarSearch />
+        <TheAppBarFilters />
+      </template>
+    </v-app-bar>
+  </ApolloQuery>
 </template>
 <script lang="ts">
 import TheAppBarSearch from './TheAppBarSearch.vue'
 import TheAppBarViewer from './TheAppBarViewer.vue'
 import TheAppBarFilters from './TheAppBarFilters.vue'
 
-import { createComponent, computed } from '@vue/composition-api'
+import { createComponent } from '@vue/composition-api'
+import useTitle from '@/store/title'
+import Color from 'color'
 
 export default createComponent({
   components: {
@@ -49,10 +108,13 @@ export default createComponent({
     TheAppBarFilters
   },
   setup(_, { root }) {
-    const search = computed(() => root.$route.name === 'search')
-    const settings = computed(() => root.$route.name === 'settings')
+    const route = (name: string) => root.$route.name === name
 
-    return { search, settings }
+    const { title } = useTitle()
+
+    const color = (e: string) => Color(e)
+
+    return { route, title, color }
   }
 })
 </script>

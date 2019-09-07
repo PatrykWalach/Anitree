@@ -1,5 +1,5 @@
 <template>
-  <v-tabs v-model="tab" grow color="primary">
+  <v-tabs v-model="tab" grow>
     <v-tab href="#edit1">
       <v-icon left>dashboard</v-icon>
       Progress

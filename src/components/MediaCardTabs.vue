@@ -63,7 +63,6 @@ import { createComponent, ref, computed } from '@vue/composition-api'
 
 import MediaCardItem from './MediaCardItem.vue'
 import MediaCardTabsStats from './MediaCardTabsStats.vue'
-import BaseColor from './BaseColor.vue'
 
 import { Media } from '@/graphql/schema/media'
 
@@ -81,8 +80,7 @@ export default createComponent<Readonly<Props>>({
   },
   components: {
     MediaCardItem,
-    MediaCardTabsStats,
-    BaseColor
+    MediaCardTabsStats
   },
   props: {
     media: {

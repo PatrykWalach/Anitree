@@ -39,8 +39,8 @@
           </template>
         </v-row>
         <template v-else>
-          <v-subheader>
-            <span v-if="$route.query.search">
+          <v-subheader v-if="$route.query.search">
+            <span>
               Search resuts for:
               {{ $route.query.search }}
             </span>

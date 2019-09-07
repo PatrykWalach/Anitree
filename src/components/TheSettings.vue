@@ -30,12 +30,12 @@
       <v-subheader>Cache</v-subheader>
       <v-list-item-group v-model="cache" multiple>
         <TheSettingsSetting
-          title="Cache data (Recommended)"
+          title="Store data (Recommended)"
           subtitle="Data Cache improves load times by caching all data to your browser's local storage.This may put more pressure on your CPU and memory."
         />
 
         <TheSettingsSetting
-          title="Cache changes"
+          title="Store changes"
           subtitle="Required for syncing changes made offline"
         />
       </v-list-item-group>
