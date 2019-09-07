@@ -1,15 +1,15 @@
-import CompositionApi, { ref, watch } from '@vue/composition-api'
+import CompositionApi, { ref, watch, computed } from '@vue/composition-api'
 import Vue from 'vue'
 
 Vue.use(CompositionApi)
 
-const stored = localStorage.getItem('SETTINGS')
-const settings = stored && JSON.parse(stored)
+const cache = localStorage.getItem('SETTINGS')
+const stored = cache && JSON.parse(cache)
 
-const cacheApollo = ref((settings && settings.cacheApollo) || false)
-const cacheChanges = ref((settings && settings.cacheChanges) || false)
-const token = ref((settings && settings.token) || false)
-const syncChanges = ref((settings && settings.syncChanges) || false)
+const cacheApollo = ref((stored && stored.cacheApollo) || false)
+const cacheChanges = ref((stored && stored.cacheChanges) || false)
+const token = ref((stored && stored.token) || false)
+const syncChanges = ref((stored && stored.syncChanges) || false)
 
 watch(() =>
   localStorage.setItem(
