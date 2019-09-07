@@ -93,24 +93,20 @@ export class SaveMediaListEntry {
     const { backup, mediaId } = this
 
     if (this.done)
-      return (
-        apollo
-          .mutate<MediaList, SaveVariables>({
-            mutation: SAVE_MEDIA_LIST_ENTRY_MUTATION,
-            variables: {
-              mediaId,
-              ...backup
-            }
-          })
-          .then(() => {
-            elements.value.pop()
-          })
-          // .catch(console.error)
-          .catch(() => {
-            // this.done = true
-            // elements.value.push(this)
-          })
-      )
+      return apollo
+        .mutate<MediaList, SaveVariables>({
+          mutation: SAVE_MEDIA_LIST_ENTRY_MUTATION,
+          variables: {
+            mediaId,
+            ...backup
+          }
+        })
+        .then(() => {
+          elements.value.pop()
+        })
+    else {
+      return elements.value.pop()
+    }
   }
 
   execute() {
@@ -128,9 +124,6 @@ export class SaveMediaListEntry {
       .then(() => {
         this.done = true
       })
-      .catch(() => {
-        // this.done = false
-      })
   }
 }
 
@@ -140,8 +133,7 @@ const elements: Ref<SaveMediaListEntry[]> = ref(
 )
 ;(async () => {
   for (const command of elements.value.filter(({ done }) => !done)) {
-    await command.saveState()
-    await command.execute()
+    await command.saveState().then(command.execute)
   }
 })()
 
@@ -149,8 +141,7 @@ const SAVE_MEDIA_LIST_ENTRY = async (e: Event) => {
   const command = new SaveMediaListEntry(e)
   elements.value.push(command)
 
-  await command.saveState()
-  await command.execute()
+  await command.saveState().then(command.execute)
 
   return command
 }
