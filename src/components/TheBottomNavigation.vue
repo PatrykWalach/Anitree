@@ -1,5 +1,5 @@
 <template>
-  <v-bottom-navigation app :value="value" color="primary">
+  <v-bottom-navigation app :value="value">
     <v-btn exact :key="title" :to="to" v-for="{ to, icon, title } in elements">
       <span>{{ title }}</span>
       <v-icon>{{ icon }}</v-icon>
