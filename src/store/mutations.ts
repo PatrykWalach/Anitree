@@ -138,13 +138,12 @@ const elements: Ref<SaveMediaListEntry[]> = ref(
   (stored && JSON.parse(stored).map((e: Event) => new SaveMediaListEntry(e))) ||
     []
 )
-
-elements.value
-  .filter(({ done }) => !done)
-  .map(async command => {
+;(async () => {
+  for (const command of elements.value.filter(({ done }) => !done)) {
     await command.saveState()
-    command.execute()
-  })
+    await command.execute()
+  }
+})()
 
 const SAVE_MEDIA_LIST_ENTRY = async (e: Event) => {
   const command = new SaveMediaListEntry(e)
