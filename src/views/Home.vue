@@ -36,11 +36,14 @@ export default createComponent({
             If you encounter any problems you may have to clean your cache:
             <br />
             <code>F12</code>
-            <v-icon x-small>arrow_right_alt</v-icon>
+            <v-icon>arrow_right_alt</v-icon>
             <code>Application</code>
             <v-icon>arrow_right_alt</v-icon>
             <code>
-              <v-icon color="#BD4147">delete</v-icon>Clear storage
+              <v-icon small color="#BD4147">
+                delete
+              </v-icon>
+              Clear storage
             </code>
             <v-icon>arrow_right_alt</v-icon>
             <code>Clear site data</code>
