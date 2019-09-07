@@ -1,16 +1,14 @@
 <template>
-  <v-footer class="caption" absolute app>
+  <v-footer class="caption" absolute app inset>
     <div v-if="!$vuetify.breakpoint.xsOnly">
       Powered by
     </div>
     <v-btn href="https://anilist.co" target="_blank" text rel="noopener">
       Anilist
     </v-btn>
-    <v-spacer></v-spacer>
+    <v-spacer v-if="$vuetify.breakpoint.xsOnly"></v-spacer>
 
-    <div v-if="!$vuetify.breakpoint.xsOnly">
-      Made by
-    </div>
+    <div v-if="!$vuetify.breakpoint.xsOnly">Made by</div>
     <v-btn
       href="https://github.com/PatrykWalach/Anitree"
       target="_blank"
