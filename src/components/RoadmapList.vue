@@ -1,11 +1,11 @@
 <template>
   <v-timeline-item :color="color" :large="!$vuetify.breakpoint.smAndDown">
     <v-card>
-      <base-color :color="color" tag="v-toolbar" flat>
+      <v-toolbar :color="color" flat>
         <div class="headline">
           {{ list.name }}
         </div>
-      </base-color>
+      </v-toolbar>
       <v-list two-line>
         <RoadmapListCard
           v-for="card in cards"
@@ -20,7 +20,6 @@
 <script lang="ts">
 import { TrelloList, Cards } from '../types'
 import RoadmapListCard from './RoadmapListCard.vue'
-import BaseColor from './BaseColor.vue'
 import { createComponent, computed } from '@vue/composition-api'
 
 export interface Props {
@@ -30,12 +29,11 @@ export interface Props {
 
 export default createComponent<Readonly<Props>>({
   components: {
-    RoadmapListCard,
-    BaseColor
+    RoadmapListCard
   },
   props: {
     list: { required: true, type: Object, default: null },
-    cards: { required: true, type: Object, default: null }
+    cards: { required: true, type: Array, default: null }
   },
   setup(props) {
     const allChecked = computed(() =>
