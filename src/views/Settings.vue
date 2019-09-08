@@ -1,6 +1,5 @@
 <template>
   <v-container>
-    <v-subheader>Settings</v-subheader>
     <v-row justify="center" align="start">
       <v-col>
         <TheSettings />
