@@ -1,4 +1,5 @@
 import CompositionApi, { ref, Ref } from '@vue/composition-api'
+import { Location } from 'vue-router'
 
 import Vue from 'vue'
 Vue.use(CompositionApi)
@@ -6,15 +7,49 @@ Vue.use(CompositionApi)
 export interface Element {
   title: string
   icon: string
-  to: string | Location
+  to: Location // |string
 }
 
-const elements: Ref<Element[]> = ref([
+const main: Ref<Element[]> = ref([
   { title: 'Home', icon: 'home', to: { name: 'home' } },
   { title: 'Changes', icon: 'change_history', to: { name: 'changes' } },
   { title: 'Settings', icon: 'settings', to: { name: 'settings' } }
 ])
 
+const search: Ref<Element[]> = ref([
+  {
+    title: 'Current season',
+    icon: 'whatshot',
+    to: {
+      name: 'search',
+      query: {
+        year: '2019',
+        season: 'SUMMER'
+      }
+    }
+  },
+  {
+    title: 'Recently added',
+    icon: 'new_releases',
+    to: {
+      name: 'search',
+      query: {
+        sort: 'ID_DESC'
+      }
+    }
+  },
+  {
+    title: 'From list',
+    icon: 'folder',
+    to: {
+      name: 'search',
+      query: {
+        onList: true
+      }
+    }
+  }
+])
+
 export default function useNavigation() {
-  return { elements }
+  return { main, search }
 }

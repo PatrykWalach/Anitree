@@ -39,8 +39,12 @@
           </template>
         </v-row>
         <template v-else>
-          <v-subheader v-if="$route.query.search">
-            <span>
+          <v-subheader v-if="$route.query.search || subheader">
+            <span v-if="subheader">
+              <v-icon>{{ subheader.icon }}</v-icon>
+              {{ subheader.title }}
+            </span>
+            <span v-else>
               Search resuts for:
               {{ $route.query.search }}
             </span>
@@ -75,6 +79,8 @@ import TheSearchList from '../components/TheSearchList.vue'
 
 import { computed, createComponent } from '@vue/composition-api'
 import useSettings from '../store/settings'
+import { isEqual } from 'apollo-utilities'
+import useNavigation from '../store/navigation'
 
 export default createComponent({
   components: {
@@ -91,6 +97,15 @@ export default createComponent({
     })
 
     const isSearched = computed(() => !!Object.values(query.value).length)
+
+    const { search } = useNavigation()
+
+    const subheader = computed(() => {
+      /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
+      const { page, sort, ..._query } = query.value
+      const find = search.value.find(({ to }) => isEqual(to.query, _query))
+      return find
+    })
 
     const page = computed({
       get: () => {
@@ -116,7 +131,8 @@ export default createComponent({
       token,
       query,
       page,
-      isSearched
+      isSearched,
+      subheader
     }
   }
 })
