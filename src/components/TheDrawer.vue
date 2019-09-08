@@ -5,7 +5,7 @@
         :key="title"
         exact
         :to="to"
-        v-for="{ to, title, icon } in elements"
+        v-for="{ to, title, icon } in main"
       >
         <v-list-item-icon>
           <v-icon>{{ icon }}</v-icon>
@@ -41,8 +41,8 @@ export default createComponent<Readonly<Props>>({
       set: value => emit('update:value', value)
     })
 
-    const { elements } = useNavigation()
-    return { elements, syncedValue }
+    const { main } = useNavigation()
+    return { main, syncedValue }
   }
 })
 </script>

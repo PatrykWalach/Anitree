@@ -1,6 +1,6 @@
 <template>
   <v-bottom-navigation app :value="value">
-    <v-btn exact :key="title" :to="to" v-for="{ to, icon, title } in elements">
+    <v-btn exact :key="title" :to="to" v-for="{ to, icon, title } in main">
       <span>{{ title }}</span>
       <v-icon>{{ icon }}</v-icon>
     </v-btn>
@@ -15,10 +15,10 @@ export default createComponent({
   setup(_, { root }) {
     const value = computed(() => root.$route.name)
 
-    const { elements } = useNavigation()
+    const { main } = useNavigation()
     return {
       value,
-      elements
+      main
     }
   }
 })
