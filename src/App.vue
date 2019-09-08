@@ -26,12 +26,25 @@ import TheBottomNavigation from './components/TheBottomNavigation.vue'
 
 // const TheBottomNavigation = () => import('@/components/TheBottomNavigation.vue')
 
-import { ref, createComponent } from '@vue/composition-api'
+import {
+  ref,
+  createComponent,
+  SetupContext,
+  computed
+} from '@vue/composition-api'
 import useEdit from './store/edit'
 import useShare from './store/share'
 
-import { useTheme } from '@/components/TheSettingsTheme.vue'
-
+export const useTheme = ({ root }: SetupContext) => {
+  const dark = computed({
+    get: () => root.$vuetify.theme.dark,
+    set: dark => {
+      root.$vuetify.theme.dark = dark
+      localStorage.setItem('THEME', dark.toString())
+    }
+  })
+  return { dark }
+}
 export default createComponent({
   components: {
     MediaEdit,
