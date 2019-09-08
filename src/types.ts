@@ -62,17 +62,16 @@ export type RecursivePartial<T> = {
 export interface Form {
   status: MediaStatus | null
   score: number
-  progress: number
-  progressVolumes: number
+  progress: number | null
+  progressVolumes: number | null
   startedAt: Omit<FuzzyDate, '__typename'>
   completedAt: Omit<FuzzyDate, '__typename'>
   repeat: number
-  notes: string
+  notes: string | null
   advancedScores: number[]
 }
 
 export interface ValidDate {
-  // [index: string]: null | number
   year: number
   month: number | null
   day: number | null

@@ -37,7 +37,7 @@
           <v-overlay absolute></v-overlay
         ></v-img>
       </template>
-      <!-- <template v-if="route('title')" v-slot:extension>
+      <template v-if="route('title')" v-slot:extension>
         <v-tabs align-with-title background-color="transparent">
           <v-tab href="#edit1">
             test1
@@ -47,7 +47,7 @@
             test2
           </v-tab></v-tabs
         >
-      </template> -->
+      </template>
 
       <v-tooltip v-if="!route('home')" bottom>
         <template v-slot:activator="{ on, attrs }">

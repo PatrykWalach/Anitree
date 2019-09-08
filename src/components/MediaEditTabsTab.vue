@@ -9,13 +9,11 @@ import { Media } from '@/graphql/schema/media'
 import { User } from '@/graphql/schema/viewer'
 import { Form } from '../types'
 
-import useEdit from '../store/edit'
-
 export interface Props {
   method: keyof FormDirector
   user: User
   media: Media
-  stored: Form
+  form: Form
   scoreFormat: {
     round: number
     max: number
@@ -44,7 +42,7 @@ export default createComponent<Readonly<Props>>({
       type: Object,
       default: null
     },
-    stored: {
+    form: {
       required: true,
       type: Object,
       default: null
@@ -66,8 +64,6 @@ export default createComponent<Readonly<Props>>({
     }
   },
   setup: props => {
-    const { form } = useEdit()
-
     const director = new FormDirector()
 
     /*eslint-disable-next-line @typescript-eslint/no-unused-vars*/
@@ -75,10 +71,7 @@ export default createComponent<Readonly<Props>>({
     return () => {
       const builder = new FormBuilder()
 
-      director[props.method](builder, {
-        form: form.value,
-        ...props
-      })
+      director[props.method](builder, props)
 
       return h(VContainer, { props: { fluid: true } }, [
         h(VRow, [builder.getFields()])

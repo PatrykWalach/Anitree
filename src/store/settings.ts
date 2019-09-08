@@ -1,4 +1,4 @@
-import CompositionApi, { ref, watch, computed } from '@vue/composition-api'
+import CompositionApi, { ref, watch } from '@vue/composition-api'
 import Vue from 'vue'
 
 Vue.use(CompositionApi)

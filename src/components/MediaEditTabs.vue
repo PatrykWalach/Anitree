@@ -27,7 +27,7 @@
           v-bind="{
             user,
             media,
-            stored,
+            form,
             scoreFormat,
             advancedScoring,
             manga
@@ -90,7 +90,16 @@ export default createComponent<Readonly<Props>>({
       mediaListToForm(props.media.mediaListEntry, advancedScoring.value)
     )
 
-    return { tab, stored, scoreFormat, advancedScoring, manga }
+    const { form: _form } = useEdit()
+
+    const form = computed(() => {
+      return {
+        ...stored.value,
+        ..._form.value
+      }
+    })
+
+    return { tab, form, scoreFormat, advancedScoring, manga }
   }
 })
 </script>

@@ -1,9 +1,8 @@
 import FormBuilder from './FormBuilder'
-import { Form } from '@/types'
 
-import { SaveVariables } from '@/graphql/schema/listEntry'
-import { FuzzyDate, Media } from '@/graphql/schema/media'
+import { FuzzyDate } from '@/graphql/schema/media'
 import useEdit from '@/store/edit'
+import { Props } from './MediaEditTabsTab.vue'
 
 export const validFloat = (input: string): boolean =>
   !!input.match(/^([0-9])+(\.([1-9])+)?$/)
@@ -59,22 +58,14 @@ export interface ScoreFormat {
   round: number
   max: number
 }
-export interface ItemData {
-  scoreFormat: ScoreFormat
-  manga: boolean
-  media: Media
-  advancedScoring: string[]
-  form: Partial<SaveVariables>
-  stored: Form
-}
 
 export default class FormDirector {
   // [index: string]: any
 
   // public constructor() {}
 
-  public edit1(builder: FormBuilder, data: ItemData) {
-    const { scoreFormat, manga, media, form, stored } = data
+  public edit1(builder: FormBuilder, data: Readonly<Props>) {
+    const { scoreFormat, manga, media, form } = data
 
     builder.setSelects([
       {
@@ -93,7 +84,7 @@ export default class FormDirector {
           label: 'Status'
         },
         props: {
-          value: form.status || stored.status,
+          value: form.status,
           afterTransform: [
             (e: string) => Object.fromEntries([['status', e]]),
             useEdit().changeForm
@@ -106,7 +97,7 @@ export default class FormDirector {
       [
         {
           props: {
-            value: form.score || stored.score,
+            value: form.score,
             afterTransform: [
               parseFloat,
               (e: string) => Object.fromEntries([['score', e]]),
@@ -128,7 +119,7 @@ export default class FormDirector {
         },
         {
           props: {
-            value: form.progress || stored.progress,
+            value: form.progress || 0,
             afterTransform: [
               parseFloat,
 
@@ -152,7 +143,7 @@ export default class FormDirector {
         },
         {
           props: {
-            value: form.progressVolumes || stored.progressVolumes,
+            value: form.progressVolumes || 0,
             afterTransform: [
               parseFloat,
 
@@ -175,12 +166,12 @@ export default class FormDirector {
     )
   }
 
-  public edit2(builder: FormBuilder, data: ItemData) {
-    const { manga, form, stored } = data
+  public edit2(builder: FormBuilder, data: Readonly<Props>) {
+    const { manga, form } = data
     builder.setDateFields([
       {
         props: {
-          value: form.startedAt || stored.startedAt,
+          value: form.startedAt,
           afterTransform: [
             stringToDate,
             (e: string) => Object.fromEntries([['startedAt', e]]),
@@ -195,7 +186,7 @@ export default class FormDirector {
       },
       {
         props: {
-          value: form.completedAt || stored.completedAt,
+          value: form.completedAt,
           afterTransform: [
             stringToDate,
             (e: string) => Object.fromEntries([['completedAt', e]]),
@@ -212,7 +203,7 @@ export default class FormDirector {
     builder.setFields([
       {
         props: {
-          value: form.repeat || stored.repeat,
+          value: form.repeat,
           afterTransform: [
             parseFloat,
             (e: string) => Object.fromEntries([['repeat', e]]),
@@ -228,12 +219,12 @@ export default class FormDirector {
       }
     ])
   }
-  public edit3(builder: FormBuilder, data: ItemData) {
-    const { form, stored } = data
+  public edit3(builder: FormBuilder, data: Readonly<Props>) {
+    const { form } = data
     builder.setTextareas([
       {
         props: {
-          value: form.notes || stored.notes,
+          value: form.notes || '',
           afterTransform: [
             (e: string) => Object.fromEntries([['notes', e]]),
             useEdit().changeForm
@@ -247,21 +238,17 @@ export default class FormDirector {
     ])
   }
 
-  public edit4(builder: FormBuilder, data: ItemData) {
-    const { scoreFormat, advancedScoring, form, stored } = data
+  public edit4(builder: FormBuilder, data: Readonly<Props>) {
+    const { scoreFormat, advancedScoring, form } = data
     builder.setFields(
       advancedScoring.map((label, i) => {
         return {
           props: {
-            value:
-              form.advancedScores && form.advancedScores[i] !== undefined
-                ? form.advancedScores[i]
-                : stored.advancedScores[i],
+            value: form.advancedScores[i] || 0,
             afterTransform: [
               parseFloat,
               (e: number) => {
-                const array: number[] =
-                  form['advancedScores'] || stored['advancedScores']
+                const array: number[] = form.advancedScores
 
                 array[i] = e
                 return array

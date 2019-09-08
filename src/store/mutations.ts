@@ -162,17 +162,14 @@ export const mediaListToForm = (
       .map(key => mediaListEntry.advancedScores[key])
       .map(value => value || 0)
 
+    /*eslint-disable-next-line @typescript-eslint/no-unused-vars */
+    const { __typename, advancedScores: _, ...mediaList } = mediaListEntry
+
     return {
-      ...Object.fromEntries(
-        Object.entries(mediaListEntry)
-          .filter(
-            ([key, value]) =>
-              value !== null && key !== '__typename' && key !== 'advancedScores'
-          )
-          .map(([key, value]) => [key, value || 0])
-      ),
+      ...mediaList,
+
       advancedScores
-    } as Form
+    }
   }
 
   const advancedScores = advancedScoring.map(() => 0)
