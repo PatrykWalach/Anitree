@@ -1,20 +1,20 @@
 <template>
   <v-container>
     <v-subheader>
-      <template v-if="!commands.length">
+      <template v-if="!history.length">
         No changes made recently
       </template>
       <template v-else>
         Recent changes:
         <v-spacer></v-spacer>
-        <v-btn @click="commands[commands.length - 1].undo()">Undo</v-btn>
+        <v-btn @click="history[history.length - 1].undo()">Undo</v-btn>
       </template>
     </v-subheader>
 
     <v-row>
       <v-col
         cols="12"
-        v-for="command in commands.slice().reverse()"
+        v-for="command in history.slice().reverse()"
         :key="command.id"
       >
         <ChangeCard :command="command"></ChangeCard>
@@ -31,11 +31,11 @@ import ChangeCard from '@/components/ChangeCard.vue'
 export default createComponent({
   components: { ChangeCard },
   setup() {
-    const { elements: commands } = useMutations()
+    const { history } = useMutations()
     const { title } = useTitle()
 
     return {
-      commands,
+      history,
       title
     }
   }

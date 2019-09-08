@@ -3,9 +3,9 @@
     v-slot="{ result: { error, data, loading } }"
     :query="require('@/graphql/queries/Media.gql')"
     :variables="{
-      id: command.mediaId
+      id: command.variables.mediaId
     }"
-    :skip="!command.mediaId"
+    :skip="!command.variables.mediaId"
     :tag="null"
   >
     <v-banner single-line>
@@ -45,7 +45,9 @@
               <tbody>
                 <tr
                   :key="key"
-                  v-for="[key, value] in Object.entries(command.variables)"
+                  v-for="[key, value] in Object.entries(
+                    command.variables
+                  ).filter(([key]) => key !== 'mediaId')"
                 >
                   <th class="text-capitalize">{{ key }}</th>
                   <td class="error--text">
@@ -73,14 +75,15 @@
   </ApolloQuery>
 </template>
 <script lang="ts">
-import { SaveMediaListEntry } from '@/store/mutations'
+import { SaveListEntryCommand } from '@/store/mutations'
 import useTitle from '@/store/title'
 import { createComponent } from '@vue/composition-api'
 import { FuzzyDate } from '../graphql/schema/media'
 
 const BaseTime = () => import('./BaseTime.vue')
+
 interface Props {
-  command: SaveMediaListEntry
+  command: SaveListEntryCommand
 }
 
 export default createComponent<Readonly<Props>>({
@@ -88,7 +91,7 @@ export default createComponent<Readonly<Props>>({
     BaseTime
   },
   props: {
-    command: { required: true, type: SaveMediaListEntry, default: null }
+    command: { required: true, type: SaveListEntryCommand, default: null }
   },
   setup() {
     const { title } = useTitle()

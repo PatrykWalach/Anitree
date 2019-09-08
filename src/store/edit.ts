@@ -41,8 +41,7 @@ const submit = async () => {
     loading.value = true
 
     await useMutations().SAVE_MEDIA_LIST_ENTRY({
-      mediaId: mediaId.value,
-      variables: form.value
+      variables: { mediaId: mediaId.value, ...form.value }
     })
 
     await RESET_FORM()
