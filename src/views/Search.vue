@@ -22,7 +22,7 @@
     >
       <v-container :fill-height="isLoading">
         <v-row
-          v-if="isLoading || error || !data.Page.media.length"
+          v-if="isLoading || error || !data || !data.Page.media.length"
           justify="center"
           align="center"
         >
@@ -89,7 +89,19 @@ export default createComponent({
   },
   setup(_, { root }) {
     const query = computed({
-      get: () => root.$route.query,
+      get: () =>
+        Object.fromEntries(
+          Object.entries(root.$route.query).map(([key, value]) => {
+            switch (value) {
+              case 'true':
+                return [key, true]
+              case 'false':
+                return [key, false]
+              default:
+                return [key, value]
+            }
+          })
+        ),
       set: query =>
         root.$router.replace({
           query
