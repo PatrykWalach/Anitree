@@ -11,7 +11,7 @@
       <v-list-item-group v-model="site" multiple>
         <the-settings-setting title="Theme">
           <template v-slot:subtitle="{ active }"
-            >{{ active ? 'dark' : ' light ' }}
+            >{{ active ? 'Dark' : ' Light ' }}
           </template>
         </the-settings-setting>
 
@@ -44,42 +44,24 @@
 </template>
 
 <script lang="ts">
-// import TheSettingsTheme from '@/components/TheSettingsTheme.vue'
 import TheSettingsTitle from '@/components/TheSettingsTitle.vue'
 import TheSettingsSetting from '@/components/TheSettingsSetting.vue'
 
 const TheSettingsLogin = () => import('@/components/TheSettingsLogin.vue')
 
-import { createComponent, computed, SetupContext } from '@vue/composition-api'
+import { createComponent, computed } from '@vue/composition-api'
 
+import { useTheme } from '@/App.vue'
 import useSettings from '@/store/settings'
-
-export const useTheme = ({ root }: SetupContext) => {
-  const dark = computed({
-    get: () => root.$vuetify.theme.dark,
-    set: dark => {
-      root.$vuetify.theme.dark = dark
-      localStorage.setItem('THEME', dark.toString())
-    }
-  })
-  return { dark }
-}
 
 export default createComponent({
   components: {
-    // TheSettingsTheme,
     TheSettingsLogin,
     TheSettingsSetting,
     TheSettingsTitle
   },
   setup(_, context) {
-    const {
-      token,
-
-      syncChanges,
-      cacheApollo,
-      cacheChanges
-    } = useSettings()
+    const { token, syncChanges, cacheApollo, cacheChanges } = useSettings()
 
     const { dark } = useTheme(context)
 

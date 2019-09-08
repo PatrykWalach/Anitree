@@ -67,7 +67,7 @@
             {{ $route.name }}
           </template>
           <template v-else>
-            Anitree
+            Anitree <sup class="overline">alpha</sup>
           </template>
         </v-toolbar-title>
       </template>

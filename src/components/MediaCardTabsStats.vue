@@ -2,14 +2,17 @@
   <v-card-text>
     <template v-if="value.length">
       <v-subheader>Score Distribution</v-subheader>
+
       <v-sparkline
-        smooth
+        auto-draw
+        :auto-draw-duration="1000"
+        line-width="3"
+        :smooth="10"
         type="bar"
         :labels="labels"
         :value="value"
         :gradient="['#f72047', '#ffd200', '#1feaea']"
         gradient-direction="left"
-        auto-line-width
         :color="theme.isDark ? 'white' : 'black'"
       ></v-sparkline>
     </template>

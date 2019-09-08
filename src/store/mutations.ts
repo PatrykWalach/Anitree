@@ -167,7 +167,6 @@ export const mediaListToForm = (
 
     return {
       ...mediaList,
-
       advancedScores
     }
   }

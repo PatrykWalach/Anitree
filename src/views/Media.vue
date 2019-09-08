@@ -1,7 +1,16 @@
 <template>
+  <!-- <div class="teal" :style="{ height: '100%' }">
+    <v-subheader>Some text</v-subheader>
+
+    <v-card
+      height="100%"
+      :style="{ background: '#303030', 'border-radius': '1rem 1rem 0 0' }"
+    > -->
   <base-container :loading="loading">
     <MediaTimeline :media-list="mediaList" />
   </base-container>
+  <!-- </v-card>
+  </div> -->
 </template>
 <script lang="ts">
 const MediaTimeline = () =>
