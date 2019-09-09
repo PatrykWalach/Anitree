@@ -64,9 +64,10 @@ export default class FormDirector {
 
   // public constructor() {}
 
-  public edit1(builder: FormBuilder, data: Readonly<Props>) {
-    const { scoreFormat, manga, media, form } = data
-
+  public edit1(
+    builder: FormBuilder,
+    { scoreFormat, manga, media, form }: Readonly<Props>
+  ) {
     builder.setSelects([
       {
         attrs: {
@@ -166,8 +167,7 @@ export default class FormDirector {
     )
   }
 
-  public edit2(builder: FormBuilder, data: Readonly<Props>) {
-    const { manga, form } = data
+  public edit2(builder: FormBuilder, { manga, form }: Readonly<Props>) {
     builder.setDateFields([
       {
         props: {
