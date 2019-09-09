@@ -1,42 +1,41 @@
 <template>
   <v-card>
-    <v-list v-if="!token" subheader flat two-line>
-      <v-subheader>Account</v-subheader>
-      <TheSettingsLogin />
-    </v-list>
-    <v-list subheader flat two-line>
+    <v-list subheader flat :three-line="$vuetify.breakpoint.xsOnly">
+      <template v-if="!token">
+        <v-subheader>Account</v-subheader>
+        <TheSettingsLogin />
+        <v-divider></v-divider>
+      </template>
+
       <v-subheader>Site</v-subheader>
       <TheSettingsTitle />
-
+      <v-divider v-if="$vuetify.breakpoint.xsOnly"></v-divider>
       <v-list-item-group v-model="site" multiple>
-        <the-settings-setting title="Theme">
-          <template v-slot:subtitle="{ active }"
-            >{{ active ? 'Dark' : ' Light ' }}
-          </template>
-        </the-settings-setting>
-
-        <the-settings-setting title="Autosave">
-          <template v-slot:subtitle="{ active }"
-            >Changes made to the list entry are{{
-              active ? ' ' : ' not '
-            }}autosaved
-          </template>
-        </the-settings-setting>
+        <TheSettingsSetting
+          title="Dark theme"
+          :subtitle="
+            `Reduce glare &
+        improve night viewing`
+          "
+        />
+        <v-divider v-if="$vuetify.breakpoint.xsOnly"></v-divider>
+        <TheSettingsSetting
+          title="Autosave"
+          subtitle="Make changes without confirmation"
+        />
       </v-list-item-group>
-    </v-list>
+      <v-divider></v-divider>
 
-    <v-divider></v-divider>
-    <v-list subheader flat two-line>
       <v-subheader>Cache</v-subheader>
       <v-list-item-group v-model="cache" multiple>
         <TheSettingsSetting
-          title="Store data (Recommended)"
-          subtitle="Data Cache improves load times by caching all data to your browser's local storage.This may put more pressure on your CPU and memory."
+          title="Store data"
+          subtitle="Improve load times by caching all data to local storage."
         />
-
+        <v-divider v-if="$vuetify.breakpoint.xsOnly"></v-divider>
         <TheSettingsSetting
           title="Store changes"
-          subtitle="Required for syncing changes made offline"
+          subtitle="Save changes between sessions. Sync changes made offline."
         />
       </v-list-item-group>
     </v-list>

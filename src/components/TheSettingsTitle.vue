@@ -8,31 +8,43 @@
       <template v-slot:activator="{ on, attrs }">
         <v-list-item-content v-on="on" v-bind="attrs">
           <v-list-item-title class="text-capitalize"
-            >Title language - {{ preferedTitle }}</v-list-item-title
+            >Title language</v-list-item-title
           >
           <v-list-item-subtitle
-            >Select your prefered language for all the
-            titles</v-list-item-subtitle
+            >Specify language preferences for titles</v-list-item-subtitle
           >
         </v-list-item-content>
       </template>
 
       <v-card>
         <v-card-title>
-          Select prefered language
+          Title language
         </v-card-title>
-        <v-divider></v-divider>
+        <v-divider v-if="$vuetify.breakpoint.xsOnly"></v-divider>
         <v-list>
-          <v-list-item-group @change="changePreferedTitle">
-            <v-list-item v-for="title in titles" :value="title" :key="title">
+          <v-list-item-group v-model="preferedTitle" @change="dialog = false">
+            <v-list-item
+              v-for="title in titles"
+              :value="title"
+              :key="title"
+              v-slot="{ active }"
+            >
+              <v-list-item-action>
+                <v-checkbox v-model="active"></v-checkbox>
+              </v-list-item-action>
               <v-list-item-content>
-                <v-list-item-title>
+                <v-list-item-title class="text-capitalize">
                   {{ title }}
                 </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
           </v-list-item-group>
         </v-list>
+
+        <v-card-actions v-if="!$vuetify.breakpoint.xsOnly"
+          ><v-spacer> </v-spacer>
+          <v-btn text @click="dialog = false">cancel</v-btn>
+        </v-card-actions>
       </v-card>
     </component>
   </v-list-item>
@@ -52,16 +64,10 @@ export default createComponent({
     const dialog = ref(false)
     const { preferedTitle, titles } = useTitle()
 
-    const changePreferedTitle = (title: 'native' | 'romaji' | 'english') => {
-      dialog.value = false
-      preferedTitle.value = title
-    }
-
     return {
       preferedTitle,
       titles,
-      dialog,
-      changePreferedTitle
+      dialog
     }
   }
 })

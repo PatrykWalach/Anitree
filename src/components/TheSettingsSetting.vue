@@ -2,6 +2,7 @@
   <v-list-item v-slot="{ active, toggle }">
     <v-list-item-content>
       <v-list-item-title class="text-capitalize">
+        <slot name="title" v-bind="{ active, toggle }"></slot>
         {{ title }}
       </v-list-item-title>
       <v-list-item-subtitle>
@@ -19,7 +20,7 @@
 import { createComponent } from '@vue/composition-api'
 export default createComponent({
   props: {
-    title: { type: String, required: true, default: '' },
+    title: { type: String, required: false, default: '' },
     subtitle: { type: String, required: false, default: '' }
   }
 })
