@@ -12,10 +12,17 @@ import useMutations from './mutations'
 Vue.use(CompositionApi)
 
 const mediaId: Ref<number | null> = ref(null)
-
 const isEdited = ref(false)
 const loading = ref(false)
 const form: Ref<Partial<Form>> = ref({})
+
+const tabs = ref([
+  { href: 'edit1', icon: 'dashboard', title: 'Progress' },
+  { href: 'edit2', icon: 'date_range', title: 'Dates' },
+  { href: 'edit3', icon: 'insert_comment', title: 'Notes' },
+  { href: 'edit4', icon: 'edit', title: ' Advanced Scores' }
+])
+
 const tab = ref('edit1')
 
 const CHANGE_FORM = (payload: Partial<SaveVariables>) => {
@@ -67,6 +74,7 @@ export default function useEdit() {
     open,
     RESET_FORM,
     submit,
-    tab
+    tab,
+    tabs
   }
 }

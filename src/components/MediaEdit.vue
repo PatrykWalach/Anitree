@@ -1,7 +1,8 @@
 <template>
   <ApolloQuery
-    v-slot="{ result: { error, data, loading } }"
+    v-slot="{ result: { error, data }, isLoading }"
     :query="require('@/graphql/queries/Media.gql')"
+    fetch-policy="cache-and-network"
     :variables="{
       id: id || 1,
       format: (Viewer && Viewer.mediaListOptions.scoreFormat) || undefined
@@ -17,18 +18,40 @@
       max-width="720px"
     >
       <v-card :loading="loading">
-        <MediaEditLoading
-          v-if="$apollo.loading || !data"
-          :loading="$apollo.loading || loading"
-          :error="!!$apollo.error || !!error"
-        />
-        <v-card-text v-else class="pa-0">
+        <v-card-text class="pa-0">
           <media-card-banner :media="data && data.Media">
             <v-overlay absolute></v-overlay>
           </media-card-banner>
           <MediaCardItem :media="data && data.Media" />
           <v-divider></v-divider>
-          <MediaEditTabs :media="data && data.Media" :user="Viewer" />
+          <MediaEditTabs
+            :loading="$apollo.loading || !!isLoading"
+            :error="!!$apollo.error || !!error"
+          />
+
+          <v-container v-if="$apollo.loading || isLoading">
+            <v-row justify="center" align="center">
+              <v-progress-circular indeterminate></v-progress-circular>
+            </v-row>
+          </v-container>
+
+          <MediaEditItems
+            v-else-if="data && data.Media && Viewer"
+            :media="data && data.Media"
+            :user="Viewer"
+          />
+
+          <v-list v-else subheader>
+            <v-subheader>
+              <template v-if="!token">
+                Please log in
+              </template>
+              <template v-else>
+                Please try to refresh the page
+              </template>
+            </v-subheader>
+            <TheSettingsLogin v-if="!token" />
+          </v-list>
         </v-card-text>
         <v-divider></v-divider>
         <MediaEditActions :media="data && data.Media" :user="Viewer" />
@@ -38,7 +61,7 @@
 </template>
 <script lang="ts">
 import MediaEditActions from './MediaEditActions.vue'
-import MediaEditLoading from './MediaEditLoading.vue'
+import MediaEditItems from './MediaEditItems.vue'
 
 import MediaCardBanner from './MediaCardBanner.vue'
 import MediaCardItem from './MediaCardItem.vue'
@@ -61,9 +84,9 @@ export default createComponent<Readonly<Props>>({
   components: {
     MediaEditTabs,
     MediaEditActions,
-    MediaEditLoading,
     MediaCardBanner,
-    MediaCardItem
+    MediaCardItem,
+    MediaEditItems
   },
   setup() {
     const { close, isEdited: _isEdited, loading } = useEdit()
