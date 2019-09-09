@@ -46,22 +46,18 @@
 import MediaEditIcon from './MediaEditIcon.vue'
 
 import { Media } from '@/graphql/schema/media'
-import { DELETE_MEDIA_LIST_ENTRY } from '@/graphql'
-import {
-  ref,
-  computed,
-  createComponent,
-  SetupContext
-} from '@vue/composition-api'
+// import { DELETE_MEDIA_LIST_ENTRY } from '@/graphql'
+import { ref, computed, createComponent } from '@vue/composition-api'
 import { User } from '@/graphql/schema/viewer'
 import useEdit from '../store/edit'
+import useMutations, { DeleteCommand } from '../store/mutations'
 
 export interface Props {
   user: User | null
   media: Media | null
 }
 
-function useActions(props: Readonly<Props>, { root }: SetupContext) {
+function useActions(props: Readonly<Props>) {
   const confirmation = ref(false)
 
   const { close, form, submit: _submit, isEdited } = useEdit()
@@ -70,17 +66,24 @@ function useActions(props: Readonly<Props>, { root }: SetupContext) {
 
   const submit = async () => {
     await _submit()
-
     isEdited.value = false
   }
 
   const remove = async () => {
     if (props.media && props.media.mediaListEntry) {
       confirmation.value = false
-      await root.$apollo.mutate({
-        mutation: DELETE_MEDIA_LIST_ENTRY,
-        variables: { id: props.media.mediaListEntry.id }
-      })
+      await useMutations().dispatch(
+        new DeleteCommand({
+          variables: {
+            id: props.media.mediaListEntry.id,
+            mediaId: props.media.id
+          }
+        })
+      )
+      // await root.$apollo.mutate({
+      //   mutation: DELETE_MEDIA_LIST_ENTRY,
+      //   variables: { id: props.media.mediaListEntry.id }
+      // })
       isEdited.value = false
     }
   }
@@ -96,8 +99,8 @@ export default createComponent<Readonly<Props>>({
     user: { required: true, type: null, default: null },
     media: { required: true, type: null, default: null }
   },
-  setup(props, context) {
-    return useActions(props, context)
+  setup(props) {
+    return useActions(props)
   }
 })
 </script>

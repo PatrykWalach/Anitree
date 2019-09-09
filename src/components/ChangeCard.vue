@@ -43,12 +43,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr
-                  :key="key"
-                  v-for="[key, value] in Object.entries(
-                    command.variables
-                  ).filter(([key]) => key !== 'mediaId')"
-                >
+                <tr :key="key" v-for="key in keys">
                   <th class="text-capitalize">{{ key }}</th>
                   <td class="error--text">
                     <BaseTime
@@ -60,9 +55,12 @@
                     </template>
                   </td>
                   <td class="success--text">
-                    <BaseTime v-if="isDate(value)" :date="value" />
+                    <BaseTime
+                      v-if="isDate(command.variables[key])"
+                      :date="command.variables[key]"
+                    />
                     <template v-else>
-                      {{ value }}
+                      {{ command.variables[key] }}
                     </template>
                   </td>
                 </tr>
@@ -75,15 +73,15 @@
   </ApolloQuery>
 </template>
 <script lang="ts">
-import { SaveListEntryCommand } from '@/store/mutations'
+import { SaveCommand, DeleteCommand } from '@/store/mutations'
 import useTitle from '@/store/title'
-import { createComponent } from '@vue/composition-api'
+import { createComponent, computed } from '@vue/composition-api'
 import { FuzzyDate } from '../graphql/schema/media'
 
 const BaseTime = () => import('./BaseTime.vue')
 
 interface Props {
-  command: SaveListEntryCommand
+  command: SaveCommand | DeleteCommand
 }
 
 export default createComponent<Readonly<Props>>({
@@ -91,17 +89,39 @@ export default createComponent<Readonly<Props>>({
     BaseTime
   },
   props: {
-    command: { required: true, type: SaveListEntryCommand, default: null }
+    command: {
+      required: true,
+      type: [SaveCommand, DeleteCommand],
+      default: null
+    }
   },
-  setup() {
+  setup(props) {
     const { title } = useTitle()
     const isDate = (e: any): e is Omit<FuzzyDate, '__typename'> =>
+      e instanceof Object &&
       e.hasOwnProperty('month') &&
       e.hasOwnProperty('day') &&
       e.hasOwnProperty('year')
 
+    const keys = computed(() => {
+      const variables = Object.assign({}, props.command.variables)
+      const backup = Object.assign({}, props.command.backup)
+
+      delete variables.id
+      delete variables.mediaId
+
+      if (!backup) {
+        return Object.keys(variables).sort()
+      }
+
+      return [
+        ...new Set(Object.keys(variables).concat(Object.keys(backup)))
+      ].sort()
+    })
+
     return {
       title,
+      keys,
       isDate
     }
   }

@@ -11,6 +11,10 @@ const cacheChanges = ref((stored && stored.cacheChanges) || false)
 const token = ref((stored && stored.token) || false)
 const syncChanges = ref((stored && stored.syncChanges) || false)
 
+watch(() => {
+  if (!cacheChanges.value) localStorage.removeItem('CHANGES')
+})
+
 watch(() =>
   localStorage.setItem(
     'SETTINGS',

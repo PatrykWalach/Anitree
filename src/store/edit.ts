@@ -7,7 +7,7 @@ import CompositionApi, { Ref, ref } from '@vue/composition-api'
 import useSettings from './settings'
 import Vue from 'vue'
 import { Form } from '@/types'
-import useMutations from './mutations'
+import useMutations, { SaveCommand } from './mutations'
 
 Vue.use(CompositionApi)
 
@@ -47,9 +47,11 @@ const submit = async () => {
   if (mediaId.value) {
     loading.value = true
 
-    await useMutations().SAVE_MEDIA_LIST_ENTRY({
-      variables: { mediaId: mediaId.value, ...form.value }
-    })
+    await useMutations().dispatch(
+      new SaveCommand({
+        variables: { mediaId: mediaId.value, ...form.value }
+      })
+    )
 
     await RESET_FORM()
     loading.value = false
@@ -62,6 +64,7 @@ const changeForm = async (form: Partial<SaveVariables>) => {
     submit()
   }
 }
+
 export default function useEdit() {
   return {
     mediaId,
