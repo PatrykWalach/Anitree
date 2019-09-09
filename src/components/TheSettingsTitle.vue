@@ -21,7 +21,7 @@
           Title language
         </v-card-title>
         <v-divider v-if="$vuetify.breakpoint.xsOnly"></v-divider>
-        <v-list>
+        <v-list flat>
           <v-list-item-group v-model="preferedTitle" @change="dialog = false">
             <v-list-item
               v-for="title in titles"
