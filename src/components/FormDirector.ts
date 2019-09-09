@@ -2,7 +2,7 @@ import FormBuilder from './FormBuilder'
 
 import { FuzzyDate } from '@/graphql/schema/media'
 import useEdit from '@/store/edit'
-import { Props } from './MediaEditTabsTab.vue'
+import { Props } from './MediaEditItemsTab.vue'
 
 export const validFloat = (input: string): boolean =>
   !!input.match(/^([0-9])+(\.([1-9])+)?$/)
