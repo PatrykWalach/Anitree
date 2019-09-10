@@ -25,37 +25,34 @@
   </ApolloQuery>
 </template>
 <script lang="ts">
+import { Ref, computed, createComponent } from '@vue/composition-api'
+import MediaCardActions from './MediaCardActions.vue'
 import MediaCardBanner from './MediaCardBanner.vue'
 import MediaCardStatus from './MediaCardStatus.vue'
 import MediaCardTabs from './MediaCardTabs.vue'
-import MediaCardActions from './MediaCardActions.vue'
 
 import { Variables } from '@/graphql/schema/media'
 
-interface RawBindings {}
-
-import { createComponent, Ref, computed } from '@vue/composition-api'
-
 export default createComponent<Readonly<Props>>({
+  components: {
+    MediaCardActions,
+    MediaCardBanner,
+    MediaCardStatus,
+    MediaCardTabs
+  },
+  props: {
+    id: {
+      default: 2,
+      required: true,
+      type: Number
+    }
+  },
   setup(props) {
     const variables: Ref<Variables> = computed(() => {
       return { id: props.id }
     })
 
     return { variables }
-  },
-  components: {
-    MediaCardBanner,
-    MediaCardTabs,
-    MediaCardStatus,
-    MediaCardActions
-  },
-  props: {
-    id: {
-      type: Number,
-      required: true,
-      default: 2
-    }
   }
 })
 export interface Props {

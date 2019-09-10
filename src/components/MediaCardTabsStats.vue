@@ -21,7 +21,7 @@
 </template>
 
 <script lang="ts">
-import { createComponent, computed } from '@vue/composition-api'
+import { computed, createComponent } from '@vue/composition-api'
 import { Media } from '@/graphql/schema/media'
 import { useTheme } from './MediaCardProgress.vue'
 
@@ -30,7 +30,7 @@ export interface Props {
 }
 
 export default createComponent<Readonly<Props>>({
-  props: { media: { required: true, type: Object, default: null } },
+  props: { media: { default: null, required: true, type: Object } },
   setup(props) {
     const scoreDistribution = computed(
       () => props.media.stats.scoreDistribution || []
@@ -46,7 +46,7 @@ export default createComponent<Readonly<Props>>({
 
     const { theme } = useTheme()
 
-    return { value, labels, theme }
+    return { labels, theme, value }
   }
 })
 </script>

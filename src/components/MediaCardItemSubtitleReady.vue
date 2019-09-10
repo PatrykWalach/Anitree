@@ -7,14 +7,14 @@
 </template>
 
 <script lang="ts">
-import { Media } from '@/graphql/schema/media'
 import { computed, createComponent } from '@vue/composition-api'
+import { Media } from '@/graphql/schema/media'
 export interface Props {
   media: Media
 }
 export default createComponent<Readonly<Props>>({
   props: {
-    media: { required: true, default: null, type: Object }
+    media: { default: null, required: true, type: Object }
   },
   setup(props) {
     const clean = (str: string | null) =>
@@ -60,7 +60,7 @@ export default createComponent<Readonly<Props>>({
         .join(' · ')
     })
 
-    return { subheading, chapters, manga, chaptersNumber }
+    return { chapters, chaptersNumber, manga, subheading }
   }
 })
 </script>

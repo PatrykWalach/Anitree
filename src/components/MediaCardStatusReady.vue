@@ -14,15 +14,15 @@
 </template>
 
 <script lang="ts">
+import { computed, createComponent } from '@vue/composition-api'
 import { Media } from '@/graphql/schema/media'
-import { createComponent, computed } from '@vue/composition-api'
 
 export interface Props {
   media: Media
 }
 export default createComponent<Readonly<Props>>({
   props: {
-    media: { required: true, default: null, type: Object }
+    media: { default: null, required: true, type: Object }
   },
   setup(props) {
     const manga = computed(() => props.media.type === 'MANGA')
@@ -127,16 +127,16 @@ export default createComponent<Readonly<Props>>({
     })
 
     return {
-      manga,
-      status,
-      progress,
+      color,
       episodes,
+      manga,
+      progress,
       progressValue,
+      status,
       stringValue,
       tip,
-      tipString,
       tipObject,
-      color
+      tipString
     }
   }
 })

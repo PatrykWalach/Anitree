@@ -1,13 +1,13 @@
 <script lang="ts">
+import { VContainer, VRow } from 'vuetify/lib'
 import { createComponent, createElement as h } from '@vue/composition-api'
 
+import { Form } from '../types'
 import FormBuilder from './FormBuilder'
 import FormDirector from './FormDirector'
 
 import { Media } from '@/graphql/schema/media'
-
 import { User } from '@/graphql/schema/viewer'
-import { Form } from '../types'
 
 export interface Props {
   method: keyof FormDirector
@@ -22,45 +22,43 @@ export interface Props {
   manga: boolean
 }
 
-import { VContainer, VRow } from 'vuetify/lib'
-
 export default createComponent<Readonly<Props>>({
   inheritAttrs: false,
   props: {
-    method: {
+    advancedScoring: {
+      default: () => [],
       required: true,
-      type: String,
-      default: ''
-    },
-    user: {
-      required: true,
-      type: Object,
-      default: null
-    },
-    media: {
-      required: true,
-      type: Object,
-      default: null
+      type: Array
     },
     form: {
+      default: null,
       required: true,
-      type: Object,
-      default: null
-    },
-    scoreFormat: {
-      required: true,
-      type: Object,
-      default: null
-    },
-    advancedScoring: {
-      required: true,
-      type: Array,
-      default: () => []
+      type: Object
     },
     manga: {
+      default: false,
       required: true,
-      type: Boolean,
-      default: false
+      type: Boolean
+    },
+    media: {
+      default: null,
+      required: true,
+      type: Object
+    },
+    method: {
+      default: '',
+      required: true,
+      type: String
+    },
+    scoreFormat: {
+      default: null,
+      required: true,
+      type: Object
+    },
+    user: {
+      default: null,
+      required: true,
+      type: Object
     }
   },
   setup: props => {

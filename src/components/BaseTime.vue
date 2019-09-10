@@ -2,8 +2,8 @@
   <time :datetime="dateISO">{{ sliced | combine }}</time>
 </template>
 <script lang="ts">
+import { computed, createComponent } from '@vue/composition-api'
 import { ValidDate } from '../types'
-import { createComponent, computed } from '@vue/composition-api'
 export interface Props {
   date: ValidDate
   sliceDate: ValidDate | null
@@ -15,8 +15,8 @@ export default createComponent<Readonly<Props>>({
       parts.map(({ value }) => value).join('')
   },
   props: {
-    date: { required: true, default: Object, type: null },
-    sliceDate: { required: false, default: null, type: null }
+    date: { default: Object, required: true, type: null },
+    sliceDate: { default: null, required: false, type: null }
   },
   setup(props) {
     const toDate = (date: ValidDate) =>
@@ -25,9 +25,9 @@ export default createComponent<Readonly<Props>>({
     const formatToParts = (date: ValidDate | null) => {
       if (date) {
         const fmt = new Intl.DateTimeFormat('en', {
-          year: 'numeric',
+          day: 'numeric',
           month: 'long',
-          day: 'numeric'
+          year: 'numeric'
         })
         return fmt.formatToParts(toDate(date))
       }
@@ -86,7 +86,7 @@ export default createComponent<Readonly<Props>>({
       return dateParts.value
     })
 
-    return { dateParts, sliceDateParts, dateISO, sliced }
+    return { dateISO, dateParts, sliceDateParts, sliced }
   }
 })
 </script>

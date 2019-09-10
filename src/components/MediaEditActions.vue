@@ -43,14 +43,14 @@
   </v-card-actions>
 </template>
 <script lang="ts">
-import MediaEditIcon from './MediaEditIcon.vue'
+import { computed, createComponent, ref } from '@vue/composition-api'
+import useMutations, { DeleteCommand } from '../store/mutations'
 
 import { Media } from '@/graphql/schema/media'
-// import { DELETE_MEDIA_LIST_ENTRY } from '@/graphql'
-import { ref, computed, createComponent } from '@vue/composition-api'
+import MediaEditIcon from './MediaEditIcon.vue'
 import { User } from '@/graphql/schema/viewer'
+// import { DELETE_MEDIA_LIST_ENTRY } from '@/graphql'
 import useEdit from '../store/edit'
-import useMutations, { DeleteCommand } from '../store/mutations'
 
 export interface Props {
   user: User | null
@@ -88,7 +88,7 @@ function useActions(props: Readonly<Props>) {
     }
   }
 
-  return { confirmation, close, submitRequired, submit, remove }
+  return { close, confirmation, remove, submit, submitRequired }
 }
 
 export default createComponent<Readonly<Props>>({
@@ -96,8 +96,8 @@ export default createComponent<Readonly<Props>>({
     MediaEditIcon
   },
   props: {
-    user: { required: true, type: null, default: null },
-    media: { required: true, type: null, default: null }
+    media: { default: null, required: true, type: null },
+    user: { default: null, required: true, type: null }
   },
   setup(props) {
     return useActions(props)

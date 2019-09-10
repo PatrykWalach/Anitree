@@ -3,7 +3,7 @@
     <template v-if="!loading">
       <slot></slot>
     </template>
-    <v-row justify="center" align="center" v-else>
+    <v-row v-else justify="center" align="center">
       <v-progress-circular indeterminate color="primary"></v-progress-circular>
     </v-row>
   </v-container>
@@ -14,8 +14,8 @@ export default {
   props: {
     loading: {
       default: false,
-      type: Boolean,
-      required: true
+      required: true,
+      type: Boolean
     }
   }
 }

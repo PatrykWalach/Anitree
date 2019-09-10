@@ -8,8 +8,8 @@
               Here are just some of the things you can see
             </v-subheader>
             <v-list-item
-              :key="title"
               v-for="{ to, title, icon } of search"
+              :key="title"
               exact
               replace
               :to="to"
@@ -39,7 +39,7 @@ export interface Props {
 
 export default createComponent<Readonly<Props>>({
   props: {
-    user: { required: true, type: null, default: null }
+    user: { default: null, required: true, type: null }
   },
   setup() {
     const { search } = useNavigation()

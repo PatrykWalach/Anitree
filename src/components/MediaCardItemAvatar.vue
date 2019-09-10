@@ -18,9 +18,9 @@
 </template>
 
 <script lang="ts">
+import BaseLazyImg from './BaseLazyImg.vue'
 import { Media } from '@/graphql/schema/media'
 
-import BaseLazyImg from './BaseLazyImg.vue'
 import { createComponent } from '@vue/composition-api'
 import { useTheme } from './MediaCardProgress.vue'
 
@@ -34,11 +34,11 @@ export default createComponent<Readonly<Props>>({
     BaseLazyImg
   },
   props: {
-    media: { required: true, type: null, default: null },
+    media: { default: null, required: true, type: null },
     size: {
       default: 80,
-      type: [Number, String],
-      required: false
+      required: false,
+      type: [Number, String]
     }
   },
   setup() {

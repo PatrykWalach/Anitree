@@ -13,23 +13,21 @@
   </div> -->
 </template>
 <script lang="ts">
+// import MediaTimeline from '../components/MediaTimeline.vue'
+import { Page, Variables as PageVariables } from '@/graphql/schema/page'
+import {
+  Ref,
+  computed,
+  createComponent,
+  ref,
+  watch
+} from '@vue/composition-api'
+import BaseContainer from '../components/BaseContainer.vue'
+import { Media } from '@/graphql/schema/media'
+import { PAGE } from '@/graphql'
+
 const MediaTimeline = () =>
   import(/* webpackPreload: true */ '../components/MediaTimeline.vue')
-
-// import MediaTimeline from '../components/MediaTimeline.vue'
-import BaseContainer from '../components/BaseContainer.vue'
-
-import { PAGE } from '@/graphql'
-import { Media } from '@/graphql/schema/media'
-import { Page, Variables as PageVariables } from '@/graphql/schema/page'
-
-import {
-  ref,
-  computed,
-  watch,
-  Ref,
-  createComponent
-} from '@vue/composition-api'
 
 const getYear = (seasonInt: number) => {
   const year = Math.floor(seasonInt / 10)
@@ -38,8 +36,8 @@ const getYear = (seasonInt: number) => {
 
 export default createComponent({
   components: {
-    MediaTimeline,
-    BaseContainer
+    BaseContainer,
+    MediaTimeline
   },
   setup(_, { root }) {
     const loading = ref(false)
@@ -50,9 +48,9 @@ export default createComponent({
     const fetch = (variables: PageVariables) =>
       root.$apollo
         .query({
+          fetchPolicy: 'network-only',
           query: PAGE,
-          variables,
-          fetchPolicy: 'network-only'
+          variables
         })
         .then(({ data }: { data: { Page: Page } }) => data.Page.media)
         .then(media => {
@@ -135,9 +133,6 @@ export default createComponent({
 
     return {
       loading,
-      relationTypes,
-      mediaRelations,
-      relatedMedia,
       mediaList: computed(() =>
         mediaList.value.sort(
           (a, b) => {
@@ -156,7 +151,10 @@ export default createComponent({
           // (dateA.day && dateB.day && dateA.day - dateB.day) ||
           // 1
         )
-      )
+      ),
+      mediaRelations,
+      relatedMedia,
+      relationTypes
     }
   }
 })

@@ -4,20 +4,20 @@
       <v-col cols="12" md="6">
         <v-form v-model="valid" @submit.prevent="submit">
           <v-text-field
+            v-model="search"
             full-width
             prepend-inner-icon="search"
-            v-model="search"
             autofocus
             clearable
-            @click:clear="move"
-            @click="move"
-            @input="move"
             single-line
             filled
             rounded
             hide-details
             name="search"
             label="Search"
+            @click:clear="move"
+            @click="move"
+            @input="move"
             @keydown.esc="$emit('keydown:esc')"
           ></v-text-field
         ></v-form>
@@ -26,7 +26,7 @@
   </v-container>
 </template>
 <script lang="ts">
-import { ref, Ref, computed, createComponent } from '@vue/composition-api'
+import { Ref, computed, createComponent, ref } from '@vue/composition-api'
 
 export default createComponent({
   setup(_, { emit, root }) {
@@ -73,7 +73,7 @@ export default createComponent({
       }
     }
 
-    return { search, valid, rules, submit, move }
+    return { move, rules, search, submit, valid }
   }
 })
 </script>

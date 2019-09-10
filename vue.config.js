@@ -2,11 +2,6 @@
 const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')
 
 module.exports = {
-  configureWebpack: {
-    devtool: 'source-map',
-    plugins: [new VuetifyLoaderPlugin()]
-  },
-
   chainWebpack: config => {
     config.module
       .rule('graphql')
@@ -14,5 +9,9 @@ module.exports = {
       .use('graphql-tag/loader')
       .loader('graphql-tag/loader')
       .end()
+  },
+  configureWebpack: {
+    devtool: 'source-map',
+    plugins: [new VuetifyLoaderPlugin()]
   }
 }

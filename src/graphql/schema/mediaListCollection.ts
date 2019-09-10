@@ -1,4 +1,4 @@
-import { MediaType, MediaStatus, FuzzyDate } from './media'
+import { FuzzyDate, MediaStatus, MediaType } from './media'
 import { ScoreFormat } from './viewer'
 
 export interface Variables {

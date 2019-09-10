@@ -59,16 +59,26 @@
   </v-tabs>
 </template>
 <script lang="ts">
-import { createComponent, ref, computed } from '@vue/composition-api'
-
-import MediaCardItem from './MediaCardItem.vue'
-import MediaCardTabsStats from './MediaCardTabsStats.vue'
+import { computed, createComponent, ref } from '@vue/composition-api'
 
 import { Media } from '@/graphql/schema/media'
+import MediaCardItem from './MediaCardItem.vue'
+import MediaCardTabsStats from './MediaCardTabsStats.vue'
 
 import useTitle from '@/store/title'
 
 export default createComponent<Readonly<Props>>({
+  components: {
+    MediaCardItem,
+    MediaCardTabsStats
+  },
+  props: {
+    media: {
+      default: null,
+      required: true,
+      type: null
+    }
+  },
   setup(props) {
     const { title: _title } = useTitle()
 
@@ -77,17 +87,6 @@ export default createComponent<Readonly<Props>>({
     const tab = ref('info')
 
     return { tab, title }
-  },
-  components: {
-    MediaCardItem,
-    MediaCardTabsStats
-  },
-  props: {
-    media: {
-      required: true,
-      type: null,
-      default: null
-    }
   }
 })
 

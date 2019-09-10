@@ -4,13 +4,13 @@
     :color="color"
     :value="50"
   ></v-progress-linear>
-  <MediaCardStatusReady :media="media" v-else />
+  <MediaCardStatusReady v-else :media="media" />
 </template>
 
 <script lang="ts">
 import { Media } from '@/graphql/schema/media'
-import { createComponent } from '@vue/composition-api'
 import MediaCardStatusReady from './MediaCardStatusReady.vue'
+import { createComponent } from '@vue/composition-api'
 
 export interface Props {
   media: Media | null
@@ -23,7 +23,7 @@ export default createComponent<Readonly<Props>>({
     MediaCardStatusReady
   },
   props: {
-    media: { required: true, type: null, default: null }
+    media: { default: null, required: true, type: null }
   },
   setup() {
     return useTheme()

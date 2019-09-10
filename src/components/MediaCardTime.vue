@@ -10,9 +10,9 @@
   </v-chip>
 </template>
 <script lang="ts">
+import { FuzzyDate, Media } from '@/graphql/schema/media'
+import { computed, createComponent } from '@vue/composition-api'
 import { ValidDate } from '../types'
-import { Media, FuzzyDate } from '@/graphql/schema/media'
-import { createComponent, computed } from '@vue/composition-api'
 const BaseTimeRange = () => import('./BaseTimeRange.vue')
 const BaseTime = () => import('./BaseTime.vue')
 
@@ -22,11 +22,11 @@ export interface Props {
 
 export default createComponent<Readonly<Props>>({
   components: {
-    BaseTimeRange,
-    BaseTime
+    BaseTime,
+    BaseTimeRange
   },
   props: {
-    media: { required: true, type: Object, default: null }
+    media: { default: null, required: true, type: Object }
   },
   setup(props) {
     const isValidDate = (
@@ -46,7 +46,7 @@ export default createComponent<Readonly<Props>>({
       return false
     })
 
-    return { validStartDate, isRange }
+    return { isRange, validStartDate }
   }
 })
 </script>

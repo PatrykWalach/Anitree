@@ -43,15 +43,14 @@
 </template>
 
 <script lang="ts">
-import TheSettingsTitle from '@/components/TheSettingsTitle.vue'
+import { computed, createComponent } from '@vue/composition-api'
 import TheSettingsSetting from '@/components/TheSettingsSetting.vue'
+import TheSettingsTitle from '@/components/TheSettingsTitle.vue'
+import useSettings from '@/store/settings'
 
 const TheSettingsLogin = () => import('@/components/TheSettingsLogin.vue')
 
-import { createComponent, computed } from '@vue/composition-api'
-
 import { useTheme } from '@/App.vue'
-import useSettings from '@/store/settings'
 
 export default createComponent({
   components: {
@@ -90,9 +89,9 @@ export default createComponent({
     })
 
     return {
-      token,
+      cache,
       site,
-      cache
+      token
     }
   }
 })

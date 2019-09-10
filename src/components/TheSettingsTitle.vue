@@ -1,12 +1,12 @@
 <template>
   <v-list-item @click.stop>
     <component
-      v-model="dialog"
       :is="$vuetify.breakpoint.xsOnly ? 'v-bottom-sheet' : 'v-dialog'"
+      v-model="dialog"
       :max-width="$vuetify.breakpoint.xsOnly ? undefined : '320px'"
     >
       <template v-slot:activator="{ on, attrs }">
-        <v-list-item-content v-on="on" v-bind="attrs">
+        <v-list-item-content v-bind="attrs" v-on="on">
           <v-list-item-title class="text-capitalize"
             >Title language</v-list-item-title
           >
@@ -25,9 +25,9 @@
           <v-list-item-group v-model="preferedTitle" @change="dialog = false">
             <v-list-item
               v-for="title in titles"
-              :value="title"
               :key="title"
               v-slot="{ active }"
+              :value="title"
             >
               <v-list-item-action>
                 <v-checkbox v-model="active"></v-checkbox>
@@ -51,23 +51,23 @@
 </template>
 
 <script lang="ts">
+import { VBottomSheet, VDialog } from 'vuetify/lib'
 import { createComponent, ref } from '@vue/composition-api'
 import useTitle from '@/store/title'
-import { VDialog, VBottomSheet } from 'vuetify/lib'
 
 export default createComponent({
   components: {
-    VDialog,
-    VBottomSheet
+    VBottomSheet,
+    VDialog
   },
   setup() {
     const dialog = ref(false)
     const { preferedTitle, titles } = useTitle()
 
     return {
+      dialog,
       preferedTitle,
-      titles,
-      dialog
+      titles
     }
   }
 })

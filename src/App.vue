@@ -16,22 +16,21 @@
   </v-app>
 </template>
 <script lang="ts">
-import TheDrawer from './components/TheDrawer.vue'
-import TheAppBar from './components/TheAppBar.vue'
-import MediaEdit from './components/MediaEdit.vue'
+import {
+  SetupContext,
+  computed,
+  createComponent,
+  ref
+} from '@vue/composition-api'
 import BaseShare from './components/BaseShare.vue'
-import TheFooter from './components/TheFooter.vue'
-
+import MediaEdit from './components/MediaEdit.vue'
+import TheAppBar from './components/TheAppBar.vue'
 import TheBottomNavigation from './components/TheBottomNavigation.vue'
+import TheDrawer from './components/TheDrawer.vue'
+import TheFooter from './components/TheFooter.vue'
 
 // const TheBottomNavigation = () => import('@/components/TheBottomNavigation.vue')
 
-import {
-  ref,
-  createComponent,
-  SetupContext,
-  computed
-} from '@vue/composition-api'
 import useEdit from './store/edit'
 import useShare from './store/share'
 
@@ -47,12 +46,12 @@ export const useTheme = ({ root }: SetupContext) => {
 }
 export default createComponent({
   components: {
-    MediaEdit,
-    TheFooter,
-    TheAppBar,
     BaseShare,
+    MediaEdit,
+    TheAppBar,
+    TheBottomNavigation,
     TheDrawer,
-    TheBottomNavigation
+    TheFooter
   },
   setup(_, context) {
     const drawer = ref(false)
@@ -79,9 +78,9 @@ export default createComponent({
 
     return {
       drawer,
-      toggleDrawer,
       mediaId,
-      options
+      options,
+      toggleDrawer
     }
   }
 })

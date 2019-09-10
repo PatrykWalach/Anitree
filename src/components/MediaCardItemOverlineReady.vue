@@ -12,14 +12,15 @@
 </template>
 
 <script lang="ts">
+import { computed, createComponent } from '@vue/composition-api'
 import { Media } from '@/graphql/schema/media'
-import { createComponent, computed } from '@vue/composition-api'
+
 export interface Props {
   media: Media
 }
 export default createComponent<Readonly<Props>>({
   props: {
-    media: { required: true, default: null, type: Object }
+    media: { default: null, required: true, type: Object }
   },
   setup(props) {
     const year = computed(() => {
@@ -39,10 +40,10 @@ export default createComponent<Readonly<Props>>({
     )
 
     const query = computed(() => {
-      return { year: year.value, season: season.value }
+      return { season: season.value, year: year.value }
     })
 
-    return { year, season, link, query }
+    return { link, query, season, year }
   }
 })
 </script>

@@ -1,4 +1,4 @@
-import CompositionApi, { ref, Ref } from '@vue/composition-api'
+import CompositionApi, { Ref, ref } from '@vue/composition-api'
 import { Location } from 'vue-router'
 
 import Vue from 'vue'
@@ -49,7 +49,7 @@ const search: Ref<Element[]> = ref([
     }
   }
 ])
-
-export default function useNavigation() {
+const useNavigation = () => {
   return { main, search }
 }
+export default useNavigation

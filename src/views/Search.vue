@@ -5,7 +5,7 @@
     :query="require('@/graphql/queries/Viewer.gql')"
     :skip="!token"
   >
-    <TheSearchList :user="viewer && viewer.Viewer" v-if="!isSearched" />
+    <TheSearchList v-if="!isSearched" :user="viewer && viewer.Viewer" />
     <ApolloQuery
       v-else
       v-slot="{ result: { error, data }, isLoading, query }"

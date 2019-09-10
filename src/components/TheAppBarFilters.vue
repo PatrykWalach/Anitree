@@ -1,7 +1,7 @@
 <template>
-  <v-dialog max-width="720px" v-model="dialog">
+  <v-dialog v-model="dialog" max-width="720px">
     <template v-slot:activator="{ on, attrs }">
-      <v-btn icon v-on="on" v-bind="attrs">
+      <v-btn icon v-bind="attrs" v-on="on">
         <v-icon>tune</v-icon>
       </v-btn>
     </template>
@@ -20,8 +20,8 @@
         >
           <v-chip
             v-for="type in ['ANIME', 'MANGA']"
-            :value="type"
             :key="type"
+            :value="type"
             class="text-capitalize"
           >
             {{ type.toLowerCase() }}
@@ -68,8 +68,8 @@
                 text: 'Trending'
               }
             ]"
-            :value="value"
             :key="value"
+            :value="value"
             class="text-capitalize"
           >
             {{ text }}
@@ -82,23 +82,23 @@
 
         <base-field
           v-model="form.status"
-          :beforeTransform="[e => (e instanceof Array ? e : [])]"
-          :afterTransform="[e => (e.length ? e : undefined)]"
+          :before-transform="[e => (e instanceof Array ? e : [])]"
+          :after-transform="[e => (e.length ? e : undefined)]"
           tag="v-chip-group"
           multiple
           show-arrows
           active-class="accent--text"
         >
           <v-chip
-            filter
             v-for="status in [
               'CANCELLED',
               'FINISHED',
               'NOT_YET_RELEASED',
               'RELEASING'
             ]"
-            :value="status"
             :key="status"
+            filter
+            :value="status"
             class="text-capitalize"
           >
             {{
@@ -120,7 +120,7 @@
 </template>
 
 <script lang="ts">
-import { createComponent, ref, computed } from '@vue/composition-api'
+import { computed, createComponent, ref } from '@vue/composition-api'
 
 import BaseField from './BaseField.vue'
 
@@ -146,17 +146,17 @@ export default createComponent({
     const query = computed(() => root.$route.query)
 
     const form = computed({
-      set: e => {
-        _form.value = e
-      },
       get: () => {
         return {
           ...query.value,
           ..._form.value
         }
+      },
+      set: e => {
+        _form.value = e
       }
     })
-    return { form, submit, dialog, close, query }
+    return { close, dialog, form, query, submit }
   }
 })
 </script>

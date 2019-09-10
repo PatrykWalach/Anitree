@@ -1,8 +1,8 @@
 import FormBuilder from './FormBuilder'
-
 import { FuzzyDate } from '@/graphql/schema/media'
-import useEdit from '@/store/edit'
 import { Props } from './MediaEditItemsTab.vue'
+
+import useEdit from '@/store/edit'
 
 export const validFloat = (input: string): boolean =>
   !!input.match(/^([0-9])+(\.([1-9])+)?$/)
@@ -36,9 +36,9 @@ export const dateToString = (date: FuzzyDate): string => {
 export const stringToDate = (date: string): Omit<FuzzyDate, '__typename'> => {
   const values = date.split('-')
   return {
-    year: parseInt(values[0]) || null,
+    day: parseInt(values[2]) || null,
     month: parseInt(values[1]) || null,
-    day: parseInt(values[2]) || null
+    year: parseInt(values[0]) || null
   }
 }
 
@@ -71,7 +71,8 @@ export default class FormDirector {
     builder.setSelects([
       {
         attrs: {
-          placeholder: 'Status',
+          'item-text': manga ? 'manga' : 'text',
+          'item-value': 'value',
           items: [
             { manga: 'Reading', text: 'Watching', value: 'CURRENT' },
             { manga: 'Plan to read', text: 'Plan to watch', value: 'PLANNING' },
@@ -80,16 +81,15 @@ export default class FormDirector {
             { manga: 'Paused', text: 'Paused', value: 'PAUSED' },
             { manga: 'Dropped', text: 'Dropped', value: 'DROPPED' }
           ],
-          'item-value': 'value',
-          'item-text': manga ? 'manga' : 'text',
-          label: 'Status'
+          label: 'Status',
+          placeholder: 'Status'
         },
         props: {
-          value: form.status,
           afterTransform: [
             (e: string) => Object.fromEntries([['status', e]]),
             useEdit().changeForm
-          ]
+          ],
+          value: form.status
         }
       }
     ])
@@ -97,30 +97,32 @@ export default class FormDirector {
     builder.setFields(
       [
         {
+          attrs: {
+            label: 'Score'
+          },
           props: {
-            value: form.score,
             afterTransform: [
               parseFloat,
               (e: string) => Object.fromEntries([['score', e]]),
               useEdit().changeForm
             ],
-            validators: [
-              scoreFormat.round ? validFloat : validInteger,
-              validScore.bind(null, scoreFormat.max)
-            ],
+            beforeTransform: [(e: string) => e.toString()],
             transformations: [
               formatToNumber,
               numberRound.bind(null, scoreFormat.round)
             ],
-            beforeTransform: [(e: string) => e.toString()]
-          },
-          attrs: {
-            label: 'Score'
+            validators: [
+              scoreFormat.round ? validFloat : validInteger,
+              validScore.bind(null, scoreFormat.max)
+            ],
+            value: form.score
           }
         },
         {
+          attrs: {
+            label: (manga ? 'Chapter' : 'Episode') + ' Progress'
+          },
           props: {
-            value: form.progress || 0,
             afterTransform: [
               parseFloat,
 
@@ -128,7 +130,6 @@ export default class FormDirector {
               useEdit().changeForm
             ],
             beforeTransform: [(e: string) => e.toString()],
-            validators: [validInteger],
             transformations: [
               formatToNumber,
               numberRound.bind(null, 0),
@@ -136,31 +137,29 @@ export default class FormDirector {
                 null,
                 (manga ? media.chapters : media.episodes) || Infinity
               )
-            ]
-          },
-          attrs: {
-            label: (manga ? 'Chapter' : 'Episode') + ' Progress'
+            ],
+            validators: [validInteger],
+            value: form.progress || 0
           }
         },
         {
+          attrs: {
+            label: 'Volume Progress'
+          },
           props: {
-            value: form.progressVolumes || 0,
             afterTransform: [
               parseFloat,
-
               (e: string) => Object.fromEntries([['volumeProgress', e]]),
               useEdit().changeForm
             ],
-            validators: [validInteger],
+            beforeTransform: [(e: string) => e.toString()],
             transformations: [
               formatToNumber,
               numberRound.bind(null, 0),
               min.bind(null, media.volumes || Infinity)
             ],
-            beforeTransform: [(e: string) => e.toString()]
-          },
-          attrs: {
-            label: 'Volume Progress'
+            validators: [validInteger],
+            value: form.progressVolumes || 0
           }
         }
       ].splice(0, manga ? 3 : 2)
@@ -170,51 +169,52 @@ export default class FormDirector {
   public edit2(builder: FormBuilder, { manga, form }: Readonly<Props>) {
     builder.setDateFields([
       {
+        attrs: {
+          clearable: true,
+          label: 'Start Date'
+        },
         props: {
-          value: form.startedAt,
           afterTransform: [
             stringToDate,
             (e: string) => Object.fromEntries([['startedAt', e]]),
             useEdit().changeForm
           ],
-          beforeTransform: [dateToString]
-        },
-        attrs: {
-          label: 'Start Date',
-          clearable: true
+          beforeTransform: [dateToString],
+          value: form.startedAt
         }
       },
       {
+        attrs: {
+          clearable: true,
+          label: 'Finish Date'
+        },
         props: {
-          value: form.completedAt,
           afterTransform: [
             stringToDate,
             (e: string) => Object.fromEntries([['completedAt', e]]),
             useEdit().changeForm
           ],
-          beforeTransform: [dateToString]
-        },
-        attrs: {
-          label: 'Finish Date',
-          clearable: true
+          beforeTransform: [dateToString],
+          value: form.completedAt
         }
       }
     ])
     builder.setFields([
       {
+        attrs: {
+          label: 'Total ' + (manga ? 'Rereads' : 'Rewatches')
+        },
         props: {
-          value: form.repeat,
           afterTransform: [
             parseFloat,
             (e: string) => Object.fromEntries([['repeat', e]]),
             useEdit().changeForm
           ],
-          validators: [validInteger],
+          beforeTransform: [(e: string) => e.toString()],
           transformations: [formatToNumber, numberRound.bind(null, 0)],
-          beforeTransform: [(e: string) => e.toString()]
-        },
-        attrs: {
-          label: 'Total ' + (manga ? 'Rereads' : 'Rewatches')
+
+          validators: [validInteger],
+          value: form.repeat
         }
       }
     ])
@@ -223,16 +223,16 @@ export default class FormDirector {
     const { form } = data
     builder.setTextareas([
       {
-        props: {
-          value: form.notes || '',
-          afterTransform: [
-            (e: string) => Object.fromEntries([['notes', e]]),
-            useEdit().changeForm
-          ]
-        },
         attrs: {
           'auto-grow': true,
           label: 'Notes'
+        },
+        props: {
+          afterTransform: [
+            (e: string) => Object.fromEntries([['notes', e]]),
+            useEdit().changeForm
+          ],
+          value: form.notes || ''
         }
       }
     ])
@@ -243,8 +243,10 @@ export default class FormDirector {
     builder.setFields(
       advancedScoring.map((label, i) => {
         return {
+          attrs: {
+            label
+          },
           props: {
-            value: form.advancedScores[i] || 0,
             afterTransform: [
               parseFloat,
               (e: number) => {
@@ -275,11 +277,9 @@ export default class FormDirector {
               useEdit().changeForm
             ],
             beforeTransform: [(e: any) => e.toString()],
+            transformations: [formatToNumber],
             validators: [scoreFormat.round ? validFloat : validInteger],
-            transformations: [formatToNumber]
-          },
-          attrs: {
-            label
+            value: form.advancedScores[i] || 0
           }
         }
       })

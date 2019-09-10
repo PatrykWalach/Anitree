@@ -1,4 +1,4 @@
-import CompositionApi, { ref, computed } from '@vue/composition-api'
+import CompositionApi, { computed, ref } from '@vue/composition-api'
 import { MediaTitle } from '@/graphql/schema/media'
 import Vue from 'vue'
 Vue.use(CompositionApi)
@@ -31,14 +31,16 @@ const preferedTitle = computed({
 
 const prefered = computed({ get: () => _prefered.value, set: CHANGE_PREFERED })
 
-export default function useTitle() {
+const useTitle = () => {
   return {
+    CHANGE_PREFERED,
+    CHANGE_PREFERED_TILE,
     _prefered,
     prefered,
-    titles,
     preferedTitle,
     title,
-    CHANGE_PREFERED_TILE,
-    CHANGE_PREFERED
+    titles
   }
 }
+
+export default useTitle

@@ -1,5 +1,5 @@
 <template>
-  <v-img v-lazy="changeInView" v-bind="{ ...$attrs, ...computed, lazySrc }">
+  <v-img v-lazy="changeInView" v-bind="{ ...$attrs, ...get, lazySrc }">
     <slot :inView="inView"></slot>
     <template v-slot:placeholder>
       <slot name="placeholder" :inView="inView"></slot>
@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts">
-import { ref, computed as get, createComponent } from '@vue/composition-api'
+import { computed, createComponent, ref } from '@vue/composition-api'
 import { DirectiveOptions } from 'vue'
 
 export const lazy: DirectiveOptions = {
@@ -30,10 +30,28 @@ export default createComponent<Readonly<Props>>({
   directives: {
     lazy
   },
+
+  props: {
+    lazySrc: {
+      default: '',
+      required: false,
+      type: String
+    },
+    src: {
+      default: '',
+      required: true,
+      type: String
+    },
+    srcset: {
+      default: '',
+      required: false,
+      type: String
+    }
+  },
   setup(props) {
     const inView = ref(false)
 
-    const computed = get(() => {
+    const get = computed(() => {
       if (inView.value) {
         return {
           src: props.src,
@@ -47,24 +65,7 @@ export default createComponent<Readonly<Props>>({
       inView.value = true
     }
 
-    return { inView, changeInView, computed }
-  },
-  props: {
-    src: {
-      type: String,
-      required: true,
-      default: ''
-    },
-    srcset: {
-      required: false,
-      type: String,
-      default: ''
-    },
-    lazySrc: {
-      required: false,
-      type: String,
-      default: ''
-    }
+    return { changeInView, get, inView }
   }
 })
 

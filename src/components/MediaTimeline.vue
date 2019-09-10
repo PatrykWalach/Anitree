@@ -1,6 +1,6 @@
 <template>
   <v-row justify="center" align="center">
-    <v-col cols="12" v-if="!$vuetify.breakpoint.xsOnly">
+    <v-col v-if="!$vuetify.breakpoint.xsOnly" cols="12">
       <v-timeline :dense="$vuetify.breakpoint.smAndDown">
         <MediaTimelineItem
           v-for="media in mediaList"
@@ -11,7 +11,7 @@
     </v-col>
 
     <template v-else>
-      <v-col cols="12" v-for="media in mediaList" :key="media.id">
+      <v-col v-for="media in mediaList" :key="media.id" cols="12">
         <MediaCard :id="media.id" />
       </v-col>
     </template>
@@ -21,9 +21,9 @@
 </template>
 
 <script lang="ts">
-import MediaTimelineItem from './MediaTimelineItem.vue'
-import MediaCard from './MediaCard.vue'
 import { Media } from '@/graphql/schema/media'
+import MediaCard from './MediaCard.vue'
+import MediaTimelineItem from './MediaTimelineItem.vue'
 
 export interface Props {
   mediaList: Media[]
@@ -31,11 +31,11 @@ export interface Props {
 
 export default {
   components: {
-    MediaTimelineItem,
-    MediaCard
+    MediaCard,
+    MediaTimelineItem
   },
   props: {
-    mediaList: { required: true, type: Array, default: () => [] }
+    mediaList: { default: () => [], required: true, type: Array }
   }
 }
 </script>

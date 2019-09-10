@@ -26,7 +26,7 @@
   </v-menu>
 </template>
 <script lang="ts">
-import { watch, ref, Ref, createComponent } from '@vue/composition-api'
+import { Ref, createComponent, ref, watch } from '@vue/composition-api'
 
 export interface Props {
   value: string
@@ -36,9 +36,9 @@ export default createComponent<Readonly<Props>>({
   inheritAttrs: false,
   props: {
     value: {
+      default: '',
       required: true,
-      type: String,
-      default: ''
+      type: String
     }
   },
   setup(props, { emit }) {
@@ -65,7 +65,7 @@ export default createComponent<Readonly<Props>>({
       emit('change', '')
     }
 
-    return { date, menuActive, save, clear, menu }
+    return { clear, date, menu, menuActive, save }
   }
 })
 </script>

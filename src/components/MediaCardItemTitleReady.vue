@@ -11,9 +11,8 @@
 </template>
 
 <script lang="ts">
+import { computed, createComponent } from '@vue/composition-api'
 import { Media } from '@/graphql/schema/media'
-
-import { createComponent, computed } from '@vue/composition-api'
 
 import useTitle from '@/store/title'
 
@@ -23,7 +22,7 @@ export interface Props {
 
 export default createComponent<Readonly<Props>>({
   props: {
-    media: { required: true, default: Object, type: null }
+    media: { default: Object, required: true, type: null }
   },
   setup(props) {
     const { title: _title } = useTitle()
@@ -38,8 +37,8 @@ export default createComponent<Readonly<Props>>({
     })
 
     return {
-      title,
-      params
+      params,
+      title
     }
   }
 })

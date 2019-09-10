@@ -1,8 +1,10 @@
+import BaseField, { Props } from './BaseField.vue'
+
+import { VCol } from 'vuetify/lib'
 import { VNode } from 'vue'
 import { createElement } from '@vue/composition-api'
 const h = createElement
 
-import BaseField, { Props } from './BaseField.vue'
 interface Field {
   attrs: {
     placeholder?: string
@@ -30,9 +32,6 @@ interface Select extends Field {
   }
 }
 
-//@ts-ignore
-import { VCol } from 'vuetify/lib'
-
 export default class FormBuilder {
   public fields: VNode[]
 
@@ -56,8 +55,8 @@ export default class FormBuilder {
             h(BaseField, {
               attrs: {
                 ...attrs,
-                rounded: true,
-                filled: true
+                filled: true,
+                rounded: true
               },
               props: {
                 ...props,
@@ -86,8 +85,8 @@ export default class FormBuilder {
             h(BaseField, {
               attrs: {
                 ...attrs,
-                rounded: true,
-                filled: true
+                filled: true,
+                rounded: true
               },
               props
             })
@@ -112,8 +111,8 @@ export default class FormBuilder {
             h(BaseField, {
               attrs: {
                 ...attrs,
-                rounded: true,
-                filled: true
+                filled: true,
+                rounded: true
               },
               props: {
                 ...props,
@@ -140,8 +139,8 @@ export default class FormBuilder {
             h(BaseField, {
               attrs: {
                 ...attrs,
-                rounded: true,
-                filled: true
+                filled: true,
+                rounded: true
               },
               props: {
                 ...props,

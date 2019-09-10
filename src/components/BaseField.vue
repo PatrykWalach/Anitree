@@ -6,9 +6,9 @@
 
 <script lang="ts">
 const BaseDateField = () => import('./BaseDateField.vue')
-import { VTextField, VTextarea, VSelect, VChipGroup } from 'vuetify/lib'
+import { VChipGroup, VSelect, VTextField, VTextarea } from 'vuetify/lib'
 
-import { ref, watch, computed, createComponent } from '@vue/composition-api'
+import { computed, createComponent, ref, watch } from '@vue/composition-api'
 
 export interface Props {
   validators: ((v: string) => boolean)[]
@@ -20,27 +20,27 @@ export interface Props {
 }
 
 export default createComponent<Readonly<Props>>({
-  inheritAttrs: false,
   components: {
     BaseDateField,
-    VTextField,
-    VTextarea,
+    VChipGroup,
     VSelect,
-    VChipGroup
+    VTextField,
+    VTextarea
   },
+  inheritAttrs: false,
   props: {
+    afterTransform: { default: () => [], required: false, type: Array },
+    beforeTransform: { default: () => [], required: false, type: Array },
     tag: {
-      required: false,
       default: 'v-text-field',
+      required: false,
       type: String
     },
-    validators: { required: false, default: () => [], type: Array },
-    transformations: { required: false, default: () => [], type: Array },
-    beforeTransform: { required: false, default: () => [], type: Array },
-    afterTransform: { required: false, default: () => [], type: Array },
+    transformations: { default: () => [], required: false, type: Array },
+    validators: { default: () => [], required: false, type: Array },
     value: {
-      required: false,
       default: '',
+      required: false,
       type: null
     }
   },
@@ -77,7 +77,7 @@ export default createComponent<Readonly<Props>>({
       }
     }
 
-    return { input, isValid, changeInput }
+    return { changeInput, input, isValid }
   }
 })
 </script>

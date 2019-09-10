@@ -36,7 +36,7 @@
               :error="!!viewerError || !!error"
             />
 
-            <v-container fill-height v-if="viewerIsLoading || isLoading">
+            <v-container v-if="viewerIsLoading || isLoading" fill-height>
               <v-row justify="center" align="center">
                 <v-progress-circular indeterminate></v-progress-circular>
               </v-row>
@@ -69,14 +69,14 @@
   </ApolloQuery>
 </template>
 <script lang="ts">
+import { computed, createComponent } from '@vue/composition-api'
+import MediaCardBanner from './MediaCardBanner.vue'
+import MediaCardItem from './MediaCardItem.vue'
 import MediaEditActions from './MediaEditActions.vue'
 import MediaEditItems from './MediaEditItems.vue'
 
-import MediaCardBanner from './MediaCardBanner.vue'
-import MediaCardItem from './MediaCardItem.vue'
 import MediaEditTabs from './MediaEditTabs.vue'
 
-import { createComponent, computed } from '@vue/composition-api'
 import useEdit from '../store/edit'
 import useSettings from '../store/settings'
 
@@ -85,15 +85,15 @@ export interface Props {
 }
 
 export default createComponent<Readonly<Props>>({
-  props: {
-    id: { required: true, type: null, default: null }
-  },
   components: {
-    MediaEditTabs,
-    MediaEditActions,
     MediaCardBanner,
     MediaCardItem,
-    MediaEditItems
+    MediaEditActions,
+    MediaEditItems,
+    MediaEditTabs
+  },
+  props: {
+    id: { default: null, required: true, type: null }
   },
   setup() {
     const { close, isEdited: _isEdited, loading } = useEdit()
@@ -111,9 +111,9 @@ export default createComponent<Readonly<Props>>({
     })
 
     return {
-      loading,
       close,
       isEdited,
+      loading,
       token
     }
   }

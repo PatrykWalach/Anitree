@@ -4,7 +4,7 @@
     :value="value"
     :color="theme.isDark ? undefined : 'primary'"
   >
-    <v-btn exact :key="title" :to="to" v-for="{ to, icon, title } in main">
+    <v-btn v-for="{ to, icon, title } in main" :key="title" exact :to="to">
       <span>{{ title }}</span>
       <v-icon>{{ icon }}</v-icon>
     </v-btn>
@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts">
-import { createComponent, computed } from '@vue/composition-api'
+import { computed, createComponent } from '@vue/composition-api'
 import useNavigation from '@/store/navigation'
 import { useTheme } from './MediaCardProgress.vue'
 
@@ -24,9 +24,9 @@ export default createComponent({
     const { theme } = useTheme()
 
     return {
-      value,
       main,
-      theme
+      theme,
+      value
     }
   }
 })

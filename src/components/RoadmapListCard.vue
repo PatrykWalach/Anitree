@@ -24,14 +24,14 @@ export interface Props {
 export default createComponent<Readonly<Props>>({
   props: {
     card: {
+      default: null,
       required: true,
-      type: Object,
-      default: null
+      type: Object
     },
     checklists: {
+      default: () => [],
       required: true,
-      type: Array,
-      default: () => []
+      type: Array
     }
   },
   setup(props) {
@@ -52,7 +52,7 @@ export default createComponent<Readonly<Props>>({
         } lighten-2`
     )
 
-    return { progress, color }
+    return { color, progress }
   }
 })
 </script>

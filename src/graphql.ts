@@ -1,15 +1,14 @@
-import { ApolloClient } from 'apollo-client'
 import { ApolloLink, concat } from 'apollo-link'
-import { HttpLink } from 'apollo-link-http'
 import { InMemoryCache, NormalizedCacheObject } from 'apollo-cache-inmemory'
-import { persistCache } from 'apollo-cache-persist'
-import VueApollo from 'vue-apollo'
-import Vue from 'vue'
-import { PersistentStorage, PersistedData } from 'apollo-cache-persist/types'
-
-import useSettings from '@/store/settings'
-
+import { PersistedData, PersistentStorage } from 'apollo-cache-persist/types'
+import { ApolloClient } from 'apollo-client'
+import { HttpLink } from 'apollo-link-http'
 import { Variables } from '@/graphql/schema/media'
+import Vue from 'vue'
+import VueApollo from 'vue-apollo'
+
+import { persistCache } from 'apollo-cache-persist'
+import useSettings from '@/store/settings'
 
 const link = new HttpLink({
   uri: 'https://graphql.anilist.co'
@@ -49,8 +48,8 @@ if (useSettings().cacheApollo.value) {
 }
 
 const apollo = new ApolloClient({
-  link: concat(middle, link),
-  cache
+  cache,
+  link: concat(middle, link)
 })
 
 Vue.use(VueApollo)

@@ -18,11 +18,12 @@
   </v-tabs-items>
 </template>
 <script lang="ts">
-import MediaEditItemsTab from './MediaEditItemsTab.vue'
+import { computed, createComponent } from '@vue/composition-api'
 
 import { Media } from '@/graphql/schema/media'
+import MediaEditItemsTab from './MediaEditItemsTab.vue'
 import { User } from '@/graphql/schema/viewer'
-import { createComponent, computed } from '@vue/composition-api'
+import { mediaListToForm } from '@/store/mutations'
 import useEdit from '../store/edit'
 
 export interface Props {
@@ -30,15 +31,13 @@ export interface Props {
   user: User
 }
 
-import { mediaListToForm } from '@/store/mutations'
-
 export default createComponent<Readonly<Props>>({
-  props: {
-    media: { required: true, type: Object, default: null },
-    user: { required: true, type: Object, default: null }
-  },
   components: {
     MediaEditItemsTab
+  },
+  props: {
+    media: { default: null, required: true, type: Object },
+    user: { default: null, required: true, type: Object }
   },
   setup(props) {
     const { tab } = useEdit()
@@ -57,8 +56,8 @@ export default createComponent<Readonly<Props>>({
       const split = props.user.mediaListOptions.scoreFormat.split('_')
 
       return {
-        round: split[2] === 'DECIMAL' ? 1 : 0,
-        max: parseInt(split[1])
+        max: parseInt(split[1]),
+        round: split[2] === 'DECIMAL' ? 1 : 0
       }
     })
 
@@ -75,7 +74,7 @@ export default createComponent<Readonly<Props>>({
       }
     })
 
-    return { tab, form, scoreFormat, advancedScoring, manga }
+    return { advancedScoring, form, manga, scoreFormat, tab }
   }
 })
 </script>

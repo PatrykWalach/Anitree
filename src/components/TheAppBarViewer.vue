@@ -5,7 +5,7 @@
     offset-y
   >
     <template v-slot:activator="{ on, attrs }">
-      <v-btn v-on="on" v-bind="attrs" icon>
+      <v-btn v-bind="attrs" icon v-on="on">
         <v-avatar
           :size="
             //24
@@ -50,17 +50,13 @@
   </components>
 </template>
 <script lang="ts">
+import { VBottomSheet, VMenu } from 'vuetify/lib'
+import { VIEWER } from '@/graphql'
 import { createComponent } from '@vue/composition-api'
 
 import useSettings from '@/store/settings'
-import { VIEWER } from '@/graphql'
-import { VMenu, VBottomSheet } from 'vuetify/lib'
 
 export default createComponent({
-  components: {
-    VMenu,
-    VBottomSheet
-  },
   apollo: {
     Viewer: {
       query: VIEWER,
@@ -69,9 +65,14 @@ export default createComponent({
       }
     }
   },
+  components: {
+    VBottomSheet,
+    VMenu
+  },
 
   setup() {
     const { token } = useSettings()
+
     const logout = () => {
       token.value = null
     }

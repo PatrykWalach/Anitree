@@ -1,8 +1,8 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import useSettings from './store/settings'
-import apollo, { MEDIA } from '@/graphql'
 import { Media as MediaT, Variables } from '@/graphql/schema/media'
+import apollo, { MEDIA } from '@/graphql'
+import Router from 'vue-router'
+import Vue from 'vue'
+import useSettings from './store/settings'
 
 const Home = () => import(/* webpackPrefetch: true */ './views/Home.vue')
 const Media = () => import(/* webpackPrefetch: true */ './views/Media.vue')
@@ -15,18 +15,16 @@ const Settings = () =>
 const Search = () => import(/* webpackPrefetch: true */ './views/Search.vue')
 
 const router = new Router({
-  mode: 'history',
   base: process.env.BASE_URL,
+  mode: 'history',
   routes: [
     {
-      path: '/',
+      component: Home,
       name: 'home',
-      component: Home
+      path: '/'
     },
 
     {
-      path: '/:mediaType/:mediaId',
-      name: 'media',
       beforeEnter: (to, from, next) => {
         const currentId = parseInt(to.params.mediaId, 10)
 
@@ -55,36 +53,38 @@ const router = new Router({
           .catch(() => {
             next(from ? false : { name: 'home' })
           })
-      }
+      },
+      name: 'media',
+      path: '/:mediaType/:mediaId'
     },
     {
-      path: '/:mediaType/:mediaId/:title',
+      component: Media,
       name: 'title',
-      component: Media
+      path: '/:mediaType/:mediaId/:title'
     },
     {
-      path: '/roadmap',
+      component: Roadmap,
       name: 'roadmap',
-      component: Roadmap
+      path: '/roadmap'
     },
     {
-      path: '/changes',
+      component: Changes,
       name: 'changes',
-      component: Changes
+      path: '/changes'
     },
     {
-      path: '/search',
+      component: Search,
       name: 'search',
-      component: Search
+      path: '/search'
     },
     {
-      path: '/settings',
+      component: Settings,
       name: 'settings',
-      component: Settings
+      path: '/settings'
     },
     {
-      path: '/auth',
       name: 'auth',
+      path: '/auth',
       redirect: to => {
         const hash = Object.fromEntries(
           to.hash
@@ -100,7 +100,7 @@ const router = new Router({
         if (route) {
           return { ...JSON.parse(route), hash: '' }
         }
-        return { name: 'home', hash: '' }
+        return { hash: '', name: 'home' }
       }
     },
     {

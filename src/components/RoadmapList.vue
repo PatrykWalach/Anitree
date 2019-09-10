@@ -18,9 +18,9 @@
 </template>
 
 <script lang="ts">
-import { TrelloList, Cards } from '../types'
+import { Cards, TrelloList } from '../types'
+import { computed, createComponent } from '@vue/composition-api'
 import RoadmapListCard from './RoadmapListCard.vue'
-import { createComponent, computed } from '@vue/composition-api'
 
 export interface Props {
   list: TrelloList
@@ -32,8 +32,8 @@ export default createComponent<Readonly<Props>>({
     RoadmapListCard
   },
   props: {
-    list: { required: true, type: Object, default: null },
-    cards: { required: true, type: Array, default: null }
+    cards: { default: null, required: true, type: Array },
+    list: { default: null, required: true, type: Object }
   },
   setup(props) {
     const allChecked = computed(() =>
@@ -52,7 +52,7 @@ export default createComponent<Readonly<Props>>({
           allChecked.value ? (anyChecked.value ? 'orange' : 'red') : 'green'
         } lighten-2`
     )
-    return { color, allChecked, anyChecked }
+    return { allChecked, anyChecked, color }
   }
 })
 </script>

@@ -1,21 +1,31 @@
 <script lang="tsx">
-import MediaCard from '@/components/MediaCard.vue'
-import HomeItem from '@/components/HomeItem.vue'
-import TheSettings from '@/components/TheSettings.vue'
-
-import { createComponent, createElement } from '@vue/composition-api'
-
-//@ts-ignore
 import {
-  VContainer,
   VCol,
+  VContainer,
   VIcon,
   VRow,
   VTimeline,
   VTimelineItem
 } from 'vuetify/lib'
+import { createComponent, createElement } from '@vue/composition-api'
+import HomeItem from '@/components/HomeItem.vue'
+import MediaCard from '@/components/MediaCard.vue'
+import TheSettings from '@/components/TheSettings.vue'
+
+//@ts-ignore
 
 export default createComponent({
+  components: {
+    HomeItem,
+    MediaCard,
+    TheSettings,
+    VCol,
+    VContainer,
+    VIcon,
+    VRow,
+    VTimeline,
+    VTimelineItem
+  },
   setup: (_, { root }) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const h = createElement
@@ -108,17 +118,6 @@ export default createComponent({
         </v-container>
       )
     }
-  },
-  components: {
-    VContainer,
-    VCol,
-    VRow,
-    VIcon,
-    VTimeline,
-    VTimelineItem,
-    HomeItem,
-    TheSettings,
-    MediaCard
   }
 })
 </script>

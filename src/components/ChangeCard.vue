@@ -18,8 +18,8 @@
           <template v-slot:activator="{ on, attrs }">
             <v-icon
               :color="command.done ? 'primary' : 'error'"
-              v-on="on"
               v-bind="attrs"
+              v-on="on"
               >{{ command.done ? 'cloud_done' : 'error' }}</v-icon
             >
           </template>
@@ -29,7 +29,7 @@
       <template v-slot:actions>
         <v-dialog max-width="440px">
           <template v-slot:activator="{ on, attrs }">
-            <v-btn v-bind="attrs" v-on="on" text color="accent">
+            <v-btn v-bind="attrs" text color="accent" v-on="on">
               More
             </v-btn>
           </template>
@@ -43,7 +43,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr :key="key" v-for="key in keys">
+                <tr v-for="key in keys" :key="key">
                   <th class="text-capitalize">{{ key }}</th>
                   <td class="error--text">
                     <BaseTime
@@ -73,10 +73,10 @@
   </ApolloQuery>
 </template>
 <script lang="ts">
-import { SaveCommand, DeleteCommand } from '@/store/mutations'
-import useTitle from '@/store/title'
-import { createComponent, computed } from '@vue/composition-api'
+import { DeleteCommand, SaveCommand } from '@/store/mutations'
+import { computed, createComponent } from '@vue/composition-api'
 import { FuzzyDate } from '../graphql/schema/media'
+import useTitle from '@/store/title'
 
 const BaseTime = () => import('./BaseTime.vue')
 
@@ -90,9 +90,9 @@ export default createComponent<Readonly<Props>>({
   },
   props: {
     command: {
+      default: null,
       required: true,
-      type: [SaveCommand, DeleteCommand],
-      default: null
+      type: [SaveCommand, DeleteCommand]
     }
   },
   setup(props) {
@@ -120,9 +120,9 @@ export default createComponent<Readonly<Props>>({
     })
 
     return {
-      title,
+      isDate,
       keys,
-      isDate
+      title
     }
   }
 })

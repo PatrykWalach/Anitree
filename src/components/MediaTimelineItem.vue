@@ -12,12 +12,10 @@
   </v-timeline-item>
 </template>
 <script lang="ts">
-import MediaCardTime from './MediaCardTime.vue'
-
-import MediaCard from './MediaCard.vue'
-
+import { SetupContext, computed, createComponent } from '@vue/composition-api'
 import { Media } from '@/graphql/schema/media'
-import { createComponent, computed, SetupContext } from '@vue/composition-api'
+import MediaCard from './MediaCard.vue'
+import MediaCardTime from './MediaCardTime.vue'
 
 export interface Props {
   media: Media | null
@@ -25,11 +23,11 @@ export interface Props {
 
 export default createComponent<Readonly<Props>>({
   components: {
-    MediaCardTime,
-    MediaCard
+    MediaCard,
+    MediaCardTime
   },
   props: {
-    media: { required: true, type: null, default: null }
+    media: { default: null, required: true, type: null }
   },
   setup(props, { root }: SetupContext) {
     const color = computed(

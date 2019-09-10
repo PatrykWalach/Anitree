@@ -1,13 +1,12 @@
+import CompositionApi, { Ref, ref } from '@vue/composition-api'
+import useMutations, { SaveCommand } from './mutations'
+
+import { Form } from '@/types'
+import { SaveVariables } from '@/graphql/schema/listEntry'
+import Vue from 'vue'
 import { mergeDeep } from 'apollo-utilities'
 
-import { SaveVariables } from '@/graphql/schema/listEntry'
-
-import CompositionApi, { Ref, ref } from '@vue/composition-api'
-
 import useSettings from './settings'
-import Vue from 'vue'
-import { Form } from '@/types'
-import useMutations, { SaveCommand } from './mutations'
 
 Vue.use(CompositionApi)
 
@@ -65,19 +64,21 @@ const changeForm = async (form: Partial<SaveVariables>) => {
   }
 }
 
-export default function useEdit() {
+const useEdit = () => {
   return {
-    mediaId,
-    isEdited,
     CHANGE_FORM,
+    RESET_FORM,
     changeForm,
     close,
     form,
+    isEdited,
     loading,
+    mediaId,
     open,
-    RESET_FORM,
     submit,
     tab,
     tabs
   }
 }
+
+export default useEdit

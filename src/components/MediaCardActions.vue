@@ -5,13 +5,13 @@
     <v-tooltip top>
       <template v-slot:activator="{ attrs, on }">
         <v-btn
-          v-on="on"
           v-bind="attrs"
           icon
           :disabled="!media"
           rel="noopener"
           target="_blank"
           :href="url"
+          v-on="on"
         >
           <v-icon>open_in_new</v-icon>
         </v-btn>
@@ -22,10 +22,10 @@
     <v-tooltip top>
       <template v-slot:activator="{ attrs, on }">
         <v-btn
-          v-on="on"
           v-bind="attrs"
           icon
           :disabled="!media"
+          v-on="on"
           @click.stop="share"
         >
           <v-icon>share</v-icon>
@@ -37,10 +37,10 @@
     <v-tooltip v-if="Viewer" top>
       <template v-slot:activator="{ attrs, on }">
         <v-btn
-          v-on="on"
           v-bind="attrs"
           icon
           :disabled="!media"
+          v-on="on"
           @click.stop="edit"
         >
           <v-icon>edit</v-icon>
@@ -52,22 +52,16 @@
 </template>
 
 <script lang="ts">
-import { ShareData, NewNavigator } from '../types'
+import { NewNavigator, ShareData } from '../types'
+import { computed, createComponent } from '@vue/composition-api'
 
-import BaseLazyImg from './BaseLazyImg.vue'
-import MediaCardItemOverline from './MediaCardItemOverline.vue'
-import MediaCardItemAvatar from './MediaCardItemAvatar.vue'
-import MediaCardProgress from './MediaCardProgress.vue'
-
-import { VIEWER } from '@/graphql'
 import { Media } from '@/graphql/schema/media'
+import { VIEWER } from '@/graphql'
 
-import { VMenu, VBottomSheet } from 'vuetify/lib'
-import { createComponent, computed } from '@vue/composition-api'
-import useTitle from '../store/title'
-import useShareModule from '../store/share'
 import useEdit from '../store/edit'
 import useSettings from '../store/settings'
+import useShareModule from '../store/share'
+import useTitle from '../store/title'
 
 function useShare(props: Props) {
   const { options, isShared } = useShareModule()
@@ -86,12 +80,12 @@ function useShare(props: Props) {
     const share = (navigator as NewNavigator).share || desktopShare
 
     share.call(navigator, {
-      url: url.value,
-      title: title.value
+      title: title.value,
+      url: url.value
     })
   }
 
-  return { url, title, share }
+  return { share, title, url }
 }
 
 export interface Props {
@@ -99,14 +93,6 @@ export interface Props {
 }
 
 export default createComponent<Readonly<Props>>({
-  components: {
-    BaseLazyImg,
-    MediaCardItemOverline,
-    MediaCardItemAvatar,
-    MediaCardProgress,
-    VMenu,
-    VBottomSheet
-  },
   apollo: {
     Viewer: {
       query: VIEWER,
@@ -116,7 +102,7 @@ export default createComponent<Readonly<Props>>({
     }
   },
   props: {
-    media: { required: true, default: null, type: null }
+    media: { default: null, required: true, type: null }
   },
   setup(props) {
     const { media } = props

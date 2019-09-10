@@ -1,26 +1,27 @@
-import CompositionApi, { ref, Ref, watch } from '@vue/composition-api'
+import CompositionApi, { Ref, ref, watch } from '@vue/composition-api'
+import { DeleteVariables, SaveVariables } from '@/graphql/schema/listEntry'
 
-import Vue from 'vue'
+import {
+  FuzzyDate,
+  Media,
+  Variables as MediaVariables
+} from '@/graphql/schema/media'
+
 import apollo, {
-  SAVE_MEDIA_LIST_ENTRY,
+  DELETE_MEDIA_LIST_ENTRY,
   MEDIA,
-  VIEWER,
-  DELETE_MEDIA_LIST_ENTRY
+  SAVE_MEDIA_LIST_ENTRY,
+  VIEWER
 } from '@/graphql'
 
-import { SaveVariables, DeleteVariables } from '@/graphql/schema/listEntry'
-Vue.use(CompositionApi)
-import {
-  Variables as MediaVariables,
-  Media,
-  FuzzyDate
-} from '@/graphql/schema/media'
-import { MediaList } from '@/graphql/schema/mediaListCollection'
-
-import { User } from '@/graphql/schema/viewer'
 import { Form } from '@/types'
+import { MediaList } from '@/graphql/schema/mediaListCollection'
+import { User } from '@/graphql/schema/viewer'
+import Vue from 'vue'
+
 import useSettings from './settings'
 
+Vue.use(CompositionApi)
 const stored = localStorage.getItem('CHANGES')
 
 watch(() => {
@@ -278,12 +279,13 @@ const dispatch = async (command: ListCommand) => {
   return command
 }
 
-export default function useMutations() {
+const useMutations = () => {
   return {
-    history,
-    dispatch
+    dispatch,
+    history
   }
 }
+export default useMutations
 
 export const mediaListToForm = (
   mediaListEntry: MediaList | null,
@@ -309,15 +311,15 @@ export const mediaListToForm = (
 
   const advancedScores = advancedScoring.map(() => 0)
   return {
-    status: null,
+    advancedScores,
+    completedAt: { day: null, month: null, year: null },
     notes: '',
-    score: 0,
     progress: 0,
     progressVolumes: 0,
     repeat: 0,
-    startedAt: { day: null, year: null, month: null },
-    completedAt: { day: null, year: null, month: null },
-    advancedScores
+    score: 0,
+    startedAt: { day: null, month: null, year: null },
+    status: null
   }
 }
 

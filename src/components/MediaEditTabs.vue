@@ -2,9 +2,9 @@
   <v-tabs v-model="tab" grow>
     <v-tab
       v-for="{ icon, title, href } in tabs"
+      :key="title"
       :href="`#${href}`"
       :disabled="error || loading"
-      :key="title"
     >
       <v-icon left>{{ icon }}</v-icon>
       {{ title }}
@@ -22,10 +22,9 @@ export interface Props {
 
 export default createComponent<Readonly<Props>>({
   props: {
-    error: { required: true, type: Boolean, default: false },
-    loading: { required: true, type: Boolean, default: false }
+    error: { default: false, required: true, type: Boolean },
+    loading: { default: false, required: true, type: Boolean }
   },
-  components: {},
   setup() {
     const { tab, tabs } = useEdit()
 

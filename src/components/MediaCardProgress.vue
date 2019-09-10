@@ -19,16 +19,16 @@
 </template>
 
 <script lang="ts">
-import { createComponent, inject, computed } from '@vue/composition-api'
+import { computed, createComponent, inject } from '@vue/composition-api'
 
-export function useTheme() {
+export const useTheme = () => {
   const theme = inject('theme', { isDark: false })
 
   const color = computed(() =>
     theme && theme.isDark ? 'grey darken-2' : 'grey lighten-2'
   )
 
-  return { theme, color }
+  return { color, theme }
 }
 
 interface Props {
@@ -38,13 +38,13 @@ interface Props {
 export default createComponent<Readonly<Props>>({
   props: {
     height: {
-      required: false,
       default: '1em',
+      required: false,
       type: String
     },
     width: {
-      required: false,
       default: '100%',
+      required: false,
       type: String
     }
   },

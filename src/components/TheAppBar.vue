@@ -93,19 +93,19 @@
   </ApolloQuery>
 </template>
 <script lang="ts">
+import Color from 'color'
+import TheAppBarFilters from './TheAppBarFilters.vue'
 import TheAppBarSearch from './TheAppBarSearch.vue'
 import TheAppBarViewer from './TheAppBarViewer.vue'
-import TheAppBarFilters from './TheAppBarFilters.vue'
-
 import { createComponent } from '@vue/composition-api'
+
 import useTitle from '@/store/title'
-import Color from 'color'
 
 export default createComponent({
   components: {
+    TheAppBarFilters,
     TheAppBarSearch,
-    TheAppBarViewer,
-    TheAppBarFilters
+    TheAppBarViewer
   },
   setup(_, { root }) {
     const route = (name: string) => root.$route.name === name
@@ -114,7 +114,7 @@ export default createComponent({
 
     const color = (e: string) => Color(e)
 
-    return { route, title, color }
+    return { color, route, title }
   }
 })
 </script>

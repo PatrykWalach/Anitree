@@ -9,7 +9,7 @@
   </v-tooltip>
 </template>
 <script lang="ts">
-import { createComponent, computed } from '@vue/composition-api'
+import { computed, createComponent } from '@vue/composition-api'
 import useSettings from '../store/settings'
 
 export default createComponent({

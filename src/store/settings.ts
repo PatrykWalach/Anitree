@@ -26,8 +26,7 @@ watch(() =>
     })
   )
 )
-
-export default function useSettings() {
+const useSettings = () => {
   return {
     cacheApollo,
     cacheChanges,
@@ -35,3 +34,4 @@ export default function useSettings() {
     token
   }
 }
+export default useSettings

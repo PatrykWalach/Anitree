@@ -11,14 +11,13 @@
 </template>
 
 <script lang="ts">
-import MediaCardItemTitle from './MediaCardItemTitle.vue'
-import MediaCardItemSubtitle from './MediaCardItemSubtitle.vue'
+import { computed, createComponent } from '@vue/composition-api'
+import { Media } from '@/graphql/schema/media'
 import MediaCardItemAvatar from './MediaCardItemAvatar.vue'
 import MediaCardItemOverline from './MediaCardItemOverline.vue'
-
+import MediaCardItemSubtitle from './MediaCardItemSubtitle.vue'
+import MediaCardItemTitle from './MediaCardItemTitle.vue'
 import MediaCardProgress from './MediaCardProgress.vue'
-import { Media } from '@/graphql/schema/media'
-import { createComponent, computed } from '@vue/composition-api'
 
 export interface Props {
   media: Media | null
@@ -26,11 +25,14 @@ export interface Props {
 
 export default createComponent<Readonly<Props>>({
   components: {
-    MediaCardProgress,
-    MediaCardItemTitle,
-    MediaCardItemSubtitle,
+    MediaCardItemAvatar,
     MediaCardItemOverline,
-    MediaCardItemAvatar
+    MediaCardItemSubtitle,
+    MediaCardItemTitle,
+    MediaCardProgress
+  },
+  props: {
+    media: { default: null, required: true, type: null }
   },
   setup(props) {
     const lines = computed(() =>
@@ -38,9 +40,6 @@ export default createComponent<Readonly<Props>>({
     )
 
     return { lines }
-  },
-  props: {
-    media: { required: true, default: null, type: null }
   }
 })
 </script>

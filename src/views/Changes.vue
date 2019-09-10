@@ -13,9 +13,9 @@
 
     <v-row>
       <v-col
-        cols="12"
         v-for="command in history.slice().reverse()"
         :key="command.id"
+        cols="12"
       >
         <ChangeCard :command="command"></ChangeCard>
       </v-col>
@@ -23,10 +23,10 @@
   </v-container>
 </template>
 <script lang="ts">
+import ChangeCard from '@/components/ChangeCard.vue'
+import { createComponent } from '@vue/composition-api'
 import useMutations from '@/store/mutations'
 import useTitle from '@/store/title'
-import { createComponent } from '@vue/composition-api'
-import ChangeCard from '@/components/ChangeCard.vue'
 
 export default createComponent({
   components: { ChangeCard },

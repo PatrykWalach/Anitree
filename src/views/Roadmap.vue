@@ -14,16 +14,15 @@
   </base-container>
 </template>
 <script lang="ts">
-import { ref, Ref } from '@vue/composition-api'
+import { Cards, TrelloCard, TrelloChecklist, TrelloList } from '../types'
+import { Ref, ref } from '@vue/composition-api'
 
-import axios from 'axios'
-import RoadmapList from '../components/RoadmapList.vue'
 import BaseContainer from '../components/BaseContainer.vue'
-
-import { TrelloList, Cards, TrelloCard, TrelloChecklist } from '../types'
+import RoadmapList from '../components/RoadmapList.vue'
+import axios from 'axios'
 
 export default {
-  components: { RoadmapList, BaseContainer },
+  components: { BaseContainer, RoadmapList },
   setup() {
     const loading = ref(false)
 
@@ -59,7 +58,6 @@ export default {
     makeRequests().then(([_lists, cards, checklists]) => {
       lists.value = _lists.map(list => {
         return {
-          list,
           cards: cards
             .filter(card => card.idList === list.id)
             .map(card => {
@@ -69,14 +67,18 @@ export default {
                   checklist => checklist.idCard === card.id
                 )
               }
-            })
+            }),
+          list
         }
       })
 
       loading.value = false
     })
 
-    return { loading, lists }
+    return {
+      lists,
+      loading
+    }
   }
 }
 </script>

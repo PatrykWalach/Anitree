@@ -2,11 +2,11 @@
   <v-navigation-drawer v-model="syncedValue" app mini-variant permanent>
     <v-list nav>
       <v-list-item
+        v-for="{ to, title, icon } in main"
         :key="title"
         :color="theme.isDark ? undefined : 'primary'"
         exact
         :to="to"
-        v-for="{ to, title, icon } in main"
       >
         <v-list-item-icon>
           <v-icon>{{ icon }}</v-icon>
@@ -33,9 +33,9 @@ import { useTheme } from './MediaCardProgress.vue'
 export default createComponent<Readonly<Props>>({
   props: {
     value: {
+      default: false,
       required: true,
-      type: Boolean,
-      default: false
+      type: Boolean
     }
   },
   setup(props, { emit }) {

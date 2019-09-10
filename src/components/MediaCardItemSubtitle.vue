@@ -19,11 +19,12 @@
 </template>
 
 <script lang="ts">
+import { Media } from '@/graphql/schema/media'
 import MediaCardItemSubtitleReady from './MediaCardItemSubtitleReady.vue'
 
 import MediaCardProgress from './MediaCardProgress.vue'
-import { Media } from '@/graphql/schema/media'
 import { createComponent } from '@vue/composition-api'
+
 export interface Props {
   media: Media | null
 }
@@ -34,7 +35,7 @@ export default createComponent<Readonly<Props>>({
     MediaCardProgress
   },
   props: {
-    media: { required: true, default: null, type: null }
+    media: { default: null, required: true, type: null }
   }
 })
 </script>
