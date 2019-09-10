@@ -1,4 +1,11 @@
 import CompositionApi, { Ref, ref, watch } from '@vue/composition-api'
+import {
+  DELETE_MEDIA_LIST_ENTRY,
+  MEDIA,
+  SAVE_MEDIA_LIST_ENTRY,
+  VIEWER,
+  apollo,
+} from '@/graphql'
 import { DeleteVariables, SaveVariables } from '@/graphql/schema/listEntry'
 
 import {
@@ -7,19 +14,12 @@ import {
   Variables as MediaVariables,
 } from '@/graphql/schema/media'
 
-import apollo, {
-  DELETE_MEDIA_LIST_ENTRY,
-  MEDIA,
-  SAVE_MEDIA_LIST_ENTRY,
-  VIEWER,
-} from '@/graphql'
-
 import { Form } from '@/types'
 import { MediaList } from '@/graphql/schema/mediaListCollection'
 import { User } from '@/graphql/schema/viewer'
 import Vue from 'vue'
 
-import useSettings from './settings'
+import { useSettings } from './settings'
 
 Vue.use(CompositionApi)
 const stored = localStorage.getItem('CHANGES')
@@ -35,13 +35,13 @@ export const areUndoable = (
 ): commands is Required<Command>[] => commands.every(e => e.undo)
 
 export class MacroCommand implements Command {
-  commands: Set<Command>
+  public commands: Set<Command>
 
   constructor(commands: Command[]) {
     this.commands = new Set(commands)
   }
 
-  undo() {
+  public undo() {
     const commands = [...this.commands].reverse()
     if (areUndoable(commands)) {
       for (const command of commands) {
@@ -50,7 +50,7 @@ export class MacroCommand implements Command {
     }
   }
 
-  execute() {
+  public execute() {
     for (const command of this.commands) {
       command.execute()
     }
@@ -65,7 +65,7 @@ export interface Command {
 
 export interface ListCommand extends Command {
   backup: Form | null
-  variables: Object
+  variables: SaveVariables | (DeleteVariables & Pick<SaveVariables, 'mediaId'>)
   done: boolean
   _class: 'SaveCommand' | 'DeleteCommand'
 }
@@ -81,10 +81,10 @@ export type DeleteCommandConstructor = Partial<
   Pick<DeleteCommand, 'variables'>
 
 export class SaveCommand implements ListCommand {
-  backup: Form | null
-  variables: SaveVariables
-  done: boolean
-  _class = 'SaveCommand' as const
+  public backup: Form | null
+  public variables: SaveVariables
+  public done: boolean
+  public _class = 'SaveCommand' as const
 
   constructor({
     variables,
@@ -97,7 +97,7 @@ export class SaveCommand implements ListCommand {
     this.done = done
   }
 
-  saveState() {
+  public saveState() {
     const { variables } = this
 
     return Promise.all([
@@ -125,7 +125,7 @@ export class SaveCommand implements ListCommand {
     )
   }
 
-  async undo() {
+  public async undo() {
     const {
       backup,
       variables: { mediaId },
@@ -145,7 +145,7 @@ export class SaveCommand implements ListCommand {
     }
   }
 
-  async execute() {
+  public async execute() {
     await this.saveState()
 
     const { variables } = this
@@ -161,10 +161,10 @@ export class SaveCommand implements ListCommand {
   }
 }
 export class DeleteCommand implements ListCommand {
-  backup: Form | null
-  variables: DeleteVariables & Pick<SaveVariables, 'mediaId'>
-  done: boolean
-  _class = 'DeleteCommand' as const
+  public backup: Form | null
+  public variables: DeleteVariables & Pick<SaveVariables, 'mediaId'>
+  public done: boolean
+  public _class = 'DeleteCommand' as const
 
   constructor({
     variables,
@@ -177,7 +177,7 @@ export class DeleteCommand implements ListCommand {
     this.done = done
   }
 
-  saveState() {
+  public saveState() {
     const {
       variables: { mediaId },
     } = this
@@ -203,7 +203,7 @@ export class DeleteCommand implements ListCommand {
     )
   }
 
-  async undo() {
+  public async undo() {
     const {
       backup,
       variables: { mediaId },
@@ -226,7 +226,7 @@ export class DeleteCommand implements ListCommand {
     }
   }
 
-  async execute() {
+  public async execute() {
     await this.saveState()
 
     const {
@@ -246,10 +246,16 @@ export class DeleteCommand implements ListCommand {
   }
 }
 
-const isSaveCommand = (e: any): e is SaveCommandConstructor =>
+const isSaveCommand = (
+  e: (SaveCommandConstructor | DeleteCommandConstructor) &
+    Pick<ListCommand, '_class'>,
+): e is SaveCommandConstructor & Pick<SaveCommand, '_class'> =>
   e._class === 'SaveCommand'
 
-const isDeleteCommand = (e: any): e is DeleteCommandConstructor =>
+const isDeleteCommand = (
+  e: (SaveCommandConstructor | DeleteCommandConstructor) &
+    Pick<ListCommand, '_class'>,
+): e is DeleteCommandConstructor & Pick<DeleteCommand, '_class'> =>
   e._class === 'DeleteCommand'
 
 const history: Ref<ListCommand[]> = ref(
@@ -279,13 +285,12 @@ const dispatch = async (command: ListCommand) => {
   return command
 }
 
-const useMutations = () => {
+export const useMutations = () => {
   return {
     dispatch,
     history,
   }
 }
-export default useMutations
 
 export const mediaListToForm = (
   mediaListEntry: MediaList | null,

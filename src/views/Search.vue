@@ -79,8 +79,8 @@ import MediaTimeline from '../components/MediaTimeline.vue'
 import TheSearchList from '../components/TheSearchList.vue'
 
 import { isEqual } from 'apollo-utilities'
-import useNavigation from '../store/navigation'
-import useSettings from '../store/settings'
+import { useNavigation } from '@/store/navigation'
+import { useSettings } from '@/store/settings'
 
 export default createComponent({
   components: {

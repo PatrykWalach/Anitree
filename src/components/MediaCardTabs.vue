@@ -65,7 +65,7 @@ import { Media } from '@/graphql/schema/media'
 import MediaCardItem from './MediaCardItem.vue'
 import MediaCardTabsStats from './MediaCardTabsStats.vue'
 
-import useTitle from '@/store/title'
+import { useTitle } from '@/store/title'
 
 export default createComponent<Readonly<Props>>({
   components: {

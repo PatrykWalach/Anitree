@@ -27,7 +27,7 @@ import { computed, createComponent } from '@vue/composition-api'
 interface Props {
   value: boolean
 }
-import useNavigation from '@/store/navigation'
+import { useNavigation } from '@/store/navigation'
 import { useTheme } from './MediaCardProgress.vue'
 
 export default createComponent<Readonly<Props>>({

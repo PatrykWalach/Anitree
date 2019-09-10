@@ -1,8 +1,8 @@
+import { MEDIA, apollo } from '@/graphql'
 import { Media as MediaT, Variables } from '@/graphql/schema/media'
-import apollo, { MEDIA } from '@/graphql'
 import Router from 'vue-router'
 import Vue from 'vue'
-import useSettings from './store/settings'
+import { useSettings } from '@/store/settings'
 
 const Home = () => import(/* webpackPrefetch: true */ './views/Home.vue')
 const Media = () => import(/* webpackPrefetch: true */ './views/Media.vue')

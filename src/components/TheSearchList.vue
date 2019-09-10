@@ -31,7 +31,7 @@
 <script lang="ts">
 import { User } from '@/graphql/schema/viewer'
 import { createComponent } from '@vue/composition-api'
-import useNavigation from '@/store/navigation'
+import { useNavigation } from '@/store/navigation'
 
 export interface Props {
   user: null | User

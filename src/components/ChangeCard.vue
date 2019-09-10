@@ -76,7 +76,7 @@
 import { DeleteCommand, SaveCommand } from '@/store/mutations'
 import { computed, createComponent } from '@vue/composition-api'
 import { FuzzyDate } from '../graphql/schema/media'
-import useTitle from '@/store/title'
+import { useTitle } from '@/store/title'
 
 const BaseTime = () => import('./BaseTime.vue')
 

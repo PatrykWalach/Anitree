@@ -7,11 +7,9 @@ Vue.use(CompositionApi)
 const options: Ref<ShareData | null> = ref(null)
 
 const isShared = ref(false)
-const useShare = () => {
+export const useShare = () => {
   return {
     isShared,
     options,
   }
 }
-
-export default useShare

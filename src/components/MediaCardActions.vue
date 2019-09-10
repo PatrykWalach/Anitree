@@ -58,10 +58,10 @@ import { computed, createComponent } from '@vue/composition-api'
 import { Media } from '@/graphql/schema/media'
 import { VIEWER } from '@/graphql'
 
-import useEdit from '../store/edit'
-import useSettings from '../store/settings'
-import useShareModule from '../store/share'
-import useTitle from '../store/title'
+import { useEdit } from '../store/edit'
+import { useSettings } from '../store/settings'
+import { useShare as useShareModule } from '../store/share'
+import { useTitle } from '../store/title'
 
 function useShare(props: Props) {
   const { options, isShared } = useShareModule()

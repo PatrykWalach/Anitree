@@ -5,7 +5,7 @@ import CompositionApi from '@vue/composition-api'
 import Vue from 'vue'
 import { apolloProvider } from '@/graphql'
 import router from '@/router'
-import vuetify from '@/vuetify'
+import { vuetify } from '@/vuetify'
 
 Vue.use(CompositionApi)
 

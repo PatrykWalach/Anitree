@@ -25,8 +25,8 @@
 <script lang="ts">
 import ChangeCard from '@/components/ChangeCard.vue'
 import { createComponent } from '@vue/composition-api'
-import useMutations from '@/store/mutations'
-import useTitle from '@/store/title'
+import { useMutations } from '@/store/mutations'
+import { useTitle } from '@/store/title'
 
 export default createComponent({
   components: { ChangeCard },

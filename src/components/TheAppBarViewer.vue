@@ -54,7 +54,7 @@ import { VBottomSheet, VMenu } from 'vuetify/lib'
 import { VIEWER } from '@/graphql'
 import { createComponent } from '@vue/composition-api'
 
-import useSettings from '@/store/settings'
+import { useSettings } from '@/store/settings'
 
 export default createComponent({
   apollo: {

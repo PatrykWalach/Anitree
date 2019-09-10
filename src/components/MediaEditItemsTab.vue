@@ -3,8 +3,8 @@ import { VContainer, VRow } from 'vuetify/lib'
 import { createComponent, createElement as h } from '@vue/composition-api'
 
 import { Form } from '../types'
-import FormBuilder from './FormBuilder'
-import FormDirector from './FormDirector'
+import { FormBuilder } from './FormBuilder'
+import { FormDirector } from './FormDirector'
 
 import { Media } from '@/graphql/schema/media'
 import { User } from '@/graphql/schema/viewer'

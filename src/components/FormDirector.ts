@@ -1,8 +1,8 @@
-import FormBuilder from './FormBuilder'
+import { FormBuilder } from './FormBuilder'
 import { FuzzyDate } from '@/graphql/schema/media'
 import { Props } from './MediaEditItemsTab.vue'
 
-import useEdit from '@/store/edit'
+import { useEdit } from '@/store/edit'
 
 export const validFloat = (input: string): boolean =>
   !!input.match(/^([0-9])+(\.([1-9])+)?$/)
@@ -59,7 +59,7 @@ export interface ScoreFormat {
   max: number
 }
 
-export default class FormDirector {
+export class FormDirector {
   // [index: string]: any
 
   // public constructor() {}

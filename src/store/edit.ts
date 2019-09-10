@@ -1,12 +1,12 @@
 import CompositionApi, { Ref, ref } from '@vue/composition-api'
-import useMutations, { SaveCommand } from './mutations'
+import { SaveCommand, useMutations } from './mutations'
 
 import { Form } from '@/types'
 import { SaveVariables } from '@/graphql/schema/listEntry'
 import Vue from 'vue'
 import { mergeDeep } from 'apollo-utilities'
 
-import useSettings from './settings'
+import { useSettings } from './settings'
 
 Vue.use(CompositionApi)
 
@@ -64,7 +64,7 @@ const changeForm = async (form: Partial<SaveVariables>) => {
   }
 }
 
-const useEdit = () => {
+export const useEdit = () => {
   return {
     CHANGE_FORM,
     RESET_FORM,
@@ -80,5 +80,3 @@ const useEdit = () => {
     tabs,
   }
 }
-
-export default useEdit

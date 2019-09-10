@@ -31,8 +31,8 @@ import TheFooter from './components/TheFooter.vue'
 
 // const TheBottomNavigation = () => import('@/components/TheBottomNavigation.vue')
 
-import useEdit from './store/edit'
-import useShare from './store/share'
+import { useEdit } from './store/edit'
+import { useShare } from './store/share'
 
 export const useTheme = ({ root }: SetupContext) => {
   const dark = computed({

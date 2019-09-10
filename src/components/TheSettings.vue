@@ -46,7 +46,7 @@
 import { computed, createComponent } from '@vue/composition-api'
 import TheSettingsSetting from '@/components/TheSettingsSetting.vue'
 import TheSettingsTitle from '@/components/TheSettingsTitle.vue'
-import useSettings from '@/store/settings'
+import { useSettings } from '@/store/settings'
 
 const TheSettingsLogin = () => import('@/components/TheSettingsLogin.vue')
 

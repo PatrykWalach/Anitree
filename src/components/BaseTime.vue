@@ -15,7 +15,7 @@ export default createComponent<Readonly<Props>>({
       parts.map(({ value }) => value).join(''),
   },
   props: {
-    date: { default: Object, required: true, type: null },
+    date: { default: null, required: true, type: Object },
     sliceDate: { default: null, required: false, type: null },
   },
   setup(props) {

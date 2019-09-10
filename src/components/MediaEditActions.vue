@@ -43,14 +43,14 @@
   </v-card-actions>
 </template>
 <script lang="ts">
+import { DeleteCommand, useMutations } from '../store/mutations'
 import { computed, createComponent, ref } from '@vue/composition-api'
-import useMutations, { DeleteCommand } from '../store/mutations'
 
 import { Media } from '@/graphql/schema/media'
 import MediaEditIcon from './MediaEditIcon.vue'
 import { User } from '@/graphql/schema/viewer'
 // import { DELETE_MEDIA_LIST_ENTRY } from '@/graphql'
-import useEdit from '../store/edit'
+import { useEdit } from '../store/edit'
 
 export interface Props {
   user: User | null

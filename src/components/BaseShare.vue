@@ -61,7 +61,7 @@ import BaseShareItems from './BaseShareItems.vue'
 import { ShareData } from '../types'
 import { clipboard } from 'vue-clipboards'
 
-import useShare from '../store/share'
+import { useShare } from '../store/share'
 
 export interface Props {
   options: ShareData | null

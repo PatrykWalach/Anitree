@@ -13,7 +13,7 @@
 </template>
 <script lang="ts">
 import { createComponent } from '@vue/composition-api'
-import useEdit from '../store/edit'
+import { useEdit } from '../store/edit'
 
 export interface Props {
   error: boolean

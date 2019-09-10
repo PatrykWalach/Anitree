@@ -14,7 +14,7 @@
 import { computed, createComponent } from '@vue/composition-api'
 import { Media } from '@/graphql/schema/media'
 
-import useTitle from '@/store/title'
+import { useTitle } from '@/store/title'
 
 export interface Props {
   media: Media
@@ -22,7 +22,7 @@ export interface Props {
 
 export default createComponent<Readonly<Props>>({
   props: {
-    media: { default: Object, required: true, type: null },
+    media: { default: null, required: true, type: Object },
   },
   setup(props) {
     const { title: _title } = useTitle()

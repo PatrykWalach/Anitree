@@ -10,7 +10,7 @@
 </template>
 <script lang="ts">
 import { computed, createComponent } from '@vue/composition-api'
-import useSettings from '../store/settings'
+import { useSettings } from '../store/settings'
 
 export default createComponent({
   inheritAttrs: false,

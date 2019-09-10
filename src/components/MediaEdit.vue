@@ -77,8 +77,8 @@ import MediaEditItems from './MediaEditItems.vue'
 
 import MediaEditTabs from './MediaEditTabs.vue'
 
-import useEdit from '../store/edit'
-import useSettings from '../store/settings'
+import { useEdit } from '../store/edit'
+import { useSettings } from '../store/settings'
 
 export interface Props {
   id: number | null

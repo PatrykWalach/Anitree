@@ -13,7 +13,7 @@
 
 <script lang="ts">
 import { computed, createComponent } from '@vue/composition-api'
-import useNavigation from '@/store/navigation'
+import { useNavigation } from '@/store/navigation'
 import { useTheme } from './MediaCardProgress.vue'
 
 export default createComponent({

@@ -8,7 +8,7 @@ import Vue from 'vue'
 import VueApollo from 'vue-apollo'
 
 import { persistCache } from 'apollo-cache-persist'
-import useSettings from '@/store/settings'
+import { useSettings } from '@/store/settings'
 
 const link = new HttpLink({
   uri: 'https://graphql.anilist.co',
@@ -47,14 +47,12 @@ if (useSettings().cacheApollo.value) {
   })
 }
 
-const apollo = new ApolloClient({
+export const apollo = new ApolloClient({
   cache,
   link: concat(middle, link),
 })
 
 Vue.use(VueApollo)
-
-export default apollo
 
 export const apolloProvider = new VueApollo({
   defaultClient: apollo,

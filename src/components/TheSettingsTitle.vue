@@ -53,7 +53,7 @@
 <script lang="ts">
 import { VBottomSheet, VDialog } from 'vuetify/lib'
 import { createComponent, ref } from '@vue/composition-api'
-import useTitle from '@/store/title'
+import { useTitle } from '@/store/title'
 
 export default createComponent({
   components: {

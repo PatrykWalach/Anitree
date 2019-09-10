@@ -32,7 +32,7 @@ interface Select extends Field {
   }
 }
 
-export default class FormBuilder {
+export class FormBuilder {
   public fields: VNode[]
 
   public constructor() {

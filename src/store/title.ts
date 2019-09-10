@@ -31,7 +31,7 @@ const preferedTitle = computed({
 
 const prefered = computed({ get: () => _prefered.value, set: CHANGE_PREFERED })
 
-const useTitle = () => {
+export const useTitle = () => {
   return {
     CHANGE_PREFERED,
     CHANGE_PREFERED_TILE,
@@ -42,5 +42,3 @@ const useTitle = () => {
     titles,
   }
 }
-
-export default useTitle

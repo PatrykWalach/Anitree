@@ -49,7 +49,6 @@ const search: Ref<Element[]> = ref([
     },
   },
 ])
-const useNavigation = () => {
+export const useNavigation = () => {
   return { main, search }
 }
-export default useNavigation
