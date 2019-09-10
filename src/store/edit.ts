@@ -1,11 +1,11 @@
 import CompositionApi, { Ref, ref } from '@vue/composition-api'
-import { SaveCommand, useMutations } from './mutations'
-
 import { Form } from '@/types'
+import { SaveCommand } from './commands/SaveCommand'
 import { SaveVariables } from '@/graphql/schema/listEntry'
 import Vue from 'vue'
 import { mergeDeep } from 'apollo-utilities'
 
+import { useCommands } from './commands'
 import { useSettings } from './settings'
 
 Vue.use(CompositionApi)
@@ -46,7 +46,7 @@ const submit = async () => {
   if (mediaId.value) {
     loading.value = true
 
-    await useMutations().dispatch(
+    await useCommands().dispatch(
       new SaveCommand({
         variables: { mediaId: mediaId.value, ...form.value },
       }),

@@ -43,13 +43,15 @@
   </v-card-actions>
 </template>
 <script lang="ts">
-import { DeleteCommand, useMutations } from '../store/mutations'
 import { computed, createComponent, ref } from '@vue/composition-api'
+
+import { DeleteCommand } from '@/store/commands/DeleteCommand'
 
 import { Media } from '@/graphql/schema/media'
 import MediaEditIcon from './MediaEditIcon.vue'
 import { User } from '@/graphql/schema/viewer'
 // import { DELETE_MEDIA_LIST_ENTRY } from '@/graphql'
+import { useCommands } from '../store/commands'
 import { useEdit } from '../store/edit'
 
 export interface Props {
@@ -72,7 +74,7 @@ function useActions(props: Readonly<Props>) {
   const remove = async () => {
     if (props.media && props.media.mediaListEntry) {
       confirmation.value = false
-      await useMutations().dispatch(
+      await useCommands().dispatch(
         new DeleteCommand({
           variables: {
             id: props.media.mediaListEntry.id,

@@ -73,9 +73,10 @@
   </ApolloQuery>
 </template>
 <script lang="ts">
-import { DeleteCommand, SaveCommand } from '@/store/mutations'
 import { computed, createComponent } from '@vue/composition-api'
+import { DeleteCommand } from '@/store/commands/DeleteCommand'
 import { FuzzyDate } from '../graphql/schema/media'
+import { SaveCommand } from '@/store/commands/SaveCommand'
 import { useTitle } from '@/store/title'
 
 const BaseTime = () => import('./BaseTime.vue')

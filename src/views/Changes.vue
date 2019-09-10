@@ -25,13 +25,13 @@
 <script lang="ts">
 import ChangeCard from '@/components/ChangeCard.vue'
 import { createComponent } from '@vue/composition-api'
-import { useMutations } from '@/store/mutations'
+import { useCommands } from '@/store/commands'
 import { useTitle } from '@/store/title'
 
 export default createComponent({
   components: { ChangeCard },
   setup() {
-    const { history } = useMutations()
+    const { history } = useCommands()
     const { title } = useTitle()
 
     return {
