@@ -5,27 +5,27 @@
 [![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/PatrykWalach/Anitree.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/PatrykWalach/Anitree/context:javascript)
 
 ## Project setup
-```
+```sh
 npm install
 ```
 
 ### Compiles and hot-reloads for development
-```
+```sh
 npm run serve
 ```
 
 ### Compiles and minifies for production
-```
+```sh
 npm run build
 ```
 
 ### Run your tests
-```
+```sh
 npm run test
 ```
 
 ### Lints and fixes files
-```
+```sh
 npm run lint
 ```
 
