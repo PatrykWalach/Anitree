@@ -34,7 +34,7 @@
         "@mdi/font": "^4.3.95",
         "@types/color": "^3.0.0",
         "@types/graphql": "^14.5.0",
-        "@vue/cli-plugin-babel": "^4.0.0-rc.2",
+        "@vue/cli-plugin-babel": "^4.0.0-rc.3",
         "@vue/cli-plugin-eslint": "^4.0.0-rc.2",
         "@vue/cli-plugin-pwa": "^4.0.0-rc.2",
         "@vue/cli-plugin-router": "^4.0.0-rc.2",
