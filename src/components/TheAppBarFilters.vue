@@ -41,32 +41,32 @@
             v-for="{ value, text } in [
               {
                 value: 'ID_DESC',
-                text: 'Date Added'
+                text: 'Date Added',
               },
               {
                 value: 'FAVOURITES_DESC',
-                text: 'Favorites'
+                text: 'Favorites',
               },
               {
                 value: 'POPULARITY_DESC',
-                text: 'Popularity'
+                text: 'Popularity',
               },
               {
                 value: 'START_DATE_DESC',
-                text: 'Release Date'
+                text: 'Release Date',
               },
               {
                 value: 'SCORE_DESC',
-                text: 'Score'
+                text: 'Score',
               },
               {
                 value: 'TITLE_ROMAJI',
-                text: 'Title'
+                text: 'Title',
               },
               {
                 value: 'TRENDING_DESC',
-                text: 'Trending'
-              }
+                text: 'Trending',
+              },
             ]"
             :key="value"
             :value="value"
@@ -94,7 +94,7 @@
               'CANCELLED',
               'FINISHED',
               'NOT_YET_RELEASED',
-              'RELEASING'
+              'RELEASING',
             ]"
             :key="status"
             filter
@@ -126,7 +126,7 @@ import BaseField from './BaseField.vue'
 
 export default createComponent({
   components: {
-    BaseField
+    BaseField,
   },
   setup(_, { root }) {
     const _form = ref({})
@@ -139,7 +139,7 @@ export default createComponent({
 
     const submit = () => {
       root.$router.replace({
-        query: form.value
+        query: form.value,
       })
       close()
     }
@@ -149,14 +149,14 @@ export default createComponent({
       get: () => {
         return {
           ...query.value,
-          ..._form.value
+          ..._form.value,
         }
       },
       set: e => {
         _form.value = e
-      }
+      },
     })
     return { close, dialog, form, query, submit }
-  }
+  },
 })
 </script>

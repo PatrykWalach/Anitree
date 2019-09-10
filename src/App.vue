@@ -20,7 +20,7 @@ import {
   SetupContext,
   computed,
   createComponent,
-  ref
+  ref,
 } from '@vue/composition-api'
 import BaseShare from './components/BaseShare.vue'
 import MediaEdit from './components/MediaEdit.vue'
@@ -40,7 +40,7 @@ export const useTheme = ({ root }: SetupContext) => {
     set: dark => {
       root.$vuetify.theme.dark = dark
       localStorage.setItem('THEME', dark.toString())
-    }
+    },
   })
   return { dark }
 }
@@ -51,7 +51,7 @@ export default createComponent({
     TheAppBar,
     TheBottomNavigation,
     TheDrawer,
-    TheFooter
+    TheFooter,
   },
   setup(_, context) {
     const drawer = ref(false)
@@ -80,8 +80,8 @@ export default createComponent({
       drawer,
       mediaId,
       options,
-      toggleDrawer
+      toggleDrawer,
     }
-  }
+  },
 })
 </script>

@@ -17,7 +17,7 @@
           viewer && viewer.Viewer.options.displayAdultContent
             ? undefined
             : false,
-        ...query
+        ...query,
       }"
     >
       <v-container :fill-height="isLoading">
@@ -74,18 +74,18 @@
   </ApolloQuery>
 </template>
 <script lang="ts">
+import { computed, createComponent } from '@vue/composition-api'
 import MediaTimeline from '../components/MediaTimeline.vue'
 import TheSearchList from '../components/TheSearchList.vue'
 
-import { computed, createComponent } from '@vue/composition-api'
-import useSettings from '../store/settings'
 import { isEqual } from 'apollo-utilities'
 import useNavigation from '../store/navigation'
+import useSettings from '../store/settings'
 
 export default createComponent({
   components: {
     MediaTimeline,
-    TheSearchList
+    TheSearchList,
   },
   setup(_, { root }) {
     const query = computed({
@@ -100,12 +100,12 @@ export default createComponent({
               default:
                 return [key, value]
             }
-          })
+          }),
         ),
       set: query =>
         root.$router.replace({
-          query
-        })
+          query,
+        }),
     })
 
     const isSearched = computed(() => !!Object.values(query.value).length)
@@ -134,18 +134,18 @@ export default createComponent({
 
       set: page => {
         query.value = Object.assign({}, query.value, { page })
-      }
+      },
     })
 
     const { token } = useSettings()
 
     return {
-      token,
-      query,
-      page,
       isSearched,
-      subheader
+      page,
+      query,
+      subheader,
+      token,
     }
-  }
+  },
 })
 </script>

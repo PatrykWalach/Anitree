@@ -32,10 +32,10 @@ export interface Props {
 export default {
   components: {
     MediaCard,
-    MediaTimelineItem
+    MediaTimelineItem,
   },
   props: {
-    mediaList: { default: () => [], required: true, type: Array }
-  }
+    mediaList: { default: () => [], required: true, type: Array },
+  },
 }
 </script>

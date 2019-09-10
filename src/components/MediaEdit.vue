@@ -13,7 +13,7 @@
         id: id || 1,
         format:
           (viewerData && viewerData.Viewer.mediaListOptions.scoreFormat) ||
-          undefined
+          undefined,
       }"
       :skip="!id"
       :tag="null"
@@ -90,10 +90,10 @@ export default createComponent<Readonly<Props>>({
     MediaCardItem,
     MediaEditActions,
     MediaEditItems,
-    MediaEditTabs
+    MediaEditTabs,
   },
   props: {
-    id: { default: null, required: true, type: null }
+    id: { default: null, required: true, type: null },
   },
   setup() {
     const { close, isEdited: _isEdited, loading } = useEdit()
@@ -107,15 +107,15 @@ export default createComponent<Readonly<Props>>({
         } else {
           _isEdited.value = isEdited
         }
-      }
+      },
     })
 
     return {
       close,
       isEdited,
       loading,
-      token
+      token,
     }
-  }
+  },
 })
 </script>

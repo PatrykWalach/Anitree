@@ -26,8 +26,8 @@ export default createComponent({
     return {
       main,
       theme,
-      value
+      value,
     }
-  }
+  },
 })
 </script>

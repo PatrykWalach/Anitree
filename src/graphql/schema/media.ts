@@ -1,5 +1,5 @@
-import { ScoreFormat } from './viewer'
 import { MediaList } from './mediaListCollection'
+import { ScoreFormat } from './viewer'
 
 export interface Variables {
   isAdult?: boolean

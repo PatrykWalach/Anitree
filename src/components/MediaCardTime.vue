@@ -23,14 +23,14 @@ export interface Props {
 export default createComponent<Readonly<Props>>({
   components: {
     BaseTime,
-    BaseTimeRange
+    BaseTimeRange,
   },
   props: {
-    media: { default: null, required: true, type: Object }
+    media: { default: null, required: true, type: Object },
   },
   setup(props) {
     const isValidDate = (
-      date: Omit<FuzzyDate, '__typename'>
+      date: Omit<FuzzyDate, '__typename'>,
     ): date is ValidDate => date.year !== null && date.month !== null
 
     const validStartDate = computed(() => isValidDate(props.media.startDate))
@@ -47,6 +47,6 @@ export default createComponent<Readonly<Props>>({
     })
 
     return { isRange, validStartDate }
-  }
+  },
 })
 </script>

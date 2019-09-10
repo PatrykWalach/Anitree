@@ -20,13 +20,13 @@ import { useTheme } from './MediaCardProgress.vue'
 
 export default createComponent<Readonly<Props>>({
   components: {
-    MediaCardStatusReady
+    MediaCardStatusReady,
   },
   props: {
-    media: { default: null, required: true, type: null }
+    media: { default: null, required: true, type: null },
   },
   setup() {
     return useTheme()
-  }
+  },
 })
 </script>

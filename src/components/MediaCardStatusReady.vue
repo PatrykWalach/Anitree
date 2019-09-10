@@ -22,18 +22,19 @@ export interface Props {
 }
 export default createComponent<Readonly<Props>>({
   props: {
-    media: { default: null, required: true, type: Object }
+    media: { default: null, required: true, type: Object },
   },
   setup(props) {
     const manga = computed(() => props.media.type === 'MANGA')
 
     const status = computed(
-      () => props.media.mediaListEntry && props.media.mediaListEntry.status
+      () => props.media.mediaListEntry && props.media.mediaListEntry.status,
     )
 
     const progress = computed(
       () =>
-        (props.media.mediaListEntry && props.media.mediaListEntry.progress) || 0
+        (props.media.mediaListEntry && props.media.mediaListEntry.progress) ||
+        0,
     )
 
     const episodes = computed(() => {
@@ -57,7 +58,7 @@ export default createComponent<Readonly<Props>>({
     })
 
     const stringValue = computed(
-      () => progress.value + '/' + (episodes.value || '')
+      () => progress.value + '/' + (episodes.value || ''),
     )
 
     const tipObject = computed(() => {
@@ -65,7 +66,7 @@ export default createComponent<Readonly<Props>>({
         case 'CURRENT':
           return {
             manga: 'Reading',
-            text: 'Watching'
+            text: 'Watching',
           }
         case 'PLANNING':
           return { manga: 'Plan to read', text: 'Plan to watch' }
@@ -74,11 +75,11 @@ export default createComponent<Readonly<Props>>({
         case 'REPEATING':
           return {
             manga: 'Rereading',
-            text: 'Rewatching'
+            text: 'Rewatching',
           }
         case 'PAUSED':
           return {
-            text: 'Paused'
+            text: 'Paused',
           }
         case 'DROPPED':
           return { text: 'Dropped' }
@@ -91,7 +92,7 @@ export default createComponent<Readonly<Props>>({
       () =>
         (tipObject.value &&
           ((manga.value && tipObject.value.manga) || tipObject.value.text)) ||
-        ''
+        '',
     )
 
     const tip = computed(() => {
@@ -136,8 +137,8 @@ export default createComponent<Readonly<Props>>({
       stringValue,
       tip,
       tipObject,
-      tipString
+      tipString,
     }
-  }
+  },
 })
 </script>

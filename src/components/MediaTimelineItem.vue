@@ -24,26 +24,27 @@ export interface Props {
 export default createComponent<Readonly<Props>>({
   components: {
     MediaCard,
-    MediaCardTime
+    MediaCardTime,
   },
   props: {
-    media: { default: null, required: true, type: null }
+    media: { default: null, required: true, type: null },
   },
   setup(props, { root }: SetupContext) {
     const color = computed(
       () =>
         (props.media && props.media.coverImage.color) ||
-        (root.$vuetify.theme.dark ? '#555' : '#e0e0e0')
+        (root.$vuetify.theme.dark ? '#555' : '#e0e0e0'),
     )
 
     const currentId = computed(() => parseInt(root.$route.params.mediaId, 10))
 
     const large = computed(
       () =>
-        !!currentId.value && (props.media && props.media.id === currentId.value)
+        !!currentId.value &&
+        (props.media && props.media.id === currentId.value),
     )
 
     return { color, currentId, large }
-  }
+  },
 })
 </script>

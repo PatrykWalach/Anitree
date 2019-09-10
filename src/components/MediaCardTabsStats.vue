@@ -33,20 +33,20 @@ export default createComponent<Readonly<Props>>({
   props: { media: { default: null, required: true, type: Object } },
   setup(props) {
     const scoreDistribution = computed(
-      () => props.media.stats.scoreDistribution || []
+      () => props.media.stats.scoreDistribution || [],
     )
 
     const value = computed(() =>
-      scoreDistribution.value.map(({ amount }) => amount)
+      scoreDistribution.value.map(({ amount }) => amount),
     )
 
     const labels = computed(() =>
-      scoreDistribution.value.map(({ score }) => score)
+      scoreDistribution.value.map(({ score }) => score),
     )
 
     const { theme } = useTheme()
 
     return { labels, theme, value }
-  }
+  },
 })
 </script>

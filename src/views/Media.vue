@@ -20,7 +20,7 @@ import {
   computed,
   createComponent,
   ref,
-  watch
+  watch,
 } from '@vue/composition-api'
 import BaseContainer from '../components/BaseContainer.vue'
 import { Media } from '@/graphql/schema/media'
@@ -37,7 +37,7 @@ const getYear = (seasonInt: number) => {
 export default createComponent({
   components: {
     BaseContainer,
-    MediaTimeline
+    MediaTimeline,
   },
   setup(_, { root }) {
     const loading = ref(false)
@@ -50,7 +50,7 @@ export default createComponent({
         .query({
           fetchPolicy: 'network-only',
           query: PAGE,
-          variables
+          variables,
         })
         .then(({ data }: { data: { Page: Page } }) => data.Page.media)
         .then(media => {
@@ -73,7 +73,7 @@ export default createComponent({
               }
               return acc
             }, [])
-            .map(fetch)
+            .map(fetch),
         )
           .then(media => media.flat())
           .then(media => {
@@ -81,7 +81,7 @@ export default createComponent({
               .flatMap(({ relations }) => relations.edges)
               .map(({ node }) => node.id)
               .filter(
-                (id, i, arr) => arr.findIndex(mediaId => mediaId === id) === i
+                (id, i, arr) => arr.findIndex(mediaId => mediaId === id) === i,
               )
               .filter(id => !mediaList.value.find(media => media.id === id))
 
@@ -105,15 +105,15 @@ export default createComponent({
     })
 
     const mediaRelations = computed(() =>
-      mediaList.value.flatMap(({ relations }) => relations.edges)
+      mediaList.value.flatMap(({ relations }) => relations.edges),
     )
 
     const relationTypes = computed(() => [
-      ...new Set(mediaRelations.value.map(({ relationType }) => relationType))
+      ...new Set(mediaRelations.value.map(({ relationType }) => relationType)),
     ])
 
     const relatedMedia = computed(() => [
-      ...new Set(mediaRelations.value.map(({ node }) => node.id))
+      ...new Set(mediaRelations.value.map(({ node }) => node.id)),
     ])
 
     const sorters: ((mediaA: Media, mediaB: Media) => number)[] = [
@@ -128,7 +128,7 @@ export default createComponent({
       ({ startDate: dateA }, { startDate: dateB }) =>
         (dateA.month && dateB.month && dateA.month - dateB.month) || 0,
       ({ startDate: dateA }, { startDate: dateB }) =>
-        (dateA.day && dateB.day && dateA.day - dateB.day) || 0
+        (dateA.day && dateB.day && dateA.day - dateB.day) || 0,
     ]
 
     return {
@@ -141,7 +141,7 @@ export default createComponent({
               if (result) return result
             }
             return 0
-          }
+          },
           // (seasonA &&
           //   seasonB &&
           //   (getYear(seasonA) - getYear(seasonB) ||
@@ -150,12 +150,12 @@ export default createComponent({
           // (dateA.month && dateB.month && dateA.month - dateB.month) ||
           // (dateA.day && dateB.day && dateA.day - dateB.day) ||
           // 1
-        )
+        ),
       ),
       mediaRelations,
       relatedMedia,
-      relationTypes
+      relationTypes,
     }
-  }
+  },
 })
 </script>

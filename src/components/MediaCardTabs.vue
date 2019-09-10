@@ -70,14 +70,14 @@ import useTitle from '@/store/title'
 export default createComponent<Readonly<Props>>({
   components: {
     MediaCardItem,
-    MediaCardTabsStats
+    MediaCardTabsStats,
   },
   props: {
     media: {
       default: null,
       required: true,
-      type: null
-    }
+      type: null,
+    },
   },
   setup(props) {
     const { title: _title } = useTitle()
@@ -87,7 +87,7 @@ export default createComponent<Readonly<Props>>({
     const tab = ref('info')
 
     return { tab, title }
-  }
+  },
 })
 
 export interface Props {

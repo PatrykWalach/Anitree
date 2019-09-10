@@ -38,14 +38,14 @@ export default createComponent<Readonly<Props>>({
     MediaCardActions,
     MediaCardBanner,
     MediaCardStatus,
-    MediaCardTabs
+    MediaCardTabs,
   },
   props: {
     id: {
       default: 2,
       required: true,
-      type: Number
-    }
+      type: Number,
+    },
   },
   setup(props) {
     const variables: Ref<Variables> = computed(() => {
@@ -53,7 +53,7 @@ export default createComponent<Readonly<Props>>({
     })
 
     return { variables }
-  }
+  },
 })
 export interface Props {
   id: number

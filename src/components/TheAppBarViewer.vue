@@ -62,12 +62,12 @@ export default createComponent({
       query: VIEWER,
       skip() {
         return !useSettings().token.value
-      }
-    }
+      },
+    },
   },
   components: {
     VBottomSheet,
-    VMenu
+    VMenu,
   },
 
   setup() {
@@ -78,6 +78,6 @@ export default createComponent({
     }
 
     return { logout }
-  }
+  },
 })
 </script>

@@ -15,8 +15,8 @@ export default {
     loading: {
       default: false,
       required: true,
-      type: Boolean
-    }
-  }
+      type: Boolean,
+    },
+  },
 }
 </script>

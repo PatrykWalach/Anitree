@@ -22,16 +22,16 @@ watch(() =>
       cacheApollo: cacheApollo.value,
       cacheChanges: cacheChanges.value,
       syncChanges: syncChanges.value,
-      token: token.value
-    })
-  )
+      token: token.value,
+    }),
+  ),
 )
 const useSettings = () => {
   return {
     cacheApollo,
     cacheChanges,
     syncChanges,
-    token
+    token,
   }
 }
 export default useSettings

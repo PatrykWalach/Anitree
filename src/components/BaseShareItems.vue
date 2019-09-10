@@ -6,14 +6,14 @@ import {
   VIcon,
   VRow,
   VSlideGroup,
-  VSlideItem
+  VSlideItem,
 } from 'vuetify/lib'
 import { createComponent, createElement, ref } from '@vue/composition-api'
 import {
   faFacebookF,
   faRedditAlien,
   faTumblr,
-  faTwitter
+  faTwitter,
 } from '@fortawesome/free-brands-svg-icons'
 import BaseShareItem from './BaseShareItem.vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
@@ -33,10 +33,10 @@ export default createComponent<Readonly<Props>>({
     VIcon,
     VRow,
     VSlideGroup,
-    VSlideItem
+    VSlideItem,
   },
   props: {
-    url: { default: '', required: true, type: String }
+    url: { default: '', required: true, type: String },
   },
   setup: (props, { root }) => {
     const h = createElement
@@ -48,19 +48,19 @@ export default createComponent<Readonly<Props>>({
         icon: (
           <font-awesome-icon icon={['fab', 'facebook-f']}></font-awesome-icon>
         ),
-        title: 'Facebook'
+        title: 'Facebook',
       },
       {
         color: '#1DA1F2',
         href: `https://twitter.com/intent/tweet?url=${props.url}`,
         icon: <font-awesome-icon icon={['fab', 'twitter']}></font-awesome-icon>,
-        title: 'Twitter'
+        title: 'Twitter',
       },
       {
         color: '#35465C',
         href: `http://www.tumblr.com/share/link?url=${props.url}`,
         icon: <font-awesome-icon icon={['fab', 'tumblr']}></font-awesome-icon>,
-        title: 'Tumblr'
+        title: 'Tumblr',
       },
       {
         color: '#FF4500',
@@ -68,14 +68,14 @@ export default createComponent<Readonly<Props>>({
         icon: (
           <font-awesome-icon icon={['fab', 'reddit-alien']}></font-awesome-icon>
         ),
-        title: 'Reddit'
+        title: 'Reddit',
       },
       {
         color: '#FF4500',
         href: `mailto:?body=${props.url}`,
         icon: <v-icon dark>email</v-icon>,
-        title: 'E-mail'
-      }
+        title: 'E-mail',
+      },
     ])
 
     return () =>
@@ -104,6 +104,6 @@ export default createComponent<Readonly<Props>>({
           </v-slide-group>
         </v-card-text>
       )
-  }
+  },
 })
 </script>

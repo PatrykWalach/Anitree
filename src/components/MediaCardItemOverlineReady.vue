@@ -3,7 +3,7 @@
     <router-link
       :to="{
         name: 'search',
-        query
+        query,
       }"
     >
       {{ link }}
@@ -20,7 +20,7 @@ export interface Props {
 }
 export default createComponent<Readonly<Props>>({
   props: {
-    media: { default: null, required: true, type: Object }
+    media: { default: null, required: true, type: Object },
   },
   setup(props) {
     const year = computed(() => {
@@ -36,7 +36,7 @@ export default createComponent<Readonly<Props>>({
     const link = computed(() =>
       [season.value && season.value.toLowerCase(), year.value]
         .filter(e => e)
-        .join(' ')
+        .join(' '),
     )
 
     const query = computed(() => {
@@ -44,6 +44,6 @@ export default createComponent<Readonly<Props>>({
     })
 
     return { link, query, season, year }
-  }
+  },
 })
 </script>

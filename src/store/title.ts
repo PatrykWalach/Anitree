@@ -10,7 +10,7 @@ const _prefered = ref((stored && parseInt(stored)) || 0)
 const titles = ref(['romaji', 'english', 'native'] as const)
 
 const title = computed(() => (title: MediaTitle | null) =>
-  (title && (title[preferedTitle.value] || title.romaji)) || ''
+  (title && (title[preferedTitle.value] || title.romaji)) || '',
 )
 
 const CHANGE_PREFERED = (payload: number) => {
@@ -19,14 +19,14 @@ const CHANGE_PREFERED = (payload: number) => {
 }
 
 const CHANGE_PREFERED_TILE = (
-  payload: keyof Omit<MediaTitle, '__typename'>
+  payload: keyof Omit<MediaTitle, '__typename'>,
 ) => {
   CHANGE_PREFERED(titles.value.indexOf(payload))
 }
 
 const preferedTitle = computed({
   get: () => titles.value[_prefered.value],
-  set: CHANGE_PREFERED_TILE
+  set: CHANGE_PREFERED_TILE,
 })
 
 const prefered = computed({ get: () => _prefered.value, set: CHANGE_PREFERED })
@@ -39,7 +39,7 @@ const useTitle = () => {
     prefered,
     preferedTitle,
     title,
-    titles
+    titles,
   }
 }
 

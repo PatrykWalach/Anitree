@@ -13,11 +13,11 @@ export interface Props {
 }
 export default createComponent<Readonly<Props>>({
   props: {
-    value: { default: false, required: true, type: Boolean }
+    value: { default: false, required: true, type: Boolean },
   },
   setup(props, { emit }) {
     const change = () => emit('change', !props.value)
     return { change }
-  }
+  },
 })
 </script>

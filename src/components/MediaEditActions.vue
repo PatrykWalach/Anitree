@@ -76,9 +76,9 @@ function useActions(props: Readonly<Props>) {
         new DeleteCommand({
           variables: {
             id: props.media.mediaListEntry.id,
-            mediaId: props.media.id
-          }
-        })
+            mediaId: props.media.id,
+          },
+        }),
       )
       // await root.$apollo.mutate({
       //   mutation: DELETE_MEDIA_LIST_ENTRY,
@@ -93,14 +93,14 @@ function useActions(props: Readonly<Props>) {
 
 export default createComponent<Readonly<Props>>({
   components: {
-    MediaEditIcon
+    MediaEditIcon,
   },
   props: {
     media: { default: null, required: true, type: null },
-    user: { default: null, required: true, type: null }
+    user: { default: null, required: true, type: null },
   },
   setup(props) {
     return useActions(props)
-  }
+  },
 })
 </script>

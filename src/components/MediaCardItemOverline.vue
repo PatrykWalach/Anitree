@@ -18,8 +18,8 @@ export interface Props {
 export default createComponent<Readonly<Props>>({
   components: {
     MediaCardItemOverlineReady,
-    MediaCardProgress
+    MediaCardProgress,
   },
-  props: { media: { default: null, required: true, type: null } }
+  props: { media: { default: null, required: true, type: null } },
 })
 </script>

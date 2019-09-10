@@ -10,7 +10,7 @@
             form,
             scoreFormat,
             advancedScoring,
-            manga
+            manga,
           }"
         />
       </v-card-text>
@@ -33,11 +33,11 @@ export interface Props {
 
 export default createComponent<Readonly<Props>>({
   components: {
-    MediaEditItemsTab
+    MediaEditItemsTab,
   },
   props: {
     media: { default: null, required: true, type: Object },
-    user: { default: null, required: true, type: Object }
+    user: { default: null, required: true, type: Object },
   },
   setup(props) {
     const { tab } = useEdit()
@@ -49,7 +49,7 @@ export default createComponent<Readonly<Props>>({
     const advancedScoring = computed(
       () =>
         props.user.mediaListOptions[manga.value ? 'mangaList' : 'animeList']
-          .advancedScoring
+          .advancedScoring,
     )
 
     const scoreFormat = computed(() => {
@@ -57,12 +57,12 @@ export default createComponent<Readonly<Props>>({
 
       return {
         max: parseInt(split[1]),
-        round: split[2] === 'DECIMAL' ? 1 : 0
+        round: split[2] === 'DECIMAL' ? 1 : 0,
       }
     })
 
     const stored = computed(() =>
-      mediaListToForm(props.media.mediaListEntry, advancedScoring.value)
+      mediaListToForm(props.media.mediaListEntry, advancedScoring.value),
     )
 
     const { form: _form } = useEdit()
@@ -70,11 +70,11 @@ export default createComponent<Readonly<Props>>({
     const form = computed(() => {
       return {
         ...stored.value,
-        ..._form.value
+        ..._form.value,
       }
     })
 
     return { advancedScoring, form, manga, scoreFormat, tab }
-  }
+  },
 })
 </script>

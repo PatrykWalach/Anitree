@@ -5,7 +5,7 @@ import {
   VIcon,
   VRow,
   VTimeline,
-  VTimelineItem
+  VTimelineItem,
 } from 'vuetify/lib'
 import { createComponent, createElement } from '@vue/composition-api'
 import HomeItem from '@/components/HomeItem.vue'
@@ -24,7 +24,7 @@ export default createComponent({
     VIcon,
     VRow,
     VTimeline,
-    VTimelineItem
+    VTimelineItem,
   },
   setup: (_, { root }) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -34,7 +34,7 @@ export default createComponent({
       [
         <home-item
           scopedSlots={{
-            title: () => 'This app is under construction'
+            title: () => 'This app is under construction',
           }}
         >
           <p>
@@ -58,12 +58,12 @@ export default createComponent({
             <v-icon>arrow_right_alt</v-icon>
             <code>Clear site data</code>
           </p>
-        </home-item>
+        </home-item>,
       ],
       [
         <home-item
           scopedSlots={{
-            title: () => 'Media Cards'
+            title: () => 'Media Cards',
           }}
         >
           Media cards display various informations about the media.
@@ -78,14 +78,14 @@ export default createComponent({
           tag={null}
         >
           <media-card id={21450} />
-        </apollo-query>
+        </apollo-query>,
       ],
       [
         <home-item scopedSlots={{ title: () => 'Settings' }}>
           The settings are cached.
         </home-item>,
-        <the-settings />
-      ]
+        <the-settings />,
+      ],
     ]
 
     return () => {
@@ -106,7 +106,7 @@ export default createComponent({
                     {el}
                   </v-timeline-item>
                 ))
-                .flat()
+                .flat(),
             )}
           </v-timeline>
         </v-col>
@@ -118,6 +118,6 @@ export default createComponent({
         </v-container>
       )
     }
-  }
+  },
 })
 </script>

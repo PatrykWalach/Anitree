@@ -4,14 +4,14 @@ import { DeleteVariables, SaveVariables } from '@/graphql/schema/listEntry'
 import {
   FuzzyDate,
   Media,
-  Variables as MediaVariables
+  Variables as MediaVariables,
 } from '@/graphql/schema/media'
 
 import apollo, {
   DELETE_MEDIA_LIST_ENTRY,
   MEDIA,
   SAVE_MEDIA_LIST_ENTRY,
-  VIEWER
+  VIEWER,
 } from '@/graphql'
 
 import { Form } from '@/types'
@@ -31,7 +31,7 @@ watch(() => {
 })
 
 export const areUndoable = (
-  commands: Command[]
+  commands: Command[],
 ): commands is Required<Command>[] => commands.every(e => e.undo)
 
 export class MacroCommand implements Command {
@@ -90,7 +90,7 @@ export class SaveCommand implements ListCommand {
     variables,
 
     backup = null,
-    done = false
+    done = false,
   }: SaveCommandConstructor) {
     this.variables = variables
     this.backup = backup
@@ -104,12 +104,12 @@ export class SaveCommand implements ListCommand {
       apollo
         .query<{ Media: Media }, MediaVariables>({
           query: MEDIA,
-          variables: { id: variables.mediaId }
+          variables: { id: variables.mediaId },
         })
         .then(({ data }) => data.Media),
       apollo
         .query<{ Viewer: User }>({ query: VIEWER })
-        .then(({ data }) => data.Viewer)
+        .then(({ data }) => data.Viewer),
     ] as [Promise<Media>, Promise<User>]).then(
       ([{ mediaListEntry, type }, { mediaListOptions }]) => {
         this.backup = Object.fromEntries(
@@ -117,25 +117,25 @@ export class SaveCommand implements ListCommand {
             mediaListToForm(
               mediaListEntry,
               mediaListOptions[type === 'MANGA' ? 'mangaList' : 'animeList']
-                .advancedScoring
-            )
-          ).filter(([key]) => variables.hasOwnProperty(key))
+                .advancedScoring,
+            ),
+          ).filter(([key]) => variables.hasOwnProperty(key)),
         ) as Form
-      }
+      },
     )
   }
 
   async undo() {
     const {
       backup,
-      variables: { mediaId }
+      variables: { mediaId },
     } = this
 
     if (this.done) {
       await apollo
         .mutate<MediaList, SaveVariables>({
           mutation: SAVE_MEDIA_LIST_ENTRY,
-          variables: { mediaId, ...backup }
+          variables: { mediaId, ...backup },
         })
         .then(() => {
           history.value.pop()
@@ -153,7 +153,7 @@ export class SaveCommand implements ListCommand {
     return apollo
       .mutate<MediaList, SaveVariables>({
         mutation: SAVE_MEDIA_LIST_ENTRY,
-        variables
+        variables,
       })
       .then(() => {
         this.done = true
@@ -170,7 +170,7 @@ export class DeleteCommand implements ListCommand {
     variables,
 
     backup = null,
-    done = false
+    done = false,
   }: DeleteCommandConstructor) {
     this.variables = variables
     this.backup = backup
@@ -179,34 +179,34 @@ export class DeleteCommand implements ListCommand {
 
   saveState() {
     const {
-      variables: { mediaId }
+      variables: { mediaId },
     } = this
 
     return Promise.all([
       apollo
         .query<{ Media: Media }, MediaVariables>({
           query: MEDIA,
-          variables: { id: mediaId }
+          variables: { id: mediaId },
         })
         .then(({ data }) => data.Media),
       apollo
         .query<{ Viewer: User }>({ query: VIEWER })
-        .then(({ data }) => data.Viewer)
+        .then(({ data }) => data.Viewer),
     ] as [Promise<Media>, Promise<User>]).then(
       ([{ mediaListEntry, type }, { mediaListOptions }]) => {
         this.backup = mediaListToForm(
           mediaListEntry,
           mediaListOptions[type === 'MANGA' ? 'mangaList' : 'animeList']
-            .advancedScoring
+            .advancedScoring,
         )
-      }
+      },
     )
   }
 
   async undo() {
     const {
       backup,
-      variables: { mediaId }
+      variables: { mediaId },
     } = this
 
     if (this.done) {
@@ -215,8 +215,8 @@ export class DeleteCommand implements ListCommand {
           mutation: SAVE_MEDIA_LIST_ENTRY,
           variables: {
             mediaId,
-            ...backup
-          }
+            ...backup,
+          },
         })
         .then(() => {
           history.value.pop()
@@ -230,15 +230,15 @@ export class DeleteCommand implements ListCommand {
     await this.saveState()
 
     const {
-      variables: { id }
+      variables: { id },
     } = this
 
     return apollo
       .mutate<{ deleted: boolean }, DeleteVariables>({
         mutation: DELETE_MEDIA_LIST_ENTRY,
         variables: {
-          id
-        }
+          id,
+        },
       })
       .then(() => {
         this.done = true
@@ -265,7 +265,7 @@ const history: Ref<ListCommand[]> = ref(
       }
       return value
     })) ||
-    []
+    [],
 )
 ;(async () => {
   for (const command of history.value.filter(({ done }) => !done)) {
@@ -282,14 +282,14 @@ const dispatch = async (command: ListCommand) => {
 const useMutations = () => {
   return {
     dispatch,
-    history
+    history,
   }
 }
 export default useMutations
 
 export const mediaListToForm = (
   mediaListEntry: MediaList | null,
-  advancedScoring: string[]
+  advancedScoring: string[],
 ): Form => {
   if (mediaListEntry) {
     const advancedScores = advancedScoring
@@ -305,7 +305,7 @@ export const mediaListToForm = (
 
     return {
       ...mediaListEntry,
-      advancedScores
+      advancedScores,
     }
   }
 
@@ -319,7 +319,7 @@ export const mediaListToForm = (
     repeat: 0,
     score: 0,
     startedAt: { day: null, month: null, year: null },
-    status: null
+    status: null,
   }
 }
 

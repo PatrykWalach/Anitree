@@ -1,30 +1,30 @@
 module.exports = {
-  root: true,
   env: {
-    node: true
+    node: true,
   },
   extends: ['plugin:vue/essential', '@vue/prettier', '@vue/typescript'],
+  root: true,
   rules: {
-    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     '@typescript-eslint/no-unused-vars': [
       'error',
       {
         args: 'after-used',
+        ignoreRestSiblings: true,
         vars: 'all',
         varsIgnorePattern: '^h$',
-        ignoreRestSiblings: true
-      }
+      },
     ],
+    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'sort-imports': [
       'error',
       {
         ignoreCase: false,
         ignoreDeclarationSort: false,
         ignoreMemberSort: false,
-        memberSyntaxSortOrder: ['none', 'all', 'multiple', 'single']
-      }
+        memberSyntaxSortOrder: ['none', 'all', 'multiple', 'single'],
+      },
     ],
-    'sort-keys': 'error'
-  }
+    'sort-keys': 'error',
+  },
 }

@@ -105,7 +105,7 @@ export default createComponent({
   components: {
     TheAppBarFilters,
     TheAppBarSearch,
-    TheAppBarViewer
+    TheAppBarViewer,
   },
   setup(_, { root }) {
     const route = (name: string) => root.$route.name === name
@@ -115,6 +115,6 @@ export default createComponent({
     const color = (e: string) => Color(e)
 
     return { color, route, title }
-  }
+  },
 })
 </script>

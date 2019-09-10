@@ -31,18 +31,18 @@ export interface Props {
 
 export default createComponent<Readonly<Props>>({
   components: {
-    BaseLazyImg
+    BaseLazyImg,
   },
   props: {
     media: { default: null, required: true, type: null },
     size: {
       default: 80,
       required: false,
-      type: [Number, String]
-    }
+      type: [Number, String],
+    },
   },
   setup() {
     return useTheme()
-  }
+  },
 })
 </script>

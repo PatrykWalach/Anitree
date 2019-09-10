@@ -23,15 +23,15 @@ export interface Props {
 export default createComponent<Readonly<Props>>({
   props: {
     error: { default: false, required: true, type: Boolean },
-    loading: { default: false, required: true, type: Boolean }
+    loading: { default: false, required: true, type: Boolean },
   },
   setup() {
     const { tab, tabs } = useEdit()
 
     return {
       tab,
-      tabs
+      tabs,
     }
-  }
+  },
 })
 </script>

@@ -28,38 +28,38 @@ export default createComponent<Readonly<Props>>({
     advancedScoring: {
       default: () => [],
       required: true,
-      type: Array
+      type: Array,
     },
     form: {
       default: null,
       required: true,
-      type: Object
+      type: Object,
     },
     manga: {
       default: false,
       required: true,
-      type: Boolean
+      type: Boolean,
     },
     media: {
       default: null,
       required: true,
-      type: Object
+      type: Object,
     },
     method: {
       default: '',
       required: true,
-      type: String
+      type: String,
     },
     scoreFormat: {
       default: null,
       required: true,
-      type: Object
+      type: Object,
     },
     user: {
       default: null,
       required: true,
-      type: Object
-    }
+      type: Object,
+    },
   },
   setup: props => {
     const director = new FormDirector()
@@ -72,9 +72,9 @@ export default createComponent<Readonly<Props>>({
       director[props.method](builder, props)
 
       return h(VContainer, { props: { fluid: true } }, [
-        h(VRow, [builder.getFields()])
+        h(VRow, [builder.getFields()]),
       ])
     }
-  }
+  },
 })
 </script>

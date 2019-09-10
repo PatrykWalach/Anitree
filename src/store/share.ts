@@ -10,7 +10,7 @@ const isShared = ref(false)
 const useShare = () => {
   return {
     isShared,
-    options
+    options,
   }
 }
 

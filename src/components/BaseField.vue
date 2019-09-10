@@ -25,7 +25,7 @@ export default createComponent<Readonly<Props>>({
     VChipGroup,
     VSelect,
     VTextField,
-    VTextarea
+    VTextarea,
   },
   inheritAttrs: false,
   props: {
@@ -34,29 +34,29 @@ export default createComponent<Readonly<Props>>({
     tag: {
       default: 'v-text-field',
       required: false,
-      type: String
+      type: String,
     },
     transformations: { default: () => [], required: false, type: Array },
     validators: { default: () => [], required: false, type: Array },
     value: {
       default: '',
       required: false,
-      type: null
-    }
+      type: null,
+    },
   },
   setup(props, { emit }) {
     const input = ref('')
     const transform = (input: any, transformations: Function[]) =>
       transformations.reduce(
         (str, transformation) => transformation(str),
-        input
+        input,
       )
 
     watch(
       () => props.value,
       _value => {
         input.value = transform(_value, props.beforeTransform)
-      }
+      },
     )
 
     const isValid = computed(() => {
@@ -78,6 +78,6 @@ export default createComponent<Readonly<Props>>({
     }
 
     return { changeInput, input, isValid }
-  }
+  },
 })
 </script>

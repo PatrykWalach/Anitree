@@ -15,6 +15,6 @@
 export default {
   setup() {
     return { id: process.env.VUE_APP_ANILIST_ID }
-  }
+  },
 }
 </script>

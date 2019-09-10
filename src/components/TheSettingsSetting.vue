@@ -21,7 +21,7 @@ import { createComponent } from '@vue/composition-api'
 export default createComponent({
   props: {
     subtitle: { default: '', required: false, type: String },
-    title: { default: '', required: false, type: String }
-  }
+    title: { default: '', required: false, type: String },
+  },
 })
 </script>

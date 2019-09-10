@@ -16,15 +16,15 @@ export interface Props {
 }
 export default createComponent<Readonly<Props>>({
   components: {
-    BaseTime
+    BaseTime,
   },
   props: {
     endDate: { default: null, required: true, type: Object },
-    startDate: { default: null, required: true, type: Object }
+    startDate: { default: null, required: true, type: Object },
   },
   setup() {
     const divider = ref(' - ')
     return { divider }
-  }
+  },
 })
 </script>

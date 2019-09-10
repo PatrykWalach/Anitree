@@ -5,7 +5,7 @@
       height,
       width,
       color,
-      ...$attrs
+      ...$attrs,
     }"
   ></v-sheet>
 
@@ -25,7 +25,7 @@ export const useTheme = () => {
   const theme = inject('theme', { isDark: false })
 
   const color = computed(() =>
-    theme && theme.isDark ? 'grey darken-2' : 'grey lighten-2'
+    theme && theme.isDark ? 'grey darken-2' : 'grey lighten-2',
   )
 
   return { color, theme }
@@ -40,14 +40,14 @@ export default createComponent<Readonly<Props>>({
     height: {
       default: '1em',
       required: false,
-      type: String
+      type: String,
     },
     width: {
       default: '100%',
       required: false,
-      type: String
-    }
+      type: String,
+    },
   },
-  setup: useTheme
+  setup: useTheme,
 })
 </script>

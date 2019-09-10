@@ -11,43 +11,43 @@ export interface Element {
 }
 
 const main: Ref<Element[]> = ref([
-  { title: 'Home', icon: 'home', to: { name: 'home' } },
-  { title: 'Changes', icon: 'change_history', to: { name: 'changes' } },
-  { title: 'Settings', icon: 'settings', to: { name: 'settings' } }
+  { icon: 'home', title: 'Home', to: { name: 'home' } },
+  { icon: 'change_history', title: 'Changes', to: { name: 'changes' } },
+  { icon: 'settings', title: 'Settings', to: { name: 'settings' } },
 ])
 
 const search: Ref<Element[]> = ref([
   {
-    title: 'Current season',
     icon: 'whatshot',
+    title: 'Current season',
     to: {
       name: 'search',
       query: {
+        season: 'SUMMER',
         year: '2019',
-        season: 'SUMMER'
-      }
-    }
+      },
+    },
   },
   {
-    title: 'Recently added',
     icon: 'new_releases',
+    title: 'Recently added',
     to: {
       name: 'search',
       query: {
-        sort: 'ID_DESC'
-      }
-    }
+        sort: 'ID_DESC',
+      },
+    },
   },
   {
-    title: 'From list',
     icon: 'folder',
+    title: 'From list',
     to: {
       name: 'search',
       query: {
-        onList: true
-      }
-    }
-  }
+        onList: true,
+      },
+    },
+  },
 ])
 const useNavigation = () => {
   return { main, search }

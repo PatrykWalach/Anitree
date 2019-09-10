@@ -39,11 +39,11 @@ export interface Props {
 
 export default createComponent<Readonly<Props>>({
   props: {
-    user: { default: null, required: true, type: null }
+    user: { default: null, required: true, type: null },
   },
   setup() {
     const { search } = useNavigation()
     return { search }
-  }
+  },
 })
 </script>

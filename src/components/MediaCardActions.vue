@@ -81,7 +81,7 @@ function useShare(props: Props) {
 
     share.call(navigator, {
       title: title.value,
-      url: url.value
+      url: url.value,
     })
   }
 
@@ -98,11 +98,11 @@ export default createComponent<Readonly<Props>>({
       query: VIEWER,
       skip() {
         return !useSettings().token.value
-      }
-    }
+      },
+    },
   },
   props: {
-    media: { default: null, required: true, type: null }
+    media: { default: null, required: true, type: null },
   },
   setup(props) {
     const { media } = props
@@ -117,8 +117,8 @@ export default createComponent<Readonly<Props>>({
 
     return {
       edit,
-      ...useShare(props)
+      ...useShare(props),
     }
-  }
+  },
 })
 </script>

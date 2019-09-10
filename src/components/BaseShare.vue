@@ -70,10 +70,10 @@ export interface Props {
 export default createComponent<Readonly<Props>>({
   components: { BaseShareItems, VBottomSheet, VDialog },
   directives: {
-    clipboard
+    clipboard,
   },
   props: {
-    options: { default: null, required: true, type: null }
+    options: { default: null, required: true, type: null },
   },
   setup(props) {
     const snackbar = ref(false)
@@ -82,6 +82,6 @@ export default createComponent<Readonly<Props>>({
     const url = computed(() => (props.options && props.options.url) || '')
 
     return { isShared, snackbar, url }
-  }
+  },
 })
 </script>

@@ -14,7 +14,7 @@ export interface Props {
 }
 export default createComponent<Readonly<Props>>({
   props: {
-    media: { default: null, required: true, type: Object }
+    media: { default: null, required: true, type: Object },
   },
   setup(props) {
     const clean = (str: string | null) =>
@@ -44,7 +44,7 @@ export default createComponent<Readonly<Props>>({
           chaptersNumber.value +
             (manga.value ? ' Chapter' : ' Episode') +
             (chaptersNumber.value === 1 ? '' : 's')) ||
-        null
+        null,
     )
 
     const subheading = computed(() => {
@@ -61,6 +61,6 @@ export default createComponent<Readonly<Props>>({
     })
 
     return { chapters, chaptersNumber, manga, subheading }
-  }
+  },
 })
 </script>

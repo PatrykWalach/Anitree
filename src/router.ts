@@ -21,7 +21,7 @@ const router = new Router({
     {
       component: Home,
       name: 'home',
-      path: '/'
+      path: '/',
     },
 
     {
@@ -31,7 +31,7 @@ const router = new Router({
         apollo
           .query<{ Media: MediaT }, Variables>({
             query: MEDIA,
-            variables: { id: currentId }
+            variables: { id: currentId },
           })
           .then(({ data }) => data.Media)
           .then(media => {
@@ -46,8 +46,8 @@ const router = new Router({
               name: 'title',
               params: {
                 ...to.params,
-                title: slush
-              }
+                title: slush,
+              },
             })
           })
           .catch(() => {
@@ -55,32 +55,32 @@ const router = new Router({
           })
       },
       name: 'media',
-      path: '/:mediaType/:mediaId'
+      path: '/:mediaType/:mediaId',
     },
     {
       component: Media,
       name: 'title',
-      path: '/:mediaType/:mediaId/:title'
+      path: '/:mediaType/:mediaId/:title',
     },
     {
       component: Roadmap,
       name: 'roadmap',
-      path: '/roadmap'
+      path: '/roadmap',
     },
     {
       component: Changes,
       name: 'changes',
-      path: '/changes'
+      path: '/changes',
     },
     {
       component: Search,
       name: 'search',
-      path: '/search'
+      path: '/search',
     },
     {
       component: Settings,
       name: 'settings',
-      path: '/settings'
+      path: '/settings',
     },
     {
       name: 'auth',
@@ -90,7 +90,7 @@ const router = new Router({
           to.hash
             .replace(/#/, '')
             .split(/&/)
-            .map(el => el.split(/=/))
+            .map(el => el.split(/=/)),
         )
         const { token } = useSettings()
 
@@ -101,13 +101,13 @@ const router = new Router({
           return { ...JSON.parse(route), hash: '' }
         }
         return { hash: '', name: 'home' }
-      }
+      },
     },
     {
       path: '*',
-      redirect: '/'
-    }
-  ]
+      redirect: '/',
+    },
+  ],
 })
 
 router.afterEach(to => {

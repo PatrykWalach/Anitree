@@ -3,7 +3,7 @@
     v-slot="{ result: { error, data, loading } }"
     :query="require('@/graphql/queries/Media.gql')"
     :variables="{
-      id: command.variables.mediaId
+      id: command.variables.mediaId,
     }"
     :skip="!command.variables.mediaId"
     :tag="null"
@@ -86,14 +86,14 @@ interface Props {
 
 export default createComponent<Readonly<Props>>({
   components: {
-    BaseTime
+    BaseTime,
   },
   props: {
     command: {
       default: null,
       required: true,
-      type: [SaveCommand, DeleteCommand]
-    }
+      type: [SaveCommand, DeleteCommand],
+    },
   },
   setup(props) {
     const { title } = useTitle()
@@ -115,15 +115,15 @@ export default createComponent<Readonly<Props>>({
       }
 
       return [
-        ...new Set(Object.keys(variables).concat(Object.keys(backup)))
+        ...new Set(Object.keys(variables).concat(Object.keys(backup))),
       ].sort()
     })
 
     return {
       isDate,
       keys,
-      title
+      title,
     }
-  }
+  },
 })
 </script>

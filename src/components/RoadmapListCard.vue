@@ -26,19 +26,19 @@ export default createComponent<Readonly<Props>>({
     card: {
       default: null,
       required: true,
-      type: Object
+      type: Object,
     },
     checklists: {
       default: () => [],
       required: true,
-      type: Array
-    }
+      type: Array,
+    },
   },
   setup(props) {
     const progress = computed(
       () =>
         (props.card.badges.checkItemsChecked / props.card.badges.checkItems) *
-        100
+        100,
     )
 
     const color = computed(
@@ -49,10 +49,10 @@ export default createComponent<Readonly<Props>>({
             : progress.value === 0
             ? 'red'
             : 'orange'
-        } lighten-2`
+        } lighten-2`,
     )
 
     return { color, progress }
-  }
+  },
 })
 </script>

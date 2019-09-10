@@ -18,13 +18,13 @@ export default createComponent({
     const { syncChanges } = useSettings()
 
     const caption = computed(
-      () => 'autoupdates are ' + (syncChanges.value ? 'enabled' : 'disabled')
+      () => 'autoupdates are ' + (syncChanges.value ? 'enabled' : 'disabled'),
     )
 
     return {
       caption,
-      syncChanges
+      syncChanges,
     }
-  }
+  },
 })
 </script>

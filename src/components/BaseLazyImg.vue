@@ -20,33 +20,33 @@ export const lazy: DirectiveOptions = {
             value(event)
             observer.disconnect()
           }
-        })
+        }),
       ).observe(el)
     }
-  }
+  },
 }
 
 export default createComponent<Readonly<Props>>({
   directives: {
-    lazy
+    lazy,
   },
 
   props: {
     lazySrc: {
       default: '',
       required: false,
-      type: String
+      type: String,
     },
     src: {
       default: '',
       required: true,
-      type: String
+      type: String,
     },
     srcset: {
       default: '',
       required: false,
-      type: String
-    }
+      type: String,
+    },
   },
   setup(props) {
     const inView = ref(false)
@@ -55,7 +55,7 @@ export default createComponent<Readonly<Props>>({
       if (inView.value) {
         return {
           src: props.src,
-          srcset: props.srcset
+          srcset: props.srcset,
         }
       }
       return {}
@@ -66,7 +66,7 @@ export default createComponent<Readonly<Props>>({
     }
 
     return { changeInView, get, inView }
-  }
+  },
 })
 
 export interface Props {

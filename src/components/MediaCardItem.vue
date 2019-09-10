@@ -29,17 +29,17 @@ export default createComponent<Readonly<Props>>({
     MediaCardItemOverline,
     MediaCardItemSubtitle,
     MediaCardItemTitle,
-    MediaCardProgress
+    MediaCardProgress,
   },
   props: {
-    media: { default: null, required: true, type: null }
+    media: { default: null, required: true, type: null },
   },
   setup(props) {
     const lines = computed(() =>
-      !props.media || props.media.description ? 'three-line' : 'two-line'
+      !props.media || props.media.description ? 'three-line' : 'two-line',
     )
 
     return { lines }
-  }
+  },
 })
 </script>

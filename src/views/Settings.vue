@@ -13,7 +13,7 @@ import TheSettings from '@/components/TheSettings.vue'
 
 export default {
   components: {
-    TheSettings
-  }
+    TheSettings,
+  },
 }
 </script>

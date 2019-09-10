@@ -38,8 +38,8 @@ export default createComponent<Readonly<Props>>({
     value: {
       default: '',
       required: true,
-      type: String
-    }
+      type: String,
+    },
   },
   setup(props, { emit }) {
     const date = ref('')
@@ -50,7 +50,7 @@ export default createComponent<Readonly<Props>>({
       () => props.value,
       value => {
         date.value = value
-      }
+      },
     )
 
     const save = () => {
@@ -66,6 +66,6 @@ export default createComponent<Readonly<Props>>({
     }
 
     return { clear, date, menu, menuActive, save }
-  }
+  },
 })
 </script>

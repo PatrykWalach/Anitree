@@ -18,10 +18,10 @@ export interface Props {
 export default createComponent<Readonly<Props>>({
   components: {
     MediaCardItemTitleReady,
-    MediaCardProgress
+    MediaCardProgress,
   },
   props: {
-    media: { default: null, required: true, type: null }
-  }
+    media: { default: null, required: true, type: null },
+  },
 })
 </script>

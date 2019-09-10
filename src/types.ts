@@ -1,6 +1,6 @@
+import { FuzzyDate, MediaStatus } from '@/graphql/schema/media'
 import { Location } from 'vue-router'
 import Vue from 'vue'
-import { FuzzyDate, MediaStatus } from '@/graphql/schema/media'
 
 export interface ShareData {
   url?: string
@@ -44,7 +44,7 @@ export type To = string | false | void | Location
 export type Next = (to?: To) => void
 
 export type NextBefore<V extends Vue = Vue> = (
-  to?: To | ((vm: V) => any)
+  to?: To | ((vm: V) => any),
 ) => void
 
 export interface Data<T = any> {
@@ -159,7 +159,7 @@ export interface TrelloChecklist {
       nameData: null
       pos: number
       state: string
-    }
+    },
   ]
   id: string
   idBoard: string

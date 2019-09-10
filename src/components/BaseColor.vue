@@ -11,9 +11,9 @@
 </template>
 
 <script lang="ts">
-import { VToolbar } from 'vuetify/lib'
 import { computed, createComponent } from '@vue/composition-api'
 import Color from 'color'
+import { VToolbar } from 'vuetify/lib'
 // const VChip = () => import('vuetify/lib/components/VChip')
 // const VBtn = () => import('vuetify/lib/components/VBtn')
 // const VToolbar = () => import('vuetify/lib/components/VToolbar')
@@ -24,28 +24,28 @@ export interface Props {
 }
 
 export default createComponent<Readonly<Props>>({
-  inheritAttrs: false,
   components: {
-    VToolbar
+    VToolbar,
   },
+  inheritAttrs: false,
   props: {
     color: {
-      type: String,
       default: '#ffffff',
-      required: true
+      required: true,
+      type: String,
     },
     tag: {
-      type: String,
       default: 'span',
-      required: false
-    }
+      required: false,
+      type: String,
+    },
   },
   setup(props) {
     const theme = computed(() =>
-      Color(props.color).isLight() ? 'dark' : 'light'
+      Color(props.color).isLight() ? 'dark' : 'light',
     )
 
     return { theme }
-  }
+  },
 })
 </script>

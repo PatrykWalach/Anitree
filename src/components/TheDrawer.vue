@@ -35,19 +35,19 @@ export default createComponent<Readonly<Props>>({
     value: {
       default: false,
       required: true,
-      type: Boolean
-    }
+      type: Boolean,
+    },
   },
   setup(props, { emit }) {
     const syncedValue = computed({
       get: () => props.value,
-      set: value => emit('update:value', value)
+      set: value => emit('update:value', value),
     })
 
     const { theme } = useTheme()
 
     const { main } = useNavigation()
     return { main, syncedValue, theme }
-  }
+  },
 })
 </script>

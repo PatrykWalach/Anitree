@@ -39,7 +39,7 @@ export default {
       const token = process.env.VUE_APP_TRELLO_TOKEN
       return axios
         .get(`https://api.trello.com/1/boards/${id}/${el}`, {
-          params: { key, token }
+          params: { key, token },
         })
         .then(({ data }) => data)
     }
@@ -64,11 +64,11 @@ export default {
               return {
                 card,
                 checklists: checklists.filter(
-                  checklist => checklist.idCard === card.id
-                )
+                  checklist => checklist.idCard === card.id,
+                ),
               }
             }),
-          list
+          list,
         }
       })
 
@@ -77,8 +77,8 @@ export default {
 
     return {
       lists,
-      loading
+      loading,
     }
-  }
+  },
 }
 </script>

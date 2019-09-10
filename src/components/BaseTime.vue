@@ -12,11 +12,11 @@ export interface Props {
 export default createComponent<Readonly<Props>>({
   filters: {
     combine: (parts: Intl.DateTimeFormatPart[]) =>
-      parts.map(({ value }) => value).join('')
+      parts.map(({ value }) => value).join(''),
   },
   props: {
     date: { default: Object, required: true, type: null },
-    sliceDate: { default: null, required: false, type: null }
+    sliceDate: { default: null, required: false, type: null },
   },
   setup(props) {
     const toDate = (date: ValidDate) =>
@@ -27,7 +27,7 @@ export default createComponent<Readonly<Props>>({
         const fmt = new Intl.DateTimeFormat('en', {
           day: 'numeric',
           month: 'long',
-          year: 'numeric'
+          year: 'numeric',
         })
         return fmt.formatToParts(toDate(date))
       }
@@ -38,12 +38,12 @@ export default createComponent<Readonly<Props>>({
 
     const partsAreEqual = (
       start: Intl.DateTimeFormatPart,
-      end: Intl.DateTimeFormatPart
+      end: Intl.DateTimeFormatPart,
     ) => end && start && end.type === start.type && end.value === start.value
 
     const reduce = (
       start: Intl.DateTimeFormatPart[],
-      end: Intl.DateTimeFormatPart[]
+      end: Intl.DateTimeFormatPart[],
     ): Intl.DateTimeFormatPart[] => {
       if (partsAreEqual(start[0], end[0])) {
         end.shift()
@@ -54,7 +54,7 @@ export default createComponent<Readonly<Props>>({
 
     const reduceReverse = (
       start: Intl.DateTimeFormatPart[],
-      end: Intl.DateTimeFormatPart[]
+      end: Intl.DateTimeFormatPart[],
     ): Intl.DateTimeFormatPart[] => {
       if (partsAreEqual(start[start.length - 1], end[start.length - 1])) {
         start.pop()
@@ -87,6 +87,6 @@ export default createComponent<Readonly<Props>>({
     })
 
     return { dateISO, dateParts, sliceDateParts, sliced }
-  }
+  },
 })
 </script>

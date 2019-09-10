@@ -36,8 +36,8 @@ export default createComponent({
 
     return {
       history,
-      title
+      title,
     }
-  }
+  },
 })
 </script>

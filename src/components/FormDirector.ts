@@ -38,7 +38,7 @@ export const stringToDate = (date: string): Omit<FuzzyDate, '__typename'> => {
   return {
     day: parseInt(values[2]) || null,
     month: parseInt(values[1]) || null,
-    year: parseInt(values[0]) || null
+    year: parseInt(values[0]) || null,
   }
 }
 
@@ -66,7 +66,7 @@ export default class FormDirector {
 
   public edit1(
     builder: FormBuilder,
-    { scoreFormat, manga, media, form }: Readonly<Props>
+    { scoreFormat, manga, media, form }: Readonly<Props>,
   ) {
     builder.setSelects([
       {
@@ -79,55 +79,55 @@ export default class FormDirector {
             { manga: 'Completed', text: 'Completed', value: 'COMPLETED' },
             { manga: 'Rereading', text: 'Rewatching', value: 'REPEATING' },
             { manga: 'Paused', text: 'Paused', value: 'PAUSED' },
-            { manga: 'Dropped', text: 'Dropped', value: 'DROPPED' }
+            { manga: 'Dropped', text: 'Dropped', value: 'DROPPED' },
           ],
           label: 'Status',
-          placeholder: 'Status'
+          placeholder: 'Status',
         },
         props: {
           afterTransform: [
             (e: string) => Object.fromEntries([['status', e]]),
-            useEdit().changeForm
+            useEdit().changeForm,
           ],
-          value: form.status
-        }
-      }
+          value: form.status,
+        },
+      },
     ])
 
     builder.setFields(
       [
         {
           attrs: {
-            label: 'Score'
+            label: 'Score',
           },
           props: {
             afterTransform: [
               parseFloat,
               (e: string) => Object.fromEntries([['score', e]]),
-              useEdit().changeForm
+              useEdit().changeForm,
             ],
             beforeTransform: [(e: string) => e.toString()],
             transformations: [
               formatToNumber,
-              numberRound.bind(null, scoreFormat.round)
+              numberRound.bind(null, scoreFormat.round),
             ],
             validators: [
               scoreFormat.round ? validFloat : validInteger,
-              validScore.bind(null, scoreFormat.max)
+              validScore.bind(null, scoreFormat.max),
             ],
-            value: form.score
-          }
+            value: form.score,
+          },
         },
         {
           attrs: {
-            label: (manga ? 'Chapter' : 'Episode') + ' Progress'
+            label: (manga ? 'Chapter' : 'Episode') + ' Progress',
           },
           props: {
             afterTransform: [
               parseFloat,
 
               (e: string) => Object.fromEntries([['progress', e]]),
-              useEdit().changeForm
+              useEdit().changeForm,
             ],
             beforeTransform: [(e: string) => e.toString()],
             transformations: [
@@ -135,34 +135,34 @@ export default class FormDirector {
               numberRound.bind(null, 0),
               min.bind(
                 null,
-                (manga ? media.chapters : media.episodes) || Infinity
-              )
+                (manga ? media.chapters : media.episodes) || Infinity,
+              ),
             ],
             validators: [validInteger],
-            value: form.progress || 0
-          }
+            value: form.progress || 0,
+          },
         },
         {
           attrs: {
-            label: 'Volume Progress'
+            label: 'Volume Progress',
           },
           props: {
             afterTransform: [
               parseFloat,
               (e: string) => Object.fromEntries([['volumeProgress', e]]),
-              useEdit().changeForm
+              useEdit().changeForm,
             ],
             beforeTransform: [(e: string) => e.toString()],
             transformations: [
               formatToNumber,
               numberRound.bind(null, 0),
-              min.bind(null, media.volumes || Infinity)
+              min.bind(null, media.volumes || Infinity),
             ],
             validators: [validInteger],
-            value: form.progressVolumes || 0
-          }
-        }
-      ].splice(0, manga ? 3 : 2)
+            value: form.progressVolumes || 0,
+          },
+        },
+      ].splice(0, manga ? 3 : 2),
     )
   }
 
@@ -171,52 +171,52 @@ export default class FormDirector {
       {
         attrs: {
           clearable: true,
-          label: 'Start Date'
+          label: 'Start Date',
         },
         props: {
           afterTransform: [
             stringToDate,
             (e: string) => Object.fromEntries([['startedAt', e]]),
-            useEdit().changeForm
+            useEdit().changeForm,
           ],
           beforeTransform: [dateToString],
-          value: form.startedAt
-        }
+          value: form.startedAt,
+        },
       },
       {
         attrs: {
           clearable: true,
-          label: 'Finish Date'
+          label: 'Finish Date',
         },
         props: {
           afterTransform: [
             stringToDate,
             (e: string) => Object.fromEntries([['completedAt', e]]),
-            useEdit().changeForm
+            useEdit().changeForm,
           ],
           beforeTransform: [dateToString],
-          value: form.completedAt
-        }
-      }
+          value: form.completedAt,
+        },
+      },
     ])
     builder.setFields([
       {
         attrs: {
-          label: 'Total ' + (manga ? 'Rereads' : 'Rewatches')
+          label: 'Total ' + (manga ? 'Rereads' : 'Rewatches'),
         },
         props: {
           afterTransform: [
             parseFloat,
             (e: string) => Object.fromEntries([['repeat', e]]),
-            useEdit().changeForm
+            useEdit().changeForm,
           ],
           beforeTransform: [(e: string) => e.toString()],
           transformations: [formatToNumber, numberRound.bind(null, 0)],
 
           validators: [validInteger],
-          value: form.repeat
-        }
-      }
+          value: form.repeat,
+        },
+      },
     ])
   }
   public edit3(builder: FormBuilder, data: Readonly<Props>) {
@@ -225,16 +225,16 @@ export default class FormDirector {
       {
         attrs: {
           'auto-grow': true,
-          label: 'Notes'
+          label: 'Notes',
         },
         props: {
           afterTransform: [
             (e: string) => Object.fromEntries([['notes', e]]),
-            useEdit().changeForm
+            useEdit().changeForm,
           ],
-          value: form.notes || ''
-        }
-      }
+          value: form.notes || '',
+        },
+      },
     ])
   }
 
@@ -244,7 +244,7 @@ export default class FormDirector {
       advancedScoring.map((label, i) => {
         return {
           attrs: {
-            label
+            label,
           },
           props: {
             afterTransform: [
@@ -263,26 +263,26 @@ export default class FormDirector {
                     ? [
                         formatToNumber,
                         numberRound.bind(null, scoreFormat.round),
-                        parseFloat
+                        parseFloat,
                       ].reduce(
                         (score, mutation: (score: any) => any) =>
                           mutation(score),
                         (
                           advancedScores.reduce((acc, v) => acc + v, 0) / length
-                        ).toString()
+                        ).toString(),
                       )
-                    : undefined
+                    : undefined,
                 }
               },
-              useEdit().changeForm
+              useEdit().changeForm,
             ],
             beforeTransform: [(e: any) => e.toString()],
             transformations: [formatToNumber],
             validators: [scoreFormat.round ? validFloat : validInteger],
-            value: form.advancedScores[i] || 0
-          }
+            value: form.advancedScores[i] || 0,
+          },
         }
-      })
+      }),
     )
   }
 }

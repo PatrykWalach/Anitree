@@ -12,6 +12,6 @@ module.exports = {
   },
   configureWebpack: {
     devtool: 'source-map',
-    plugins: [new VuetifyLoaderPlugin()]
-  }
+    plugins: [new VuetifyLoaderPlugin()],
+  },
 }

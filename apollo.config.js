@@ -5,7 +5,7 @@ module.exports = {
     service: {
       name: 'anitree',
       // URL to the GraphQL API
-      url: 'https://graphql.anilist.co'
-    }
-  }
+      url: 'https://graphql.anilist.co',
+    },
+  },
 }

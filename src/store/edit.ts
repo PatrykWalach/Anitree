@@ -19,7 +19,7 @@ const tabs = ref([
   { href: 'edit1', icon: 'dashboard', title: 'Progress' },
   { href: 'edit2', icon: 'date_range', title: 'Dates' },
   { href: 'edit3', icon: 'insert_comment', title: 'Notes' },
-  { href: 'edit4', icon: 'edit', title: ' Advanced Scores' }
+  { href: 'edit4', icon: 'edit', title: ' Advanced Scores' },
 ])
 
 const tab = ref('edit1')
@@ -48,8 +48,8 @@ const submit = async () => {
 
     await useMutations().dispatch(
       new SaveCommand({
-        variables: { mediaId: mediaId.value, ...form.value }
-      })
+        variables: { mediaId: mediaId.value, ...form.value },
+      }),
     )
 
     await RESET_FORM()
@@ -77,7 +77,7 @@ const useEdit = () => {
     open,
     submit,
     tab,
-    tabs
+    tabs,
   }
 }
 

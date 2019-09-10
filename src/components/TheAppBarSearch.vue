@@ -34,7 +34,7 @@ export default createComponent({
     const valid = ref(false)
 
     const rules: Ref<((search: string) => string | true)[]> = ref([
-      (search: string) => !!search.length || 'stop it'
+      (search: string) => !!search.length || 'stop it',
     ])
 
     const submit = async () => {
@@ -42,8 +42,8 @@ export default createComponent({
         root.$router.push({
           name: 'search',
           query: {
-            search: search.value.trim()
-          }
+            search: search.value.trim(),
+          },
         })
         emit('submit')
       }
@@ -64,16 +64,16 @@ export default createComponent({
       if (root.$route.name !== 'search') {
         root.$router.push({
           name: 'search',
-          query: {}
+          query: {},
         })
       } else if (isSearched.value) {
         root.$router.replace({
-          query: {}
+          query: {},
         })
       }
     }
 
     return { move, rules, search, submit, valid }
-  }
+  },
 })
 </script>

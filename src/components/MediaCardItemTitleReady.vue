@@ -3,7 +3,7 @@
     :title="title"
     :to="{
       name: 'media',
-      params
+      params,
     }"
   >
     {{ title }}
@@ -22,7 +22,7 @@ export interface Props {
 
 export default createComponent<Readonly<Props>>({
   props: {
-    media: { default: Object, required: true, type: null }
+    media: { default: Object, required: true, type: null },
   },
   setup(props) {
     const { title: _title } = useTitle()
@@ -32,14 +32,14 @@ export default createComponent<Readonly<Props>>({
     const params = computed(() => {
       return {
         mediaId: props.media.id,
-        mediaType: props.media.type.toLowerCase()
+        mediaType: props.media.type.toLowerCase(),
       }
     })
 
     return {
       params,
-      title
+      title,
     }
-  }
+  },
 })
 </script>

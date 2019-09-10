@@ -56,7 +56,7 @@ export default createComponent({
   components: {
     TheSettingsLogin,
     TheSettingsSetting,
-    TheSettingsTitle
+    TheSettingsTitle,
   },
   setup(_, context) {
     const { token, syncChanges, cacheApollo, cacheChanges } = useSettings()
@@ -67,32 +67,32 @@ export default createComponent({
       get: () =>
         ([] as number[]).concat(
           dark.value ? [0] : [],
-          syncChanges.value ? [1] : []
+          syncChanges.value ? [1] : [],
         ),
       set: a => {
         dark.value = !!a.includes(0)
         syncChanges.value = !!a.includes(1)
-      }
+      },
     })
 
     const cache = computed({
       get: () =>
         ([] as number[]).concat(
           cacheApollo.value ? [0] : [],
-          cacheChanges.value ? [1] : []
+          cacheChanges.value ? [1] : [],
         ),
 
       set: a => {
         cacheApollo.value = !!a.includes(0)
         cacheChanges.value = !!a.includes(1)
-      }
+      },
     })
 
     return {
       cache,
       site,
-      token
+      token,
     }
-  }
+  },
 })
 </script>

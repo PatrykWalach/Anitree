@@ -29,30 +29,30 @@ export interface Props {
 
 export default createComponent<Readonly<Props>>({
   components: {
-    RoadmapListCard
+    RoadmapListCard,
   },
   props: {
     cards: { default: null, required: true, type: Array },
-    list: { default: null, required: true, type: Object }
+    list: { default: null, required: true, type: Object },
   },
   setup(props) {
     const allChecked = computed(() =>
       props.cards.find(
-        ({ card }) => card.badges.checkItemsChecked !== card.badges.checkItems
-      )
+        ({ card }) => card.badges.checkItemsChecked !== card.badges.checkItems,
+      ),
     )
 
     const anyChecked = computed(() =>
-      props.cards.find(card => !!card.card.badges.checkItemsChecked)
+      props.cards.find(card => !!card.card.badges.checkItemsChecked),
     )
 
     const color = computed(
       () =>
         `${
           allChecked.value ? (anyChecked.value ? 'orange' : 'red') : 'green'
-        } lighten-2`
+        } lighten-2`,
     )
     return { allChecked, anyChecked, color }
-  }
+  },
 })
 </script>

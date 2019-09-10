@@ -58,7 +58,7 @@ import useTitle from '@/store/title'
 export default createComponent({
   components: {
     VBottomSheet,
-    VDialog
+    VDialog,
   },
   setup() {
     const dialog = ref(false)
@@ -67,8 +67,8 @@ export default createComponent({
     return {
       dialog,
       preferedTitle,
-      titles
+      titles,
     }
-  }
+  },
 })
 </script>

@@ -48,24 +48,24 @@ export default class FormBuilder {
             props: {
               cols: 12,
 
-              md: 6
-            }
+              md: 6,
+            },
           },
           [
             h(BaseField, {
               attrs: {
                 ...attrs,
                 filled: true,
-                rounded: true
+                rounded: true,
               },
               props: {
                 ...props,
-                tag: 'v-select'
-              }
-            })
-          ]
-        )
-      )
+                tag: 'v-select',
+              },
+            }),
+          ],
+        ),
+      ),
     )
   }
 
@@ -78,21 +78,21 @@ export default class FormBuilder {
             props: {
               cols: 12,
 
-              md: 6
-            }
+              md: 6,
+            },
           },
           [
             h(BaseField, {
               attrs: {
                 ...attrs,
                 filled: true,
-                rounded: true
+                rounded: true,
               },
-              props
-            })
-          ]
-        )
-      )
+              props,
+            }),
+          ],
+        ),
+      ),
     )
   }
 
@@ -104,24 +104,24 @@ export default class FormBuilder {
           {
             props: {
               cols: 12,
-              md: 6
-            }
+              md: 6,
+            },
           },
           [
             h(BaseField, {
               attrs: {
                 ...attrs,
                 filled: true,
-                rounded: true
+                rounded: true,
               },
               props: {
                 ...props,
-                tag: 'base-date-field'
-              }
-            })
-          ]
-        )
-      )
+                tag: 'base-date-field',
+              },
+            }),
+          ],
+        ),
+      ),
     )
   }
 
@@ -132,24 +132,24 @@ export default class FormBuilder {
           VCol,
           {
             props: {
-              cols: 12
-            }
+              cols: 12,
+            },
           },
           [
             h(BaseField, {
               attrs: {
                 ...attrs,
                 filled: true,
-                rounded: true
+                rounded: true,
               },
               props: {
                 ...props,
-                tag: 'v-textarea'
-              }
-            })
-          ]
-        )
-      )
+                tag: 'v-textarea',
+              },
+            }),
+          ],
+        ),
+      ),
     )
   }
 

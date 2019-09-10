@@ -16,18 +16,18 @@ export default {
     color: {
       default: 'grey darken-2',
       required: false,
-      type: String
+      type: String,
     },
     href: {
       default: '',
       required: true,
-      type: String
+      type: String,
     },
     title: {
       default: '',
       required: true,
-      type: String
-    }
-  }
+      type: String,
+    },
+  },
 }
 </script>
