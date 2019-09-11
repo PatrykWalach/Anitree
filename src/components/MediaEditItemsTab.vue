@@ -64,8 +64,6 @@ export default createComponent<Readonly<Props>>({
   setup: props => {
     const director = new FormDirector()
 
-    /*eslint-disable-next-line @typescript-eslint/no-unused-vars*/
-
     return () => {
       const builder = new FormBuilder()
 

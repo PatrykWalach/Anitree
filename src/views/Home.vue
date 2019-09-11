@@ -27,7 +27,6 @@ export default createComponent({
     VTimelineItem,
   },
   setup: (_, { root }) => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const h = createElement
 
     const content = [

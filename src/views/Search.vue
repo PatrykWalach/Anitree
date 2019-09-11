@@ -113,7 +113,6 @@ export default createComponent({
     const { search } = useNavigation()
 
     const subheader = computed(() => {
-      /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
       const { page, sort, ..._query } = query.value
       const find = search.value.find(({ to }) => isEqual(to.query, _query))
       return find
