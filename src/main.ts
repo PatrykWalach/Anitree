@@ -1,5 +1,5 @@
 import '@/registerServiceWorker'
-import '@/assets/css/style.scss'
+
 import App from '@/App.vue'
 import CompositionApi from '@vue/composition-api'
 import Vue from 'vue'
