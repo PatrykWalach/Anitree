@@ -11,13 +11,9 @@
         Filters
       </v-card-title>
       <v-divider></v-divider>
-      <v-list subheader>
-        <v-subheader>Type</v-subheader>
-        <v-chip-group
-          v-model="form.type"
-          show-arrows
-          active-class="accent--text"
-        >
+      <v-subheader>Type</v-subheader>
+      <v-container>
+        <v-chip-group v-model="form.type" column active-class="accent--text">
           <v-chip
             v-for="type in ['ANIME', 'MANGA']"
             :key="type"
@@ -27,16 +23,11 @@
             {{ type.toLowerCase() }}
           </v-chip>
         </v-chip-group>
-      </v-list>
+      </v-container>
       <v-divider></v-divider>
-      <v-list subheader>
-        <v-subheader>Sort</v-subheader>
-
-        <v-chip-group
-          v-model="form.sort"
-          show-arrows
-          active-class="accent--text"
-        >
+      <v-subheader>Sort</v-subheader>
+      <v-container>
+        <v-chip-group v-model="form.sort" column active-class="accent--text">
           <v-chip
             v-for="{ value, text } in [
               {
@@ -75,18 +66,17 @@
             {{ text }}
           </v-chip>
         </v-chip-group>
-      </v-list>
+      </v-container>
       <v-divider></v-divider>
-      <v-list subheader>
-        <v-subheader>Status</v-subheader>
-
+      <v-subheader>Status</v-subheader>
+      <v-container>
         <base-field
           v-model="form.status"
           :before-transform="[e => (e instanceof Array ? e : [])]"
           :after-transform="[e => (e.length ? e : undefined)]"
           tag="v-chip-group"
           multiple
-          show-arrows
+          column
           active-class="accent--text"
         >
           <v-chip
@@ -109,7 +99,7 @@
             }}
           </v-chip>
         </base-field>
-      </v-list>
+      </v-container>
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn text color="error" @click="close">cancel</v-btn>
