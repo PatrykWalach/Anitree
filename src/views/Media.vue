@@ -14,6 +14,7 @@
 </template>
 <script lang="ts">
 // import MediaTimeline from '../components/MediaTimeline.vue'
+import { PAGE, apollo } from '@/graphql'
 import { Page, Variables as PageVariables } from '@/graphql/schema/page'
 import {
   Ref,
@@ -24,7 +25,6 @@ import {
 } from '@vue/composition-api'
 import BaseContainer from '../components/BaseContainer.vue'
 import { Media } from '@/graphql/schema/media'
-import { PAGE } from '@/graphql'
 
 const MediaTimeline = () =>
   import(/* webpackPreload: true */ '../components/MediaTimeline.vue')
@@ -46,13 +46,13 @@ export default createComponent({
     const currentId = computed(() => parseInt(root.$route.params.mediaId, 10))
 
     const fetch = (variables: PageVariables) =>
-      root.$apollo
-        .query({
+      apollo
+        .query<{ Page: Page }, PageVariables>({
           fetchPolicy: 'network-only',
           query: PAGE,
           variables,
         })
-        .then(({ data }: { data: { Page: Page } }) => data.Page.media)
+        .then(({ data }) => data.Page.media)
         .then(media => {
           mediaList.value.push(...media)
           return media

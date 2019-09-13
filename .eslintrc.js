@@ -6,7 +6,7 @@ module.exports = {
   root: true,
   rules: {
     '@typescript-eslint/no-unused-vars': [
-      'error',
+      'warn',
       {
         args: 'after-used',
         ignoreRestSiblings: true,
@@ -17,7 +17,7 @@ module.exports = {
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'sort-imports': [
-      'error',
+      'warn',
       {
         ignoreCase: false,
         ignoreDeclarationSort: false,
@@ -25,6 +25,6 @@ module.exports = {
         memberSyntaxSortOrder: ['none', 'all', 'multiple', 'single'],
       },
     ],
-    'sort-keys': 'error',
+    'sort-keys': 'warn',
   },
 }
