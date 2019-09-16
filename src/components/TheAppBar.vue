@@ -14,28 +14,7 @@
       fade-img-on-scroll
     >
       <template v-slot:img="{ props }">
-        <v-img v-bind="props">
-          <!--    :gradient="
-            `to top right, 
-          ${(data &&
-            data.Media.coverImage.color &&
-            color(data.Media.coverImage.color)
-              .alpha(0.4)
-              .hsl()
-              .string()) ||
-            'rgba(0, 47, 75, .7)'}, ${(data &&
-              data.Media.coverImage.color &&
-              color(data.Media.coverImage.color)
-                .negate()
-
-                .alpha(0.4)
-                .hsl()
-                .string()) ||
-              'rgba(220, 66, 37, .7)'}`
-          "-->
-
-          <v-overlay absolute></v-overlay
-        ></v-img>
+        <v-img v-bind="props"> <v-overlay absolute></v-overlay></v-img>
       </template>
       <!-- <template v-if="route('title')" v-slot:extension>
         <v-tabs align-with-title background-color="transparent">
@@ -93,7 +72,6 @@
   </ApolloQuery>
 </template>
 <script lang="ts">
-import Color from 'color'
 import TheAppBarFilters from './TheAppBarFilters.vue'
 import TheAppBarSearch from './TheAppBarSearch.vue'
 import TheAppBarViewer from './TheAppBarViewer.vue'
@@ -112,9 +90,7 @@ export default createComponent({
 
     const { title } = useTitle()
 
-    const color = (e: string) => Color(e)
-
-    return { color, route, title }
+    return { route, title }
   },
 })
 </script>
