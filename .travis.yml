@@ -4,10 +4,11 @@ node_js:
 - 10
 install:
 - npm install
+- npm i codecov -g
 script:
 - npm run coverage
-after_success:
 - codecov
+
 # deploy:
 #   provider: heroku
 #   api_key: i90BGFuh1D+AIJpv85jb5orTvGOn6QatB5cue9JvYCv0+6W5HWtSy85AROx9Epgu63FJjgvJ6burzNa2AwRNi4+w7w2bUqhUwLENZYgrlPOPrJCeNENfinN14rizGM6vAS0SS/jo3VfJQLKDgGhAmQ+L60rgTs1BIPCEtplP6Y7CwOF5znhtdI9S2B5VAYqRuXQhrY+sj9/LewLyg0ZOFYYUJ5FpWo8cuTx4GVk/1okMByl4n/c185qQdLMvi2M70oTGpb9aVPJOGHcUFwtnAti+VbLEMuRRrMT/BvHKlJQgXHf1qduZ8vbiaetmqs6kHUKXr3U7L7fxvVGeRXTLzIwhkhIiT9YnLABo9O5fZL9CL8XaTP0UolwUED6BrWQBpn0GU8224vsyPqBFkcBabLhCcKRWK0MuL8aFRxggdev+8bevbsJ7upZ+3KqGmZJ+vI77fv8++EYiUaPN5PJ08+pOdFaqi7c5XNd+z3XGb6A3FnOg/UGw+VMIrdF010X3p8Tem6bg0sBGVmpvC404Wrg52wr8+aaGexvhrSOwgWdFFAtg9NZYxL3GkAcoKQqks8okdRlRhOeN3J7+y63R388k/po5RwUr5qItmk0Rhs0mPvuDeHTvRrnR5wZp04tZuTY804fGtdppO7r3mN1UDFb4P3AJIaXo2XSmO4tJRQs=
