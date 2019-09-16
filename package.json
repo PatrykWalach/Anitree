@@ -7,7 +7,8 @@
         "build": "vue-cli-service build",
         "lint": "vue-cli-service lint",
         "test": "vue-cli-service test:unit",
-        "test:watch": "vue-cli-service test:unit --watch"
+        "watch": "vue-cli-service test:unit --watch",
+        "coverage": "vue-cli-service test:unit --coverage"
     },
     "dependencies": {
         "@fortawesome/fontawesome-svg-core": "^1.2.22",
@@ -21,12 +22,12 @@
         "apollo-link-http": "^1.5.16",
         "axios": "^0.19.0",
         "core-js": "^3.1.2",
-        "graphql": "^14.5.5",
+        "graphql": "^14.5.6",
         "graphql-tag": "^2.10.1",
         "material-design-icons-iconfont": "^5.0.1",
         "register-service-worker": "^1.6.2",
         "vue": "^2.6.10",
-        "vue-apollo": "^3.0.0-rc.4",
+        "vue-apollo": "^3.0.0-rc.5",
         "vue-clipboards": "^1.3.0",
         "vue-router": "^3.1.3",
         "vuetify": "^2.0.17",
@@ -46,7 +47,6 @@
         "@vue/eslint-config-typescript": "^4.0.0",
         "@vue/test-utils": "^1.0.0-beta.29",
         "babel-core": "^7.0.0-bridge.0",
-        "codecov": "^3.5.0",
         "eslint": "^5.16.0",
         "eslint-plugin-prettier": "^3.1.0",
         "eslint-plugin-vue": "^5.2.3",
