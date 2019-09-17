@@ -27,4 +27,12 @@ module.exports = {
     ],
     'sort-keys': 'warn',
   },
+  overrides: [
+    {
+      files: ['**/__tests__/*.{j,t}s?(x)'],
+      env: {
+        jest: true,
+      },
+    },
+  ],
 }
