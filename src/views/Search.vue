@@ -79,8 +79,8 @@ import MediaTimeline from '../components/MediaTimeline.vue'
 import TheSearchList from '../components/TheSearchList.vue'
 
 import { isEqual } from 'apollo-utilities'
-import { useNavigation } from '@/store/navigation'
-import { useSettings } from '@/store/settings'
+import { navigation } from '@/store/navigation'
+import { settings } from '@/store/settings'
 
 export default createComponent({
   components: {
@@ -110,7 +110,9 @@ export default createComponent({
 
     const isSearched = computed(() => !!Object.values(query.value).length)
 
-    const { search } = useNavigation()
+    const {
+      state: { search },
+    } = navigation
 
     const subheader = computed(() => {
       const { page, sort, ..._query } = query.value
@@ -136,7 +138,9 @@ export default createComponent({
       },
     })
 
-    const { token } = useSettings()
+    const {
+      state: { token },
+    } = settings
 
     return {
       isSearched,

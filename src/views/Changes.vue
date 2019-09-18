@@ -7,7 +7,7 @@
       <template v-else>
         Recent changes:
         <v-spacer></v-spacer>
-        <v-btn @click="history[history.length - 1].undo()">Undo</v-btn>
+        <v-btn @click="undo()">Undo</v-btn>
       </template>
     </v-subheader>
 
@@ -24,19 +24,20 @@
 </template>
 <script lang="ts">
 import ChangeCard from '@/components/ChangeCard.vue'
+import { commands } from '@/store/commands'
 import { createComponent } from '@vue/composition-api'
-import { useCommands } from '@/store/commands'
-import { useTitle } from '@/store/title'
 
 export default createComponent({
   components: { ChangeCard },
   setup() {
-    const { history } = useCommands()
-    const { title } = useTitle()
+    const {
+      state: { history },
+      actions: { undo },
+    } = commands
 
     return {
       history,
-      title,
+      undo,
     }
   },
 })

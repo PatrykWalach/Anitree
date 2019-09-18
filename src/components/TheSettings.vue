@@ -46,7 +46,7 @@
 import { computed, createComponent } from '@vue/composition-api'
 import TheSettingsSetting from '@/components/TheSettingsSetting.vue'
 import TheSettingsTitle from '@/components/TheSettingsTitle.vue'
-import { useSettings } from '@/store/settings'
+import { settings } from '@/store/settings'
 
 const TheSettingsLogin = () => import('@/components/TheSettingsLogin.vue')
 
@@ -59,7 +59,14 @@ export default createComponent({
     TheSettingsTitle,
   },
   setup(_, context) {
-    const { token, syncChanges, cacheApollo, cacheChanges } = useSettings()
+    const {
+      state: { token, syncChanges, cacheApollo, cacheChanges },
+      mutations: {
+        CHANGE_CACHE_APOLLO,
+        CHANGE_CACHE_CHANGES,
+        CHANGE_SYNC_CHANGES,
+      },
+    } = settings
 
     const { dark } = useTheme(context)
 
@@ -71,7 +78,7 @@ export default createComponent({
         ),
       set: a => {
         dark.value = !!a.includes(0)
-        syncChanges.value = !!a.includes(1)
+        CHANGE_SYNC_CHANGES(!!a.includes(1))
       },
     })
 
@@ -83,8 +90,8 @@ export default createComponent({
         ),
 
       set: a => {
-        cacheApollo.value = !!a.includes(0)
-        cacheChanges.value = !!a.includes(1)
+        CHANGE_CACHE_APOLLO(!!a.includes(0))
+        CHANGE_CACHE_CHANGES(!!a.includes(1))
       },
     })
 

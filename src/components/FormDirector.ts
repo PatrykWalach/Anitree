@@ -2,7 +2,7 @@ import { FormBuilder } from './FormBuilder'
 import { FuzzyDate } from '@/graphql/schema/media'
 import { Props } from './MediaEditItemsTab.vue'
 
-import { useEdit } from '@/store/edit'
+import { edit } from '@/store/edit'
 
 export const validFloat = (input: string): boolean =>
   !!input.match(/^([0-9])+(\.([1-9])+)?$/)
@@ -87,7 +87,7 @@ export class FormDirector {
         props: {
           afterTransform: [
             (e: string) => Object.fromEntries([['status', e]]),
-            useEdit().changeForm,
+            edit.actions.changeForm,
           ],
           value: form.status,
         },
@@ -104,7 +104,7 @@ export class FormDirector {
             afterTransform: [
               parseFloat,
               (e: string) => Object.fromEntries([['score', e]]),
-              useEdit().changeForm,
+              edit.actions.changeForm,
             ],
             beforeTransform: [(e: string) => e.toString()],
             transformations: [
@@ -127,7 +127,7 @@ export class FormDirector {
               parseFloat,
 
               (e: string) => Object.fromEntries([['progress', e]]),
-              useEdit().changeForm,
+              edit.actions.changeForm,
             ],
             beforeTransform: [(e: string) => e.toString()],
             transformations: [
@@ -150,7 +150,7 @@ export class FormDirector {
             afterTransform: [
               parseFloat,
               (e: string) => Object.fromEntries([['volumeProgress', e]]),
-              useEdit().changeForm,
+              edit.actions.changeForm,
             ],
             beforeTransform: [(e: string) => e.toString()],
             transformations: [
@@ -177,7 +177,7 @@ export class FormDirector {
           afterTransform: [
             stringToDate,
             (e: string) => Object.fromEntries([['startedAt', e]]),
-            useEdit().changeForm,
+            edit.actions.changeForm,
           ],
           beforeTransform: [dateToString],
           value: form.startedAt,
@@ -192,7 +192,7 @@ export class FormDirector {
           afterTransform: [
             stringToDate,
             (e: string) => Object.fromEntries([['completedAt', e]]),
-            useEdit().changeForm,
+            edit.actions.changeForm,
           ],
           beforeTransform: [dateToString],
           value: form.completedAt,
@@ -208,7 +208,7 @@ export class FormDirector {
           afterTransform: [
             parseFloat,
             (e: string) => Object.fromEntries([['repeat', e]]),
-            useEdit().changeForm,
+            edit.actions.changeForm,
           ],
           beforeTransform: [(e: string) => e.toString()],
           transformations: [formatToNumber, numberRound.bind(null, 0)],
@@ -230,7 +230,7 @@ export class FormDirector {
         props: {
           afterTransform: [
             (e: string) => Object.fromEntries([['notes', e]]),
-            useEdit().changeForm,
+            edit.actions.changeForm,
           ],
           value: form.notes || '',
         },
@@ -274,7 +274,7 @@ export class FormDirector {
                     : undefined,
                 }
               },
-              useEdit().changeForm,
+              edit.actions.changeForm,
             ],
             beforeTransform: [(e: any) => e.toString()],
             transformations: [formatToNumber],

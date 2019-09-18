@@ -1,8 +1,5 @@
-import CompositionApi, { Ref, ref } from '@vue/composition-api'
+import VuexCompositionApi, { State } from 'vuex-composition-api'
 import { Location } from 'vue-router'
-
-import Vue from 'vue'
-Vue.use(CompositionApi)
 
 export interface Element {
   title: string
@@ -10,45 +7,49 @@ export interface Element {
   to: Location // |string
 }
 
-const main: Ref<Element[]> = ref([
-  { icon: 'home', title: 'Home', to: { name: 'home' } },
-  { icon: 'change_history', title: 'Changes', to: { name: 'changes' } },
-  { icon: 'settings', title: 'Settings', to: { name: 'settings' } },
-])
+export const navigation = new VuexCompositionApi.Module({
+  name: 'navigation',
+  namespaced: true,
+  setup({ state }) {
+    const main: State<Element[]> = state([
+      { icon: 'home', title: 'Home', to: { name: 'home' } },
+      { icon: 'change_history', title: 'Changes', to: { name: 'changes' } },
+      { icon: 'settings', title: 'Settings', to: { name: 'settings' } },
+    ])
 
-const search: Ref<Element[]> = ref([
-  {
-    icon: 'whatshot',
-    title: 'Current season',
-    to: {
-      name: 'search',
-      query: {
-        season: 'SUMMER',
-        year: '2019',
+    const search: State<Element[]> = state([
+      {
+        icon: 'whatshot',
+        title: 'Current season',
+        to: {
+          name: 'search',
+          query: {
+            season: 'SUMMER',
+            year: '2019',
+          },
+        },
       },
-    },
-  },
-  {
-    icon: 'new_releases',
-    title: 'Recently added',
-    to: {
-      name: 'search',
-      query: {
-        sort: 'ID_DESC',
+      {
+        icon: 'new_releases',
+        title: 'Recently added',
+        to: {
+          name: 'search',
+          query: {
+            sort: 'ID_DESC',
+          },
+        },
       },
-    },
-  },
-  {
-    icon: 'folder',
-    title: 'From list',
-    to: {
-      name: 'search',
-      query: {
-        onList: true,
+      {
+        icon: 'folder',
+        title: 'From list',
+        to: {
+          name: 'search',
+          query: {
+            onList: 'true',
+          },
+        },
       },
-    },
+    ])
+    return { state: { main, search } }
   },
-])
-export const useNavigation = () => {
-  return { main, search }
-}
+})

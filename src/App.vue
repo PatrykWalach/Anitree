@@ -31,8 +31,8 @@ import TheFooter from './components/TheFooter.vue'
 
 // const TheBottomNavigation = () => import('@/components/TheBottomNavigation.vue')
 
-import { useEdit } from './store/edit'
-import { useShare } from './store/share'
+import { edit } from './store/edit'
+import { share } from './store/share'
 
 export const useTheme = ({ root }: SetupContext) => {
   const dark = computed({
@@ -44,6 +44,7 @@ export const useTheme = ({ root }: SetupContext) => {
   })
   return { dark }
 }
+
 export default createComponent({
   components: {
     BaseShare,
@@ -60,8 +61,14 @@ export default createComponent({
       drawer.value = !drawer.value
     }
 
-    const { mediaId } = useEdit()
-    const { options } = useShare()
+    const {
+      state: { mediaId },
+    } = edit
+
+    const {
+      state: { options },
+    } = share
+
     const { dark } = useTheme(context)
 
     const stored = localStorage.getItem('THEME')

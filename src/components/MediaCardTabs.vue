@@ -65,7 +65,7 @@ import { Media } from '@/graphql/schema/media'
 import MediaCardItem from './MediaCardItem.vue'
 import MediaCardTabsStats from './MediaCardTabsStats.vue'
 
-import { useTitle } from '@/store/title'
+import { title as titleModule } from '@/store/title'
 
 export default createComponent<Readonly<Props>>({
   components: {
@@ -80,9 +80,13 @@ export default createComponent<Readonly<Props>>({
     },
   },
   setup(props) {
-    const { title: _title } = useTitle()
+    const {
+      getters: { getTitle },
+    } = titleModule
 
-    const title = computed(() => _title.value(props.media && props.media.title))
+    const title = computed(() =>
+      getTitle.value(props.media && props.media.title),
+    )
 
     const tab = ref('info')
 

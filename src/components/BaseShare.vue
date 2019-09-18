@@ -61,7 +61,7 @@ import BaseShareItems from './BaseShareItems.vue'
 import { ShareData } from '../types'
 import { clipboard } from 'vue-clipboards'
 
-import { useShare } from '../store/share'
+import { share } from '../store/share'
 
 export interface Props {
   options: ShareData | null
@@ -77,7 +77,12 @@ export default createComponent<Readonly<Props>>({
   },
   setup(props) {
     const snackbar = ref(false)
-    const { isShared } = useShare()
+    const { state, mutations } = share
+
+    const isShared = computed({
+      get: () => state.isShared.value,
+      set: mutations.CHANGE_IS_SHARED,
+    })
 
     const url = computed(() => (props.options && props.options.url) || '')
 

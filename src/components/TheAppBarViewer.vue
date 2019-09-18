@@ -54,14 +54,14 @@ import { VBottomSheet, VMenu } from 'vuetify/lib'
 import { VIEWER } from '@/graphql'
 import { createComponent } from '@vue/composition-api'
 
-import { useSettings } from '@/store/settings'
+import { settings } from '@/store/settings'
 
 export default createComponent({
   apollo: {
     Viewer: {
       query: VIEWER,
       skip() {
-        return !useSettings().token.value
+        return !settings.state.token.value
       },
     },
   },
@@ -71,10 +71,12 @@ export default createComponent({
   },
 
   setup() {
-    const { token } = useSettings()
+    const {
+      mutations: { CHANGE_TOKEN },
+    } = settings
 
     const logout = () => {
-      token.value = null
+      CHANGE_TOKEN(null)
     }
 
     return { logout }

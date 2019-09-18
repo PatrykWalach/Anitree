@@ -31,7 +31,7 @@
 <script lang="ts">
 import { User } from '@/graphql/schema/viewer'
 import { createComponent } from '@vue/composition-api'
-import { useNavigation } from '@/store/navigation'
+import { navigation } from '@/store/navigation'
 
 export interface Props {
   user: null | User
@@ -42,7 +42,9 @@ export default createComponent<Readonly<Props>>({
     user: { default: null, required: true, type: null },
   },
   setup() {
-    const { search } = useNavigation()
+    const {
+      state: { search },
+    } = navigation
     return { search }
   },
 })

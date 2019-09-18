@@ -8,14 +8,16 @@ import Vue from 'vue'
 import VueApollo from 'vue-apollo'
 
 import { persistCache } from 'apollo-cache-persist'
-import { useSettings } from '@/store/settings'
+import { settings } from '@/store/settings'
 
 const link = new HttpLink({
   uri: 'https://graphql.anilist.co',
 })
 
 const middle = new ApolloLink((operation, forward) => {
-  const { token } = useSettings()
+  const {
+    state: { token },
+  } = settings
   if (token.value) {
     operation.setContext({
       headers: {
@@ -38,7 +40,7 @@ const cache = new InMemoryCache({
   },
 })
 
-if (useSettings().cacheApollo.value) {
+if (settings.state.cacheApollo.value) {
   persistCache({
     cache,
     storage: window.localStorage as PersistentStorage<

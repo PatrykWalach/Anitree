@@ -27,7 +27,7 @@ import { computed, createComponent } from '@vue/composition-api'
 interface Props {
   value: boolean
 }
-import { useNavigation } from '@/store/navigation'
+import { navigation } from '@/store/navigation'
 import { useTheme } from './MediaCardProgress.vue'
 
 export default createComponent<Readonly<Props>>({
@@ -46,7 +46,9 @@ export default createComponent<Readonly<Props>>({
 
     const { theme } = useTheme()
 
-    const { main } = useNavigation()
+    const {
+      state: { main },
+    } = navigation
     return { main, syncedValue, theme }
   },
 })

@@ -6,7 +6,7 @@ import {
   apollo,
 } from '@/graphql'
 import { DeleteVariables, SaveVariables } from '@/graphql/schema/listEntry'
-import { ListCommand, mediaListToForm, useCommands } from '../commands'
+import { ListCommand, mediaListToForm } from '../commands'
 import { Media, Variables as MediaVariables } from '@/graphql/schema/media'
 import { Form } from '@/types'
 
@@ -60,27 +60,28 @@ export class DeleteCommand implements ListCommand {
     )
   }
 
-  public async undo() {
-    const {
-      backup,
-      variables: { mediaId },
-    } = this
+  public undo() {
+    return new Promise<void>((resolve, reject) => {
+      const {
+        backup,
+        variables: { mediaId },
+      } = this
 
-    if (this.done) {
-      await apollo
-        .mutate<MediaList, SaveVariables>({
-          mutation: SAVE_MEDIA_LIST_ENTRY,
-          variables: {
-            mediaId,
-            ...backup,
-          },
-        })
-        .then(() => {
-          useCommands().history.value.pop()
-        })
-    } else {
-      useCommands().history.value.pop()
-    }
+      if (this.done) {
+        apollo
+          .mutate<MediaList, SaveVariables>({
+            mutation: SAVE_MEDIA_LIST_ENTRY,
+            variables: {
+              mediaId,
+              ...backup,
+            },
+          })
+          .then(() => resolve())
+          .catch(reject)
+      } else {
+        resolve()
+      }
+    })
   }
 
   public async execute() {

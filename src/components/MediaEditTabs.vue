@@ -12,8 +12,8 @@
   </v-tabs>
 </template>
 <script lang="ts">
-import { createComponent } from '@vue/composition-api'
-import { useEdit } from '../store/edit'
+import { computed, createComponent } from '@vue/composition-api'
+import { edit } from '../store/edit'
 
 export interface Props {
   error: boolean
@@ -26,8 +26,12 @@ export default createComponent<Readonly<Props>>({
     loading: { default: false, required: true, type: Boolean },
   },
   setup() {
-    const { tab, tabs } = useEdit()
+    const {
+      state: { tab: _tab, tabs },
+      mutations: { CHANGE_TAB },
+    } = edit
 
+    const tab = computed({ get: () => _tab.value, set: CHANGE_TAB })
     return {
       tab,
       tabs,

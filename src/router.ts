@@ -2,7 +2,7 @@ import { MEDIA, apollo } from '@/graphql'
 import { Media as MediaT, Variables } from '@/graphql/schema/media'
 import Router from 'vue-router'
 import Vue from 'vue'
-import { useSettings } from '@/store/settings'
+import { settings } from '@/store/settings'
 
 const Home = () => import(/* webpackPrefetch: true */ './views/Home.vue')
 const Media = () => import(/* webpackPrefetch: true */ './views/Media.vue')
@@ -92,9 +92,11 @@ const router = new Router({
             .split(/&/)
             .map(el => el.split(/=/)),
         )
-        const { token } = useSettings()
+        const {
+          mutations: { CHANGE_TOKEN },
+        } = settings
 
-        token.value = hash.access_token || null
+        CHANGE_TOKEN(hash.access_token || null)
 
         const route = localStorage.getItem('LAST_ROUTE')
         if (route) {

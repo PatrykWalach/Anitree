@@ -23,8 +23,8 @@ import { computed, createComponent } from '@vue/composition-api'
 import { Media } from '@/graphql/schema/media'
 import MediaEditItemsTab from './MediaEditItemsTab.vue'
 import { User } from '@/graphql/schema/viewer'
+import { edit } from '../store/edit'
 import { mediaListToForm } from '@/store/commands'
-import { useEdit } from '../store/edit'
 
 export interface Props {
   media: Media
@@ -40,8 +40,12 @@ export default createComponent<Readonly<Props>>({
     user: { default: null, required: true, type: Object },
   },
   setup(props) {
-    const { tab } = useEdit()
+    const {
+      state: { tab: _tab, form: _form },
+      mutations: { CHANGE_TAB },
+    } = edit
 
+    const tab = computed({ get: () => _tab.value, set: CHANGE_TAB })
     const manga = computed(() => {
       return props.media.type === 'MANGA'
     })
@@ -64,8 +68,6 @@ export default createComponent<Readonly<Props>>({
     const stored = computed(() =>
       mediaListToForm(props.media.mediaListEntry, advancedScoring.value),
     )
-
-    const { form: _form } = useEdit()
 
     const form = computed(() => {
       return {

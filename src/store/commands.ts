@@ -1,17 +1,14 @@
-import CompositionApi, { Ref, ref, watch } from '@vue/composition-api'
 import {
   DeleteCommand,
   DeleteCommandConstructor,
 } from './commands/DeleteCommand'
-import { DeleteVariables, SaveVariables } from '@/graphql/schema/listEntry'
 import { SaveCommand, SaveCommandConstructor } from './commands/SaveCommand'
+import VuexCompositionApi, { State } from 'vuex-composition-api'
 import { Form } from '@/types'
 import { FuzzyDate } from '@/graphql/schema/media'
 import { MediaList } from '@/graphql/schema/mediaListCollection'
-import Vue from 'vue'
-import { useSettings } from './settings'
-
-Vue.use(CompositionApi)
+import { settings } from './settings'
+import { watch } from '@vue/composition-api'
 
 export interface Command {
   saveState?(): void | Promise<void>
@@ -20,10 +17,11 @@ export interface Command {
 }
 
 export interface ListCommand extends Command {
-  backup: Form | null
-  variables: SaveVariables | (DeleteVariables & Pick<SaveVariables, 'mediaId'>)
+  backup: any | null
+  variables: any
+  undo(): Promise<void>
   done: boolean
-  _class: 'SaveCommand' | 'DeleteCommand'
+  _class: string
 }
 
 export const isDeleteCommand = (
@@ -40,45 +38,107 @@ export const isSaveCommand = (
 
 const stored = localStorage.getItem('CHANGES')
 
-const history: Ref<ListCommand[]> = ref(
-  (stored &&
-    JSON.parse(stored, (key, value) => {
-      if (value instanceof Object) {
-        if (isSaveCommand(value)) {
-          return new SaveCommand(value)
-        }
-        if (isDeleteCommand(value)) {
-          return new DeleteCommand(value)
-        }
+// const history: Ref<ListCommand[]> = ref(
+//   (stored &&
+//     JSON.parse(stored, (key, value) => {
+//       if (value instanceof Object) {
+//         if (isSaveCommand(value)) {
+//           return new SaveCommand(value)
+//         }
+//         if (isDeleteCommand(value)) {
+//           return new DeleteCommand(value)
+//         }
+//       }
+//       return value
+//     })) ||
+//     [],
+// )
+
+// const dispatch = async (command: ListCommand) => {
+//   history.value.push(command)
+//   await command.execute()
+//   return command
+// }
+
+// export const useCommands = () => {
+//   return {
+//     dispatch,
+//     history,
+//   }
+// }
+export const loadHistory = (stored: string | null) =>
+  stored &&
+  JSON.parse(stored, (key, value) => {
+    if (value instanceof Object) {
+      if (isSaveCommand(value)) {
+        return new SaveCommand(value)
       }
-      return value
-    })) ||
-    [],
-)
+      if (isDeleteCommand(value)) {
+        return new DeleteCommand(value)
+      }
+    }
+    return value
+  })
 
-watch(() => {
-  if (useSettings().cacheChanges.value) {
-    localStorage.setItem('CHANGES', JSON.stringify(history.value))
+export const executeUndoneCommands = async (commands: ListCommand[]) => {
+  for (const command of commands.filter(({ done }) => !done)) {
+    try {
+      await command.execute()
+    } catch {
+      break
+    }
   }
+}
+
+export const commands = new VuexCompositionApi.Module({
+  name: 'commands',
+  namespaced: true,
+  setup({ state, mutation }) {
+    const history: State<ListCommand[]> = state(loadHistory(stored) || [])
+
+    executeUndoneCommands(history.value)
+
+    watch(() => {
+      if (settings.state.cacheChanges.value) {
+        localStorage.setItem('CHANGES', JSON.stringify(history.value))
+      }
+    })
+
+    const PUSH_COMMAND = mutation(
+      'PUSH_COMMAND',
+      { history },
+      (state, command: ListCommand) => state.history.push(command),
+    )
+
+    const POP_COMMAND = mutation('POP_COMMAND', { history }, state =>
+      state.history.pop(),
+    )
+
+    const undo = async () => {
+      history.value[history.value.length - 1].undo().then(POP_COMMAND)
+    }
+
+    const add = async (command: ListCommand) => {
+      PUSH_COMMAND(command)
+      await command.execute()
+      return command
+    }
+
+    return {
+      actions: {
+        add,
+        undo,
+      },
+      mutations: {
+        POP_COMMAND,
+        PUSH_COMMAND,
+      },
+      state: {
+        history,
+      },
+    }
+  },
 })
-;(async () => {
-  for (const command of history.value.filter(({ done }) => !done)) {
-    await command.execute()
-  }
-})()
-
-const dispatch = async (command: ListCommand) => {
-  history.value.push(command)
-  await command.execute()
-  return command
-}
-
-export const useCommands = () => {
-  return {
-    dispatch,
-    history,
-  }
-}
 
 export const mediaListToForm = (
   mediaListEntry: MediaList | null,

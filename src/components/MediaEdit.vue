@@ -77,8 +77,8 @@ import MediaEditItems from './MediaEditItems.vue'
 
 import MediaEditTabs from './MediaEditTabs.vue'
 
-import { useEdit } from '../store/edit'
-import { useSettings } from '../store/settings'
+import { edit } from '../store/edit'
+import { settings } from '../store/settings'
 
 export interface Props {
   id: number | null
@@ -96,8 +96,15 @@ export default createComponent<Readonly<Props>>({
     id: { default: null, required: true, type: null },
   },
   setup() {
-    const { close, isEdited: _isEdited, loading } = useEdit()
-    const { token } = useSettings()
+    const {
+      actions: { close },
+      state: { isEdited: _isEdited, loading },
+      mutations: { CHANGE_IS_EDITED },
+    } = edit
+
+    const {
+      state: { token },
+    } = settings
 
     const isEdited = computed({
       get: () => _isEdited.value,
@@ -105,7 +112,7 @@ export default createComponent<Readonly<Props>>({
         if (!isEdited) {
           close()
         } else {
-          _isEdited.value = isEdited
+          CHANGE_IS_EDITED(isEdited)
         }
       },
     })

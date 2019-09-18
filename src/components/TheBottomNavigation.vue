@@ -13,14 +13,16 @@
 
 <script lang="ts">
 import { computed, createComponent } from '@vue/composition-api'
-import { useNavigation } from '@/store/navigation'
+import { navigation } from '@/store/navigation'
 import { useTheme } from './MediaCardProgress.vue'
 
 export default createComponent({
   setup(_, { root }) {
     const value = computed(() => root.$route.name)
 
-    const { main } = useNavigation()
+    const {
+      state: { main },
+    } = navigation
     const { theme } = useTheme()
 
     return {

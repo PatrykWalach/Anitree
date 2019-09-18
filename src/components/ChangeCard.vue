@@ -9,8 +9,8 @@
     :tag="null"
   >
     <v-banner single-line>
-      <span :title="title(data && data.Media.title)">
-        {{ title(data && data.Media.title) }}
+      <span :title="getTitle(data && data.Media.title)">
+        {{ getTitle(data && data.Media.title) }}
       </span>
 
       <template v-slot:icon>
@@ -77,7 +77,7 @@ import { computed, createComponent } from '@vue/composition-api'
 import { DeleteCommand } from '@/store/commands/DeleteCommand'
 import { FuzzyDate } from '../graphql/schema/media'
 import { SaveCommand } from '@/store/commands/SaveCommand'
-import { useTitle } from '@/store/title'
+import { title as titleModule } from '@/store/title'
 
 const BaseTime = () => import('./BaseTime.vue')
 
@@ -97,7 +97,9 @@ export default createComponent<Readonly<Props>>({
     },
   },
   setup(props) {
-    const { title } = useTitle()
+    const {
+      getters: { getTitle },
+    } = titleModule
     const isDate = (e: any): e is Omit<FuzzyDate, '__typename'> =>
       e instanceof Object &&
       e.hasOwnProperty('month') &&
@@ -121,9 +123,9 @@ export default createComponent<Readonly<Props>>({
     })
 
     return {
+      getTitle,
       isDate,
       keys,
-      title,
     }
   },
 })

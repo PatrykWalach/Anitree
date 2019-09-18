@@ -58,21 +58,26 @@ import { computed, createComponent } from '@vue/composition-api'
 import { Media } from '@/graphql/schema/media'
 import { VIEWER } from '@/graphql'
 
-import { useEdit } from '../store/edit'
-import { useSettings } from '../store/settings'
-import { useShare as useShareModule } from '../store/share'
-import { useTitle } from '../store/title'
+import { edit as editModule } from '../store/edit'
+import { settings } from '../store/settings'
+import { share as shareModule } from '../store/share'
+import { title as titleModule } from '../store/title'
 
 function useShare(props: Props) {
-  const { options, isShared } = useShareModule()
-  const { title: _title } = useTitle()
+  const {
+    mutations: { CHANGE_OPTIONS, CHANGE_IS_SHARED },
+  } = shareModule
+
+  const {
+    getters: { getTitle },
+  } = titleModule
 
   const desktopShare = async (data: ShareData) => {
-    options.value = data
-    isShared.value = true
+    CHANGE_OPTIONS(data)
+    CHANGE_IS_SHARED(true)
   }
 
-  const title = computed(() => _title.value(props.media && props.media.title))
+  const title = computed(() => getTitle.value(props.media && props.media.title))
 
   const url = computed(() => (props.media && props.media.siteUrl) || '')
 
@@ -97,7 +102,7 @@ export default createComponent<Readonly<Props>>({
     Viewer: {
       query: VIEWER,
       skip() {
-        return !useSettings().token.value
+        return !settings.state.token.value
       },
     },
   },
@@ -107,7 +112,9 @@ export default createComponent<Readonly<Props>>({
   setup(props) {
     const { media } = props
 
-    const { open } = useEdit()
+    const {
+      actions: { open },
+    } = editModule
 
     const edit = () => {
       if (media) {

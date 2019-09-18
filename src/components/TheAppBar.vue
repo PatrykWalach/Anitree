@@ -40,7 +40,7 @@
       <template v-if="!route('search')">
         <v-toolbar-title class="text-capitalize">
           <template v-if="route('title')">
-            {{ title(data && data.Media.title) }}
+            {{ getTitle(data && data.Media.title) }}
           </template>
           <template v-else-if="!route('home')">
             {{ $route.name }}
@@ -77,7 +77,7 @@ import TheAppBarSearch from './TheAppBarSearch.vue'
 import TheAppBarViewer from './TheAppBarViewer.vue'
 import { createComponent } from '@vue/composition-api'
 
-import { useTitle } from '@/store/title'
+import { title } from '@/store/title'
 
 export default createComponent({
   components: {
@@ -88,9 +88,14 @@ export default createComponent({
   setup(_, { root }) {
     const route = (name: string) => root.$route.name === name
 
-    const { title } = useTitle()
+    const {
+      getters: { getTitle },
+    } = title
 
-    return { route, title }
+    return {
+      getTitle,
+      route,
+    }
   },
 })
 </script>

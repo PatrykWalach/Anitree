@@ -52,8 +52,8 @@
 
 <script lang="ts">
 import { VBottomSheet, VDialog } from 'vuetify/lib'
-import { createComponent, ref } from '@vue/composition-api'
-import { useTitle } from '@/store/title'
+import { computed, createComponent, ref } from '@vue/composition-api'
+import { title } from '@/store/title'
 
 export default createComponent({
   components: {
@@ -62,7 +62,16 @@ export default createComponent({
   },
   setup() {
     const dialog = ref(false)
-    const { preferedTitle, titles } = useTitle()
+    const {
+      getters: { getPreferedTitle },
+      state: { titles },
+      actions: { changePreferedTitle },
+    } = title
+
+    const preferedTitle = computed({
+      get: () => getPreferedTitle.value,
+      set: changePreferedTitle,
+    })
 
     return {
       dialog,
