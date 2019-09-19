@@ -80,7 +80,7 @@ export const edit = new VuexCompositionApi.Module({
 
     const submit = async () => {
       if (mediaId.value) {
-        loading.value = true
+        CHANGE_LOADING(true)
 
         await commands.actions.add(
           new SaveCommand({

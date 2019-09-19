@@ -1,40 +1,8 @@
 import VuexCompositionApi from 'vuex-composition-api'
 
-// import { ref, watch } from '@vue/composition-api'
 import { watch } from '@vue/composition-api'
 
 const cache = localStorage.getItem('SETTINGS')
-// const stored = cache && JSON.parse(cache)
-
-// const cacheApollo = ref((stored && stored.cacheApollo) || false)
-// const cacheChanges = ref((stored && stored.cacheChanges) || false)
-// const token = ref((stored && stored.token) || false)
-// const syncChanges = ref((stored && stored.syncChanges) || false)
-
-// watch(() => {
-//   if (!cacheChanges.value) localStorage.removeItem('CHANGES')
-// })
-
-// watch(() =>
-//   localStorage.setItem(
-//     'SETTINGS',
-//     JSON.stringify({
-//       cacheApollo: cacheApollo.value,
-//       cacheChanges: cacheChanges.value,
-//       syncChanges: syncChanges.value,
-//       token: token.value,
-//     }),
-//   ),
-// )
-
-// export const useSettings = () => {
-//   return {
-//     cacheApollo,
-//     cacheChanges,
-//     syncChanges,
-//     token,
-//   }
-// }
 
 const stored = cache && JSON.parse(cache)
 
@@ -93,17 +61,17 @@ export const settings = new VuexCompositionApi.Module({
     })
 
     return {
+      mutations: {
+        CHANGE_CACHE_APOLLO,
+        CHANGE_CACHE_CHANGES,
+        CHANGE_SYNC_CHANGES,
+        CHANGE_TOKEN,
+      },
       state: {
         cacheApollo,
         cacheChanges,
         syncChanges,
         token,
-      },
-      mutations: {
-        CHANGE_CACHE_APOLLO,
-        CHANGE_CACHE_CHANGES,
-        CHANGE_TOKEN,
-        CHANGE_SYNC_CHANGES,
       },
     }
   },

@@ -84,7 +84,7 @@ export class SaveCommand implements ListCommand {
 
     const { variables } = this
 
-    return apollo
+    await apollo
       .mutate<MediaList, SaveVariables>({
         mutation: SAVE_MEDIA_LIST_ENTRY,
         variables,

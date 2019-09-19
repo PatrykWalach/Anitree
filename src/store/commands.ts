@@ -20,6 +20,7 @@ export interface ListCommand extends Command {
   backup: any | null
   variables: any
   undo(): Promise<void>
+  execute(): Promise<void>
   done: boolean
   _class: string
 }
@@ -38,34 +39,6 @@ export const isSaveCommand = (
 
 const stored = localStorage.getItem('CHANGES')
 
-// const history: Ref<ListCommand[]> = ref(
-//   (stored &&
-//     JSON.parse(stored, (key, value) => {
-//       if (value instanceof Object) {
-//         if (isSaveCommand(value)) {
-//           return new SaveCommand(value)
-//         }
-//         if (isDeleteCommand(value)) {
-//           return new DeleteCommand(value)
-//         }
-//       }
-//       return value
-//     })) ||
-//     [],
-// )
-
-// const dispatch = async (command: ListCommand) => {
-//   history.value.push(command)
-//   await command.execute()
-//   return command
-// }
-
-// export const useCommands = () => {
-//   return {
-//     dispatch,
-//     history,
-//   }
-// }
 export const loadHistory = (stored: string | null) =>
   stored &&
   JSON.parse(stored, (key, value) => {
@@ -80,7 +53,7 @@ export const loadHistory = (stored: string | null) =>
     return value
   })
 
-export const executeUndoneCommands = async (commands: ListCommand[]) => {
+export const executeNotDoneCommands = async (commands: ListCommand[]) => {
   for (const command of commands.filter(({ done }) => !done)) {
     try {
       await command.execute()
@@ -90,55 +63,58 @@ export const executeUndoneCommands = async (commands: ListCommand[]) => {
   }
 }
 
-export const commands = new VuexCompositionApi.Module({
-  name: 'commands',
-  namespaced: true,
-  setup({ state, mutation }) {
-    const history: State<ListCommand[]> = state(loadHistory(stored) || [])
+export const useCommands = () =>
+  new VuexCompositionApi.Module({
+    name: 'commands',
+    namespaced: true,
+    setup({ state, mutation }) {
+      const history: State<ListCommand[]> = state(loadHistory(stored) || [])
 
-    executeUndoneCommands(history.value)
+      executeNotDoneCommands(history.value)
 
-    watch(() => {
-      if (settings.state.cacheChanges.value) {
-        localStorage.setItem('CHANGES', JSON.stringify(history.value))
+      watch(() => {
+        if (settings.state.cacheChanges.value) {
+          localStorage.setItem('CHANGES', JSON.stringify(history.value))
+        }
+      })
+
+      const PUSH_COMMAND = mutation(
+        'PUSH_COMMAND',
+        { history },
+        (state, command: ListCommand) => state.history.push(command),
+      )
+
+      const POP_COMMAND = mutation('POP_COMMAND', { history }, state =>
+        state.history.pop(),
+      )
+
+      const undo = async () => {
+        history.value[history.value.length - 1].undo().then(POP_COMMAND)
       }
-    })
 
-    const PUSH_COMMAND = mutation(
-      'PUSH_COMMAND',
-      { history },
-      (state, command: ListCommand) => state.history.push(command),
-    )
+      const add = async (command: ListCommand) => {
+        PUSH_COMMAND(command)
+        await command.execute()
+        return command
+      }
 
-    const POP_COMMAND = mutation('POP_COMMAND', { history }, state =>
-      state.history.pop(),
-    )
+      return {
+        actions: {
+          add,
+          undo,
+        },
+        mutations: {
+          POP_COMMAND,
+          PUSH_COMMAND,
+        },
+        state: {
+          history,
+        },
+      }
+    },
+  })
 
-    const undo = async () => {
-      history.value[history.value.length - 1].undo().then(POP_COMMAND)
-    }
-
-    const add = async (command: ListCommand) => {
-      PUSH_COMMAND(command)
-      await command.execute()
-      return command
-    }
-
-    return {
-      actions: {
-        add,
-        undo,
-      },
-      mutations: {
-        POP_COMMAND,
-        PUSH_COMMAND,
-      },
-      state: {
-        history,
-      },
-    }
-  },
-})
+export const commands = useCommands()
 
 export const mediaListToForm = (
   mediaListEntry: MediaList | null,
