@@ -1,13 +1,7 @@
 <template>
-  <router-link
-    :title="title"
-    :to="{
-      name: 'media',
-      params,
-    }"
-  >
+  <v-list-item-title :title="title" class="headline">
     {{ title }}
-  </router-link>
+  </v-list-item-title>
 </template>
 
 <script lang="ts">
@@ -31,15 +25,7 @@ export default createComponent<Readonly<Props>>({
 
     const title = computed(() => getTitle.value(props.media.title))
 
-    const params = computed(() => {
-      return {
-        mediaId: props.media.id,
-        mediaType: props.media.type.toLowerCase(),
-      }
-    })
-
     return {
-      params,
       title,
     }
   },

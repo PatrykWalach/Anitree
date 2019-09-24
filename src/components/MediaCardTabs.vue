@@ -31,7 +31,9 @@
       </v-tab-item>
 
       <v-tab-item value="tags">
-        <v-card-text>
+        <MediaCardTabsTags :media="media" />
+
+        <!-- <v-card-text>
           <v-chip
             v-for="{ id, rank, name } in media.tags
               .slice()
@@ -45,15 +47,7 @@
             <v-avatar left> {{ rank }} </v-avatar>
             {{ name.toLowerCase() }}
           </v-chip>
-          <v-chip
-            v-for="{ id, name } in media.studios.nodes"
-            :key="`studio-${id}`"
-            outlined
-            label
-            :style="{ margin: '4px 8px 4px 0' }"
-            >{{ name }}
-          </v-chip>
-        </v-card-text>
+        </v-card-text> -->
       </v-tab-item>
     </template>
   </v-tabs>
@@ -64,6 +58,7 @@ import { computed, createComponent, ref } from '@vue/composition-api'
 import { Media } from '@/graphql/schema/media'
 import MediaCardItem from './MediaCardItem.vue'
 import MediaCardTabsStats from './MediaCardTabsStats.vue'
+import MediaCardTabsTags from './MediaCardTabsTags.vue'
 
 import { title as titleModule } from '@/store/title'
 
@@ -71,6 +66,7 @@ export default createComponent<Readonly<Props>>({
   components: {
     MediaCardItem,
     MediaCardTabsStats,
+    MediaCardTabsTags,
   },
   props: {
     media: {

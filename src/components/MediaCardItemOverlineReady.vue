@@ -1,13 +1,11 @@
 <template>
-  <div v-if="link" class="overline">
-    <router-link
-      :to="{
-        name: 'search',
-        query,
-      }"
-    >
-      {{ link }}
-    </router-link>
+  <div v-if="media.studios.nodes.length" class="overline text-truncate">
+    <span
+      v-for="{ id, name } in media.studios.nodes"
+      :key="id"
+      :style="{ margin: '4px 8px 4px 0' }"
+      >{{ name }}
+    </span>
   </div>
 </template>
 
@@ -21,29 +19,6 @@ export interface Props {
 export default createComponent<Readonly<Props>>({
   props: {
     media: { default: null, required: true, type: Object },
-  },
-  setup(props) {
-    const year = computed(() => {
-      if (props.media.seasonInt) {
-        const year = Math.floor(props.media.seasonInt / 10)
-        return year > 50 ? 1900 + year : 2000 + year
-      }
-      return null
-    })
-
-    const season = computed(() => props.media.season)
-
-    const link = computed(() =>
-      [season.value && season.value.toLowerCase(), year.value]
-        .filter(e => e)
-        .join(' '),
-    )
-
-    const query = computed(() => {
-      return { season: season.value, year: year.value }
-    })
-
-    return { link, query, season, year }
   },
 })
 </script>

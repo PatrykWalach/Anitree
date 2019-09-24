@@ -1,5 +1,20 @@
 <template>
   <v-card-actions>
+    <v-btn
+      text
+      color="primary"
+      :disabled="!media"
+      :to="{
+        name: 'media',
+        params: {
+          mediaId: media.id,
+          mediaType: media.type.toLowerCase(),
+        },
+      }"
+    >
+      Explore
+    </v-btn>
+
     <v-spacer></v-spacer>
 
     <v-tooltip top>

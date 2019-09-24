@@ -1,8 +1,8 @@
 <template>
-  <v-list-item-title class="headline">
-    <MediaCardItemTitleReady v-if="media" :media="media"/>
-    <MediaCardProgress v-else width="75%"
-  /></v-list-item-title>
+  <MediaCardItemTitleReady v-if="media" :media="media" />
+  <v-list-item-title v-else class="headline">
+    <MediaCardProgress width="75%" />
+  </v-list-item-title>
 </template>
 
 <script lang="ts">
