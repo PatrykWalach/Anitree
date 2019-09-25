@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts">
-import { computed, createComponent } from '@vue/composition-api'
+import { createComponent } from '@vue/composition-api'
 import { Media } from '@/graphql/schema/media'
 
 export interface Props {
