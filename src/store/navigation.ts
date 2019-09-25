@@ -24,8 +24,14 @@ export const navigation = new VuexCompositionApi.Module({
         to: {
           name: 'search',
           query: {
-            season: 'SUMMER',
-            year: '2019',
+            season: (() => {
+              const date = new Date().getMonth() / 3
+              if (date < 1) return 'WINTER'
+              if (date < 2) return 'SPRING'
+              if (date < 3) return 'SUMMER'
+              return 'FALL'
+            })(),
+            year: new Date().getFullYear().toString(),
           },
         },
       },
