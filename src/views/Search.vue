@@ -41,12 +41,14 @@
         <template v-else>
           <v-subheader v-if="$route.query.search || subheaders.length">
             <template v-if="subheaders.length">
-
-            <span  v-for="subheader in subheaders" :key="subheader.title" class="mr-4" >
-              <v-icon>{{ subheader.icon }}</v-icon>
-              {{ subheader.title }}
-            </span>
-
+              <span
+                v-for="subheader in subheaders"
+                :key="subheader.title"
+                class="mr-4"
+              >
+                <v-icon>{{ subheader.icon }}</v-icon>
+                {{ subheader.title }}
+              </span>
             </template>
             <span v-else>
               Search resuts for:
@@ -82,7 +84,6 @@ import { computed, createComponent } from '@vue/composition-api'
 import MediaTimeline from '../components/MediaTimeline.vue'
 import TheSearchList from '../components/TheSearchList.vue'
 
-import { isEqual } from 'apollo-utilities'
 import { navigation } from '@/store/navigation'
 import { settings } from '@/store/settings'
 
@@ -119,20 +120,18 @@ export default createComponent({
     } = navigation
 
     const subheaders = computed(() => {
-      const { page, sort, ..._query } = query.value
-      return search.value.filter(
-        ({ to }) => {
+      return search.value.filter(({ to }) => {
+        if (!to.query || to.name !== root.$route.name) {
+          return false
+        }
 
-          for(const [key, value] of Object.entries(to.query)){
-if(root.$route.query[key] !== value)
-return false
-
+        for (const [key, value] of Object.entries(to.query)) {
+          if (root.$route.query[key] !== value) {
+            return false
           }
-          return true
-          // isEqual(, _query)
-          }
-        )
-      // return find
+        }
+        return true
+      })
     })
 
     const page = computed({
