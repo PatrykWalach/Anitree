@@ -3,6 +3,14 @@ module.exports = {
     node: true,
   },
   extends: ['plugin:vue/essential', '@vue/prettier', '@vue/typescript'],
+  overrides: [
+    {
+      env: {
+        jest: true,
+      },
+      files: ['**/__tests__/*.{j,t}s?(x)'],
+    },
+  ],
   root: true,
   rules: {
     '@typescript-eslint/no-unused-vars': [
@@ -27,12 +35,5 @@ module.exports = {
     ],
     'sort-keys': 'warn',
   },
-  overrides: [
-    {
-      files: ['**/__tests__/*.{j,t}s?(x)'],
-      env: {
-        jest: true,
-      },
-    },
-  ],
+
 }
