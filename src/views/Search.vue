@@ -39,11 +39,15 @@
           </template>
         </v-row>
         <template v-else>
-          <v-subheader v-if="$route.query.search || subheader">
-            <span v-if="subheader">
+          <v-subheader v-if="$route.query.search || subheaders.length">
+            <template v-if="subheaders.length">
+
+            <span  v-for="subheader in subheaders" :key="subheader.title" class="mr-4" >
               <v-icon>{{ subheader.icon }}</v-icon>
               {{ subheader.title }}
             </span>
+
+            </template>
             <span v-else>
               Search resuts for:
               {{ $route.query.search }}
@@ -114,10 +118,21 @@ export default createComponent({
       state: { search },
     } = navigation
 
-    const subheader = computed(() => {
+    const subheaders = computed(() => {
       const { page, sort, ..._query } = query.value
-      const find = search.value.find(({ to }) => isEqual(to.query, _query))
-      return find
+      return search.value.filter(
+        ({ to }) => {
+
+          for(const [key, value] of Object.entries(to.query)){
+if(root.$route.query[key] !== value)
+return false
+
+          }
+          return true
+          // isEqual(, _query)
+          }
+        )
+      // return find
     })
 
     const page = computed({
@@ -146,7 +161,7 @@ export default createComponent({
       isSearched,
       page,
       query,
-      subheader,
+      subheaders,
       token,
     }
   },
