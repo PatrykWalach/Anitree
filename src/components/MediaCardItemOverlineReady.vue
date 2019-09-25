@@ -3,15 +3,15 @@
     <span
       v-for="{ id, name } in media.studios.nodes"
       :key="id"
-      :style="{ margin: '4px 8px 4px 0' }"
+      class="mr-2"
       >{{ name }}
     </span>
   </div>
 </template>
 
 <script lang="ts">
-import { createComponent } from '@vue/composition-api'
 import { Media } from '@/graphql/schema/media'
+import { createComponent } from '@vue/composition-api'
 
 export interface Props {
   media: Media

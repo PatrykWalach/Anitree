@@ -35,9 +35,9 @@
     </v-dialog>
     <v-spacer></v-spacer>
 
-    <v-btn text color="primary" @click="close">Cancel</v-btn>
+    <v-btn text outlined color="primary" @click="close">Cancel</v-btn>
 
-    <v-btn :disabled="!submitRequired" outlined color="primary" @click="submit"
+    <v-btn :disabled="!submitRequired" depressed color="primary" @click="submit"
       >Save</v-btn
     >
   </v-card-actions>

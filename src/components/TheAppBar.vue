@@ -7,10 +7,10 @@
     :skip="!$route.params.mediaId"
   >
     <v-app-bar
-      :src="(route('title') && data && data.Media.bannerImage) || undefined"
+      :src="(banner && data && data.Media.bannerImage) || undefined"
       app
-      elevate-on-scroll
-      :shrink-on-scroll="route('title')"
+      :elevate-on-scroll="data && data.Media.bannerImage && banner"
+      :shrink-on-scroll="data && data.Media.bannerImage && banner"
       fade-img-on-scroll
     >
       <template v-slot:img="{ props }">
@@ -28,7 +28,7 @@
         >
       </template> -->
 
-      <v-tooltip v-if="!route('home')" bottom>
+      <v-tooltip v-if="!routeHome" bottom>
         <template v-slot:activator="{ on, attrs }">
           <v-btn icon v-bind="attrs" v-on="on" @click="$router.back()"
             ><v-icon>arrow_back</v-icon></v-btn
@@ -37,12 +37,12 @@
         <span>Back</span>
       </v-tooltip>
 
-      <template v-if="!route('search')">
+      <template v-if="!routeSearch">
         <v-toolbar-title class="text-capitalize">
-          <template v-if="route('title')">
+          <template v-if="routeTitle">
             {{ getTitle(data && data.Media.title) }}
           </template>
-          <template v-else-if="!route('home')">
+          <template v-else-if="!routeHome">
             {{ $route.name }}
           </template>
           <template v-else>
@@ -51,7 +51,7 @@
         </v-toolbar-title>
       </template>
 
-      <template v-if="!route('search')">
+      <template v-if="!routeSearch">
         <v-spacer></v-spacer>
         <!-- <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
@@ -72,10 +72,10 @@
   </ApolloQuery>
 </template>
 <script lang="ts">
+import { computed, createComponent } from '@vue/composition-api'
 import TheAppBarFilters from './TheAppBarFilters.vue'
 import TheAppBarSearch from './TheAppBarSearch.vue'
 import TheAppBarViewer from './TheAppBarViewer.vue'
-import { createComponent } from '@vue/composition-api'
 
 import { title } from '@/store/title'
 
@@ -86,15 +86,22 @@ export default createComponent({
     TheAppBarViewer,
   },
   setup(_, { root }) {
-    const route = (name: string) => root.$route.name === name
+    const routeTitle = computed(() => root.$route.name === 'title')
+    const routeHome = computed(() => root.$route.name === 'home')
+    const routeSearch = computed(() => root.$route.name === 'search')
 
     const {
       getters: { getTitle },
     } = title
 
+    const banner = computed(() => routeTitle && root.$vuetify.breakpoint.xsOnly)
+
     return {
+      banner,
       getTitle,
-      route,
+      routeHome,
+      routeSearch,
+      routeTitle,
     }
   },
 })

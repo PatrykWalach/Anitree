@@ -18,7 +18,8 @@
 
       <MediaCardTabs :media="data && data.Media" />
 
-      <v-divider class="mx-4"></v-divider>
+      <!-- <v-divider class="mx-4"></v-divider> -->
+
       <MediaCardActions :media="data && data.Media" />
       <MediaCardStatus :media="data && data.Media" />
     </v-card>
