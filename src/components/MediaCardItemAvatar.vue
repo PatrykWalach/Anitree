@@ -11,7 +11,6 @@
             ${media.coverImage.large} 2x, 
             ${media.coverImage.extraLarge} 3x`
       "
-      :lazy-src="media.coverImage.medium"
       :src="media.coverImage.extraLarge"
     />
   </v-list-item-avatar>
