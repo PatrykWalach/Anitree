@@ -35,5 +35,4 @@ module.exports = {
     ],
     'sort-keys': 'warn',
   },
-
 }

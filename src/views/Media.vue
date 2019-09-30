@@ -13,25 +13,77 @@
   </div> -->
 </template>
 <script lang="ts">
-// import MediaTimeline from '../components/MediaTimeline.vue'
-import { PAGE, apollo } from '@/graphql'
+import {
+  ApolloQueryResult,
+  OperationVariables,
+  WatchQueryOptions,
+} from 'apollo-client'
+
 import { Page, Variables as PageVariables } from '@/graphql/schema/page'
 import {
   Ref,
+  SetupContext,
   computed,
   createComponent,
+  isRef,
   ref,
   watch,
 } from '@vue/composition-api'
 import BaseContainer from '../components/BaseContainer.vue'
-import { Media } from '@/graphql/schema/media'
+import { ClientOptions } from 'vue-apollo/types/vue-apollo'
+import { Media } from '../graphql/schema/media'
+import { PAGE } from '@/graphql'
 
 const MediaTimeline = () =>
   import(/* webpackPreload: true */ '../components/MediaTimeline.vue')
 
 const getYear = (seasonInt: number) => {
   const year = Math.floor(seasonInt / 10)
-  return year > 50 ? 1900 + year : 2000 + year
+  return (year > 50 ? 1900 : 2000) + year
+}
+
+export const useQuery = <R, TVariables = OperationVariables>(
+  options: Omit<WatchQueryOptions<TVariables>, 'variables'> &
+    ClientOptions & {
+      variables: Ref<TVariables> | (() => TVariables)
+    },
+  { root }: SetupContext,
+) => {
+  const result: Ref<ApolloQueryResult<R> | null> = ref(null)
+  const error = ref(null)
+
+  let variables: Ref<TVariables>
+  if (isRef(options.variables)) {
+    variables = options.variables
+  } else if (options.variables instanceof Function) {
+    variables = computed(options.variables)
+  } else {
+    throw new Error('unexpected type of query variables')
+  }
+
+  const query = root.$apollo.watchQuery<R, TVariables>({
+    ...options,
+    variables: variables.value,
+  })
+
+  watch(variables, () => {
+    query.setVariables(variables.value)
+  })
+
+  query.subscribe({
+    error(_error) {
+      error.value = _error
+    },
+    next(_result) {
+      result.value = _result
+    },
+  })
+
+  return {
+    error,
+    query,
+    result,
+  }
 }
 
 export default createComponent({
@@ -39,82 +91,57 @@ export default createComponent({
     BaseContainer,
     MediaTimeline,
   },
-  setup(_, { root }) {
+  setup(_, context) {
     const loading = ref(false)
-    const mediaList: Ref<Media[]> = ref([])
 
-    const currentId = computed(() => parseInt(root.$route.params.mediaId, 10))
+    const currentId = computed(() =>
+      parseInt(context.root.$route.params.mediaId, 10),
+    )
+    const variables = computed(() => ({
+      idIn: currentId.value,
+    }))
 
-    const fetch = (variables: PageVariables) =>
-      apollo
-        .query<{ Page: Page }, PageVariables>({
-          fetchPolicy: 'network-only',
-          query: PAGE,
-          variables,
-        })
-        .then(({ data }) => data.Page.media)
-        .then(media => {
-          mediaList.value.push(...media)
-          return media
-        })
-
-    const fetchMedia = (idIn: number[]) =>
-      new Promise<Media[]>(resolve => {
-        Promise.all(
-          idIn
-            .reduce((acc: { idIn: number[] }[], media: number): {
-              idIn: number[]
-            }[] => {
-              const index = acc.findIndex(arr => arr.idIn.length < 50)
-              if (index === -1) {
-                acc.push({ idIn: [media] })
-              } else {
-                acc[index].idIn.push(media)
-              }
-              return acc
-            }, [])
-            .map(fetch),
-        )
-          .then(media => media.flat())
-          .then(media => {
-            const newMedia = media
-              .flatMap(({ relations }) => relations.edges)
-              .map(({ node }) => node.id)
-              .filter(
-                (id, i, arr) => arr.findIndex(mediaId => mediaId === id) === i,
-              )
-              .filter(id => !mediaList.value.find(media => media.id === id))
-
-            if (newMedia.length) {
-              return fetchMedia(newMedia)
-            }
-
-            return media
-          })
-          .then(resolve)
-      })
-
-    watch(currentId, async (currentId, oldId, onCleanup) => {
-      loading.value = true
-      await fetchMedia([currentId])
-      loading.value = false
-
-      onCleanup(() => {
-        mediaList.value = []
-      })
-    })
-
-    const mediaRelations = computed(() =>
-      mediaList.value.flatMap(({ relations }) => relations.edges),
+    const { result, query } = useQuery<{ Page: Page }, PageVariables>(
+      {
+        query: PAGE,
+        variables,
+      },
+      context,
     )
 
-    const relationTypes = computed(() => [
-      ...new Set(mediaRelations.value.map(({ relationType }) => relationType)),
-    ])
+    watch(result, _result => {
+      loading.value = true
+      if (_result) {
+        const idIn = _result.data.Page.media
+          .flatMap(({ relations }) => relations.edges)
+          .map(({ node }) => node.id)
+          .filter(
+            (id, i, arr) => arr.findIndex(mediaId => mediaId === id) === i,
+          )
+          .filter(id => !_result.data.Page.media.find(media => media.id === id))
 
-    const relatedMedia = computed(() => [
-      ...new Set(mediaRelations.value.map(({ node }) => node.id)),
-    ])
+        if (idIn.length) {
+          query.fetchMore({
+            updateQuery: (previousResult, { fetchMoreResult }) => {
+              if (!fetchMoreResult) {
+                return previousResult
+              }
+              return {
+                Page: {
+                  ...fetchMoreResult.Page,
+                  media: previousResult.Page.media.concat(
+                    fetchMoreResult.Page.media,
+                  ),
+                },
+              }
+            },
+            variables: { idIn },
+          })
+        } else {
+          loading.value = false
+        }
+      }
+    })
 
     const sorters: ((mediaA: Media, mediaB: Media) => number)[] = [
       ({ seasonInt: seasonA }, { seasonInt: seasonB }) =>
@@ -131,30 +158,24 @@ export default createComponent({
         (dateA.day && dateB.day && dateA.day - dateB.day) || 0,
     ]
 
-    return {
-      loading,
-      mediaList: computed(() =>
-        mediaList.value.sort(
-          (a, b) => {
+    const mediaList = computed(
+      () =>
+        (result.value &&
+          result.value.data.Page.media.sort((a, b) => {
             for (const sort of sorters) {
               const result = sort(a, b)
               if (result) return result
             }
             return 0
-          },
-          // (seasonA &&
-          //   seasonB &&
-          //   (getYear(seasonA) - getYear(seasonB) ||
-          //     (seasonA % 10) - (seasonB % 10))) ||
-          // (dateA.year && dateB.year && dateA.year - dateB.year) ||
-          // (dateA.month && dateB.month && dateA.month - dateB.month) ||
-          // (dateA.day && dateB.day && dateA.day - dateB.day) ||
-          // 1
-        ),
-      ),
-      mediaRelations,
-      relatedMedia,
-      relationTypes,
+          })) ||
+        [],
+    )
+
+    return {
+      loading,
+      mediaList,
+      query,
+      result,
     }
   },
 })

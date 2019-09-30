@@ -7,14 +7,16 @@
     :skip="!$route.params.mediaId"
   >
     <v-app-bar
-      :src="(banner && data && data.Media.bannerImage)||undefined"
+      :src="(banner && data && data.Media.bannerImage) || undefined"
       app
       elevate-on-scroll
       :shrink-on-scroll="data && data.Media.bannerImage && banner"
       fade-img-on-scroll
     >
       <template v-slot:img="{ props }">
-        <v-img v-if="props.src" v-bind="props"> <v-overlay absolute></v-overlay></v-img>
+        <v-img v-if="props.src" v-bind="props">
+          <v-overlay absolute></v-overlay
+        ></v-img>
       </template>
       <!-- <template v-if="route('title')" v-slot:extension>
         <v-tabs align-with-title background-color="transparent">
@@ -94,7 +96,9 @@ export default createComponent({
       getters: { getTitle },
     } = title
 
-    const banner = computed(() => routeTitle.value && root.$vuetify.breakpoint.xsOnly)
+    const banner = computed(
+      () => routeTitle.value && root.$vuetify.breakpoint.xsOnly,
+    )
 
     return {
       banner,

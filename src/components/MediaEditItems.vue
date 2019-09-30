@@ -46,9 +46,7 @@ export default createComponent<Readonly<Props>>({
     } = edit
 
     const tab = computed({ get: () => _tab.value, set: CHANGE_TAB })
-    const manga = computed(() => {
-      return props.media.type === 'MANGA'
-    })
+    const manga = computed(() => props.media.type === 'MANGA')
 
     const advancedScoring = computed(
       () =>
@@ -69,12 +67,10 @@ export default createComponent<Readonly<Props>>({
       mediaListToForm(props.media.mediaListEntry, advancedScoring.value),
     )
 
-    const form = computed(() => {
-      return {
-        ...stored.value,
-        ..._form.value,
-      }
-    })
+    const form = computed(() => ({
+      ...stored.value,
+      ..._form.value,
+    }))
 
     return { advancedScoring, form, manga, scoreFormat, tab }
   },
