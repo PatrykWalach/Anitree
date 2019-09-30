@@ -5,10 +5,9 @@
     <TheAppBar @toggle:drawer="toggleDrawer" />
     <v-content>
       <keep-alive>
-        <v-fade-transition hide-on-leave>
-          <router-view />
-        </v-fade-transition>
+        <router-view />
       </keep-alive>
+
       <MediaEdit :id="mediaId" />
       <BaseShare :options="options" />
     </v-content>
