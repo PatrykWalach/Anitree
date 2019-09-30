@@ -47,18 +47,17 @@ export const settings = new VuexCompositionApi.Module({
       },
     )
 
-    watch(() => {
-      if (!cacheChanges.value) {
-        localStorage.removeItem('CHANGES')
-      } else {
+    watch(() =>
+      localStorage.setItem(
+        'SETTINGS',
         JSON.stringify({
           cacheApollo: cacheApollo.value,
           cacheChanges: cacheChanges.value,
           syncChanges: syncChanges.value,
           token: token.value,
-        })
-      }
-    })
+        }),
+      ),
+    )
 
     return {
       mutations: {
