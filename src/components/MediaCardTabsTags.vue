@@ -1,6 +1,7 @@
 <template>
   <v-card-text>
     <v-chip
+      v-if="link"
       outlined
       link
       label
