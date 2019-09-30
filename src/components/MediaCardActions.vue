@@ -6,13 +6,16 @@
       text
       v-if="$route.params.mediaId !== (media && media.id)"
       :disabled="!media"
-      :to="{
-        name: 'media',
-        params: {
-          mediaId: media && media.id,
-          mediaType: media && media.type.toLowerCase(),
-        },
-      }"
+      :to="
+        (media && {
+          name: 'media',
+          params: {
+            mediaId: media.id,
+            mediaType: media.type.toLowerCase(),
+          },
+        }) ||
+          undefined
+      "
     >
       Explore
     </v-btn>
