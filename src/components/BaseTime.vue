@@ -63,21 +63,15 @@ export default createComponent<Readonly<Props>>({
       return start
     }
 
-    const dateParts = computed(() => {
-      return formatToParts(props.date)
-    })
+    const dateParts = computed(() => formatToParts(props.date))
 
-    const sliceDateParts = computed(() => {
-      return formatToParts(props.sliceDate)
-    })
+    const sliceDateParts = computed(() => formatToParts(props.sliceDate))
 
-    const dateISO = computed(() => {
-      return formatToISO(props.date)
-    })
+    const dateISO = computed(() => formatToISO(props.date))
 
     const sliced = computed(() => {
       if (props.sliceDate) {
-        if (toDate(props.sliceDate) && toDate(props.date)) {
+        if (toDate(props.sliceDate) > toDate(props.date)) {
           return reduceReverse(dateParts.value.slice(), sliceDateParts.value)
         }
         return reduce(sliceDateParts.value, dateParts.value.slice())
