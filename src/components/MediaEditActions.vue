@@ -50,7 +50,7 @@ import { DeleteCommand } from '@/store/commands/DeleteCommand'
 import { Media } from '@/graphql/schema/media'
 import MediaEditIcon from './MediaEditIcon.vue'
 import { User } from '@/graphql/schema/viewer'
-// import { DELETE_MEDIA_LIST_ENTRY } from '@/graphql'
+
 import { commands } from '../store/commands'
 import { edit } from '../store/edit'
 

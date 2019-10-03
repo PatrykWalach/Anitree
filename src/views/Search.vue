@@ -68,12 +68,12 @@
             </v-select> -->
           </v-subheader>
 
-          <media-timeline :media-list="data.Page.media">
+          <the-media-timeline :media-list="data.Page.media">
             <v-pagination
               v-model="page"
               :length="data.Page.pageInfo.lastPage"
             ></v-pagination>
-          </media-timeline>
+          </the-media-timeline>
         </template>
       </v-container>
     </ApolloQuery>
@@ -81,7 +81,7 @@
 </template>
 <script lang="ts">
 import { computed, createComponent } from '@vue/composition-api'
-import MediaTimeline from '../components/MediaTimeline.vue'
+import TheMediaTimeline from '../components/TheMediaTimeline.vue'
 import TheSearchList from '../components/TheSearchList.vue'
 
 import { navigation } from '@/store/navigation'
@@ -89,7 +89,7 @@ import { settings } from '@/store/settings'
 
 export default createComponent({
   components: {
-    MediaTimeline,
+    TheMediaTimeline,
     TheSearchList,
   },
   setup(_, { root }) {

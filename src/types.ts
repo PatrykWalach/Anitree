@@ -1,5 +1,6 @@
-import { FuzzyDate, MediaStatus } from '@/graphql/schema/media'
+import { FuzzyDate } from '@/graphql/schema/media'
 import { Location } from 'vue-router'
+import { MediaListStatus } from './graphql/schema/mediaListCollection'
 import Vue from 'vue'
 
 export interface ShareData {
@@ -60,7 +61,7 @@ export type RecursivePartial<T> = {
 }
 
 export interface Form {
-  status: MediaStatus | null
+  status: MediaListStatus | null
   score: number
   progress: number | null
   progressVolumes: number | null

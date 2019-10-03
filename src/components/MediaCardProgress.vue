@@ -8,14 +8,6 @@
       ...$attrs,
     }"
   ></v-sheet>
-
-  <!-- <v-sheet
-    tile
-    v-bind="{ height, color, ...$attrs }"
-    :style="{
-      'margin-bottom': '.2em'
-    }"
-  ></v-sheet> -->
 </template>
 
 <script lang="ts">

@@ -1,4 +1,4 @@
-import { MediaList } from './mediaListCollection'
+import { MediaList, MediaListStatus } from './mediaListCollection'
 import { ScoreFormat } from './viewer'
 
 export interface Variables {
@@ -70,6 +70,12 @@ export interface MediaRank {
 export interface MediaStats {
   __typename: 'MediaStats'
   scoreDistribution: ScoreDistribution[] | null
+  statusDistribution: StatusDistribution[] | null
+}
+export interface StatusDistribution {
+  __typename: 'StatusDistribution'
+  status: MediaListStatus
+  amount: number
 }
 export interface ScoreDistribution {
   __typename: 'ScoreDistribution'
@@ -120,9 +126,7 @@ export interface MediaCoverImage {
 }
 
 export type MediaStatus =
-  | 'CURRENT'
-  | 'PLANNING'
-  | 'COMPLETED'
-  | 'DROPPED'
-  | 'PAUSED'
-  | 'REPEATING'
+  | 'FINISHED'
+  | 'RELEASING'
+  | 'NOT_YET_RELEASED'
+  | 'CANCELLED'

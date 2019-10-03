@@ -11,7 +11,6 @@
       </v-list-item-subtitle>
     </v-list-item-content>
     <v-list-item-action>
-      <!-- <slot name="action" v-bind="{ active, toggle }"></slot> -->
       <v-switch v-model="active" @click="toggle"></v-switch>
     </v-list-item-action>
   </v-list-item>

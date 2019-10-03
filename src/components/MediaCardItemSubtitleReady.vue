@@ -1,8 +1,6 @@
 <template>
   <v-list-item-subtitle class="text-capitalize">
     <span class="text--primary"> {{ subheading }}</span>
-    <v-spacer></v-spacer>
-    <span v-html="media.description"></span>
   </v-list-item-subtitle>
 </template>
 

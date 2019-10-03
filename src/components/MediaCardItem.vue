@@ -6,6 +6,7 @@
       <MediaCardItemOverline :media="media" />
       <MediaCardItemTitle :media="media" />
       <MediaCardItemSubtitle :media="media" />
+      <MediaCardItemDescription :media="media" />
     </v-list-item-content>
   </v-list-item>
 </template>
@@ -14,6 +15,7 @@
 import { computed, createComponent } from '@vue/composition-api'
 import { Media } from '@/graphql/schema/media'
 import MediaCardItemAvatar from './MediaCardItemAvatar.vue'
+import MediaCardItemDescription from './MediaCardItemDescription.vue'
 import MediaCardItemOverline from './MediaCardItemOverline.vue'
 import MediaCardItemSubtitle from './MediaCardItemSubtitle.vue'
 import MediaCardItemTitle from './MediaCardItemTitle.vue'
@@ -26,6 +28,7 @@ export interface Props {
 export default createComponent<Readonly<Props>>({
   components: {
     MediaCardItemAvatar,
+    MediaCardItemDescription,
     MediaCardItemOverline,
     MediaCardItemSubtitle,
     MediaCardItemTitle,

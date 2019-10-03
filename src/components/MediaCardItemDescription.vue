@@ -1,8 +1,9 @@
 <template>
-  <MediaCardItemSubtitleReady v-if="media" :media="media" />
+  <MediaCardItemDescriptionReady v-if="media" :media="media" />
   <v-list-item-subtitle v-else class="text-capitalize">
     <MediaCardProgress
-      width="50%"
+      v-for="i in 2"
+      :key="i"
       :style="{
         'margin-bottom': '.2em',
       }"
@@ -12,7 +13,7 @@
 
 <script lang="ts">
 import { Media } from '@/graphql/schema/media'
-import MediaCardItemSubtitleReady from './MediaCardItemSubtitleReady.vue'
+import MediaCardItemDescriptionReady from './MediaCardItemDescriptionReady.vue'
 
 import MediaCardProgress from './MediaCardProgress.vue'
 import { createComponent } from '@vue/composition-api'
@@ -22,7 +23,7 @@ export interface Props {
 }
 export default createComponent<Readonly<Props>>({
   components: {
-    MediaCardItemSubtitleReady,
+    MediaCardItemDescriptionReady,
 
     MediaCardProgress,
   },

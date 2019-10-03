@@ -16,7 +16,8 @@
     <v-card v-else>
       <MediaCardBanner :media="data && data.Media" />
 
-      <MediaCardTabs :media="data && data.Media" />
+      <MediaCardItem :media="data && data.Media" />
+      <!-- <MediaCardTabs :media="data && data.Media" /> -->
 
       <!-- <v-divider class="mx-4"></v-divider> -->
 
@@ -29,8 +30,8 @@
 import { Ref, computed, createComponent } from '@vue/composition-api'
 import MediaCardActions from './MediaCardActions.vue'
 import MediaCardBanner from './MediaCardBanner.vue'
+import MediaCardItem from './MediaCardItem.vue'
 import MediaCardStatus from './MediaCardStatus.vue'
-import MediaCardTabs from './MediaCardTabs.vue'
 
 import { Variables } from '@/graphql/schema/media'
 
@@ -38,8 +39,8 @@ export default createComponent<Readonly<Props>>({
   components: {
     MediaCardActions,
     MediaCardBanner,
+    MediaCardItem,
     MediaCardStatus,
-    MediaCardTabs,
   },
   props: {
     id: {

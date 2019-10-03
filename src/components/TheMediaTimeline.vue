@@ -2,7 +2,7 @@
   <v-row justify="center" align="center">
     <v-col v-if="!$vuetify.breakpoint.xsOnly" cols="12">
       <v-timeline :dense="$vuetify.breakpoint.smAndDown">
-        <MediaTimelineItem
+        <TheMediaTimelineItem
           v-for="media in mediaList"
           :key="media.id"
           :media="media"
@@ -23,7 +23,7 @@
 <script lang="ts">
 import { Media } from '@/graphql/schema/media'
 import MediaCard from './MediaCard.vue'
-import MediaTimelineItem from './MediaTimelineItem.vue'
+import TheMediaTimelineItem from './TheMediaTimelineItem.vue'
 
 export interface Props {
   mediaList: Media[]
@@ -32,7 +32,7 @@ export interface Props {
 export default {
   components: {
     MediaCard,
-    MediaTimelineItem,
+    TheMediaTimelineItem,
   },
   props: {
     mediaList: { default: () => [], required: true, type: Array },

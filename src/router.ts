@@ -6,6 +6,10 @@ import { settings } from '@/store/settings'
 
 const Home = () => import(/* webpackPrefetch: true */ './views/Home.vue')
 const Media = () => import(/* webpackPrefetch: true */ './views/Media.vue')
+const MediaAbout = () =>
+  import(/* webpackPrefetch: true */ './views/MediaAbout.vue')
+const MediaTimeline = () =>
+  import(/* webpackPrefetch: true */ './views/MediaTimeline.vue')
 
 const Changes = () => import(/* webpackPrefetch: true */ './views/Changes.vue')
 
@@ -43,7 +47,7 @@ const router = new Router({
               .replace(/\s/g, '-')
 
             return next({
-              name: 'title',
+              name: 'media-about',
               params: {
                 ...to.params,
                 title: slush,
@@ -58,8 +62,19 @@ const router = new Router({
       path: '/:mediaType/:mediaId',
     },
     {
+      children: [
+        {
+          component: MediaAbout,
+          name: 'media-about',
+          path: '',
+        },
+        {
+          component: MediaTimeline,
+          name: 'media-timeline',
+          path: 'timeline',
+        },
+      ],
       component: Media,
-      name: 'title',
       path: '/:mediaType/:mediaId/:title',
     },
     {
@@ -116,7 +131,8 @@ router.afterEach(to => {
   const { name, params, query } = to
   if (name) {
     if (name !== 'title') {
-      document.title = 'Anitree - ' + name[0].toUpperCase() + name.substr(1)
+      document.title =
+        'Anitree - ' + name[0].toUpperCase() + name.split('-')[0].substr(1)
     }
 
     localStorage.setItem('LAST_ROUTE', JSON.stringify({ name, params, query }))

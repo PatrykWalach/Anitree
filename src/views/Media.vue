@@ -1,181 +1,125 @@
 <template>
-  <!-- <div class="teal" :style="{ height: '100%' }">
-    <v-subheader>Some text</v-subheader>
+  <ApolloQuery
+    v-slot="{ result: { error, data }, isLoading, query }"
+    :query="require('@/graphql/queries/Media.gql')"
+    :variables="variables"
+    :skip="!mediaId"
+  >
+    <v-parallax :src="data && data.Media.bannerImage" height="300">
+    </v-parallax>
 
-    <v-card
-      height="100%"
-      :style="{ background: '#303030', 'border-radius': '1rem 1rem 0 0' }"
-    > -->
-  <base-container :loading="loading">
-    <MediaTimeline :media-list="mediaList" />
-  </base-container>
-  <!-- </v-card>
-  </div> -->
+    <v-card flat>
+      <v-container pa-0>
+        <v-row no-gutters>
+          <v-col cols="12">
+            <v-list-item two-line>
+              <MediaCardItemAvatar :media="data && data.Media" />
+              <v-list-item-content>
+                <MediaCardItemOverline :media="data && data.Media" />
+                <MediaCardItemTitle :media="data && data.Media" />
+                <MediaCardItemSubtitle :media="data && data.Media" />
+              </v-list-item-content>
+              <v-list-item-action>
+                <v-tooltip top>
+                  <template v-slot:activator="{ attrs, on }">
+                    <v-btn
+                      v-bind="attrs"
+                      icon
+                      :disabled="!data"
+                      rel="noopener"
+                      target="_blank"
+                      :href="data && data.Media.siteUrl"
+                      v-on="on"
+                    >
+                      <v-icon>open_in_new</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>Anilist</span>
+                </v-tooltip>
+              </v-list-item-action>
+              <v-list-item-action>
+                <v-tooltip top>
+                  <template v-slot:activator="{ attrs, on }">
+                    <v-btn
+                      v-bind="attrs"
+                      icon
+                      :disabled="!data"
+                      v-on="on"
+                      @click.stop="share"
+                    >
+                      <v-icon>share</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>Share</span>
+                </v-tooltip>
+              </v-list-item-action>
+              <!-- <v-list-item-action>
+                <v-tooltip v-if="Viewer" top>
+                  <template v-slot:activator="{ attrs, on }">
+                    <v-btn
+                      v-bind="attrs"
+                      icon
+                      :disabled="!data"
+                      v-on="on"
+                      @click.stop="edit"
+                    >
+                      <v-icon>edit</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>Edit</span>
+                </v-tooltip>
+              </v-list-item-action> -->
+            </v-list-item>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-card>
+
+    <TheMediaTabs
+      v-if="!$vuetify.breakpoint.xsOnly"
+      :style="{
+        position: 'sticky',
+        'z-index': 5,
+        top: ($vuetify.breakpoint.smAndDown ? '56' : '64') + 'px',
+      }"
+    />
+
+    <keep-alive>
+      <router-view />
+    </keep-alive>
+  </ApolloQuery>
 </template>
 <script lang="ts">
-import {
-  ApolloQueryResult,
-  OperationVariables,
-  WatchQueryOptions,
-} from 'apollo-client'
+import { computed, createComponent } from '@vue/composition-api'
 
-import { Page, Variables as PageVariables } from '@/graphql/schema/page'
-import {
-  Ref,
-  SetupContext,
-  computed,
-  createComponent,
-  isRef,
-  ref,
-  watch,
-} from '@vue/composition-api'
-import BaseContainer from '../components/BaseContainer.vue'
-import { ClientOptions } from 'vue-apollo/types/vue-apollo'
-import { Media } from '../graphql/schema/media'
-import { PAGE } from '@/graphql'
+import MediaCardItemAvatar from '@/components/MediaCardItemAvatar.vue'
+import MediaCardItemOverline from '@/components/MediaCardItemOverline.vue'
+import MediaCardItemSubtitle from '@/components/MediaCardItemSubtitle.vue'
+import MediaCardItemTitle from '@/components/MediaCardItemTitle.vue'
+import TheMediaTabs from '@/components/TheMediaTabs.vue'
 
-const MediaTimeline = () =>
-  import(/* webpackPreload: true */ '../components/MediaTimeline.vue')
-
-const getYear = (seasonInt: number) => {
-  const year = Math.floor(seasonInt / 10)
-  return (year > 50 ? 1900 : 2000) + year
-}
-
-export const useQuery = <R, TVariables = OperationVariables>(
-  options: Omit<WatchQueryOptions<TVariables>, 'variables'> &
-    ClientOptions & {
-      variables: Ref<TVariables> | (() => TVariables)
-    },
-  { root }: SetupContext,
-) => {
-  const result: Ref<ApolloQueryResult<R> | null> = ref(null)
-  const error = ref(null)
-
-  let variables: Ref<TVariables>
-  if (isRef(options.variables)) {
-    variables = options.variables
-  } else if (options.variables instanceof Function) {
-    variables = computed(options.variables)
-  } else {
-    throw new Error('unexpected type of query variables')
-  }
-
-  const query = root.$apollo.watchQuery<R, TVariables>({
-    ...options,
-    variables: variables.value,
-  })
-
-  watch(variables, () => {
-    query.setVariables(variables.value)
-  })
-
-  query.subscribe({
-    error(_error) {
-      error.value = _error
-    },
-    next(_result) {
-      result.value = _result
-    },
-  })
-
-  return {
-    error,
-    query,
-    result,
-  }
-}
+import { title } from '@/store/title'
 
 export default createComponent({
   components: {
-    BaseContainer,
-    MediaTimeline,
+    MediaCardItemAvatar,
+    MediaCardItemOverline,
+    MediaCardItemSubtitle,
+    MediaCardItemTitle,
+    TheMediaTabs,
   },
-  setup(_, context) {
-    const loading = ref(false)
+  setup(_, { root }) {
+    const mediaId = computed(() => parseInt(root.$route.params.mediaId, 10))
+    const variables = computed(() => ({ id: mediaId.value }))
 
-    const currentId = computed(() =>
-      parseInt(context.root.$route.params.mediaId, 10),
-    )
-    const variables = computed(() => ({
-      idIn: currentId.value,
-    }))
-
-    const { result, query } = useQuery<{ Page: Page }, PageVariables>(
-      {
-        query: PAGE,
-        variables,
-      },
-      context,
-    )
-
-    watch(result, _result => {
-      loading.value = true
-      if (_result) {
-        const idIn = _result.data.Page.media
-          .flatMap(({ relations }) => relations.edges)
-          .map(({ node }) => node.id)
-          .filter(
-            (id, i, arr) => arr.findIndex(mediaId => mediaId === id) === i,
-          )
-          .filter(id => !_result.data.Page.media.find(media => media.id === id))
-
-        if (idIn.length) {
-          query.fetchMore({
-            updateQuery: (previousResult, { fetchMoreResult }) => {
-              if (!fetchMoreResult) {
-                return previousResult
-              }
-              return {
-                Page: {
-                  ...fetchMoreResult.Page,
-                  media: previousResult.Page.media.concat(
-                    fetchMoreResult.Page.media,
-                  ),
-                },
-              }
-            },
-            variables: { idIn },
-          })
-        } else {
-          loading.value = false
-        }
-      }
-    })
-
-    const sorters: ((mediaA: Media, mediaB: Media) => number)[] = [
-      ({ seasonInt: seasonA }, { seasonInt: seasonB }) =>
-        (seasonA &&
-          seasonB &&
-          (getYear(seasonA) - getYear(seasonB) ||
-            (seasonA % 10) - (seasonB % 10))) ||
-        0,
-      ({ startDate: dateA }, { startDate: dateB }) =>
-        (dateA.year && dateB.year && dateA.year - dateB.year) || 0,
-      ({ startDate: dateA }, { startDate: dateB }) =>
-        (dateA.month && dateB.month && dateA.month - dateB.month) || 0,
-      ({ startDate: dateA }, { startDate: dateB }) =>
-        (dateA.day && dateB.day && dateA.day - dateB.day) || 0,
-    ]
-
-    const mediaList = computed(
-      () =>
-        (result.value &&
-          result.value.data.Page.media.sort((a, b) => {
-            for (const sort of sorters) {
-              const result = sort(a, b)
-              if (result) return result
-            }
-            return 0
-          })) ||
-        [],
-    )
+    const {
+      getters: { getTitle },
+    } = title
 
     return {
-      loading,
-      mediaList,
-      query,
-      result,
+      getTitle,
+      mediaId,
+      variables,
     }
   },
 })

@@ -1,4 +1,4 @@
-import { FuzzyDate, MediaStatus, MediaType } from './media'
+import { FuzzyDate, MediaType } from './media'
 import { ScoreFormat } from './viewer'
 
 export interface Variables {
@@ -12,7 +12,7 @@ export interface MediaList {
   __typename: 'MediaList'
   id: number
   mediaId: number
-  status: MediaStatus
+  status: MediaListStatus
   score: number
   progress: number | null
   progressVolumes: number | null
@@ -26,13 +26,21 @@ export interface MediaList {
   }
 }
 
+export interface MediaListGroup {
+  entries: MediaList[]
+  status: MediaListStatus
+  name: string
+  isCustomList: boolean
+}
 export interface MediaListCollection {
-  lists: {
-    entries: MediaList[]
-    status: MediaStatus
-    name: string
-    isCustomList: boolean
-  }[]
-
+  lists: MediaListGroup[]
   hasNextChunk: boolean
 }
+
+export type MediaListStatus =
+  | 'CURRENT'
+  | 'PLANNING'
+  | 'COMPLETED'
+  | 'DROPPED'
+  | 'PAUSED'
+  | 'REPEATING'
