@@ -5,8 +5,7 @@
     :variables="variables"
     :skip="!mediaId"
   >
-    <v-parallax :src="data && data.Media.bannerImage" height="300">
-    </v-parallax>
+    <MediaCardBanner :media="data && data.Media" />
 
     <v-card flat>
       <v-container pa-0>
@@ -91,6 +90,7 @@
 </template>
 <script lang="ts">
 import { computed, createComponent } from '@vue/composition-api'
+import MediaCardBanner from '@/components/MediaCardBanner.vue'
 
 import MediaCardItemAvatar from '@/components/MediaCardItemAvatar.vue'
 import MediaCardItemOverline from '@/components/MediaCardItemOverline.vue'
@@ -102,6 +102,7 @@ import { title } from '@/store/title'
 
 export default createComponent({
   components: {
+    MediaCardBanner,
     MediaCardItemAvatar,
     MediaCardItemOverline,
     MediaCardItemSubtitle,
