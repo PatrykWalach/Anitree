@@ -65,9 +65,10 @@ export default createComponent<Readonly<Props>>({
   },
   setup(props) {
     const distribution = computed(() => {
-      const _distribution = props.distribution || []
-      if (_distribution.length && props.sort)
+      const _distribution = props.distribution.slice() || []
+      if (_distribution.length && props.sort) {
         return _distribution.sort(({ amount: a }, { amount: b }) => b - a)
+      }
       return _distribution
     })
 
