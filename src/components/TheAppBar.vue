@@ -22,17 +22,8 @@
       </v-tooltip>
 
       <template v-if="extension" v-slot:extension>
-        <TheMediaTabs v-if="tabs" />
-        <ApolloQuery
-          v-else
-          v-slot="{ result: { data }, isLoading }"
-          :query="require('@/graphql/queries/Page.gql')"
-          :tag="null"
-          :skip="!$route.query.search"
-          :variables="{ search: $route.query.search }"
-        >
-          <TheSearchChips :loading="!!isLoading" :page="data && data.Page" />
-        </ApolloQuery>
+        <TheAppBarExtensionTabs v-if="tabs" />
+        <TheAppBarExtensionChips v-else />
       </template>
 
       <template v-if="!routeSearch">
@@ -64,21 +55,21 @@
 </template>
 <script lang="ts">
 import { computed, createComponent } from '@vue/composition-api'
+import TheAppBarExtensionChips from './TheAppBarExtensionChips.vue'
+import TheAppBarExtensionTabs from './TheAppBarExtensionTabs.vue'
 // import TheAppBarFilters from './TheAppBarFilters.vue'
 import TheAppBarSearch from './TheAppBarSearch.vue'
 import TheAppBarViewer from './TheAppBarViewer.vue'
-import TheMediaTabs from './TheMediaTabs.vue'
-import TheSearchChips from './TheSearchChips.vue'
 
 import { title } from '@/store/title'
 
 export default createComponent({
   components: {
+    TheAppBarExtensionChips,
+    TheAppBarExtensionTabs,
     // TheAppBarFilters,
     TheAppBarSearch,
     TheAppBarViewer,
-    TheMediaTabs,
-    TheSearchChips,
   },
   setup(_, { root }) {
     const routeTitle = computed(
@@ -98,7 +89,9 @@ export default createComponent({
     )
 
     const extension = computed(
-      () => tabs.value || (routeSearch.value && !!root.$route.query.search),
+      () =>
+        tabs.value ||
+        (routeSearch.value && !!Object.keys(root.$route.query).length),
     )
 
     return {

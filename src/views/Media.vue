@@ -74,7 +74,7 @@
       </v-container>
     </v-card>
 
-    <TheMediaTabs
+    <TheAppBarExtensionTabs
       v-if="!$vuetify.breakpoint.xsOnly"
       :style="{
         position: 'sticky',
@@ -96,7 +96,7 @@ import MediaCardItemAvatar from '@/components/MediaCardItemAvatar.vue'
 import MediaCardItemOverline from '@/components/MediaCardItemOverline.vue'
 import MediaCardItemSubtitle from '@/components/MediaCardItemSubtitle.vue'
 import MediaCardItemTitle from '@/components/MediaCardItemTitle.vue'
-import TheMediaTabs from '@/components/TheMediaTabs.vue'
+import TheAppBarExtensionTabs from '@/components/TheAppBarExtensionTabs.vue'
 
 import { title } from '@/store/title'
 
@@ -107,7 +107,7 @@ export default createComponent({
     MediaCardItemOverline,
     MediaCardItemSubtitle,
     MediaCardItemTitle,
-    TheMediaTabs,
+    TheAppBarExtensionTabs,
   },
   setup(_, { root }) {
     const mediaId = computed(() => parseInt(root.$route.params.mediaId, 10))
