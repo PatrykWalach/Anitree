@@ -37,9 +37,8 @@ export default createComponent({
           }}
         >
           <p>
-            All features are subjects to change. Please visit
-            <router-link to="/roadmap"> roadmap </router-link>for more
-            information about planned features.
+            The site doesn't store any information about the user. All features
+            are subjects to change.
           </p>
           <p>
             If you encounter any problems you may have to clean your cache:

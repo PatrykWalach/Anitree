@@ -13,7 +13,6 @@ const MediaTimeline = () =>
 
 const Changes = () => import(/* webpackPrefetch: true */ './views/Changes.vue')
 
-const Roadmap = () => import('./views/Roadmap.vue')
 const Settings = () =>
   import(/* webpackPrefetch: true */ './views/Settings.vue')
 const Search = () => import(/* webpackPrefetch: true */ './views/Search.vue')
@@ -76,11 +75,6 @@ const router = new Router({
       ],
       component: Media,
       path: '/:mediaType/:mediaId/:title',
-    },
-    {
-      component: Roadmap,
-      name: 'roadmap',
-      path: '/roadmap',
     },
     {
       component: Changes,
