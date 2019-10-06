@@ -16,7 +16,6 @@ import {
   SetupContext,
   computed,
   createComponent,
-  isRef,
   ref,
   watch,
 } from '@vue/composition-api'
@@ -35,23 +34,19 @@ const getYear = (seasonInt: number) => {
 }
 
 export const useQuery = <R, TVariables = OperationVariables>(
-  options: Omit<WatchQueryOptions<TVariables>, 'variables'> &
-    ClientOptions & {
-      variables: Ref<TVariables> | (() => TVariables)
-    },
+  {
+    skip,
+    variables,
+  }: {
+    variables?: Ref<TVariables>
+    skip?: Ref<boolean>
+  },
+
+  options: Omit<WatchQueryOptions<TVariables>, 'variables'> & ClientOptions,
   { root }: SetupContext,
 ) => {
   const result: Ref<ApolloQueryResult<R> | null> = ref(null)
   const error = ref(null)
-
-  let variables: Ref<TVariables>
-  if (isRef(options.variables)) {
-    variables = options.variables
-  } else if (options.variables instanceof Function) {
-    variables = computed(options.variables)
-  } else {
-    throw new Error('unexpected type of query variables')
-  }
 
   const query = root.$apollo.watchQuery<R, TVariables>({
     ...options,
@@ -59,7 +54,7 @@ export const useQuery = <R, TVariables = OperationVariables>(
   })
 
   watch(variables, () => {
-    if (variables.value.idIn) {
+    if (skip.value) {
       query.setVariables(variables.value)
     }
   })
@@ -95,10 +90,12 @@ export default createComponent({
       idIn: currentId.value,
     }))
 
+    const skip = computed(() => !variables.value.idIn)
+
     const { result, query } = useQuery<{ Page: Page }, PageVariables>(
+      { skip, variables },
       {
         query: PAGE,
-        variables,
       },
       context,
     )

@@ -9,11 +9,9 @@
 </template>
 
 <script lang="ts">
+import { computed, createComponent } from '@vue/composition-api'
 import BaseLazyImg from './BaseLazyImg.vue'
 import { Media } from '@/graphql/schema/media'
-
-import { computed, createComponent } from '@vue/composition-api'
-import { useTheme } from './MediaCardProgress.vue'
 
 export interface Props {
   media: Media | null
