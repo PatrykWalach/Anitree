@@ -50,14 +50,16 @@ export const useQuery = <R, TVariables = OperationVariables>(
 
   const query = root.$apollo.watchQuery<R, TVariables>({
     ...options,
-    variables: variables.value,
+    variables: variables && variables.value,
   })
 
-  watch(variables, () => {
-    if (skip.value) {
-      query.setVariables(variables.value)
-    }
-  })
+  if (variables) {
+    watch(variables, () => {
+      if (!(skip && skip.value)) {
+        query.setVariables(variables.value)
+      }
+    })
+  }
 
   query.subscribe({
     error(_error) {

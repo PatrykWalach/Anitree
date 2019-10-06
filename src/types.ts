@@ -43,8 +43,8 @@ export interface Form {
   advancedScores: number[]
 }
 
-// export interface ValidDate {
-//   year: number
-//   month: number | null
-//   day: number | null
-// }
+export interface ValidDate {
+  year: number
+  month: number | null
+  day: number | null
+}
