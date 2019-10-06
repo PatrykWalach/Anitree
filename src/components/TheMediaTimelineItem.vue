@@ -5,7 +5,9 @@
     :color="color"
   >
     <template v-slot:opposite>
-      <MediaCardTime v-if="media" :media="media" />
+      <v-skeleton-loader :loading="!media" type="chip">
+        <MediaCardTime :media="media" />
+      </v-skeleton-loader>
     </template>
 
     <MediaCard :id="media.id" />

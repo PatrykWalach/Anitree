@@ -13,8 +13,6 @@
 </template>
 <script lang="ts">
 export default {
-  setup() {
-    return { id: process.env.VUE_APP_ANILIST_ID }
-  },
+  setup: () => ({ id: process.env.VUE_APP_ANILIST_ID }),
 }
 </script>

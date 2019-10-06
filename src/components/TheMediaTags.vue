@@ -60,9 +60,7 @@ export default createComponent<Readonly<Props>>({
         .join(' '),
     )
 
-    const query = computed(() => {
-      return { season: season.value, year: year.value }
-    })
+    const query = computed(() => ({ season: season.value, year: year.value }))
 
     return { link, query, season, year }
   },

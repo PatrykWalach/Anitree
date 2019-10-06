@@ -2,6 +2,7 @@
   <v-img v-lazy="changeInView" v-bind="{ ...$attrs, ...get, lazySrc }">
     <slot :inView="inView"></slot>
     <template v-slot:placeholder>
+      <!-- <v-skeleton-loader type="image" /> -->
       <slot name="placeholder" :inView="inView"></slot>
     </template>
   </v-img>

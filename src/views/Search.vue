@@ -20,61 +20,29 @@
         ...query,
       }"
     >
-      <v-container :fill-height="isLoading">
+      <v-container>
         <v-row
-          v-if="isLoading || error || !data || !data.Page.media.length"
           justify="center"
           align="center"
+          v-if="error || (data && !data.Page.media.length)"
         >
-          <v-progress-circular
-            v-if="isLoading"
-            indeterminate
-            color="primary"
-          ></v-progress-circular>
-          <template v-else-if="error">
-            There was an error
-          </template>
-          <template v-else>
+          <template v-if="data && !data.Page.media.length">
             No results found
           </template>
+          <template v-else>
+            There was an error
+          </template>
         </v-row>
-        <template v-else>
-          <v-subheader v-if="$route.query.search || subheaders.length">
-            <template v-if="subheaders.length">
-              <span
-                v-for="subheader in subheaders"
-                :key="subheader.title"
-                class="mr-4"
-              >
-                <v-icon>{{ subheader.icon }}</v-icon>
-                {{ subheader.title }}
-              </span>
-            </template>
-            <span v-else>
-              Search resuts for:
-              {{ $route.query.search }}
-            </span>
-            <v-spacer></v-spacer>
-            <!-- <v-select
-              hide-details
-              solo
-              single-line
-              label="Sort"
-              :items="['one', 'two']"
-            >
-              <template v-slot:append>
-                <v-icon>sort</v-icon>
-              </template>
-            </v-select> -->
-          </v-subheader>
-
-          <the-media-timeline :media-list="data.Page.media">
-            <v-pagination
-              v-model="page"
-              :length="data.Page.pageInfo.lastPage"
-            ></v-pagination>
-          </the-media-timeline>
-        </template>
+        <the-media-timeline
+          v-else
+          :loading="!!isLoading"
+          :media-list="data && data.Page.media"
+        >
+          <v-pagination
+            v-model="page"
+            :length="(data && data.Page.pageInfo.lastPage) || 0"
+          ></v-pagination>
+        </the-media-timeline>
       </v-container>
     </ApolloQuery>
   </ApolloQuery>
@@ -84,7 +52,6 @@ import { computed, createComponent } from '@vue/composition-api'
 import TheMediaTimeline from '../components/TheMediaTimeline.vue'
 import TheSearchList from '../components/TheSearchList.vue'
 
-import { navigation } from '@/store/navigation'
 import { settings } from '@/store/settings'
 
 export default createComponent({
@@ -115,25 +82,6 @@ export default createComponent({
 
     const isSearched = computed(() => !!Object.values(query.value).length)
 
-    const {
-      state: { search },
-    } = navigation
-
-    const subheaders = computed(() => {
-      return search.value.filter(({ to }) => {
-        if (!to.query || to.name !== root.$route.name) {
-          return false
-        }
-
-        for (const [key, value] of Object.entries(to.query)) {
-          if (root.$route.query[key] !== value) {
-            return false
-          }
-        }
-        return true
-      })
-    })
-
     const page = computed({
       get: () => {
         const page = query.value.page
@@ -160,7 +108,6 @@ export default createComponent({
       isSearched,
       page,
       query,
-      subheaders,
       token,
     }
   },

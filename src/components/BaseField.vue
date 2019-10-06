@@ -71,7 +71,9 @@ export default createComponent<Readonly<Props>>({
     const changeInput = (newValue: string) => {
       input.value = transform(newValue, props.transformations)
       if (isValid.value) {
-        emit('input', transform(input.value, props.afterTransform))
+        const finalValue = transform(input.value, props.afterTransform)
+        emit('input', finalValue)
+        emit('change', finalValue)
       } else {
         input.value = transform(props.value, props.beforeTransform)
       }

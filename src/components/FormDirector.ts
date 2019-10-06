@@ -34,11 +34,12 @@ export const dateToString = (date: FuzzyDate): string => {
 }
 
 export const stringToDate = (date: string): Omit<FuzzyDate, '__typename'> => {
-  const values = date.split('-')
+  const [_day = null, _month = null, _year = null] = date.split('-')
+
   return {
-    day: parseInt(values[2]) || null,
-    month: parseInt(values[1]) || null,
-    year: parseInt(values[0]) || null,
+    day: _day ? parseInt(_day) : null,
+    month: _month ? parseInt(_month) : null,
+    year: _year ? parseInt(_year) : null,
   }
 }
 
@@ -241,48 +242,45 @@ export class FormDirector {
   public edit4(builder: FormBuilder, data: Readonly<Props>) {
     const { scoreFormat, advancedScoring, form } = data
     builder.setFields(
-      advancedScoring.map((label, i) => {
-        return {
-          attrs: {
-            label,
-          },
-          props: {
-            afterTransform: [
-              parseFloat,
-              (e: number) => {
-                const array: number[] = form.advancedScores
+      advancedScoring.map((label, i) => ({
+        attrs: {
+          label,
+        },
+        props: {
+          afterTransform: [
+            parseFloat,
+            (e: number) => {
+              const array: number[] = form.advancedScores
 
-                array[i] = e
-                return array
-              },
-              (advancedScores: number[]) => {
-                const length = advancedScores.length
-                return {
-                  advancedScores,
-                  score: length
-                    ? [
-                        formatToNumber,
-                        numberRound.bind(null, scoreFormat.round),
-                        parseFloat,
-                      ].reduce(
-                        (score, mutation: (score: any) => any) =>
-                          mutation(score),
-                        (
-                          advancedScores.reduce((acc, v) => acc + v, 0) / length
-                        ).toString(),
-                      )
-                    : undefined,
-                }
-              },
-              edit.actions.changeForm,
-            ],
-            beforeTransform: [(e: any) => e.toString()],
-            transformations: [formatToNumber],
-            validators: [scoreFormat.round ? validFloat : validInteger],
-            value: form.advancedScores[i] || 0,
-          },
-        }
-      }),
+              array[i] = e
+              return array
+            },
+            (advancedScores: number[]) => {
+              const length = advancedScores.length
+              return {
+                advancedScores,
+                score: length
+                  ? [
+                      formatToNumber,
+                      numberRound.bind(null, scoreFormat.round),
+                      parseFloat,
+                    ].reduce(
+                      (score, mutation: (score: any) => any) => mutation(score),
+                      (
+                        advancedScores.reduce((acc, v) => acc + v, 0) / length
+                      ).toString(),
+                    )
+                  : undefined,
+              }
+            },
+            edit.actions.changeForm,
+          ],
+          beforeTransform: [(e: any) => e.toString()],
+          transformations: [formatToNumber],
+          validators: [scoreFormat.round ? validFloat : validInteger],
+          value: form.advancedScores[i] || 0,
+        },
+      })),
     )
   }
 }

@@ -51,7 +51,9 @@ export default createComponent<Readonly<Props>>({
         case 'DROPPED':
           return 100
         default: {
-          if (episodes.value) return (progress.value / episodes.value) * 100
+          if (episodes.value) {
+            return (progress.value / episodes.value) * 100
+          }
           return 50
         }
       }

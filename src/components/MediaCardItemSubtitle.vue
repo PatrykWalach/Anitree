@@ -1,5 +1,8 @@
 <template>
-  <MediaCardItemSubtitleReady v-if="media" :media="media" />
+  <!-- <v-skeleton-loader :loading="!media" type="text">
+    <MediaCardItemSubtitleReady :media="media" />
+  </v-skeleton-loader> -->
+  <!-- <MediaCardItemSubtitleReady v-if="media" :media="media" />
   <v-list-item-subtitle v-else class="text-capitalize">
     <MediaCardProgress
       width="50%"
@@ -7,6 +10,10 @@
         'margin-bottom': '.2em',
       }"
     />
+  </v-list-item-subtitle> -->
+  <MediaCardItemSubtitleReady v-if="media" :media="media" />
+  <v-list-item-subtitle v-else class="text-capitalize">
+    <v-skeleton-loader type="text" width="160px" max-width="100%" />
   </v-list-item-subtitle>
 </template>
 

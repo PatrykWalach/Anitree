@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="dialog" max-width="720px">
+  <v-dialog v-model="dialog" max-width="720px" scrollable>
     <template v-slot:activator="{ on, attrs }">
       <v-btn icon v-bind="attrs" v-on="on">
         <v-icon>tune</v-icon>
@@ -10,9 +10,10 @@
       <v-card-title>
         Filters
       </v-card-title>
-      <v-divider></v-divider>
-      <v-subheader>Type</v-subheader>
-      <v-container>
+      <!-- <v-divider></v-divider> -->
+      <v-card-text>
+        <span class="subheading">Type</span>
+
         <v-chip-group v-model="form.type" column active-class="accent--text">
           <v-chip
             v-for="type in ['ANIME', 'MANGA']"
@@ -23,10 +24,9 @@
             {{ type.toLowerCase() }}
           </v-chip>
         </v-chip-group>
-      </v-container>
-      <v-divider></v-divider>
-      <v-subheader>Sort</v-subheader>
-      <v-container>
+
+        <span class="subheading">Sort</span>
+
         <v-chip-group v-model="form.sort" column active-class="accent--text">
           <v-chip
             v-for="{ value, text } in [
@@ -66,13 +66,12 @@
             {{ text }}
           </v-chip>
         </v-chip-group>
-      </v-container>
-      <v-divider></v-divider>
-      <v-subheader>Status</v-subheader>
-      <v-container>
+
+        <span class="subheading">Status</span>
+
         <base-field
           v-model="form.status"
-          :before-transform="[e => (e instanceof Array ? e : [])]"
+          :before-transform="[e => (e ? (e instanceof Array ? e : [e]) : [])]"
           :after-transform="[e => (e.length ? e : undefined)]"
           tag="v-chip-group"
           multiple
@@ -99,7 +98,8 @@
             }}
           </v-chip>
         </base-field>
-      </v-container>
+      </v-card-text>
+      <v-divider></v-divider>
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn text color="error" @click="close">cancel</v-btn>
@@ -146,6 +146,7 @@ export default createComponent({
         _form.value = e
       },
     })
+
     return { close, dialog, form, query, submit }
   },
 })

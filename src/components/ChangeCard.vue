@@ -1,6 +1,6 @@
 <template>
   <ApolloQuery
-    v-slot="{ result: { error, data, loading } }"
+    v-slot="{ result: { error, data } }"
     :query="require('@/graphql/queries/Media.gql')"
     :variables="{
       id: command.variables.mediaId,

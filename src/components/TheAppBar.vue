@@ -9,6 +9,7 @@
     <v-app-bar
       app
       elevate-on-scroll
+      :hide-on-scroll="$vuetify.breakpoint.xsOnly && extension"
       :flat="routeTitle && !$vuetify.breakpoint.xsOnly"
     >
       <v-tooltip v-if="!routeHome" bottom>
@@ -20,17 +21,18 @@
         <span>Back</span>
       </v-tooltip>
 
-      <template
-        v-if="$vuetify.breakpoint.xsOnly && routeTitle"
-        v-slot:extension
-      >
-        <TheMediaTabs
-          :style="{
-            position: 'sticky',
-            'z-index': 5,
-            top: ($vuetify.breakpoint.smAndDown ? '56' : '64') + 'px',
-          }"
-        />
+      <template v-if="extension" v-slot:extension>
+        <TheMediaTabs v-if="tabs" />
+        <ApolloQuery
+          v-else
+          v-slot="{ result: { data }, isLoading }"
+          :query="require('@/graphql/queries/Page.gql')"
+          :tag="null"
+          :skip="!$route.query.search"
+          :variables="{ search: $route.query.search }"
+        >
+          <TheSearchChips :loading="!!isLoading" :page="data && data.Page" />
+        </ApolloQuery>
       </template>
 
       <template v-if="!routeSearch">
@@ -55,26 +57,28 @@
       </template>
       <template v-else>
         <TheAppBarSearch />
-        <TheAppBarFilters />
+        <!-- <TheAppBarFilters /> -->
       </template>
     </v-app-bar>
   </ApolloQuery>
 </template>
 <script lang="ts">
 import { computed, createComponent } from '@vue/composition-api'
-import TheAppBarFilters from './TheAppBarFilters.vue'
+// import TheAppBarFilters from './TheAppBarFilters.vue'
 import TheAppBarSearch from './TheAppBarSearch.vue'
 import TheAppBarViewer from './TheAppBarViewer.vue'
 import TheMediaTabs from './TheMediaTabs.vue'
+import TheSearchChips from './TheSearchChips.vue'
 
 import { title } from '@/store/title'
 
 export default createComponent({
   components: {
-    TheAppBarFilters,
+    // TheAppBarFilters,
     TheAppBarSearch,
     TheAppBarViewer,
     TheMediaTabs,
+    TheSearchChips,
   },
   setup(_, { root }) {
     const routeTitle = computed(
@@ -89,16 +93,21 @@ export default createComponent({
       getters: { getTitle },
     } = title
 
-    const banner = computed(
+    const tabs = computed(
       () => routeTitle.value && root.$vuetify.breakpoint.xsOnly,
     )
 
+    const extension = computed(
+      () => tabs.value || (routeSearch.value && !!root.$route.query.search),
+    )
+
     return {
-      banner,
+      extension,
       getTitle,
       routeHome,
       routeSearch,
       routeTitle,
+      tabs,
     }
   },
 })

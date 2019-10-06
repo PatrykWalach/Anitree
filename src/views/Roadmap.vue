@@ -56,21 +56,17 @@ export default {
     loading.value = true
 
     makeRequests().then(([_lists, cards, checklists]) => {
-      lists.value = _lists.map(list => {
-        return {
-          cards: cards
-            .filter(card => card.idList === list.id)
-            .map(card => {
-              return {
-                card,
-                checklists: checklists.filter(
-                  checklist => checklist.idCard === card.id,
-                ),
-              }
-            }),
-          list,
-        }
-      })
+      lists.value = _lists.map(list => ({
+        cards: cards
+          .filter(card => card.idList === list.id)
+          .map(card => ({
+            card,
+            checklists: checklists.filter(
+              checklist => checklist.idCard === card.id,
+            ),
+          })),
+        list,
+      }))
 
       loading.value = false
     })

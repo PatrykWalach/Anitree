@@ -4,6 +4,7 @@
     :query="require('@/graphql/queries/Media.gql')"
     :variables="variables"
     :tag="null"
+    :skip="id === -1"
   >
     <v-banner v-if="error" icon="warning" two-line :tile="false">
       There was an error while loading the data. Please make sure your have a
@@ -44,19 +45,23 @@ export default createComponent<Readonly<Props>>({
   },
   props: {
     id: {
-      default: 2,
-      required: true,
+      default: -1,
+      required: false,
       type: Number,
     },
+    // loading: {
+    //   default: true,
+    //   required: false,
+    //   type: Boolean,
+    // },
   },
   setup(props) {
-    const variables: Ref<Variables> = computed(() => {
-      return { id: props.id }
-    })
+    const variables: Ref<Variables> = computed(() => ({ id: props.id }))
 
     return { variables }
   },
 })
+
 export interface Props {
   id: number
 }

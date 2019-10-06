@@ -1,8 +1,16 @@
 <template>
-  <MediaCardItemOverlineReady v-if="media" :media="media" />
+  <!-- <v-skeleton-loader :loading="!media" type="text">
+    <MediaCardItemOverlineReady :media="media" />
+  </v-skeleton-loader> -->
+  <!-- <MediaCardItemOverlineReady v-if="media" :media="media" />
 
   <div v-else class="overline">
     <MediaCardProgress width="25%" />
+  </div> -->
+  <MediaCardItemOverlineReady v-if="media" :media="media" />
+
+  <div v-else class="overline">
+    <v-skeleton-loader type="text" width="100px" max-width="100%" />
   </div>
 </template>
 

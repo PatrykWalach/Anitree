@@ -2,9 +2,9 @@
   <v-container>
     <v-row justify="center">
       <v-col cols="12" md="6">
-        <v-form v-model="valid" @submit.prevent="submit">
+        <v-form @submit.prevent="submit">
           <v-text-field
-            v-model="search"
+            v-model="value"
             full-width
             prepend-inner-icon="search"
             autofocus
@@ -15,65 +15,55 @@
             hide-details
             name="search"
             label="Search"
-            @click:clear="move"
+            @click:clear="clear"
             @click="move"
-            @input="move"
             @keydown.esc="$emit('keydown:esc')"
-          ></v-text-field
-        ></v-form>
+          ></v-text-field>
+        </v-form>
       </v-col>
     </v-row>
   </v-container>
 </template>
 <script lang="ts">
-import { Ref, computed, createComponent, ref } from '@vue/composition-api'
+import { createComponent, ref, watch } from '@vue/composition-api'
 
 export default createComponent({
-  setup(_, { emit, root }) {
-    const search = ref('')
-    const valid = ref(false)
+  setup(_, { root }) {
+    const value = ref('')
 
-    const rules: Ref<((search: string) => string | true)[]> = ref([
-      (search: string) => !!search.length || 'stop it',
-    ])
-
-    const submit = async () => {
-      if (valid.value && root.$route.query.search !== search.value.trim()) {
-        root.$router.push({
-          name: 'search',
-          query: {
-            search: search.value.trim(),
-          },
-        })
-        emit('submit')
-      }
-    }
-
-    const query = computed(() => root.$route.query)
-
-    const isSearched = computed(() => {
-      for (const prop in query.value) {
-        if (query.value.hasOwnProperty(prop)) {
-          return true
+    watch(
+      () => root.$route.query.search,
+      (search = '') => {
+        if (search && !(search instanceof Array)) {
+          value.value = search
         }
-      }
-      return false
-    })
+      },
+    )
+
+    const clear = () =>
+      root.$router.replace({
+        name: 'search',
+        query: {},
+      })
 
     const move = () => {
-      if (root.$route.name !== 'search') {
+      if (!value.value && root.$route.name !== 'search') {
         root.$router.push({
           name: 'search',
-          query: {},
-        })
-      } else if (isSearched.value) {
-        root.$router.replace({
           query: {},
         })
       }
     }
 
-    return { move, rules, search, submit, valid }
+    const submit = () => {
+      if (value.value !== root.$route.query.search)
+        root.$router.replace({
+          name: 'search',
+          query: { search: value.value },
+        })
+    }
+
+    return { clear, move, submit, value }
   },
 })
 </script>

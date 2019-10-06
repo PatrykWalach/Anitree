@@ -1,18 +1,10 @@
 <template>
-  <v-list-item-avatar
-    :color="color"
-    :size="size"
-    :style="{ 'align-self': 'center' }"
-  >
-    <BaseLazyImg
-      v-if="media"
-      :srcset="
-        `${media.coverImage.medium} 1x, 
-            ${media.coverImage.large} 2x, 
-            ${media.coverImage.extraLarge} 3x`
-      "
-      :src="media.coverImage.extraLarge"
-    />
+  <v-list-item-avatar :size="size" :style="{ 'align-self': 'center' }">
+    <base-lazy-img :srcset="srcset" :src="src">
+      <template v-slot:placeholder>
+        <v-skeleton-loader type="image"></v-skeleton-loader>
+      </template>
+    </base-lazy-img>
   </v-list-item-avatar>
 </template>
 
@@ -20,7 +12,7 @@
 import BaseLazyImg from './BaseLazyImg.vue'
 import { Media } from '@/graphql/schema/media'
 
-import { createComponent } from '@vue/composition-api'
+import { computed, createComponent } from '@vue/composition-api'
 import { useTheme } from './MediaCardProgress.vue'
 
 export interface Props {
@@ -40,8 +32,21 @@ export default createComponent<Readonly<Props>>({
       type: [Number, String],
     },
   },
-  setup() {
-    return useTheme()
+  setup(props) {
+    const srcset = computed(
+      () =>
+        (props.media &&
+          `${props.media.coverImage.medium} 1x, 
+            ${props.media.coverImage.large} 2x, 
+            ${props.media.coverImage.extraLarge} 3x`) ||
+        '',
+    )
+
+    const src = computed(
+      () => (props.media && props.media.coverImage.extraLarge) || '',
+    )
+
+    return { src, srcset }
   },
 })
 </script>
