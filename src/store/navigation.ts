@@ -31,6 +31,7 @@ export const navigation = new VuexCompositionApi.Module({
               if (date < 3) return 'SUMMER'
               return 'FALL'
             })(),
+            sort: 'POPULARITY_DESC',
             year: new Date().getFullYear().toString(),
           },
         },
