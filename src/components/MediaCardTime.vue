@@ -1,5 +1,5 @@
 <template>
-  <v-chip v-if="validStartDate" class="body-2" label outlined>
+  <v-chip v-if="validStartDate" label outlined>
     <v-icon left small>date_range</v-icon>
     <BaseTimeRange
       v-if="isRange"

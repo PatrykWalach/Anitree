@@ -1,7 +1,7 @@
 <template>
-  <base-container :loading="loading">
-    <TheMediaTimeline :media-list="mediaList" />
-  </base-container>
+  <v-container>
+    <TheMediaTimeline :loading="loading" :media-list="mediaList" />
+  </v-container>
 </template>
 <script lang="ts">
 import {
@@ -20,13 +20,14 @@ import {
   ref,
   watch,
 } from '@vue/composition-api'
-import BaseContainer from '../components/BaseContainer.vue'
+// import BaseContainer from '../components/BaseContainer.vue'
 import { ClientOptions } from 'vue-apollo/types/vue-apollo'
 import { Media } from '../graphql/schema/media'
 import { PAGE } from '@/graphql'
+import TheMediaTimeline from '../components/TheMediaTimeline.vue'
 
-const TheMediaTimeline = () =>
-  import(/* webpackPreload: true */ '../components/TheMediaTimeline.vue')
+// const TheMediaTimeline = () =>
+//   import(/* webpackPreload: true */ '../components/TheMediaTimeline.vue')
 
 const getYear = (seasonInt: number) => {
   const year = Math.floor(seasonInt / 10)
@@ -58,7 +59,9 @@ export const useQuery = <R, TVariables = OperationVariables>(
   })
 
   watch(variables, () => {
-    query.setVariables(variables.value)
+    if (variables.value.idIn) {
+      query.setVariables(variables.value)
+    }
   })
 
   query.subscribe({
@@ -79,7 +82,7 @@ export const useQuery = <R, TVariables = OperationVariables>(
 
 export default createComponent({
   components: {
-    BaseContainer,
+    // BaseContainer,
     TheMediaTimeline,
   },
   setup(_, context) {

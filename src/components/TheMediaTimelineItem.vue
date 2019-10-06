@@ -5,12 +5,16 @@
     :color="color"
   >
     <template v-slot:opposite>
-      <v-skeleton-loader :loading="!media" type="chip">
+      <v-skeleton-loader
+        :style="{ display: 'inline-block' }"
+        :loading="!media"
+        type="chip"
+      >
         <MediaCardTime :media="media" />
       </v-skeleton-loader>
     </template>
 
-    <MediaCard :id="media.id" />
+    <MediaCard :id="(media && media.id) || -1" />
   </v-timeline-item>
 </template>
 <script lang="ts">
