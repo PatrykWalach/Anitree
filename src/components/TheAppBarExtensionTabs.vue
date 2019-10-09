@@ -1,6 +1,12 @@
 <template>
   <v-tabs align-with-title>
-    <v-tab v-for="{ to, icon, title } in tabs" :key="title" exact :to="to">
+    <v-tab
+      v-for="{ to, icon, title } in tabs"
+      :key="title"
+      exact
+      :to="to"
+      replace
+    >
       <v-icon left>{{ icon }}</v-icon>
       {{ title }}
     </v-tab>
@@ -30,7 +36,6 @@ export default createComponent({
         to: params.value && {
           name: 'media-about',
           params: params.value,
-          replace: true,
         },
       },
       {
@@ -39,7 +44,6 @@ export default createComponent({
         to: params.value && {
           name: 'media-timeline',
           params: params.value,
-          replace: true,
         },
       },
     ])
