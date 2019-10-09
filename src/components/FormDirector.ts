@@ -1,8 +1,21 @@
+import { FuzzyDate, Media } from '@/graphql/schema/media'
+import { Form } from '@/types'
 import { FormBuilder } from './FormBuilder'
-import { FuzzyDate } from '@/graphql/schema/media'
-import { Props } from './MediaEditItemsTab.vue'
-
+import { User } from '@/graphql/schema/viewer'
 import { edit } from '@/store/edit'
+
+export interface Props {
+  method: keyof FormDirector
+  user: User
+  media: Media
+  form: Form
+  scoreFormat: {
+    round: number
+    max: number
+  }
+  advancedScoring: string[]
+  manga: boolean
+}
 
 export const validFloat = (input: string): boolean =>
   !!input.match(/^([0-9])+(\.([1-9])+)?$/)

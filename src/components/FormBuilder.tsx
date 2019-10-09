@@ -1,4 +1,13 @@
-import BaseField, { Props } from './BaseField.vue'
+import BaseField from './BaseField.vue'
+
+export interface Props {
+  validators: ((v: string) => boolean)[]
+  transformations: ((v: string) => string)[]
+  tag: string
+  beforeTransform: ((v: any) => any)[]
+  afterTransform: ((v: any) => any)[]
+  value: any
+}
 
 import { VCol } from 'vuetify/lib'
 import { VNode } from 'vue'

@@ -6,7 +6,7 @@ declare global {
     interface Element extends VNode {}
     interface ElementClass extends ComponentRenderProxy {}
     interface ElementAttributesProperty  {
-      $props: any; // specify the property name to use
+      $props: any;
     }
     interface IntrinsicElements {
       [elem: string]: any

@@ -9,15 +9,7 @@ const BaseDateField = () => import('./BaseDateField.vue')
 import { VChipGroup, VSelect, VTextField, VTextarea } from 'vuetify/lib'
 
 import { computed, createComponent, ref, watch } from '@vue/composition-api'
-
-export interface Props {
-  validators: ((v: string) => boolean)[]
-  transformations: ((v: string) => string)[]
-  tag: string
-  beforeTransform: ((v: any) => any)[]
-  afterTransform: ((v: any) => any)[]
-  value: any
-}
+import { Props } from './FormBuilder'
 
 export default createComponent<Readonly<Props>>({
   components: {

@@ -1,26 +1,8 @@
 <script lang="ts">
+import { FormDirector, Props } from './FormDirector'
 import { VContainer, VRow } from 'vuetify/lib'
 import { createComponent, createElement as h } from '@vue/composition-api'
-
-import { Form } from '../types'
 import { FormBuilder } from './FormBuilder'
-import { FormDirector } from './FormDirector'
-
-import { Media } from '@/graphql/schema/media'
-import { User } from '@/graphql/schema/viewer'
-
-export interface Props {
-  method: keyof FormDirector
-  user: User
-  media: Media
-  form: Form
-  scoreFormat: {
-    round: number
-    max: number
-  }
-  advancedScoring: string[]
-  manga: boolean
-}
 
 export default createComponent<Readonly<Props>>({
   inheritAttrs: false,
