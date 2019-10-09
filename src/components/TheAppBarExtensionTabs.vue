@@ -30,6 +30,7 @@ export default createComponent({
         to: params.value && {
           name: 'media-about',
           params: params.value,
+          replace: true,
         },
       },
       {
@@ -38,6 +39,7 @@ export default createComponent({
         to: params.value && {
           name: 'media-timeline',
           params: params.value,
+          replace: true,
         },
       },
     ])
