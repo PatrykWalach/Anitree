@@ -19,14 +19,11 @@ import {
   ref,
   watch,
 } from '@vue/composition-api'
-// import BaseContainer from '../components/BaseContainer.vue'
+
 import { ClientOptions } from 'vue-apollo/types/vue-apollo'
 import { Media } from '../graphql/schema/media'
 import { PAGE } from '@/graphql'
 import TheMediaTimeline from '../components/TheMediaTimeline.vue'
-
-// const TheMediaTimeline = () =>
-//   import(/* webpackPreload: true */ '../components/TheMediaTimeline.vue')
 
 const getYear = (seasonInt: number) => {
   const year = Math.floor(seasonInt / 10)
@@ -37,12 +34,12 @@ export const useQuery = <R, TVariables = OperationVariables>(
   {
     skip,
     variables,
+    ...options
   }: {
     variables?: Ref<TVariables>
     skip?: Ref<boolean>
-  },
-
-  options: Omit<WatchQueryOptions<TVariables>, 'variables'> & ClientOptions,
+  } & Omit<WatchQueryOptions<TVariables>, 'variables'> &
+    ClientOptions,
   { root }: SetupContext,
 ) => {
   const result: Ref<ApolloQueryResult<R> | null> = ref(null)
@@ -95,10 +92,7 @@ export default createComponent({
     const skip = computed(() => !variables.value.idIn)
 
     const { result, query } = useQuery<{ Page: Page }, PageVariables>(
-      { skip, variables },
-      {
-        query: PAGE,
-      },
+      { query: PAGE, skip, variables },
       context,
     )
 
