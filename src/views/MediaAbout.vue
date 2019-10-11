@@ -14,10 +14,23 @@
       </v-row>
       <v-row>
         <v-col cols="12" md="6">
-          <TheMediaDistributionScore v-if="data" :media="data && data.Media" />
+          <TheMediaStats
+            v-if="data"
+            subheader="Score Distribution"
+            :gradient="['#f72047', '#ffd200', '#1feaea']"
+            labelKey="score"
+            :distribution="data.Media.stats.scoreDistribution"
+          />
         </v-col>
         <v-col cols="12" md="6">
-          <TheMediaDistributionStatus v-if="data" :media="data && data.Media" />
+          <TheMediaStats
+            v-if="data"
+            subheader="Status Distribution"
+            :gradient="['#68d639', '#02a9ff', '#9256f3', '#f779a4', '#e85d75']"
+            :distribution="data.Media.stats.statusDistribution"
+            labelKey="status"
+            sort
+          />
         </v-col>
       </v-row>
       <v-row>
@@ -31,15 +44,14 @@
 </template>
 <script lang="ts">
 import { computed, createComponent } from '@vue/composition-api'
-import TheMediaDistributionScore from '@/components/TheMediaDistributionScore.vue'
-import TheMediaDistributionStatus from '@/components/TheMediaDistributionStatus.vue'
+import TheMediaStats from '@/components/TheMediaStats.vue'
+
 import TheMediaTags from '@/components/TheMediaTags.vue'
 import { title } from '@/store/title'
 
 export default createComponent({
   components: {
-    TheMediaDistributionScore,
-    TheMediaDistributionStatus,
+    TheMediaStats,
     TheMediaTags,
   },
   setup(_, { root }) {
