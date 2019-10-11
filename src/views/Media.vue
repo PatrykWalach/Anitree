@@ -37,37 +37,8 @@
                 </v-tooltip>
               </v-list-item-action>
               <v-list-item-action>
-                <v-tooltip top>
-                  <template v-slot:activator="{ attrs, on }">
-                    <v-btn
-                      v-bind="attrs"
-                      icon
-                      :disabled="!data"
-                      v-on="on"
-                      @click.stop="share"
-                    >
-                      <v-icon>share</v-icon>
-                    </v-btn>
-                  </template>
-                  <span>Share</span>
-                </v-tooltip>
+                <MediaCardActionsShare :media="data && data.Media" />
               </v-list-item-action>
-              <!-- <v-list-item-action>
-                <v-tooltip v-if="Viewer" top>
-                  <template v-slot:activator="{ attrs, on }">
-                    <v-btn
-                      v-bind="attrs"
-                      icon
-                      :disabled="!data"
-                      v-on="on"
-                      @click.stop="edit"
-                    >
-                      <v-icon>edit</v-icon>
-                    </v-btn>
-                  </template>
-                  <span>Edit</span>
-                </v-tooltip>
-              </v-list-item-action> -->
             </v-list-item>
           </v-col>
         </v-row>
@@ -90,8 +61,8 @@
 </template>
 <script lang="ts">
 import { computed, createComponent } from '@vue/composition-api'
+import MediaCardActionsShare from '@/components/MediaCardActionsShare.vue'
 import MediaCardBanner from '@/components/MediaCardBanner.vue'
-
 import MediaCardItemAvatar from '@/components/MediaCardItemAvatar.vue'
 import MediaCardItemOverline from '@/components/MediaCardItemOverline.vue'
 import MediaCardItemSubtitle from '@/components/MediaCardItemSubtitle.vue'
@@ -102,6 +73,7 @@ import { title } from '@/store/title'
 
 export default createComponent({
   components: {
+    MediaCardActionsShare,
     MediaCardBanner,
     MediaCardItemAvatar,
     MediaCardItemOverline,
@@ -111,6 +83,7 @@ export default createComponent({
   },
   setup(_, { root }) {
     const mediaId = computed(() => parseInt(root.$route.params.mediaId, 10))
+
     const variables = computed(() => ({ id: mediaId.value }))
 
     const {
