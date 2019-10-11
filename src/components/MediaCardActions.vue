@@ -30,7 +30,7 @@
           :disabled="!media"
           rel="noopener"
           target="_blank"
-          :href="media.siteUrl"
+          :href="media && media.siteUrl"
           v-on="on"
         >
           <v-icon>open_in_new</v-icon>
