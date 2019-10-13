@@ -76,7 +76,6 @@ export const useQuery = <R, TVariables = OperationVariables>(
 
 export default createComponent({
   components: {
-    // BaseContainer,
     TheMediaTimeline,
   },
   setup(_, context) {
@@ -132,19 +131,30 @@ export default createComponent({
       }
     })
 
+    const isNumber = (e: any): e is number => !isNaN(e)
+
+    const compare = (keys: (string)[], transform?: (arg: number) => number) => (
+      a: Record<string, any>,
+      b: Record<string, any>,
+    ) => {
+      const _a: unknown = keys.reduce((acc, key) => acc[key], a) || Infinity
+      const _b: unknown = keys.reduce((acc, key) => acc[key], b) || Infinity
+
+      if (isNumber(_a) && isNumber(_b)) {
+        if (!transform) {
+          return _a - _b || 0
+        }
+        return transform(_a) - transform(_b) || 0
+      }
+      return 0
+    }
+
     const sorters: ((mediaA: Media, mediaB: Media) => number)[] = [
-      ({ seasonInt: seasonA }, { seasonInt: seasonB }) =>
-        (seasonA &&
-          seasonB &&
-          (getYear(seasonA) - getYear(seasonB) ||
-            (seasonA % 10) - (seasonB % 10))) ||
-        0,
-      ({ startDate: dateA }, { startDate: dateB }) =>
-        (dateA.year && dateB.year && dateA.year - dateB.year) || 0,
-      ({ startDate: dateA }, { startDate: dateB }) =>
-        (dateA.month && dateB.month && dateA.month - dateB.month) || 0,
-      ({ startDate: dateA }, { startDate: dateB }) =>
-        (dateA.day && dateB.day && dateA.day - dateB.day) || 0,
+      compare(['startDate', 'year']),
+      compare(['startDate', 'month']),
+      compare(['startDate', 'day']),
+      compare(['seasonInt'], getYear),
+      compare(['seasonInt'], int => int % 10),
     ]
 
     const mediaList = computed(
@@ -153,7 +163,9 @@ export default createComponent({
           result.value.data.Page.media.slice().sort((a, b) => {
             for (const sort of sorters) {
               const result = sort(a, b)
-              if (result) return result
+              if (result) {
+                return result
+              }
             }
             return 0
           })) ||
