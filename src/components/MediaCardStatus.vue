@@ -16,7 +16,7 @@ export interface Props {
   media: Media | null
 }
 
-import { useTheme } from './MediaCardProgress.vue'
+import { useTheme } from './TheMediaStats.vue'
 
 export default createComponent<Readonly<Props>>({
   components: {

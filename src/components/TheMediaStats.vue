@@ -36,8 +36,17 @@
           </v-card> -->
 </template>
 <script lang="ts">
-import { computed, createComponent } from '@vue/composition-api'
-import { useTheme } from './MediaCardProgress.vue'
+import { computed, createComponent, inject } from '@vue/composition-api'
+
+export const useTheme = () => {
+  const theme = inject('theme', { isDark: false })
+
+  const color = computed(() =>
+    theme && theme.isDark ? 'grey darken-2' : 'grey lighten-2',
+  )
+
+  return { color, theme }
+}
 
 export interface Props {
   gradient: string[]

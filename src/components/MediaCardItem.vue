@@ -19,7 +19,6 @@ import MediaCardItemDescription from './MediaCardItemDescription.vue'
 import MediaCardItemOverline from './MediaCardItemOverline.vue'
 import MediaCardItemSubtitle from './MediaCardItemSubtitle.vue'
 import MediaCardItemTitle from './MediaCardItemTitle.vue'
-import MediaCardProgress from './MediaCardProgress.vue'
 
 export interface Props {
   media: Media | null
@@ -32,7 +31,6 @@ export default createComponent<Readonly<Props>>({
     MediaCardItemOverline,
     MediaCardItemSubtitle,
     MediaCardItemTitle,
-    MediaCardProgress,
   },
   props: {
     media: { default: null, required: true, type: null },

@@ -28,8 +28,6 @@ import TheBottomNavigation from './components/TheBottomNavigation.vue'
 import TheDrawer from './components/TheDrawer.vue'
 import TheFooter from './components/TheFooter.vue'
 
-// const TheBottomNavigation = () => import('@/components/TheBottomNavigation.vue')
-
 export const useTheme = ({ root }: SetupContext) => {
   const dark = computed({
     get: () => root.$vuetify.theme.dark,

@@ -14,7 +14,7 @@
 <script lang="ts">
 import { computed, createComponent } from '@vue/composition-api'
 
-import { useTheme } from './MediaCardProgress.vue'
+import { useTheme } from './TheMediaStats.vue'
 
 export default createComponent({
   setup(_, { root }) {

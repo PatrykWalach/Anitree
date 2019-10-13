@@ -16,10 +16,9 @@
 </template>
 
 <script lang="ts">
-import { ShareData } from '../types'
 import { SetupContext, computed, createComponent } from '@vue/composition-api'
-
 import { Media } from '@/graphql/schema/media'
+import { ShareData } from '../types'
 
 export const useShare = (props: Props, { root }: SetupContext) => {
   const {
@@ -40,7 +39,7 @@ export const useShare = (props: Props, { root }: SetupContext) => {
   const url = computed(() => (props.media && props.media.siteUrl) || '')
 
   const share = () => {
-    const share = (navigator).share || desktopShare
+    const share = navigator.share || desktopShare
 
     share.call(navigator, {
       title: title.value,

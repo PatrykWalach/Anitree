@@ -28,7 +28,7 @@ interface Props {
   value: boolean
 }
 
-import { useTheme } from './MediaCardProgress.vue'
+import { useTheme } from './TheMediaStats.vue'
 
 export default createComponent<Readonly<Props>>({
   props: {
@@ -49,6 +49,7 @@ export default createComponent<Readonly<Props>>({
     const {
       state: { main },
     } = root.$modules.navigation
+
     return { main, syncedValue, theme }
   },
 })
