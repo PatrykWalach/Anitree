@@ -1,6 +1,9 @@
-import VuexCompositionApi from 'vuex-composition-api'
+import VuexCompositionApi, { State } from 'vuex-composition-api'
+import Vue from 'vue'
 
 import { watch } from '@vue/composition-api'
+
+Vue.use(VuexCompositionApi)
 
 const cache = localStorage.getItem('SETTINGS')
 
@@ -10,10 +13,17 @@ export const settings = new VuexCompositionApi.Module({
   name: 'settings',
   namespaced: true,
   setup({ state, mutation }) {
-    const cacheApollo = state((stored && stored.cacheApollo) || false)
-    const cacheChanges = state((stored && stored.cacheChanges) || false)
-    const token = state((stored && stored.token) || false)
-    const syncChanges = state((stored && stored.syncChanges) || false)
+    const cacheApollo: State<boolean> = state(
+      (stored && stored.cacheApollo) || false,
+    )
+    const cacheChanges: State<boolean> = state(
+      (stored && stored.cacheChanges) || false,
+    )
+    const token: State<string | null> = state((stored && stored.token) || false)
+
+    const syncChanges: State<boolean> = state(
+      (stored && stored.syncChanges) || false,
+    )
 
     const CHANGE_CACHE_APOLLO = mutation(
       'CHANGE_CACHE_APOLLO',

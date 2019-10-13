@@ -1,9 +1,6 @@
 import VuexCompositionApi, { State } from 'vuex-composition-api'
 
 import { ShareData } from '@/types'
-import Vue from 'vue'
-
-Vue.use(VuexCompositionApi)
 
 export const share = new VuexCompositionApi.Module({
   name: 'share',

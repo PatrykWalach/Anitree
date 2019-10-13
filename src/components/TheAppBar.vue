@@ -1,11 +1,24 @@
 <template>
-  <ApolloQuery
-    v-slot="{ result: { error, data }, isLoading, query }"
-    :query="require('@/graphql/queries/Media.gql')"
-    :variables="{ id: parseInt($route.params.mediaId) }"
-    :tag="null"
-    :skip="!$route.params.mediaId"
+  <BaseQuery
+    :apollo="{
+      Media: {
+        ...Media,
+        tag: null,
+      },
+    }"
+    v-slot="{ Media }"
   >
+    <!-- <BaseQuery
+    :apollo="{
+      Media: {
+        query: require('@/graphql/queries/Media.gql'),
+        variables: { id: parseInt($route.params.mediaId, 10) },
+        tag: null,
+        skip: !$route.params.mediaId,
+      },
+    }"
+    v-slot="{ Media }"
+  > -->
     <v-app-bar
       app
       elevate-on-scroll
@@ -28,8 +41,8 @@
 
       <template v-if="!routeSearch">
         <v-toolbar-title class="text-capitalize">
-          <span v-if="routeTitle" :title="getTitle(data && data.Media.title)">
-            {{ getTitle(data && data.Media.title) }}
+          <span v-if="routeTitle" :title="getTitle(Media && Media.title)">
+            {{ getTitle(Media && Media.title) }}
           </span>
           <template v-else-if="!routeHome">
             {{ $route.name }}
@@ -48,26 +61,27 @@
       </template>
       <template v-else>
         <TheAppBarSearch />
-        <!-- <TheAppBarFilters /> -->
+        <TheAppBarFilters />
       </template>
     </v-app-bar>
-  </ApolloQuery>
+  </BaseQuery>
 </template>
 <script lang="ts">
 import { computed, createComponent } from '@vue/composition-api'
+import BaseQuery from './BaseQuery.vue'
 import TheAppBarExtensionChips from './TheAppBarExtensionChips.vue'
 import TheAppBarExtensionTabs from './TheAppBarExtensionTabs.vue'
-// import TheAppBarFilters from './TheAppBarFilters.vue'
+import TheAppBarFilters from './TheAppBarFilters.vue'
 import TheAppBarSearch from './TheAppBarSearch.vue'
 import TheAppBarViewer from './TheAppBarViewer.vue'
-
-import { title } from '@/store/title'
+import { useMedia } from '@/graphql'
 
 export default createComponent({
   components: {
+    BaseQuery,
     TheAppBarExtensionChips,
     TheAppBarExtensionTabs,
-    // TheAppBarFilters,
+    TheAppBarFilters,
     TheAppBarSearch,
     TheAppBarViewer,
   },
@@ -82,7 +96,7 @@ export default createComponent({
 
     const {
       getters: { getTitle },
-    } = title
+    } = root.$modules.title
 
     const tabs = computed(
       () => routeTitle.value && root.$vuetify.breakpoint.xsOnly,
@@ -95,6 +109,7 @@ export default createComponent({
     )
 
     return {
+      ...useMedia(() => ({ id: parseInt(root.$route.params.mediaId, 10) })),
       extension,
       getTitle,
       routeHome,

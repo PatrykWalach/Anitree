@@ -1,4 +1,5 @@
 import { MediaList, MediaListStatus } from './mediaListCollection'
+import { MediaSeason } from './page'
 import { ScoreFormat } from './viewer'
 
 export interface Variables {
@@ -20,6 +21,12 @@ export interface FuzzyDate {
   month: number | null
   day: number | null
 }
+export interface MediaTrailer {
+  __typename: 'MediaTrailer'
+  id: string
+  site: string
+  thumbnail: string
+}
 
 export interface Media extends Node {
   startDate: FuzzyDate
@@ -35,6 +42,7 @@ export interface Media extends Node {
   ranknigs: MediaRank[]
   mediaListEntry: MediaList | null
   title: MediaTitle
+  trailer: MediaTrailer
   siteUrl: string
   relations: MediaConnection
   tags: MediaTag[]
@@ -64,9 +72,13 @@ export interface MediaRank {
   allTime: boolean
   context: string
   rank: number
-  type: 'RATED' | 'POPULAR'
-  year: null | number
+  type: MediaRankType
+  year: number | null
+  season: MediaSeason | null
 }
+
+export type MediaRankType = 'RATED' | 'POPULAR'
+
 export interface MediaStats {
   __typename: 'MediaStats'
   scoreDistribution: ScoreDistribution[] | null
@@ -84,9 +96,9 @@ export interface ScoreDistribution {
 }
 export interface MediaTitle {
   __typename: 'MediaTitle'
-  romaji: string
-  english: string
-  native: string
+  romaji: string | null
+  english: string | null
+  native: string | null
 }
 
 export type MediaRelation =

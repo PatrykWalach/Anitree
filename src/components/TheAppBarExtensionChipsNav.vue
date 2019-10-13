@@ -16,13 +16,11 @@
 <script lang="ts">
 import { createComponent } from '@vue/composition-api'
 
-import { navigation } from '@/store/navigation'
-
 export default createComponent({
-  setup() {
+  setup(_, { root }) {
     const {
       state: { search },
-    } = navigation
+    } = root.$modules.navigation
 
     return {
       search,

@@ -10,14 +10,13 @@
 </template>
 <script lang="ts">
 import { computed, createComponent } from '@vue/composition-api'
-import { settings } from '../store/settings'
 
 export default createComponent({
   inheritAttrs: false,
-  setup() {
+  setup(_, { root }) {
     const {
       state: { syncChanges },
-    } = settings
+    } = root.$modules.settings
 
     const caption = computed(
       () => 'autoupdates are ' + (syncChanges.value ? 'enabled' : 'disabled'),

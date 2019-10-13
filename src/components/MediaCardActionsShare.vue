@@ -16,22 +16,19 @@
 </template>
 
 <script lang="ts">
-import { NewNavigator, ShareData } from '../types'
-import { computed, createComponent } from '@vue/composition-api'
+import { ShareData } from '../types'
+import { SetupContext, computed, createComponent } from '@vue/composition-api'
 
 import { Media } from '@/graphql/schema/media'
 
-import { share as shareModule } from '../store/share'
-import { title as titleModule } from '../store/title'
-
-export const useShare = (props: Props) => {
+export const useShare = (props: Props, { root }: SetupContext) => {
   const {
     mutations: { CHANGE_OPTIONS, CHANGE_IS_SHARED },
-  } = shareModule
+  } = root.$modules.share
 
   const {
     getters: { getTitle },
-  } = titleModule
+  } = root.$modules.title
 
   const desktopShare = async (data: ShareData) => {
     CHANGE_OPTIONS(data)
@@ -43,7 +40,7 @@ export const useShare = (props: Props) => {
   const url = computed(() => (props.media && props.media.siteUrl) || '')
 
   const share = () => {
-    const share = (navigator as NewNavigator).share || desktopShare
+    const share = (navigator).share || desktopShare
 
     share.call(navigator, {
       title: title.value,
@@ -62,8 +59,8 @@ export default createComponent<Readonly<Props>>({
   props: {
     media: { default: null, required: true, type: null },
   },
-  setup(props) {
-    return useShare(props)
+  setup(props, context) {
+    return useShare(props, context)
   },
 })
 </script>

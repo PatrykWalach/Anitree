@@ -6,6 +6,7 @@
   >
     <template v-slot:opposite>
       <v-skeleton-loader
+        tile
         :style="{ display: 'inline-block' }"
         :loading="!media"
         type="chip"
@@ -14,7 +15,7 @@
       </v-skeleton-loader>
     </template>
 
-    <MediaCard :id="(media && media.id) || -1" />
+    <MediaCard :id="(media && media.id) || 0" />
   </v-timeline-item>
 </template>
 <script lang="ts">

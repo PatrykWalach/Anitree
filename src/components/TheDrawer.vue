@@ -27,7 +27,7 @@ import { computed, createComponent } from '@vue/composition-api'
 interface Props {
   value: boolean
 }
-import { navigation } from '@/store/navigation'
+
 import { useTheme } from './MediaCardProgress.vue'
 
 export default createComponent<Readonly<Props>>({
@@ -38,7 +38,7 @@ export default createComponent<Readonly<Props>>({
       type: Boolean,
     },
   },
-  setup(props, { emit }) {
+  setup(props, { emit, root }) {
     const syncedValue = computed({
       get: () => props.value,
       set: value => emit('update:value', value),
@@ -48,7 +48,7 @@ export default createComponent<Readonly<Props>>({
 
     const {
       state: { main },
-    } = navigation
+    } = root.$modules.navigation
     return { main, syncedValue, theme }
   },
 })

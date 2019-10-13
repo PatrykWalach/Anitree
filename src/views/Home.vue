@@ -8,14 +8,16 @@ import {
   VTimelineItem,
 } from 'vuetify/lib'
 import { createComponent, createElement } from '@vue/composition-api'
+import BaseQuery from '@/components/BaseQuery.vue'
 import HomeItem from '@/components/HomeItem.vue'
 import MediaCard from '@/components/MediaCard.vue'
+import { PAGE } from '@/graphql'
+import { Page } from '@/graphql/schema/page'
 import TheSettings from '@/components/TheSettings.vue'
-
-//@ts-ignore
 
 export default createComponent({
   components: {
+    BaseQuery,
     HomeItem,
     MediaCard,
     TheSettings,
@@ -28,6 +30,7 @@ export default createComponent({
   },
   setup: (_, { root }) => {
     const h = createElement
+    const random = Math.floor(Math.random() * 49)
 
     const content = [
       [
@@ -69,14 +72,21 @@ export default createComponent({
           Their layout and amount of information may change in future.
         </home-item>,
 
-        <apollo-query
-          query={require('@/graphql/queries/Media.gql')}
-          variables={{ id: 21450 }}
-          fetch-policy="cache-and-network"
-          tag={null}
-        >
-          <media-card id={21450} />
-        </apollo-query>,
+        <BaseQuery
+          apollo={{
+            Page: {
+              'fetch-policy': 'cache-and-network',
+              query: PAGE,
+              tag: null,
+              variables: { sort: 'TRENDING_DESC' },
+            },
+          }}
+          scopedSlots={{
+            default: ({ Page: data }: { Page: Page }) => (
+              <MediaCard id={(data && data.media[random].id) || 0} />
+            ),
+          }}
+        />,
       ],
       [
         <home-item scopedSlots={{ title: () => 'Settings' }}>

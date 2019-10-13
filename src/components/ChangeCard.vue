@@ -1,16 +1,29 @@
 <template>
-  <ApolloQuery
-    v-slot="{ result: { error, data } }"
-    :query="require('@/graphql/queries/Media.gql')"
-    :variables="{
-      id: command.variables.mediaId,
+  <BaseQuery
+    :apollo="{
+      Media: {
+        ...Media,
+        tag: null,
+      },
     }"
-    :skip="!command.variables.mediaId"
-    :tag="null"
+    v-slot="{ Media }"
   >
+    <!-- <BaseQuery
+    :apollo="{
+      Media: {
+        query: require('@/graphql/queries/Media.gql'),
+        variables: {
+          id: command.variables.mediaId,
+        },
+        skip: !command.variables.mediaId,
+        tag: null,
+      },
+    }"
+    v-slot="{ Media }"
+  > -->
     <v-banner single-line>
-      <span :title="getTitle(data && data.Media.title)">
-        {{ getTitle(data && data.Media.title) }}
+      <span :title="getTitle(Media && Media.title)">
+        {{ getTitle(Media && Media.title) }}
       </span>
 
       <template v-slot:icon>
@@ -70,14 +83,15 @@
         </v-dialog>
       </template>
     </v-banner>
-  </ApolloQuery>
+  </BaseQuery>
 </template>
 <script lang="ts">
 import { computed, createComponent } from '@vue/composition-api'
+import BaseQuery from './BaseQuery.vue'
 import { DeleteCommand } from '@/store/commands/DeleteCommand'
 import { FuzzyDate } from '../graphql/schema/media'
 import { SaveCommand } from '@/store/commands/SaveCommand'
-import { title as titleModule } from '@/store/title'
+import { useMedia } from '@/graphql'
 
 const BaseTime = () => import('./BaseTime.vue')
 
@@ -87,6 +101,7 @@ interface Props {
 
 export default createComponent<Readonly<Props>>({
   components: {
+    BaseQuery,
     BaseTime,
   },
   props: {
@@ -96,10 +111,11 @@ export default createComponent<Readonly<Props>>({
       type: [SaveCommand, DeleteCommand],
     },
   },
-  setup(props) {
+  setup(props, { root }) {
     const {
       getters: { getTitle },
-    } = titleModule
+    } = root.$modules.title
+
     const isDate = (e: any): e is Omit<FuzzyDate, '__typename'> =>
       e instanceof Object &&
       e.hasOwnProperty('month') &&
@@ -126,6 +142,7 @@ export default createComponent<Readonly<Props>>({
       getTitle,
       isDate,
       keys,
+      ...useMedia(() => ({ id: props.command.variables.mediaId })),
     }
   },
 })

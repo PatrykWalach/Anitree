@@ -8,8 +8,6 @@
 import { computed, createComponent } from '@vue/composition-api'
 import { Media } from '@/graphql/schema/media'
 
-import { title as titleModule } from '@/store/title'
-
 export interface Props {
   media: Media
 }
@@ -18,10 +16,10 @@ export default createComponent<Readonly<Props>>({
   props: {
     media: { default: null, required: true, type: Object },
   },
-  setup(props) {
+  setup(props, { root }) {
     const {
       getters: { getTitle },
-    } = titleModule
+    } = root.$modules.title
 
     const title = computed(() => getTitle.value(props.media.title))
 

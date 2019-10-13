@@ -1,5 +1,9 @@
 <template>
-  <v-list-item-avatar :size="size" :style="{ 'align-self': 'center' }">
+  <v-list-item-avatar
+    v-bind="$attrs"
+    :size="size"
+    :style="{ 'align-self': 'center' }"
+  >
     <base-lazy-img :srcset="srcset" :src="src">
       <template v-slot:placeholder>
         <v-skeleton-loader type="image"></v-skeleton-loader>
@@ -19,6 +23,7 @@ export interface Props {
 }
 
 export default createComponent<Readonly<Props>>({
+  inheritAttrs: false,
   components: {
     BaseLazyImg,
   },

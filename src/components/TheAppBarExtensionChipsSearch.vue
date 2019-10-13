@@ -1,15 +1,35 @@
 <template>
-  <ApolloQuery
+  <!-- <ApolloQuery
     v-slot="{ result: { data }, isLoading }"
-    :query="require('@/graphql/queries/Page.gql')"
-    :tag="null"
-    :skip="!$route.query.search"
-    :variables="{ search: $route.query.search }"
+  > -->
+  <!-- <BaseQuery
+    :apollo="{
+      Page: {
+        query: require('@/graphql/queries/Page.gql'),
+        tag: null,
+        skip: !$route.query.search,
+        variables: { search: $route.query.search },
+      },
+    }"
+    v-slot="{ Page, isLoading }"
+  > -->
+  <BaseQuery
+    :apollo="{
+      Viewer,
+      Page: ({ Viewer }) => ({
+        skip: !$route.query.search,
+        query: require('@/graphql/queries/Page.gql'),
+        tag: null,
+        variables: {
+          isAdult:
+            Viewer && Viewer.options.displayAdultContent ? undefined : false,
+          search: $route.query.search,
+        },
+      }),
+    }"
+    v-slot="{ Page, isLoading }"
   >
-    <TheAppBarExtensionChipsSearchReady
-      v-if="!isLoading"
-      :page="data && data.Page"
-    />
+    <TheAppBarExtensionChipsSearchReady v-if="!isLoading.Page" :page="Page" />
     <v-chip-group
       v-else
       :style="{
@@ -23,15 +43,23 @@
         type="chip"
       />
     </v-chip-group>
-  </ApolloQuery>
+    <!-- </ApolloQuery>
+   -->
+  </BaseQuery>
 </template>
 <script lang="ts">
+import BaseQuery from './BaseQuery.vue'
 import TheAppBarExtensionChipsSearchReady from './TheAppBarExtensionChipsSearchReady.vue'
 import { createComponent } from '@vue/composition-api'
+import { useViewer } from '@/graphql'
 
 export default createComponent({
   components: {
+    BaseQuery,
     TheAppBarExtensionChipsSearchReady,
+  },
+  setup(_, { root }) {
+    return useViewer(root)
   },
 })
 </script>

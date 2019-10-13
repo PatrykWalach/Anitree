@@ -1,5 +1,9 @@
 <template>
-  <v-card-text>
+  <v-chip-group v-if="!media">
+    <v-skeleton-loader class="my-1 mr-2" v-for="i in 10" :key="i" type="chip">
+    </v-skeleton-loader>
+  </v-chip-group>
+  <v-card-text v-else>
     <v-chip
       v-if="link"
       outlined
@@ -36,23 +40,23 @@ import { computed, createComponent } from '@vue/composition-api'
 import { Media } from '../graphql/schema/media'
 
 interface Props {
-  media: Media
+  media: Media | null
 }
 
 export default createComponent<Readonly<Props>>({
   props: {
-    media: { default: null, required: true, type: Object },
+    media: { default: null, required: true, type: null },
   },
   setup(props) {
     const year = computed(() => {
-      if (props.media.seasonInt) {
-        const year = Math.floor(props.media.seasonInt / 10)
+      if (props.media && props.media.seasonInt) {
+        const year = Math.floor(props.media && props.media.seasonInt / 10)
         return year > 50 ? 1900 + year : 2000 + year
       }
       return null
     })
 
-    const season = computed(() => props.media.season)
+    const season = computed(() => props.media && props.media.season)
 
     const link = computed(() =>
       [season.value && season.value.toLowerCase(), year.value]

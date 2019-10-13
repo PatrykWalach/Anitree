@@ -107,6 +107,8 @@ export default createComponent({
           )
           .filter(id => !_result.data.Page.media.find(media => media.id === id))
 
+        // console.log('TCL: setup -> idIn', idIn)
+
         if (idIn.length) {
           query.fetchMore({
             updateQuery: (previousResult, { fetchMoreResult }) => {

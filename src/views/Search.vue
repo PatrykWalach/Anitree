@@ -1,61 +1,87 @@
 <template>
-  <ApolloQuery
+  <!-- <ApolloQuery
     v-slot="{ result: { data: viewer } }"
     :tag="null"
     :query="require('@/graphql/queries/Viewer.gql')"
     :skip="!token"
+  > -->
+  <BaseQuery
+    :apollo="{
+      Viewer,
+      Page: ({ Viewer }) => ({
+        query: require('@/graphql/queries/Page.gql'),
+        tag: null,
+        'fetch-policy': 'cache-and-network',
+        variables: {
+          isAdult:
+            Viewer && Viewer.options.displayAdultContent ? undefined : false,
+          ...query,
+        },
+      }),
+    }"
+    v-slot="{ Viewer, Page, isLoading, errors }"
   >
-    <TheSearchList v-if="!isSearched" :user="viewer && viewer.Viewer" />
-    <ApolloQuery
+  
+    <TheSearchList v-if="!isSearched" :user="Viewer" />
+    <!-- <BaseQuery
+      v-else
+      :apollo="{
+        Page: {
+          query: require('@/graphql/queries/Page.gql'),
+          tag: null,
+          'fetch-policy': 'cache-and-network',
+          variables: {
+            isAdult:
+              Viewer && Viewer.options.displayAdultContent ? undefined : false,
+            ...query,
+          },
+        },
+      }"
+      v-slot="{ Page, isLoading, errors }"
+    > -->
+    <!-- <ApolloQuery
       v-else
       v-slot="{ result: { error, data }, isLoading, query }"
-      :query="require('@/graphql/queries/Page.gql')"
-      :tag="null"
-      fetch-policy="cache-and-network"
-      :variables="{
-        isAdult:
-          viewer && viewer.Viewer.options.displayAdultContent
-            ? undefined
-            : false,
-        ...query,
-      }"
-    >
-      <v-container>
-        <v-row
-          justify="center"
-          align="center"
-          v-if="error || (data && !data.Page.media.length)"
-        >
-          <template v-if="data && !data.Page.media.length">
-            No results found
-          </template>
-          <template v-else>
-            There was an error
-          </template>
-        </v-row>
-        <the-media-timeline
-          v-else
-          :loading="!!isLoading"
-          :media-list="data && data.Page.media"
-        >
-          <v-pagination
-            v-model="page"
-            :length="(data && data.Page.pageInfo.lastPage) || 0"
-          ></v-pagination>
-        </the-media-timeline>
-      </v-container>
-    </ApolloQuery>
-  </ApolloQuery>
+    > -->
+    <v-container v-else>
+      <v-row
+        justify="center"
+        align="center"
+        v-if="errors.Page || (Page && !Page.media.length)"
+      >
+        <template v-if="Page && !Page.media.length">
+          No results found
+        </template>
+        <template v-else>
+          There was an error
+        </template>
+      </v-row>
+      <the-media-timeline
+        v-else
+        :loading="!!isLoading.Page"
+        :media-list="Page && Page.media"
+      >
+        <v-pagination
+          v-model="page"
+          :length="(Page && Page.pageInfo.lastPage) || 0"
+        ></v-pagination>
+      </the-media-timeline>
+    </v-container>
+    <!-- </ApolloQuery> -->
+    <!-- </ApolloQuery> -->
+    <!-- </BaseQuery> -->
+  </BaseQuery>
 </template>
 <script lang="ts">
 import { computed, createComponent } from '@vue/composition-api'
-import TheMediaTimeline from '../components/TheMediaTimeline.vue'
-import TheSearchList from '../components/TheSearchList.vue'
-
-import { settings } from '@/store/settings'
+import BaseQuery from '@/components/BaseQuery.vue'
+import TheMediaTimeline from '@/components/TheMediaTimeline.vue'
+import TheSearchList from '@/components/TheSearchList.vue'
+import { useViewer } from '@/graphql'
 
 export default createComponent({
   components: {
+    BaseQuery,
     TheMediaTimeline,
     TheSearchList,
   },
@@ -100,15 +126,11 @@ export default createComponent({
       },
     })
 
-    const {
-      state: { token },
-    } = settings
-
     return {
       isSearched,
       page,
       query,
-      token,
+      ...useViewer(root),
     }
   },
 })

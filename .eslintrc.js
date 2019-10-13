@@ -11,6 +11,9 @@ module.exports = {
       files: ['**/__tests__/*.{j,t}s?(x)'],
     },
   ],
+  parserOptions: {
+    parser: '@typescript-eslint/parser',
+  },
   root: true,
   rules: {
     '@typescript-eslint/no-unused-vars': [

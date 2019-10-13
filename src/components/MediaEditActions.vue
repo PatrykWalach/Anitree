@@ -43,7 +43,12 @@
   </v-card-actions>
 </template>
 <script lang="ts">
-import { computed, createComponent, ref } from '@vue/composition-api'
+import {
+  SetupContext,
+  computed,
+  createComponent,
+  ref,
+} from '@vue/composition-api'
 
 import { DeleteCommand } from '@/store/commands/DeleteCommand'
 
@@ -51,22 +56,19 @@ import { Media } from '@/graphql/schema/media'
 import MediaEditIcon from './MediaEditIcon.vue'
 import { User } from '@/graphql/schema/viewer'
 
-import { commands } from '../store/commands'
-import { edit } from '../store/edit'
-
 export interface Props {
   user: User | null
   media: Media | null
 }
 
-function useActions(props: Readonly<Props>) {
+function useActions(props: Readonly<Props>, { root }: SetupContext) {
   const confirmation = ref(false)
 
   const {
     mutations: { CHANGE_IS_EDITED },
     actions: { submit: _submit, close },
     state: { form },
-  } = edit
+  } = root.$modules.edit
 
   const submitRequired = computed(() => !!Object.values(form.value).length)
 
@@ -78,7 +80,7 @@ function useActions(props: Readonly<Props>) {
   const remove = async () => {
     if (props.media && props.media.mediaListEntry) {
       confirmation.value = false
-      await commands.actions.add(
+      await root.$modules.commands.actions.add(
         new DeleteCommand({
           variables: {
             id: props.media.mediaListEntry.id,
@@ -105,8 +107,8 @@ export default createComponent<Readonly<Props>>({
     media: { default: null, required: true, type: null },
     user: { default: null, required: true, type: null },
   },
-  setup(props) {
-    return useActions(props)
+  setup(props, context) {
+    return useActions(props, context)
   },
 })
 </script>

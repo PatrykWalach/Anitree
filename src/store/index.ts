@@ -6,15 +6,27 @@ import { settings } from './settings'
 import { share } from './share'
 import { title } from './title'
 
-export const store = new VuexCompositionApi.Store({
-  plugins: [
-    VuexCompositionApi.Plugin([
-      commands,
-      edit,
-      settings,
-      title,
-      share,
-      navigation,
-    ]),
-  ],
-})
+export const modules = {
+  commands,
+  edit,
+  navigation,
+  settings,
+  share,
+  title,
+}
+
+export const store =
+  process.env.NODE_ENV === 'production'
+    ? undefined
+    : new VuexCompositionApi.Store({
+        plugins: [
+          VuexCompositionApi.plugin([
+            commands,
+            edit,
+            settings,
+            title,
+            share,
+            navigation,
+          ]),
+        ],
+      })

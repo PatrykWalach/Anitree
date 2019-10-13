@@ -13,7 +13,6 @@
 </template>
 <script lang="ts">
 import { computed, createComponent } from '@vue/composition-api'
-import { edit } from '../store/edit'
 
 export interface Props {
   error: boolean
@@ -25,11 +24,11 @@ export default createComponent<Readonly<Props>>({
     error: { default: false, required: true, type: Boolean },
     loading: { default: false, required: true, type: Boolean },
   },
-  setup() {
+  setup(_, { root }) {
     const {
       state: { tab: _tab, tabs },
       mutations: { CHANGE_TAB },
-    } = edit
+    } = root.$modules.edit
 
     const tab = computed({ get: () => _tab.value, set: CHANGE_TAB })
     return {

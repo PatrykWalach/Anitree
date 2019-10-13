@@ -19,7 +19,6 @@
 <script lang="ts">
 import { computed, createComponent } from '@vue/composition-api'
 import { Page } from '../graphql/schema/page'
-import { title } from '@/store/title'
 
 export interface Props {
   page: Page
@@ -29,10 +28,10 @@ export default createComponent<Readonly<Props>>({
   props: {
     page: { default: null, required: true, type: Object },
   },
-  setup(props) {
+  setup(props, { root }) {
     const {
       getters: { getTitle },
-    } = title
+    } = root.$modules.title
 
     const media = computed(() =>
       props.page.media

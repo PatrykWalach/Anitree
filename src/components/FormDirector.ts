@@ -1,8 +1,8 @@
 import { FuzzyDate, Media } from '@/graphql/schema/media'
 import { Form } from '@/types'
 import { FormBuilder } from './FormBuilder'
+import { SetupContext } from '@vue/composition-api'
 import { User } from '@/graphql/schema/viewer'
-import { edit } from '@/store/edit'
 
 export interface Props {
   method: keyof FormDirector
@@ -81,6 +81,7 @@ export class FormDirector {
   public edit1(
     builder: FormBuilder,
     { scoreFormat, manga, media, form }: Readonly<Props>,
+    { root }: SetupContext,
   ) {
     builder.setSelects([
       {
@@ -101,7 +102,7 @@ export class FormDirector {
         props: {
           afterTransform: [
             (e: string) => Object.fromEntries([['status', e]]),
-            edit.actions.changeForm,
+            root.$modules.edit.actions.changeForm,
           ],
           value: form.status,
         },
@@ -118,7 +119,7 @@ export class FormDirector {
             afterTransform: [
               parseFloat,
               (e: string) => Object.fromEntries([['score', e]]),
-              edit.actions.changeForm,
+              root.$modules.edit.actions.changeForm,
             ],
             beforeTransform: [(e: string) => e.toString()],
             transformations: [
@@ -141,7 +142,7 @@ export class FormDirector {
               parseFloat,
 
               (e: string) => Object.fromEntries([['progress', e]]),
-              edit.actions.changeForm,
+              root.$modules.edit.actions.changeForm,
             ],
             beforeTransform: [(e: string) => e.toString()],
             transformations: [
@@ -164,7 +165,7 @@ export class FormDirector {
             afterTransform: [
               parseFloat,
               (e: string) => Object.fromEntries([['volumeProgress', e]]),
-              edit.actions.changeForm,
+              root.$modules.edit.actions.changeForm,
             ],
             beforeTransform: [(e: string) => e.toString()],
             transformations: [
@@ -180,7 +181,11 @@ export class FormDirector {
     )
   }
 
-  public edit2(builder: FormBuilder, { manga, form }: Readonly<Props>) {
+  public edit2(
+    builder: FormBuilder,
+    { manga, form }: Readonly<Props>,
+    { root }: SetupContext,
+  ) {
     builder.setDateFields([
       {
         attrs: {
@@ -191,7 +196,7 @@ export class FormDirector {
           afterTransform: [
             stringToDate,
             (e: string) => Object.fromEntries([['startedAt', e]]),
-            edit.actions.changeForm,
+            root.$modules.edit.actions.changeForm,
           ],
           beforeTransform: [dateToString],
           value: form.startedAt,
@@ -206,7 +211,7 @@ export class FormDirector {
           afterTransform: [
             stringToDate,
             (e: string) => Object.fromEntries([['completedAt', e]]),
-            edit.actions.changeForm,
+            root.$modules.edit.actions.changeForm,
           ],
           beforeTransform: [dateToString],
           value: form.completedAt,
@@ -222,7 +227,7 @@ export class FormDirector {
           afterTransform: [
             parseFloat,
             (e: string) => Object.fromEntries([['repeat', e]]),
-            edit.actions.changeForm,
+            root.$modules.edit.actions.changeForm,
           ],
           beforeTransform: [(e: string) => e.toString()],
           transformations: [formatToNumber, numberRound.bind(null, 0)],
@@ -233,7 +238,11 @@ export class FormDirector {
       },
     ])
   }
-  public edit3(builder: FormBuilder, data: Readonly<Props>) {
+  public edit3(
+    builder: FormBuilder,
+    data: Readonly<Props>,
+    { root }: SetupContext,
+  ) {
     const { form } = data
     builder.setTextareas([
       {
@@ -244,7 +253,7 @@ export class FormDirector {
         props: {
           afterTransform: [
             (e: string) => Object.fromEntries([['notes', e]]),
-            edit.actions.changeForm,
+            root.$modules.edit.actions.changeForm,
           ],
           value: form.notes || '',
         },
@@ -252,7 +261,11 @@ export class FormDirector {
     ])
   }
 
-  public edit4(builder: FormBuilder, data: Readonly<Props>) {
+  public edit4(
+    builder: FormBuilder,
+    data: Readonly<Props>,
+    { root }: SetupContext,
+  ) {
     const { scoreFormat, advancedScoring, form } = data
     builder.setFields(
       advancedScoring.map((label, i) => ({
@@ -286,7 +299,7 @@ export class FormDirector {
                   : undefined,
               }
             },
-            edit.actions.changeForm,
+            root.$modules.edit.actions.changeForm,
           ],
           beforeTransform: [(e: any) => e.toString()],
           transformations: [formatToNumber],

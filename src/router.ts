@@ -38,7 +38,7 @@ const router = new Router({
           })
           .then(({ data }) => data.Media)
           .then(media => {
-            const title = media.title.romaji
+            const title = media.title.romaji || ''
             document.title = 'Anitree - ' + title
             const slush = title
               .trim()

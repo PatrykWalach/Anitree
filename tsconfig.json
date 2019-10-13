@@ -22,7 +22,7 @@
     "src/**/*.tsx",
     "src/**/*.vue",
     "tests/**/*.ts",
-    "tests/**/*.tsx"
+    "tests/**/*.tsx", "tests/unit/BaseDateField.spec.ts"
   ],
   "exclude": ["node_modules"]
 }

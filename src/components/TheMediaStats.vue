@@ -1,31 +1,40 @@
 <template>
-  <v-card v-if="value.length">
-    <v-subheader
-      >{{ subheader }}
+  <v-card v-if="loading || value.length">
+    <!-- <v-skeleton-loader type="card-heading" :loading="loading"> -->
+    <v-subheader>
+      {{ subheader }}
       <v-spacer></v-spacer>
-      <v-icon left>bar_chart</v-icon></v-subheader
-    >
+      <v-icon left>bar_chart</v-icon>
+    </v-subheader>
+    <!-- </v-skeleton-loader> -->
     <v-card-text>
-      <v-hover v-slot="{ hover }">
-        <v-sheet color="rgba(0, 0, 0, .12)" class="pa-2">
-          <v-sparkline
-            auto-draw
-            :auto-draw-duration="1000"
-            line-width="3"
-            :smooth="10"
-            type="bar"
-            :labels="hover ? labeledValue : labels"
-            :value="value"
-            :gradient="gradient"
-            gradient-direction="left"
-            :color="theme.isDark ? 'white' : 'black'"
-          ></v-sparkline>
-        </v-sheet>
-      </v-hover>
+      <v-skeleton-loader height="156" :loading="loading" type="image">
+        <v-hover v-slot="{ hover }">
+          <v-sheet color="rgba(0, 0, 0, .12)" class="pa-2">
+            <v-sparkline
+              auto-draw
+              :auto-draw-duration="1000"
+              line-width="3"
+              :smooth="10"
+              type="bar"
+              :labels="hover ? labeledValue : labels"
+              :value="value"
+              :gradient="gradient"
+              gradient-direction="left"
+              :color="theme.isDark ? 'white' : 'black'"
+            ></v-sparkline>
+          </v-sheet>
+        </v-hover>
+      </v-skeleton-loader>
     </v-card-text>
   </v-card>
+  <!-- <v-card>
+            <v-skeleton-loader type="card-heading"> </v-skeleton-loader>
+            <v-card-text>
+              <v-skeleton-loader type="image"> </v-skeleton-loader>
+            </v-card-text>
+          </v-card> -->
 </template>
-
 <script lang="ts">
 import { computed, createComponent } from '@vue/composition-api'
 import { useTheme } from './MediaCardProgress.vue'
@@ -35,18 +44,20 @@ export interface Props {
   subheader: string
   labelKey: string
   sort: boolean
-  distribution: {
-    amount: number
-    [key: string]: string | number
-  }[]
+  distribution:
+    | {
+        amount: number
+        [key: string]: string | number
+      }[]
+    | null
 }
 
 export default createComponent<Readonly<Props>>({
   props: {
     distribution: {
       default: null,
-      required: false,
-      type: Array,
+      required: true,
+      type: null,
     },
     gradient: {
       default: () => [],
@@ -57,6 +68,11 @@ export default createComponent<Readonly<Props>>({
       default: '',
       required: false,
       type: String,
+    },
+    loading: {
+      default: false,
+      required: false,
+      type: Boolean,
     },
     sort: {
       default: false,
@@ -71,7 +87,7 @@ export default createComponent<Readonly<Props>>({
   },
   setup(props) {
     const distribution = computed(() => {
-      const _distribution = props.distribution.slice() || []
+      const _distribution = (props.distribution || []).slice()
       if (_distribution.length && props.sort) {
         return _distribution.sort(({ amount: a }, { amount: b }) => b - a)
       }

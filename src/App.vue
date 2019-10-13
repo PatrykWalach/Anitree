@@ -30,9 +30,6 @@ import TheFooter from './components/TheFooter.vue'
 
 // const TheBottomNavigation = () => import('@/components/TheBottomNavigation.vue')
 
-import { edit } from './store/edit'
-import { share } from './store/share'
-
 export const useTheme = ({ root }: SetupContext) => {
   const dark = computed({
     get: () => root.$vuetify.theme.dark,
@@ -62,11 +59,11 @@ export default createComponent({
 
     const {
       state: { mediaId },
-    } = edit
+    } = context.root.$modules.edit
 
     const {
       state: { options },
-    } = share
+    } = context.root.$modules.share
 
     const { dark } = useTheme(context)
 
