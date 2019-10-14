@@ -50,7 +50,7 @@ import {
   ref,
 } from '@vue/composition-api'
 
-import { DeleteCommand } from '@/store/commands/DeleteCommand'
+import { DeleteCommand } from '@/store/modules/commands/DeleteCommand'
 
 import { Media } from '@/graphql/schema/media'
 import MediaEditIcon from './MediaEditIcon.vue'

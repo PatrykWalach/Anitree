@@ -24,16 +24,15 @@
 </template>
 <script lang="ts">
 import ChangeCard from '@/components/ChangeCard.vue'
-import { commands } from '@/store/commands'
 import { createComponent } from '@vue/composition-api'
 
 export default createComponent({
   components: { ChangeCard },
-  setup() {
+  setup(_, { root }) {
     const {
       state: { history },
       actions: { undo },
-    } = commands
+    } = root.$modules.commands
 
     return {
       history,

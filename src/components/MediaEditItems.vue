@@ -24,7 +24,7 @@ import { Media } from '@/graphql/schema/media'
 import MediaEditItemsTab from './MediaEditItemsTab.vue'
 import { User } from '@/graphql/schema/viewer'
 
-import { mediaListToForm } from '@/store/commands'
+import { mediaListToForm } from '@/store/modules/commands'
 
 export interface Props {
   media: Media

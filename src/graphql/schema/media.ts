@@ -42,7 +42,7 @@ export interface Media extends Node {
   ranknigs: MediaRank[]
   mediaListEntry: MediaList | null
   title: MediaTitle
-  trailer: MediaTrailer
+  trailer: MediaTrailer | null
   siteUrl: string
   relations: MediaConnection
   tags: MediaTag[]

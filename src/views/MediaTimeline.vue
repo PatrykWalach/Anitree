@@ -25,11 +25,6 @@ import { Media } from '../graphql/schema/media'
 import { PAGE } from '@/graphql'
 import TheMediaTimeline from '../components/TheMediaTimeline.vue'
 
-const getYear = (seasonInt: number) => {
-  const year = Math.floor(seasonInt / 10)
-  return (year > 50 ? 1900 : 2000) + year
-}
-
 export const useQuery = <R, TVariables = OperationVariables>(
   {
     skip,
@@ -133,7 +128,7 @@ export default createComponent({
 
     const isNumber = (e: any): e is number => !isNaN(e)
 
-    const compare = (keys: (string)[], transform?: (arg: number) => number) => (
+    const compare = (keys: (string)[], transform?: (arg: any) => number) => (
       a: Record<string, any>,
       b: Record<string, any>,
     ) => {
@@ -141,20 +136,22 @@ export default createComponent({
       const _b: unknown = keys.reduce((acc, key) => acc[key], b) || Infinity
 
       if (isNumber(_a) && isNumber(_b)) {
-        if (!transform) {
-          return _a - _b || 0
-        }
-        return transform(_a) - transform(_b) || 0
+        return _a - _b || 0
       }
-      return 0
+      if (!transform) {
+        return 0
+      }
+      return transform(_a) - transform(_b) || 0
     }
 
     const sorters: ((mediaA: Media, mediaB: Media) => number)[] = [
       compare(['startDate', 'year']),
       compare(['startDate', 'month']),
       compare(['startDate', 'day']),
-      compare(['seasonInt'], getYear),
-      compare(['seasonInt'], int => int % 10),
+      compare(['seasonInt'], int => (int < 500 ? 2000 : 1900) + int),
+      compare(['status'], int =>
+        ['FINISHED', 'RELEASING', 'NOT_YET_RELEASED', 'CANCELLED'].indexOf(int),
+      ),
     ]
 
     const mediaList = computed(

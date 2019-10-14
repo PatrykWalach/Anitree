@@ -13,7 +13,7 @@ import { Variables } from '@/graphql/schema/media'
 import Vue from 'vue'
 import VueApollo from 'vue-apollo'
 import { persistCache } from 'apollo-cache-persist'
-import { settings } from '@/store/settings'
+import { settings } from '@/store/modules'
 
 const link = new HttpLink({
   uri: 'https://graphql.anilist.co',

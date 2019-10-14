@@ -27,11 +27,7 @@
           </v-skeleton-loader>
         </v-col>
 
-        <v-col
-          cols="12"
-          md="6"
-          v-if="!Media || Media.trailer.site === 'youtube'"
-        >
+        <v-col cols="12" md="6" v-if="!Media || Media.trailer">
           <v-card :style="{ overflow: 'hidden' }">
             <v-skeleton-loader type="image" :loading="!Media">
               <v-responsive :aspect-ratio="16 / 9">

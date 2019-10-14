@@ -7,8 +7,9 @@ import VuexCompositionApi, { State } from 'vuex-composition-api'
 import { Form } from '@/types'
 import { FuzzyDate } from '@/graphql/schema/media'
 import { MediaList } from '@/graphql/schema/mediaListCollection'
-import { settings } from './settings'
+// import { settings } from './settings'
 import { watch } from '@vue/composition-api'
+import { Module } from 'vuex-composition-api/dist/module'
 
 export interface Command {
   saveState?(): void | Promise<void>
@@ -63,7 +64,13 @@ export const executeNotDoneCommands = async (commands: ListCommand[]) => {
   }
 }
 
-export const useCommands = () =>
+export const useCommands = (
+  settings: Module<{
+    state: {
+      cacheChanges: State<boolean>
+    }
+  }>,
+) =>
   new VuexCompositionApi.Module({
     name: 'commands',
     namespaced: true,
@@ -113,8 +120,6 @@ export const useCommands = () =>
       }
     },
   })
-
-export const commands = useCommands()
 
 export const mediaListToForm = (
   mediaListEntry: MediaList | null,

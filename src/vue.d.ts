@@ -1,6 +1,6 @@
 import { Module } from 'vuex-composition-api/dist/module'
 import Vue from 'vue'
-import { modules } from '@/store'
+import * as modules from '@/store/modules'
 
 declare module 'vue/types/vue' {
   interface Vue {
