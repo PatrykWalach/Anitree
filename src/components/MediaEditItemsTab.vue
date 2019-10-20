@@ -43,13 +43,13 @@ export default createComponent<Readonly<Props>>({
       type: Object,
     },
   },
-  setup: props => {
+  setup: (props, context) => {
     const director = new FormDirector()
 
     return () => {
       const builder = new FormBuilder()
 
-      director[props.method](builder, props)
+      director[props.method](builder, props, context)
 
       return h(VContainer, { props: { fluid: true } }, [
         h(VRow, [builder.getFields()]),

@@ -23,8 +23,8 @@ import { computed, createComponent } from '@vue/composition-api'
 import { Media } from '@/graphql/schema/media'
 import MediaEditItemsTab from './MediaEditItemsTab.vue'
 import { User } from '@/graphql/schema/viewer'
-import { edit } from '../store/edit'
-import { mediaListToForm } from '@/store/commands'
+
+import { mediaListToForm } from '@/modules/commands'
 
 export interface Props {
   media: Media
@@ -39,11 +39,11 @@ export default createComponent<Readonly<Props>>({
     media: { default: null, required: true, type: Object },
     user: { default: null, required: true, type: Object },
   },
-  setup(props) {
+  setup(props, { root }) {
     const {
       state: { tab: _tab, form: _form },
       mutations: { CHANGE_TAB },
-    } = edit
+    } = root.$modules.edit
 
     const tab = computed({ get: () => _tab.value, set: CHANGE_TAB })
     const manga = computed(() => props.media.type === 'MANGA')

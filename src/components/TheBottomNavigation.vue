@@ -13,8 +13,8 @@
 
 <script lang="ts">
 import { computed, createComponent } from '@vue/composition-api'
-import { navigation } from '@/store/navigation'
-import { useTheme } from './MediaCardProgress.vue'
+
+import { useTheme } from './TheMediaAboutStats.vue'
 
 export default createComponent({
   setup(_, { root }) {
@@ -22,7 +22,7 @@ export default createComponent({
 
     const {
       state: { main },
-    } = navigation
+    } = root.$modules.navigation
     const { theme } = useTheme()
 
     return {

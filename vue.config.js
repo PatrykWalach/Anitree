@@ -13,4 +13,7 @@ module.exports = {
     devtool: 'source-map',
     plugins: [new VuetifyLoaderPlugin()],
   },
+  devServer: {
+    disableHostCheck: true,
+  },
 }

@@ -2,13 +2,13 @@ import {
   DeleteCommand,
   DeleteCommandConstructor,
 } from './commands/DeleteCommand'
+import { Module, State } from 'vuex-composition-api'
 import { SaveCommand, SaveCommandConstructor } from './commands/SaveCommand'
-import VuexCompositionApi, { State } from 'vuex-composition-api'
 import { Form } from '@/types'
 import { FuzzyDate } from '@/graphql/schema/media'
 import { MediaList } from '@/graphql/schema/mediaListCollection'
-import { settings } from './settings'
-import { watch } from '@vue/composition-api'
+// import { useSettings } from './settings'
+// import { watch } from '@vue/composition-api'
 
 export interface Command {
   saveState?(): void | Promise<void>
@@ -37,7 +37,7 @@ export const isSaveCommand = (
 ): e is SaveCommandConstructor & Pick<SaveCommand, '_class'> =>
   e._class === 'SaveCommand'
 
-const stored = localStorage.getItem('CHANGES')
+// const stored = localStorage.getItem('CHANGES')
 
 export const loadHistory = (stored: string | null) =>
   stored &&
@@ -64,19 +64,25 @@ export const executeNotDoneCommands = async (commands: ListCommand[]) => {
 }
 
 export const useCommands = () =>
-  new VuexCompositionApi.Module({
+  // settings: ReturnType<typeof useSettings>
+  new Module({
     name: 'commands',
     namespaced: true,
     setup({ state, mutation }) {
-      const history: State<ListCommand[]> = state(loadHistory(stored) || [])
+      const history: State<ListCommand[]> = state(
+        // loadHistory(stored) ||
+        [],
+      )
 
-      executeNotDoneCommands(history.value)
+      // executeNotDoneCommands(history.value)
 
-      watch(() => {
-        if (settings.state.cacheChanges.value) {
-          localStorage.setItem('CHANGES', JSON.stringify(history.value))
-        }
-      })
+      // watch(() => {
+      //   if (settings.state.cacheChanges.value) {
+      //     localStorage.setItem('CHANGES', JSON.stringify(history.value))
+      //   } else {
+      //     localStorage.removeItem('CHANGES')
+      //   }
+      // })
 
       const PUSH_COMMAND = mutation(
         'PUSH_COMMAND',
@@ -113,8 +119,6 @@ export const useCommands = () =>
       }
     },
   })
-
-export const commands = useCommands()
 
 export const mediaListToForm = (
   mediaListEntry: MediaList | null,

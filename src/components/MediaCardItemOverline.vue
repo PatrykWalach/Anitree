@@ -1,12 +1,4 @@
 <template>
-  <!-- <v-skeleton-loader :loading="!media" type="text">
-    <MediaCardItemOverlineReady :media="media" />
-  </v-skeleton-loader> -->
-  <!-- <MediaCardItemOverlineReady v-if="media" :media="media" />
-
-  <div v-else class="overline">
-    <MediaCardProgress width="25%" />
-  </div> -->
   <MediaCardItemOverlineReady v-if="media" :media="media" />
 
   <div v-else class="overline">
@@ -18,7 +10,6 @@
 import { Media } from '@/graphql/schema/media'
 import MediaCardItemOverlineReady from './MediaCardItemOverlineReady.vue'
 
-import MediaCardProgress from './MediaCardProgress.vue'
 import { createComponent } from '@vue/composition-api'
 export interface Props {
   media: Media | null
@@ -26,7 +17,6 @@ export interface Props {
 export default createComponent<Readonly<Props>>({
   components: {
     MediaCardItemOverlineReady,
-    MediaCardProgress,
   },
   props: { media: { default: null, required: true, type: null } },
 })

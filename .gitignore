@@ -20,3 +20,7 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw?
+
+# Gitpod directories and files
+.theia
+.gitpod.yml

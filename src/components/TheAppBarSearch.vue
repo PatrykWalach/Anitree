@@ -6,19 +6,18 @@
           <v-text-field
             v-model="value"
             full-width
-            prepend-inner-icon="search"
-            autofocus
-            clearable
             single-line
             filled
             rounded
             hide-details
             name="search"
             label="Search"
-            @click:clear="clear"
             @click="move"
-            @keydown.esc="$emit('keydown:esc')"
-          ></v-text-field>
+          >
+            <template v-slot:append>
+              <v-icon @click="submit" color="primary">search</v-icon>
+            </template>
+          </v-text-field>
         </v-form>
       </v-col>
     </v-row>
@@ -40,11 +39,11 @@ export default createComponent({
       },
     )
 
-    const clear = () =>
-      root.$router.replace({
-        name: 'search',
-        query: {},
-      })
+    // const clear = () =>
+    //   root.$router.replace({
+    //     name: 'search',
+    //     query: {},
+    //   })
 
     const move = () => {
       if (!value.value && root.$route.name !== 'search') {
@@ -57,13 +56,18 @@ export default createComponent({
 
     const submit = () => {
       if (value.value !== root.$route.query.search)
-        root.$router.replace({
+        root.$router.push({
           name: 'search',
           query: { search: value.value },
         })
     }
 
-    return { clear, move, submit, value }
+    return {
+      // clear,
+      move,
+      submit,
+      value,
+    }
   },
 })
 </script>

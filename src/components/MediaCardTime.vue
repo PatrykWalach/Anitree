@@ -1,20 +1,18 @@
 <template>
   <v-chip v-if="validStartDate" label outlined>
-    <v-icon left small>date_range</v-icon>
-    <BaseTimeRange
-      v-if="isRange"
-      :end-date="media.endDate"
+    <v-icon left small v-if="validEndDate">date_range</v-icon>
+    <v-icon left small v-else>calendar_today</v-icon>
+    <BaseTime
+      :end-date="validEndDate ? media.endDate : undefined"
       :start-date="media.startDate"
     />
-    <BaseTime v-else :date="media.startDate" />
   </v-chip>
 </template>
 <script lang="ts">
 import { FuzzyDate, Media } from '@/graphql/schema/media'
 import { computed, createComponent } from '@vue/composition-api'
+import BaseTime from './BaseTime.vue'
 import { ValidDate } from '../types'
-const BaseTimeRange = () => import('./BaseTimeRange.vue')
-const BaseTime = () => import('./BaseTime.vue')
 
 export interface Props {
   media: Media
@@ -23,7 +21,6 @@ export interface Props {
 export default createComponent<Readonly<Props>>({
   components: {
     BaseTime,
-    BaseTimeRange,
   },
   props: {
     media: { default: null, required: true, type: Object },
@@ -35,18 +32,9 @@ export default createComponent<Readonly<Props>>({
 
     const validStartDate = computed(() => isValidDate(props.media.startDate))
 
-    const isRange = computed((): boolean => {
-      const { startDate, endDate } = props.media
-      if (isValidDate(startDate) && isValidDate(endDate)) {
-        const start = Object.values(startDate)
-        const end = Object.values(endDate)
+    const validEndDate = computed(() => isValidDate(props.media.endDate))
 
-        return !!start.filter((date, i) => date !== end[i]).length
-      }
-      return false
-    })
-
-    return { isRange, validStartDate }
+    return { validEndDate, validStartDate }
   },
 })
 </script>

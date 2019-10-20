@@ -1,16 +1,13 @@
 <template>
   <base-lazy-img
-    v-if="
-      !media || media.bannerImage
-      //&& !$vuetify.breakpoint.smAndDown
-    "
+    v-if="!media || media.bannerImage"
     :src="(media && media.bannerImage) || ''"
     v-bind="$attrs"
     min-width="100%"
     :aspect-ratio="500 / 150"
   >
     <template v-slot:placeholder>
-      <v-skeleton-loader type="image" />
+      <v-skeleton-loader tile type="image" class="loader" />
     </template>
     <slot></slot>
   </base-lazy-img>
@@ -33,3 +30,11 @@ export default createComponent<Readonly<Props>>({
   },
 })
 </script>
+<style lang="scss">
+.loader {
+  height: 100%;
+}
+.loader > .v-skeleton-loader__image.v-skeleton-loader__bone {
+  height: 100%;
+}
+</style>

@@ -1,4 +1,5 @@
 import { MediaList, MediaListStatus } from './mediaListCollection'
+import { MediaSeason } from './page'
 import { ScoreFormat } from './viewer'
 
 export interface Variables {
@@ -20,6 +21,12 @@ export interface FuzzyDate {
   month: number | null
   day: number | null
 }
+export interface MediaTrailer {
+  __typename: 'MediaTrailer'
+  id: string
+  site: string
+  thumbnail: string
+}
 
 export interface Media extends Node {
   startDate: FuzzyDate
@@ -35,15 +42,39 @@ export interface Media extends Node {
   ranknigs: MediaRank[]
   mediaListEntry: MediaList | null
   title: MediaTitle
+  trailer: MediaTrailer | null
   siteUrl: string
   relations: MediaConnection
+  nextAiringEpisode: AiringSchedule | null
   tags: MediaTag[]
   studios: StudioConnection
   status: MediaStatus | null
   bannerImage: string | null
   coverImage: MediaCoverImage
   stats: MediaStats
+  source: MediaSource | null
+  duration: number | null
+  hashtag: string | null
+  meanScore: number
 }
+export interface AiringSchedule {
+  id: number
+  airingAt: number
+  timeUntilAiring: number
+  episode: number
+}
+
+export type MediaSource =
+  | 'ORIGINAL'
+  | 'MANGA'
+  | 'LIGHT_NOVEL'
+  | 'VISUAL_NOVEL'
+  | 'VIDEO_GAME'
+  | 'OTHER'
+  | 'NOVEL'
+  | 'DOUJINSHI'
+  | 'ANIME'
+
 export interface MediaConnection {
   __typename: 'MediaConnection'
   edges: MediaEdge[]
@@ -64,9 +95,13 @@ export interface MediaRank {
   allTime: boolean
   context: string
   rank: number
-  type: 'RATED' | 'POPULAR'
-  year: null | number
+  type: MediaRankType
+  year: number | null
+  season: MediaSeason | null
 }
+
+export type MediaRankType = 'RATED' | 'POPULAR'
+
 export interface MediaStats {
   __typename: 'MediaStats'
   scoreDistribution: ScoreDistribution[] | null
@@ -84,9 +119,9 @@ export interface ScoreDistribution {
 }
 export interface MediaTitle {
   __typename: 'MediaTitle'
-  romaji: string
-  english: string
-  native: string
+  romaji: string | null
+  english: string | null
+  native: string | null
 }
 
 export type MediaRelation =

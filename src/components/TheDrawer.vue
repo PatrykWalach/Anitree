@@ -1,5 +1,10 @@
 <template>
-  <v-navigation-drawer v-model="syncedValue" app mini-variant permanent>
+  <v-navigation-drawer
+    v-model="syncedValue"
+    app
+    :mini-variant="!$vuetify.breakpoint.xsOnly"
+    :permanent="!$vuetify.breakpoint.xsOnly"
+  >
     <v-list nav>
       <v-list-item
         v-for="{ to, title, icon } in main"
@@ -27,8 +32,8 @@ import { computed, createComponent } from '@vue/composition-api'
 interface Props {
   value: boolean
 }
-import { navigation } from '@/store/navigation'
-import { useTheme } from './MediaCardProgress.vue'
+
+import { useTheme } from './TheMediaAboutStats.vue'
 
 export default createComponent<Readonly<Props>>({
   props: {
@@ -38,7 +43,7 @@ export default createComponent<Readonly<Props>>({
       type: Boolean,
     },
   },
-  setup(props, { emit }) {
+  setup(props, { emit, root }) {
     const syncedValue = computed({
       get: () => props.value,
       set: value => emit('update:value', value),
@@ -48,7 +53,8 @@ export default createComponent<Readonly<Props>>({
 
     const {
       state: { main },
-    } = navigation
+    } = root.$modules.navigation
+
     return { main, syncedValue, theme }
   },
 })

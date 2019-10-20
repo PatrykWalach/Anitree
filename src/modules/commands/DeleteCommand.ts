@@ -3,35 +3,44 @@ import {
   MEDIA,
   SAVE_MEDIA_LIST_ENTRY,
   VIEWER,
-  apollo,
 } from '@/graphql'
-import { DeleteVariables, SaveVariables } from '@/graphql/schema/listEntry'
+
+import {
+  DeleteVariables,
+  Deleted,
+  SaveVariables,
+} from '@/graphql/schema/listEntry'
 import { ListCommand, mediaListToForm } from '../commands'
 import { Media, Variables as MediaVariables } from '@/graphql/schema/media'
+import { DollarApollo } from 'vue-apollo/types/vue-apollo'
 import { Form } from '@/types'
-
+import { MediaList } from '@/graphql/schema/mediaListCollection'
 import { User } from '@/graphql/schema/viewer'
+import Vue from 'vue'
+import { updateSaveMediaListEntry } from './SaveCommand'
 
 export type DeleteCommandConstructor = Partial<
   Pick<DeleteCommand, 'backup' | 'done'>
 > &
-  Pick<DeleteCommand, 'variables'>
+  Pick<DeleteCommand, 'variables' | 'apollo'>
 
 export class DeleteCommand implements ListCommand {
   public backup: Form | null
   public variables: DeleteVariables & Pick<SaveVariables, 'mediaId'>
   public done: boolean
+  public apollo: DollarApollo<Vue>
   public _class = 'DeleteCommand' as const
 
   constructor({
     variables,
-
+    apollo,
     backup = null,
     done = false,
   }: DeleteCommandConstructor) {
     this.variables = variables
     this.backup = backup
     this.done = done
+    this.apollo = apollo
   }
 
   public saveState() {
@@ -40,13 +49,13 @@ export class DeleteCommand implements ListCommand {
     } = this
 
     return Promise.all([
-      apollo
+      this.apollo
         .query<{ Media: Media }, MediaVariables>({
           query: MEDIA,
           variables: { id: mediaId },
         })
         .then(({ data }) => data.Media),
-      apollo
+      this.apollo
         .query<{ Viewer: User }>({ query: VIEWER })
         .then(({ data }) => data.Viewer),
     ] as [Promise<Media>, Promise<User>]).then(
@@ -68,9 +77,10 @@ export class DeleteCommand implements ListCommand {
       } = this
 
       if (this.done) {
-        apollo
-          .mutate<MediaList, SaveVariables>({
+        this.apollo
+          .mutate<{ SaveMediaListEntry: MediaList }, SaveVariables>({
             mutation: SAVE_MEDIA_LIST_ENTRY,
+            update: updateSaveMediaListEntry,
             variables: {
               mediaId,
               ...backup,
@@ -88,12 +98,36 @@ export class DeleteCommand implements ListCommand {
     await this.saveState()
 
     const {
-      variables: { id },
+      variables: { id, mediaId },
     } = this
 
-    return apollo
-      .mutate<{ deleted: boolean }, DeleteVariables>({
+    return this.apollo
+      .mutate<{ DeleteMediaListEntry: Deleted }, DeleteVariables>({
         mutation: DELETE_MEDIA_LIST_ENTRY,
+        update(cache, { data }) {
+          if (!data) return
+
+          const query = {
+            query: MEDIA,
+            variables: {
+              mediaId,
+            },
+          }
+
+          const _data: { Media: Media } | null = cache.readQuery(query)
+
+          cache.writeQuery({
+            ...query,
+            data: {
+              Media: {
+                __typename: 'Media',
+                id: mediaId,
+                ...(_data && _data.Media),
+                mediaListEntry: null,
+              },
+            },
+          })
+        },
         variables: {
           id,
         },

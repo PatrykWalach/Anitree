@@ -1,14 +1,5 @@
 <template>
   <v-card-actions>
-    <!-- <v-tooltip bottom>
-      <template v-slot:activator="{ on, attrs }">
-        <v-icon v-bind="attrs" v-on="on">
-          {{ auto ? 'sync' : 'sync_disabled' }}
-        </v-icon>
-      </template>
-      <span>{{ caption }}</span>
-    </v-tooltip> -->
-
     <v-dialog v-model="confirmation" max-width="360">
       <template v-slot:activator="{ on, attrs }">
         <v-btn
@@ -43,53 +34,52 @@
   </v-card-actions>
 </template>
 <script lang="ts">
-import { computed, createComponent, ref } from '@vue/composition-api'
+import {
+  SetupContext,
+  computed,
+  createComponent,
+  ref,
+} from '@vue/composition-api'
 
-import { DeleteCommand } from '@/store/commands/DeleteCommand'
+import { DeleteCommand } from '@/modules/commands/DeleteCommand'
 
 import { Media } from '@/graphql/schema/media'
-import MediaEditIcon from './MediaEditIcon.vue'
 import { User } from '@/graphql/schema/viewer'
-
-import { commands } from '../store/commands'
-import { edit } from '../store/edit'
 
 export interface Props {
   user: User | null
   media: Media | null
 }
 
-function useActions(props: Readonly<Props>) {
+function useActions(props: Readonly<Props>, { root }: SetupContext) {
   const confirmation = ref(false)
 
   const {
     mutations: { CHANGE_IS_EDITED },
     actions: { submit: _submit, close },
     state: { form },
-  } = edit
+  } = root.$modules.edit
 
   const submitRequired = computed(() => !!Object.values(form.value).length)
 
   const submit = async () => {
-    await _submit()
+    await _submit(root.$apollo)
     CHANGE_IS_EDITED(false)
   }
 
   const remove = async () => {
     if (props.media && props.media.mediaListEntry) {
       confirmation.value = false
-      await commands.actions.add(
+      await root.$modules.commands.actions.add(
         new DeleteCommand({
+          apollo: root.$apollo,
           variables: {
             id: props.media.mediaListEntry.id,
             mediaId: props.media.id,
           },
         }),
       )
-      // await root.$apollo.mutate({
-      //   mutation: DELETE_MEDIA_LIST_ENTRY,
-      //   variables: { id: props.media.mediaListEntry.id }
-      // })
+
       CHANGE_IS_EDITED(false)
     }
   }
@@ -98,15 +88,12 @@ function useActions(props: Readonly<Props>) {
 }
 
 export default createComponent<Readonly<Props>>({
-  components: {
-    MediaEditIcon,
-  },
   props: {
     media: { default: null, required: true, type: null },
     user: { default: null, required: true, type: null },
   },
-  setup(props) {
-    return useActions(props)
+  setup(props, context) {
+    return useActions(props, context)
   },
 })
 </script>

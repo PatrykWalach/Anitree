@@ -21,16 +21,14 @@ import {
 } from '@vue/composition-api'
 
 import { ClientOptions } from 'vue-apollo/types/vue-apollo'
-import { Media } from '../graphql/schema/media'
+import { DocumentNode } from 'graphql'
+
 import { PAGE } from '@/graphql'
 import TheMediaTimeline from '../components/TheMediaTimeline.vue'
 
-const getYear = (seasonInt: number) => {
-  const year = Math.floor(seasonInt / 10)
-  return (year > 50 ? 1900 : 2000) + year
-}
-
 export const useQuery = <R, TVariables = OperationVariables>(
+  root: SetupContext['root'],
+  queryDocument: DocumentNode,
   {
     skip,
     variables,
@@ -38,14 +36,14 @@ export const useQuery = <R, TVariables = OperationVariables>(
   }: {
     variables?: Ref<TVariables>
     skip?: Ref<boolean>
-  } & Omit<WatchQueryOptions<TVariables>, 'variables'> &
+  } & Omit<WatchQueryOptions<TVariables>, 'variables' | 'query'> &
     ClientOptions,
-  { root }: SetupContext,
 ) => {
   const result: Ref<ApolloQueryResult<R> | null> = ref(null)
   const error = ref(null)
 
   const query = root.$apollo.watchQuery<R, TVariables>({
+    query: queryDocument,
     ...options,
     variables: variables && variables.value,
   })
@@ -68,47 +66,54 @@ export const useQuery = <R, TVariables = OperationVariables>(
   })
 
   return {
-    error,
-    query,
-    result,
+    data: computed(() => result.value && result.value.data),
+    error: computed(() => result.value && result.value.errors),
+    fetchMore: query.fetchMore.bind(query),
+    loading: computed(() => result.value && result.value.loading),
+    refetch: query.refetch.bind(query),
+    startPolling: query.startPolling.bind(query),
+    stopPolling: query.stopPolling.bind(query),
+    subscribeToMore: query.subscribeToMore.bind(query),
+    updateQuery: query.updateQuery.bind(query),
+    variables,
   }
 }
 
 export default createComponent({
   components: {
-    // BaseContainer,
     TheMediaTimeline,
   },
-  setup(_, context) {
+  setup(_, { root }) {
     const loading = ref(false)
 
-    const currentId = computed(() =>
-      parseInt(context.root.$route.params.mediaId, 10),
-    )
+    const currentId = computed(() => parseInt(root.$route.params.mediaId, 10))
     const variables = computed(() => ({
       idIn: currentId.value,
     }))
 
     const skip = computed(() => !variables.value.idIn)
 
-    const { result, query } = useQuery<{ Page: Page }, PageVariables>(
-      { query: PAGE, skip, variables },
-      context,
+    const { data, fetchMore } = useQuery<{ Page: Page }, PageVariables>(
+      root,
+      PAGE,
+      { skip, variables },
     )
 
-    watch(result, _result => {
+    watch(data, data => {
       loading.value = true
-      if (_result) {
-        const idIn = _result.data.Page.media
+      if (data) {
+        const idIn = data.Page.media
           .flatMap(({ relations }) => relations.edges)
           .map(({ node }) => node.id)
           .filter(
             (id, i, arr) => arr.findIndex(mediaId => mediaId === id) === i,
           )
-          .filter(id => !_result.data.Page.media.find(media => media.id === id))
+          .filter(id => !data.Page.media.find(media => media.id === id))
+
+        // console.log('TCL: setup -> idIn', idIn)
 
         if (idIn.length) {
-          query.fetchMore({
+          fetchMore({
             updateQuery: (previousResult, { fetchMoreResult }) => {
               if (!fetchMoreResult) {
                 return previousResult
@@ -130,28 +135,29 @@ export default createComponent({
       }
     })
 
-    const sorters: ((mediaA: Media, mediaB: Media) => number)[] = [
-      ({ seasonInt: seasonA }, { seasonInt: seasonB }) =>
-        (seasonA &&
-          seasonB &&
-          (getYear(seasonA) - getYear(seasonB) ||
-            (seasonA % 10) - (seasonB % 10))) ||
-        0,
-      ({ startDate: dateA }, { startDate: dateB }) =>
-        (dateA.year && dateB.year && dateA.year - dateB.year) || 0,
-      ({ startDate: dateA }, { startDate: dateB }) =>
-        (dateA.month && dateB.month && dateA.month - dateB.month) || 0,
-      ({ startDate: dateA }, { startDate: dateB }) =>
-        (dateA.day && dateB.day && dateA.day - dateB.day) || 0,
-    ]
+    const {
+      state: { sorters, order },
+    } = root.$modules.timeline
+
+    // const sorters: ((mediaA: Media, mediaB: Media) => number)[] = [
+    //   compare(['startDate', 'year']),
+    //   compare(['startDate', 'month']),
+    //   compare(['startDate', 'day']),
+    //   compare(['seasonInt'], int => (int < 500 ? 2000 : 1900) + int),
+    //   compare(['status'], int =>
+    //     ['FINISHED', 'RELEASING', 'NOT_YET_RELEASED', 'CANCELLED'].indexOf(int),
+    //   ),
+    // ]
 
     const mediaList = computed(
       () =>
-        (result.value &&
-          result.value.data.Page.media.slice().sort((a, b) => {
-            for (const sort of sorters) {
-              const result = sort(a, b)
-              if (result) return result
+        (data.value &&
+          data.value.Page.media.slice().sort((a, b) => {
+            for (const sort of sorters.value) {
+              const result = sort(a, b) * order.value
+              if (result) {
+                return result
+              }
             }
             return 0
           })) ||
@@ -159,10 +165,9 @@ export default createComponent({
     )
 
     return {
+      data,
       loading,
       mediaList,
-      query,
-      result,
     }
   },
 })

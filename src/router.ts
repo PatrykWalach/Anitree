@@ -1,8 +1,9 @@
-import { MEDIA, apollo } from '@/graphql'
 import { Media as MediaT, Variables } from '@/graphql/schema/media'
+import { MEDIA } from '@/graphql'
 import Router from 'vue-router'
 import Vue from 'vue'
-import { settings } from '@/store/settings'
+import { apollo } from '@/apollo'
+import { settings } from '@/modules'
 
 const Home = () => import(/* webpackPrefetch: true */ './views/Home.vue')
 const Media = () => import(/* webpackPrefetch: true */ './views/Media.vue')
@@ -38,7 +39,7 @@ const router = new Router({
           })
           .then(({ data }) => data.Media)
           .then(media => {
-            const title = media.title.romaji
+            const title = media.title.romaji || ''
             document.title = 'Anitree - ' + title
             const slush = title
               .trim()
@@ -101,6 +102,7 @@ const router = new Router({
             .split(/&/)
             .map(el => el.split(/=/)),
         )
+
         const {
           mutations: { CHANGE_TOKEN },
         } = settings
