@@ -132,8 +132,7 @@ export class DeleteCommand implements ListCommand {
           id,
         },
       })
-      .then(r => {
-        console.log(r)
+      .then(() => {
         this.done = true
       })
   }

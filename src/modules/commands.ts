@@ -7,8 +7,8 @@ import { SaveCommand, SaveCommandConstructor } from './commands/SaveCommand'
 import { Form } from '@/types'
 import { FuzzyDate } from '@/graphql/schema/media'
 import { MediaList } from '@/graphql/schema/mediaListCollection'
-import { useSettings } from './settings'
-import { watch } from '@vue/composition-api'
+// import { useSettings } from './settings'
+// import { watch } from '@vue/composition-api'
 
 export interface Command {
   saveState?(): void | Promise<void>
@@ -37,7 +37,7 @@ export const isSaveCommand = (
 ): e is SaveCommandConstructor & Pick<SaveCommand, '_class'> =>
   e._class === 'SaveCommand'
 
-const stored = localStorage.getItem('CHANGES')
+// const stored = localStorage.getItem('CHANGES')
 
 export const loadHistory = (stored: string | null) =>
   stored &&
@@ -63,7 +63,8 @@ export const executeNotDoneCommands = async (commands: ListCommand[]) => {
   }
 }
 
-export const useCommands = (settings: ReturnType<typeof useSettings>) =>
+export const useCommands = () =>
+  // settings: ReturnType<typeof useSettings>
   new Module({
     name: 'commands',
     namespaced: true,

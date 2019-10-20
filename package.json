@@ -6,9 +6,9 @@
         "serve": "vue-cli-service serve",
         "build": "vue-cli-service build",
         "lint": "vue-cli-service lint",
-        "test": "vue-cli-service test:unit",
-        "watch": "vue-cli-service test:unit --watch",
-        "coverage": "vue-cli-service test:unit --coverage"
+        "test": "vue-cli-service test:unit --passWithNoTests",
+        "watch": "vue-cli-service test:unit --watch --passWithNoTests",
+        "coverage": "vue-cli-service test:unit --coverage --passWithNoTests"
     },
     "dependencies": {
         "@fortawesome/fontawesome-svg-core": "^1.2.25",
@@ -33,7 +33,6 @@
         "webfontloader": "^1.6.28"
     },
     "devDependencies": {
-        "@babel/core": "^7.6.4",
         "@types/graphql": "^14.5.0",
         "@types/jest": "^24.0.19",
         "@vue/cli-plugin-babel": "^4.0.4",
@@ -46,7 +45,6 @@
         "@vue/eslint-config-prettier": "^5.0.0",
         "@vue/eslint-config-typescript": "^4.0.0",
         "@vue/test-utils": "^1.0.0-beta.29",
-        "babel-core": "^7.0.0-bridge.0",
         "eslint": "^5.16.0",
         "eslint-plugin-prettier": "^3.1.1",
         "eslint-plugin-vue": "^5.2.3",
@@ -54,7 +52,7 @@
         "sass": "^1.23.0",
         "sass-loader": "^8.0.0",
         "ts-jest": "^24.1.0",
-        "typescript": "^3.6.4",
+        "typescript": "~3.5.3",
         "vue-template-compiler": "^2.6.10",
         "vuetify-loader": "^1.3.0"
     }

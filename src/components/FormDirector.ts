@@ -1,9 +1,9 @@
 import { FuzzyDate, Media } from '@/graphql/schema/media'
 import { Form } from '@/types'
 import { FormBuilder } from './FormBuilder'
+import { SaveVariables } from '@/graphql/schema/listEntry'
 import { SetupContext } from '@vue/composition-api'
 import { User } from '@/graphql/schema/viewer'
-import { SaveVariables } from '@/graphql/schema/listEntry'
 
 export interface Props {
   method: keyof FormDirector
@@ -101,8 +101,8 @@ export class FormDirector {
             (e: string) => Object.fromEntries([['status', e]]),
             (form: Partial<SaveVariables>) =>
               root.$modules.edit.actions.changeForm({
-                form,
                 apollo: root.$apollo,
+                form,
               }),
           ],
           value: form.status,
@@ -122,8 +122,8 @@ export class FormDirector {
               (e: string) => Object.fromEntries([['score', e]]),
               (form: Partial<SaveVariables>) =>
                 root.$modules.edit.actions.changeForm({
-                  form,
                   apollo: root.$apollo,
+                  form,
                 }),
             ],
             beforeTransform: [(e: string) => e.toString()],
@@ -149,8 +149,8 @@ export class FormDirector {
               (e: string) => Object.fromEntries([['progress', e]]),
               (form: Partial<SaveVariables>) =>
                 root.$modules.edit.actions.changeForm({
-                  form,
                   apollo: root.$apollo,
+                  form,
                 }),
             ],
             beforeTransform: [(e: string) => e.toString()],
@@ -176,8 +176,8 @@ export class FormDirector {
               (e: string) => Object.fromEntries([['volumeProgress', e]]),
               (form: Partial<SaveVariables>) =>
                 root.$modules.edit.actions.changeForm({
-                  form,
                   apollo: root.$apollo,
+                  form,
                 }),
             ],
             beforeTransform: [(e: string) => e.toString()],
@@ -211,8 +211,8 @@ export class FormDirector {
             (e: string) => Object.fromEntries([['startedAt', e]]),
             (form: Partial<SaveVariables>) =>
               root.$modules.edit.actions.changeForm({
-                form,
                 apollo: root.$apollo,
+                form,
               }),
           ],
           beforeTransform: [dateToString],
@@ -230,8 +230,8 @@ export class FormDirector {
             (e: string) => Object.fromEntries([['completedAt', e]]),
             (form: Partial<SaveVariables>) =>
               root.$modules.edit.actions.changeForm({
-                form,
                 apollo: root.$apollo,
+                form,
               }),
           ],
           beforeTransform: [dateToString],
@@ -250,8 +250,8 @@ export class FormDirector {
             (e: string) => Object.fromEntries([['repeat', e]]),
             (form: Partial<SaveVariables>) =>
               root.$modules.edit.actions.changeForm({
-                form,
                 apollo: root.$apollo,
+                form,
               }),
           ],
           beforeTransform: [(e: string) => e.toString()],
@@ -281,8 +281,8 @@ export class FormDirector {
             (e: string) => Object.fromEntries([['notes', e]]),
             (form: Partial<SaveVariables>) =>
               root.$modules.edit.actions.changeForm({
-                form,
                 apollo: root.$apollo,
+                form,
               }),
           ],
           value: form.notes || '',
@@ -331,8 +331,8 @@ export class FormDirector {
             },
             (form: Partial<SaveVariables>) =>
               root.$modules.edit.actions.changeForm({
-                form,
                 apollo: root.$apollo,
+                form,
               }),
           ],
           beforeTransform: [(e: any) => e.toString()],
