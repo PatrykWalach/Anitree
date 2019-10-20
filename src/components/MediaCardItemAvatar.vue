@@ -23,10 +23,10 @@ export interface Props {
 }
 
 export default createComponent<Readonly<Props>>({
-  inheritAttrs: false,
   components: {
     BaseLazyImg,
   },
+  inheritAttrs: false,
   props: {
     media: { default: null, required: true, type: null },
     size: {

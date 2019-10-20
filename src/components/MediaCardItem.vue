@@ -1,5 +1,5 @@
 <template>
-  <v-list-item :[lines]="true">
+  <v-list-item selectable :[lines]="true">
     <MediaCardItemAvatar :media="media" />
     <slot></slot>
     <v-list-item-content>

@@ -1,7 +1,6 @@
 <template>
-  <v-chip-group :style="{ 'max-width': '100%' }" active-class="primary--text">
+  <v-chip-group :style="{ 'max-width': '100%' }" :active-class="activeClass">
     <v-chip
-      outlined
       v-for="{ title, id } in media"
       :key="id"
       exact
@@ -23,6 +22,7 @@ import { Page } from '../graphql/schema/page'
 export interface Props {
   page: Page
 }
+import { useTheme } from './TheMediaAboutStats.vue'
 
 export default createComponent<Readonly<Props>>({
   props: {
@@ -41,8 +41,14 @@ export default createComponent<Readonly<Props>>({
             arr.findIndex(media => media.title === title) === i,
         ),
     )
+    const { theme } = useTheme()
+
+    const activeClass = computed(() =>
+      theme.isDark ? 'grey lighten-2 black--text' : 'grey darken-2 white--text',
+    )
 
     return {
+      activeClass,
       media,
     }
   },

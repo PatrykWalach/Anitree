@@ -70,7 +70,6 @@ export default createComponent({
   },
   setup(_, { root }) {
     const {
-      // state: { token },
       mutations: { CHANGE_TOKEN },
     } = root.$modules.settings
 

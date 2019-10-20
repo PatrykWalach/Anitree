@@ -13,5 +13,45 @@ declare global {
         endDate: Date | number,
       ): DateTimeFormatPart[]
     }
+
+    var RelativeTimeFormat: {
+      new (
+        locales?: string | string[],
+        options?: RelativeTimeFormatOptions,
+      ): RelativeTimeFormat
+      (
+        locales?: string | string[],
+        options?: RelativeTimeFormatOptions,
+      ): RelativeTimeFormat
+    }
+    interface RelativeTimeFormatOptions {
+      localeMatcher?: 'lookup' | 'best fit'
+      numeric?: 'always' | 'auto'
+      style?: 'long' | 'short' | 'narrow'
+    }
+    interface RelativeTimeFormat {
+      format(
+        value: number,
+        unit:
+          | 'quarter'
+          | 'month'
+          | 'week'
+          | 'day'
+          | 'hour'
+          | 'minute'
+          | 'second',
+      ): string
+      formatToParts(
+        value: number,
+        unit:
+          | 'quarter'
+          | 'month'
+          | 'week'
+          | 'day'
+          | 'hour'
+          | 'minute'
+          | 'second',
+      ): DateTimeFormatPart[]
+    }
   }
 }

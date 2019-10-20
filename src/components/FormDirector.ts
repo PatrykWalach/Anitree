@@ -3,6 +3,7 @@ import { Form } from '@/types'
 import { FormBuilder } from './FormBuilder'
 import { SetupContext } from '@vue/composition-api'
 import { User } from '@/graphql/schema/viewer'
+import { SaveVariables } from '@/graphql/schema/listEntry'
 
 export interface Props {
   method: keyof FormDirector
@@ -74,10 +75,6 @@ export interface ScoreFormat {
 }
 
 export class FormDirector {
-  // [index: string]: any
-
-  // public constructor() {}
-
   public edit1(
     builder: FormBuilder,
     { scoreFormat, manga, media, form }: Readonly<Props>,
@@ -102,7 +99,11 @@ export class FormDirector {
         props: {
           afterTransform: [
             (e: string) => Object.fromEntries([['status', e]]),
-            root.$modules.edit.actions.changeForm,
+            (form: Partial<SaveVariables>) =>
+              root.$modules.edit.actions.changeForm({
+                form,
+                apollo: root.$apollo,
+              }),
           ],
           value: form.status,
         },
@@ -119,7 +120,11 @@ export class FormDirector {
             afterTransform: [
               parseFloat,
               (e: string) => Object.fromEntries([['score', e]]),
-              root.$modules.edit.actions.changeForm,
+              (form: Partial<SaveVariables>) =>
+                root.$modules.edit.actions.changeForm({
+                  form,
+                  apollo: root.$apollo,
+                }),
             ],
             beforeTransform: [(e: string) => e.toString()],
             transformations: [
@@ -142,7 +147,11 @@ export class FormDirector {
               parseFloat,
 
               (e: string) => Object.fromEntries([['progress', e]]),
-              root.$modules.edit.actions.changeForm,
+              (form: Partial<SaveVariables>) =>
+                root.$modules.edit.actions.changeForm({
+                  form,
+                  apollo: root.$apollo,
+                }),
             ],
             beforeTransform: [(e: string) => e.toString()],
             transformations: [
@@ -165,7 +174,11 @@ export class FormDirector {
             afterTransform: [
               parseFloat,
               (e: string) => Object.fromEntries([['volumeProgress', e]]),
-              root.$modules.edit.actions.changeForm,
+              (form: Partial<SaveVariables>) =>
+                root.$modules.edit.actions.changeForm({
+                  form,
+                  apollo: root.$apollo,
+                }),
             ],
             beforeTransform: [(e: string) => e.toString()],
             transformations: [
@@ -196,7 +209,11 @@ export class FormDirector {
           afterTransform: [
             stringToDate,
             (e: string) => Object.fromEntries([['startedAt', e]]),
-            root.$modules.edit.actions.changeForm,
+            (form: Partial<SaveVariables>) =>
+              root.$modules.edit.actions.changeForm({
+                form,
+                apollo: root.$apollo,
+              }),
           ],
           beforeTransform: [dateToString],
           value: form.startedAt,
@@ -211,7 +228,11 @@ export class FormDirector {
           afterTransform: [
             stringToDate,
             (e: string) => Object.fromEntries([['completedAt', e]]),
-            root.$modules.edit.actions.changeForm,
+            (form: Partial<SaveVariables>) =>
+              root.$modules.edit.actions.changeForm({
+                form,
+                apollo: root.$apollo,
+              }),
           ],
           beforeTransform: [dateToString],
           value: form.completedAt,
@@ -227,7 +248,11 @@ export class FormDirector {
           afterTransform: [
             parseFloat,
             (e: string) => Object.fromEntries([['repeat', e]]),
-            root.$modules.edit.actions.changeForm,
+            (form: Partial<SaveVariables>) =>
+              root.$modules.edit.actions.changeForm({
+                form,
+                apollo: root.$apollo,
+              }),
           ],
           beforeTransform: [(e: string) => e.toString()],
           transformations: [formatToNumber, numberRound.bind(null, 0)],
@@ -244,6 +269,7 @@ export class FormDirector {
     { root }: SetupContext,
   ) {
     const { form } = data
+
     builder.setTextareas([
       {
         attrs: {
@@ -253,7 +279,11 @@ export class FormDirector {
         props: {
           afterTransform: [
             (e: string) => Object.fromEntries([['notes', e]]),
-            root.$modules.edit.actions.changeForm,
+            (form: Partial<SaveVariables>) =>
+              root.$modules.edit.actions.changeForm({
+                form,
+                apollo: root.$apollo,
+              }),
           ],
           value: form.notes || '',
         },
@@ -299,7 +329,11 @@ export class FormDirector {
                   : undefined,
               }
             },
-            root.$modules.edit.actions.changeForm,
+            (form: Partial<SaveVariables>) =>
+              root.$modules.edit.actions.changeForm({
+                form,
+                apollo: root.$apollo,
+              }),
           ],
           beforeTransform: [(e: any) => e.toString()],
           transformations: [formatToNumber],

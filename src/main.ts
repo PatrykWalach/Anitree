@@ -1,11 +1,11 @@
 import '@/registerServiceWorker'
 
+import * as modules from '@/modules'
 import App from '@/App.vue'
 import Vue from 'vue'
-import { apolloProvider } from '@/graphql'
-import * as modules from '@/store/modules'
+import { apolloProvider } from '@/apollo'
 import router from '@/router'
-import { store } from '@/store'
+import { store } from '@/modules/store'
 import { vuetify } from '@/vuetify'
 
 Vue.config.productionTip = false

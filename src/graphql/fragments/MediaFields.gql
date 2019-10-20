@@ -1,5 +1,6 @@
 #import "./MediaListFields.gql"
 #import "./FuzzyDateFields.gql"
+#import "./AiringScheduleFields.gql"
 
 fragment MediaFields on Media {
   id
@@ -38,17 +39,21 @@ fragment MediaFields on Media {
   type
   airingSchedule {
     nodes {
-      id
-      airingAt
-      timeUntilAiring
-      episode
+...AiringScheduleFields
     }
   }
+  duration
+  hashtag
+  meanScore
+  source
   studios(isMain: true) {
     nodes {
       id
       name
     }
+  }
+  nextAiringEpisode {
+    ...AiringScheduleFields
   }
   startDate {
     ...FuzzyDateFields

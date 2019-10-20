@@ -1,16 +1,20 @@
 <template>
   <v-app>
-    <TheBottomNavigation v-if="$vuetify.breakpoint.xsOnly" />
-    <TheDrawer v-else :value.sync="drawer" />
     <TheAppBar @toggle:drawer="toggleDrawer" />
+
     <v-content>
       <keep-alive>
         <router-view />
       </keep-alive>
-
+      <TheSearchFilters />
       <MediaEdit :id="mediaId" />
       <BaseShare :options="options" />
+      <TheFab v-if="!bottomNavigation" />
     </v-content>
+
+    <TheBottomNavigation v-if="bottomNavigation" />
+    <TheDrawer v-else-if="!$vuetify.breakpoint.xsOnly" :value.sync="drawer" />
+
     <TheFooter />
   </v-app>
 </template>
@@ -26,9 +30,11 @@ import MediaEdit from './components/MediaEdit.vue'
 import TheAppBar from './components/TheAppBar.vue'
 import TheBottomNavigation from './components/TheBottomNavigation.vue'
 import TheDrawer from './components/TheDrawer.vue'
+import TheFab from './components/TheFab.vue'
 import TheFooter from './components/TheFooter.vue'
+import TheSearchFilters from './components/TheSearchFilters.vue'
 
-export const useTheme = ({ root }: SetupContext) => {
+export const useTheme = (root: SetupContext['root']) => {
   const dark = computed({
     get: () => root.$vuetify.theme.dark,
     set: dark => {
@@ -46,9 +52,11 @@ export default createComponent({
     TheAppBar,
     TheBottomNavigation,
     TheDrawer,
+    TheFab,
     TheFooter,
+    TheSearchFilters,
   },
-  setup(_, context) {
+  setup(_, { root }) {
     const drawer = ref(false)
 
     const toggleDrawer = () => {
@@ -57,13 +65,17 @@ export default createComponent({
 
     const {
       state: { mediaId },
-    } = context.root.$modules.edit
+    } = root.$modules.edit
 
     const {
       state: { options },
-    } = context.root.$modules.share
+    } = root.$modules.share
 
-    const { dark } = useTheme(context)
+    // const {
+    //   state: { active },
+    // } = context.root.$modules.fab
+
+    const { dark } = useTheme(root)
 
     const stored = localStorage.getItem('THEME')
 
@@ -77,7 +89,16 @@ export default createComponent({
       dark.value = localStorage.getItem('THEME') === 'true'
     }
 
+    const bottomNavigation = computed(
+      () =>
+        root.$vuetify.breakpoint.xsOnly &&
+        !!root.$modules.navigation.state.main.value.find(
+          ({ to }) => to.name === root.$route.name,
+        ),
+    )
+
     return {
+      bottomNavigation,
       drawer,
       mediaId,
       options,

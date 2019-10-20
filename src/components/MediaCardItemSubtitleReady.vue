@@ -12,22 +12,27 @@ import { Media } from '@/graphql/schema/media'
 export interface Props {
   media: Media
 }
+
+export const useString = () => ({
+  clean: (str: string | null) =>
+    (str &&
+      str
+        .split(/_/g)
+        .map(str => {
+          if (str !== 'TV' && str !== 'OVA' && str !== 'ONA')
+            return str.toLowerCase()
+          return str
+        })
+        .join(' ')) ||
+    '',
+})
+
 export default createComponent<Readonly<Props>>({
   props: {
     media: { default: null, required: true, type: Object },
   },
   setup(props) {
-    const clean = (str: string | null) =>
-      (str &&
-        str
-          .split(/_/g)
-          .map(str => {
-            if (str !== 'TV' && str !== 'OVA' && str !== 'ONA')
-              return str.toLowerCase()
-            return str
-          })
-          .join(' ')) ||
-      ''
+    const { clean } = useString()
 
     const manga = computed(() => props.media.type === 'MANGA')
 

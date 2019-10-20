@@ -8,19 +8,6 @@
     }"
     v-slot="{ Media }"
   >
-    <!-- <BaseQuery
-    :apollo="{
-      Media: {
-        query: require('@/graphql/queries/Media.gql'),
-        variables: {
-          id: command.variables.mediaId,
-        },
-        skip: !command.variables.mediaId,
-        tag: null,
-      },
-    }"
-    v-slot="{ Media }"
-  > -->
     <v-banner single-line>
       <span :title="getTitle(Media && Media.title)">
         {{ getTitle(Media && Media.title) }}
@@ -88,9 +75,9 @@
 <script lang="ts">
 import { computed, createComponent } from '@vue/composition-api'
 import BaseQuery from './BaseQuery.vue'
-import { DeleteCommand } from '@/store/modules/commands/DeleteCommand'
+import { DeleteCommand } from '@/modules/commands/DeleteCommand'
 import { FuzzyDate } from '../graphql/schema/media'
-import { SaveCommand } from '@/store/modules/commands/SaveCommand'
+import { SaveCommand } from '@/modules/commands/SaveCommand'
 import { useMedia } from '@/graphql'
 
 const BaseTime = () => import('./BaseTime.vue')

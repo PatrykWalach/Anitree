@@ -1,10 +1,4 @@
 <template>
-  <!-- <ApolloQuery
-    v-slot="{ result: { data } }"
-    :tag="null"
-    :query="require('@/graphql/queries/Viewer.gql')"
-    :skip="!token"
-  > -->
   <BaseQuery
     :apollo="{
       Viewer,
@@ -14,9 +8,7 @@
     <v-card-actions>
       <v-btn
         color="primary"
-        outlined
         text
-        v-if="$route.params.mediaId !== (media && media.id)"
         :disabled="!media"
         :to="
           (media && {
@@ -33,7 +25,6 @@
       </v-btn>
 
       <v-spacer></v-spacer>
-
       <v-tooltip top>
         <template v-slot:activator="{ attrs, on }">
           <v-btn
@@ -51,7 +42,20 @@
         <span>Anilist</span>
       </v-tooltip>
 
-      <MediaCardActionsShare :media="media" />
+      <v-tooltip top>
+        <template v-slot:activator="{ attrs, on }">
+          <v-btn
+            v-bind="attrs"
+            icon
+            :disabled="!media"
+            v-on="on"
+            @click.stop="share(media)"
+          >
+            <v-icon>share</v-icon>
+          </v-btn>
+        </template>
+        <span>Share</span>
+      </v-tooltip>
 
       <v-tooltip v-if="Viewer" top>
         <template v-slot:activator="{ attrs, on }">
@@ -60,7 +64,7 @@
             icon
             :disabled="!media"
             v-on="on"
-            @click.stop="edit"
+            @click.stop="open(media && media.id)"
           >
             <v-icon>edit</v-icon>
           </v-btn>
@@ -69,24 +73,49 @@
       </v-tooltip>
     </v-card-actions>
   </BaseQuery>
-  <!-- </ApolloQuery> -->
 </template>
 
 <script lang="ts">
+import { SetupContext, createComponent } from '@vue/composition-api'
 import BaseQuery from './BaseQuery.vue'
 import { Media } from '@/graphql/schema/media'
-import MediaCardActionsShare from './MediaCardActionsShare.vue'
-import { createComponent } from '@vue/composition-api'
+
+import { ShareData } from '../types'
 
 export interface Props {
   media: Media | null
 }
 import { useViewer } from '@/graphql'
 
+export const useShare = (root: SetupContext['root']) => {
+  const {
+    mutations: { CHANGE_OPTIONS, CHANGE_IS_SHARED },
+  } = root.$modules.share
+
+  const {
+    getters: { getTitle },
+  } = root.$modules.title
+
+  const desktopShare = async (data: ShareData) => {
+    CHANGE_OPTIONS(data)
+    CHANGE_IS_SHARED(true)
+  }
+
+  const share = (media: Media) => {
+    const share = navigator.share || desktopShare
+
+    share.call(navigator, {
+      title: getTitle.value(media.title),
+      url: media.siteUrl,
+    })
+  }
+
+  return { share }
+}
+
 export default createComponent<Readonly<Props>>({
   components: {
     BaseQuery,
-    MediaCardActionsShare,
   },
   props: {
     media: { default: null, required: true, type: null },
@@ -96,15 +125,9 @@ export default createComponent<Readonly<Props>>({
       actions: { open },
     } = root.$modules.edit
 
-    const edit = () => {
-      const { media } = props
-      if (media) {
-        open(media.id)
-      }
-    }
-
     return {
-      edit,
+      open,
+      ...useShare(root),
       ...useViewer(root),
     }
   },

@@ -8,9 +8,6 @@ export interface ShareData {
   title?: string
   text?: string
 }
-// export interface NewNavigator extends Navigator {
-//   share?: (data: ShareData) => Promise<void>
-// }
 
 export type To = string | false | void | Location
 export type Next = (to?: To) => void

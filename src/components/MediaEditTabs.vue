@@ -4,7 +4,7 @@
       v-for="{ icon, title, href } in tabs"
       :key="title"
       :href="`#${href}`"
-      :disabled="error || loading"
+      :disabled="loading"
     >
       <v-icon left>{{ icon }}</v-icon>
       {{ title }}
@@ -15,13 +15,11 @@
 import { computed, createComponent } from '@vue/composition-api'
 
 export interface Props {
-  error: boolean
   loading: boolean
 }
 
 export default createComponent<Readonly<Props>>({
   props: {
-    error: { default: false, required: true, type: Boolean },
     loading: { default: false, required: true, type: Boolean },
   },
   setup(_, { root }) {

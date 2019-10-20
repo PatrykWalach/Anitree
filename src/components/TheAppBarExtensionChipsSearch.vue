@@ -1,18 +1,4 @@
 <template>
-  <!-- <ApolloQuery
-    v-slot="{ result: { data }, isLoading }"
-  > -->
-  <!-- <BaseQuery
-    :apollo="{
-      Page: {
-        query: require('@/graphql/queries/Page.gql'),
-        tag: null,
-        skip: !$route.query.search,
-        variables: { search: $route.query.search },
-      },
-    }"
-    v-slot="{ Page, isLoading }"
-  > -->
   <BaseQuery
     :apollo="{
       Viewer,
@@ -43,8 +29,6 @@
         type="chip"
       />
     </v-chip-group>
-    <!-- </ApolloQuery>
-   -->
   </BaseQuery>
 </template>
 <script lang="ts">

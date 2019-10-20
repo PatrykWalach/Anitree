@@ -1,12 +1,11 @@
 <template>
   <v-card v-if="loading || value.length">
-    <!-- <v-skeleton-loader type="card-heading" :loading="loading"> -->
     <v-subheader>
       {{ subheader }}
       <v-spacer></v-spacer>
       <v-icon left>bar_chart</v-icon>
     </v-subheader>
-    <!-- </v-skeleton-loader> -->
+
     <v-card-text>
       <v-skeleton-loader height="156" :loading="loading" type="image">
         <v-hover v-slot="{ hover }">
@@ -21,19 +20,12 @@
               :value="value"
               :gradient="gradient"
               gradient-direction="left"
-              :color="theme.isDark ? 'white' : 'black'"
             ></v-sparkline>
           </v-sheet>
         </v-hover>
       </v-skeleton-loader>
     </v-card-text>
   </v-card>
-  <!-- <v-card>
-            <v-skeleton-loader type="card-heading"> </v-skeleton-loader>
-            <v-card-text>
-              <v-skeleton-loader type="image"> </v-skeleton-loader>
-            </v-card-text>
-          </v-card> -->
 </template>
 <script lang="ts">
 import { computed, createComponent, inject } from '@vue/composition-api'
@@ -42,7 +34,7 @@ export const useTheme = () => {
   const theme = inject('theme', { isDark: false })
 
   const color = computed(() =>
-    theme && theme.isDark ? 'grey darken-2' : 'grey lighten-2',
+    theme.isDark ? 'grey darken-2' : 'grey lighten-2',
   )
 
   return { color, theme }
@@ -116,9 +108,7 @@ export default createComponent<Readonly<Props>>({
       distribution.value.map(_distribution => _distribution[props.labelKey]),
     )
 
-    const { theme } = useTheme()
-
-    return { labeledValue, labels, theme, value }
+    return { labeledValue, labels, value }
   },
 })
 </script>

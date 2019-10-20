@@ -1,6 +1,7 @@
 <template>
   <BaseQuery
     :apollo="{
+      Viewer,
       Media: {
         ...Media,
         tag: null,
@@ -8,24 +9,12 @@
     }"
     v-slot="{ Media }"
   >
-    <!-- <BaseQuery
-    :apollo="{
-      Media: {
-        query: require('@/graphql/queries/Media.gql'),
-        variables: { id: parseInt($route.params.mediaId, 10) },
-        tag: null,
-        skip: !$route.params.mediaId,
-      },
-    }"
-    v-slot="{ Media }"
-  > -->
     <v-app-bar
       app
       elevate-on-scroll
-      :hide-on-scroll="$vuetify.breakpoint.xsOnly && extension"
       :flat="routeTitle && !$vuetify.breakpoint.xsOnly"
     >
-      <v-tooltip v-if="!routeHome" bottom>
+      <v-tooltip v-if="!mainRoute" bottom>
         <template v-slot:activator="{ on, attrs }">
           <v-btn icon v-bind="attrs" v-on="on" @click="$router.back()"
             ><v-icon>arrow_back</v-icon></v-btn
@@ -55,33 +44,72 @@
 
       <template v-if="!routeSearch">
         <v-spacer></v-spacer>
-
-        <v-btn icon :to="{ name: 'search' }"> <v-icon>search</v-icon></v-btn>
-        <TheAppBarViewer />
+        <v-btn
+          v-if="!active.to || active.to.name !== 'search'"
+          icon
+          :to="{ name: 'search' }"
+        >
+          <v-icon>search</v-icon></v-btn
+        >
       </template>
       <template v-else>
         <TheAppBarSearch />
-        <TheAppBarFilters />
+      </template>
+
+      <template v-if="routeTitle">
+        <v-tooltip bottom>
+          <template v-slot:activator="{ attrs, on }">
+            <v-btn
+              v-bind="attrs"
+              icon
+              :disabled="!Media"
+              rel="noopener"
+              target="_blank"
+              :href="Media && Media.siteUrl"
+              v-on="on"
+            >
+              <v-icon>open_in_new</v-icon>
+            </v-btn>
+          </template>
+          <span>Anilist</span>
+        </v-tooltip>
+
+        <v-tooltip bottom>
+          <template v-slot:activator="{ attrs, on }">
+            <v-btn
+              v-bind="attrs"
+              icon
+              :disabled="!Media"
+              v-on="on"
+              @click.stop="share(Media)"
+            >
+              <v-icon>share</v-icon>
+            </v-btn>
+          </template>
+          <span>Share</span>
+        </v-tooltip>
       </template>
     </v-app-bar>
   </BaseQuery>
 </template>
 <script lang="ts">
 import { computed, createComponent } from '@vue/composition-api'
+import { useMedia, useViewer } from '@/graphql'
 import BaseQuery from './BaseQuery.vue'
 import TheAppBarExtensionChips from './TheAppBarExtensionChips.vue'
 import TheAppBarExtensionTabs from './TheAppBarExtensionTabs.vue'
-import TheAppBarFilters from './TheAppBarFilters.vue'
+// import TheSearchFilters from './TheSearchFilters.vue'
 import TheAppBarSearch from './TheAppBarSearch.vue'
 import TheAppBarViewer from './TheAppBarViewer.vue'
-import { useMedia } from '@/graphql'
+import { useFab } from './TheFab.vue'
+import { useShare } from './MediaCardActions.vue'
 
 export default createComponent({
   components: {
     BaseQuery,
     TheAppBarExtensionChips,
     TheAppBarExtensionTabs,
-    TheAppBarFilters,
+    // TheSearchFilters,
     TheAppBarSearch,
     TheAppBarViewer,
   },
@@ -108,10 +136,21 @@ export default createComponent({
         (routeSearch.value && !!Object.keys(root.$route.query).length),
     )
 
+    const mainRoute = computed(
+      () =>
+        !!root.$modules.navigation.state.main.value.find(
+          ({ to }) => to.name === root.$route.name,
+        ),
+    )
+
     return {
+      ...useFab(root),
+      ...useShare(root),
+      ...useViewer(root),
       ...useMedia(() => ({ id: parseInt(root.$route.params.mediaId, 10) })),
       extension,
       getTitle,
+      mainRoute,
       routeHome,
       routeSearch,
       routeTitle,

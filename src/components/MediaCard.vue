@@ -8,17 +8,6 @@
     }"
     v-slot="{ Media, errors, queries }"
   >
-    <!-- <BaseQuery
-    :apollo="{
-      Media: {
-        query: require('@/graphql/queries/Media.gql'),
-        skip: id === 0,
-        variables,
-        tag: null,
-      },
-    }"
-    v-slot="{ Media, errors, queries }"
-  > -->
     <v-banner v-if="errors.Media" icon="warning" two-line :tile="false">
       There was an error while loading the data. Please make sure your have a
       stable internet connection and try again.
@@ -26,9 +15,10 @@
         <v-btn color="error" text @click="queries.Media.refetch()">Retry</v-btn>
       </template>
     </v-banner>
-    <v-card v-else>
+    <v-card :style="{ overflow: 'hidden' }" v-else>
       <MediaCardBanner :media="Media" />
       <MediaCardItem :media="Media" />
+      <v-divider class="mx-4"></v-divider>
       <MediaCardActions :media="Media" />
       <MediaCardStatus :media="Media" />
     </v-card>

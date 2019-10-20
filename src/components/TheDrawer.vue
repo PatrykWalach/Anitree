@@ -1,5 +1,10 @@
 <template>
-  <v-navigation-drawer v-model="syncedValue" app mini-variant permanent>
+  <v-navigation-drawer
+    v-model="syncedValue"
+    app
+    :mini-variant="!$vuetify.breakpoint.xsOnly"
+    :permanent="!$vuetify.breakpoint.xsOnly"
+  >
     <v-list nav>
       <v-list-item
         v-for="{ to, title, icon } in main"
@@ -28,7 +33,7 @@ interface Props {
   value: boolean
 }
 
-import { useTheme } from './TheMediaStats.vue'
+import { useTheme } from './TheMediaAboutStats.vue'
 
 export default createComponent<Readonly<Props>>({
   props: {

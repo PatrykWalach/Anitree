@@ -16,7 +16,7 @@ export interface Props {
   media: Media | null
 }
 
-import { useTheme } from './TheMediaStats.vue'
+import { useTheme } from './TheMediaAboutStats.vue'
 
 export default createComponent<Readonly<Props>>({
   components: {

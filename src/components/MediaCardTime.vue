@@ -18,7 +18,6 @@ export interface Props {
   media: Media
 }
 
-
 export default createComponent<Readonly<Props>>({
   components: {
     BaseTime,
@@ -28,14 +27,14 @@ export default createComponent<Readonly<Props>>({
   },
   setup(props) {
     const isValidDate = (
-  date: Omit<FuzzyDate, '__typename'>,
-): date is ValidDate => date.year !== null && date.month !== null
+      date: Omit<FuzzyDate, '__typename'>,
+    ): date is ValidDate => date.year !== null && date.month !== null
 
     const validStartDate = computed(() => isValidDate(props.media.startDate))
 
     const validEndDate = computed(() => isValidDate(props.media.endDate))
 
-    return { validEndDate, validStartDate,  }
+    return { validEndDate, validStartDate }
   },
 })
 </script>

@@ -2,14 +2,13 @@ import {
   DeleteCommand,
   DeleteCommandConstructor,
 } from './commands/DeleteCommand'
+import { Module, State } from 'vuex-composition-api'
 import { SaveCommand, SaveCommandConstructor } from './commands/SaveCommand'
-import VuexCompositionApi, { State } from 'vuex-composition-api'
 import { Form } from '@/types'
 import { FuzzyDate } from '@/graphql/schema/media'
 import { MediaList } from '@/graphql/schema/mediaListCollection'
-// import { settings } from './settings'
+import { useSettings } from './settings'
 import { watch } from '@vue/composition-api'
-import { Module } from 'vuex-composition-api/dist/module'
 
 export interface Command {
   saveState?(): void | Promise<void>
@@ -64,26 +63,25 @@ export const executeNotDoneCommands = async (commands: ListCommand[]) => {
   }
 }
 
-export const useCommands = (
-  settings: Module<{
-    state: {
-      cacheChanges: State<boolean>
-    }
-  }>,
-) =>
-  new VuexCompositionApi.Module({
+export const useCommands = (settings: ReturnType<typeof useSettings>) =>
+  new Module({
     name: 'commands',
     namespaced: true,
     setup({ state, mutation }) {
-      const history: State<ListCommand[]> = state(loadHistory(stored) || [])
+      const history: State<ListCommand[]> = state(
+        // loadHistory(stored) ||
+        [],
+      )
 
-      executeNotDoneCommands(history.value)
+      // executeNotDoneCommands(history.value)
 
-      watch(() => {
-        if (settings.state.cacheChanges.value) {
-          localStorage.setItem('CHANGES', JSON.stringify(history.value))
-        }
-      })
+      // watch(() => {
+      //   if (settings.state.cacheChanges.value) {
+      //     localStorage.setItem('CHANGES', JSON.stringify(history.value))
+      //   } else {
+      //     localStorage.removeItem('CHANGES')
+      //   }
+      // })
 
       const PUSH_COMMAND = mutation(
         'PUSH_COMMAND',

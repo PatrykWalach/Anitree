@@ -1,27 +1,20 @@
-import VuexCompositionApi, { State } from 'vuex-composition-api'
-import { Module } from 'vuex-composition-api/dist/module'
+import { Module, State } from 'vuex-composition-api'
 
+import { DollarApollo } from 'vue-apollo/types/vue-apollo'
 import { Form } from '@/types'
 import { SaveCommand } from './commands/SaveCommand'
 import { SaveVariables } from '@/graphql/schema/listEntry'
+import Vue from 'vue'
 
 import { mergeDeep } from 'apollo-utilities'
-import { ListCommand } from './commands'
-// import { settings } from './settings'
+import { useCommands } from './commands'
+import { useSettings } from './settings'
 
 export const useEdit = (
-  settings: Module<{
-    state: {
-      syncChanges: State<boolean>
-    }
-  }>,
-  commands: Module<{
-    actions: {
-      add(command: ListCommand): Promise<ListCommand>
-    }
-  }>,
+  settings: ReturnType<typeof useSettings>,
+  commands: ReturnType<typeof useCommands>,
 ) =>
-  new VuexCompositionApi.Module({
+  new Module({
     name: 'edit',
     namespaced: true,
     setup({ state, mutation }) {
@@ -93,25 +86,32 @@ export const useEdit = (
         RESET_FORM()
       }
 
-      const submit = async () => {
+      const submit = async (apollo: DollarApollo<Vue>) => {
         if (mediaId.value) {
           CHANGE_LOADING(true)
 
           await commands.actions.add(
             new SaveCommand({
+              apollo,
               variables: { mediaId: mediaId.value, ...form.value },
             }),
           )
 
-          await RESET_FORM()
+          RESET_FORM()
           CHANGE_LOADING(false)
         }
       }
 
-      const changeForm = async (form: Partial<SaveVariables>) => {
-        await CHANGE_FORM(form)
+      const changeForm = ({
+        form,
+        apollo,
+      }: {
+        form: Partial<SaveVariables>
+        apollo: DollarApollo<Vue>
+      }) => {
+        CHANGE_FORM(form)
         if (settings.state.syncChanges.value) {
-          submit()
+          submit(apollo)
         }
       }
 

@@ -4,7 +4,6 @@
       Viewer,
       Media: ({ Viewer }) => ({
         ...Media,
-        'fetch-policy': 'cache-and-network',
         variables: {
           ...variables,
           format: (Viewer && Viewer.mediaListOptions.scoreFormat) || undefined,
@@ -14,22 +13,6 @@
     }"
     v-slot="{ Viewer, Media, isLoading, errors }"
   >
-    <!-- <BaseQuery
-    :apollo="{
-      Viewer,
-      Media: ({ Viewer }) => ({
-        query: require('@/graphql/queries/Media.gql'),
-        'fetch-policy': 'cache-and-network',
-        variables: {
-          id,
-          format: (Viewer && Viewer.mediaListOptions.scoreFormat) || undefined,
-        },
-        skip: !id,
-        tag: null,
-      }),
-    }"
-    v-slot="{ Viewer, Media, isLoading, errors }"
-  > -->
     <v-dialog
       v-model="isEdited"
       scrollable
@@ -46,8 +29,12 @@
           <v-divider></v-divider>
 
           <MediaEditTabs
-            :loading="!!isLoading.Viewer || !!isLoading.Media"
-            :error="!!errors.Viewer || !!errors.Media"
+            :loading="
+              !!isLoading.Viewer ||
+                !!isLoading.Media ||
+                !!errors.Viewer ||
+                !!errors.Media
+            "
           />
 
           <v-container v-if="isLoading.Viewer || isLoading.Media" fill-height>
@@ -67,7 +54,11 @@
                 Please log in
               </template>
               <template v-else>
-                Please try to refresh the page
+                Connect to the internet
+                <p>You're offline Chek your connection.</p>
+                <v-btn @click="queries.Media.refetch()" text color="primary"
+                  >retry</v-btn
+                >
               </template>
             </v-subheader>
             <TheSettingsLogin v-if="!token" />

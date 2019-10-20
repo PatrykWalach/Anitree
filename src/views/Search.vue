@@ -1,10 +1,4 @@
 <template>
-  <!-- <ApolloQuery
-    v-slot="{ result: { data: viewer } }"
-    :tag="null"
-    :query="require('@/graphql/queries/Viewer.gql')"
-    :skip="!token"
-  > -->
   <BaseQuery
     :apollo="{
       Viewer,
@@ -21,28 +15,8 @@
     }"
     v-slot="{ Viewer, Page, isLoading, errors }"
   >
-  
     <TheSearchList v-if="!isSearched" :user="Viewer" />
-    <!-- <BaseQuery
-      v-else
-      :apollo="{
-        Page: {
-          query: require('@/graphql/queries/Page.gql'),
-          tag: null,
-          'fetch-policy': 'cache-and-network',
-          variables: {
-            isAdult:
-              Viewer && Viewer.options.displayAdultContent ? undefined : false,
-            ...query,
-          },
-        },
-      }"
-      v-slot="{ Page, isLoading, errors }"
-    > -->
-    <!-- <ApolloQuery
-      v-else
-      v-slot="{ result: { error, data }, isLoading, query }"
-    > -->
+
     <v-container v-else>
       <v-row
         justify="center"
@@ -67,9 +41,6 @@
         ></v-pagination>
       </the-media-timeline>
     </v-container>
-    <!-- </ApolloQuery> -->
-    <!-- </ApolloQuery> -->
-    <!-- </BaseQuery> -->
   </BaseQuery>
 </template>
 <script lang="ts">
@@ -120,9 +91,11 @@ export default createComponent({
             return 1
         }
       },
-
       set: page => {
-        query.value = Object.assign({}, query.value, { page })
+        query.value = {
+          ...query.value,
+          page,
+        }
       },
     })
 

@@ -71,7 +71,6 @@ export default createComponent<Readonly<Props>>({
         title: 'Reddit',
       },
       {
-        // color: '#9147FF',
         href: `mailto:?body=${props.url}`,
         icon: <v-icon dark>email</v-icon>,
         title: 'E-mail',

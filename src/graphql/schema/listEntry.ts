@@ -12,3 +12,7 @@ export interface SaveVariables extends Partial<Form> {
 export interface DeleteVariables {
   id: number
 }
+
+export interface Deleted {
+  deleted: boolean
+}

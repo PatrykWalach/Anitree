@@ -1,4 +1,4 @@
-import VuexCompositionApi, { State } from 'vuex-composition-api'
+import { Module, State } from 'vuex-composition-api'
 import { Location } from 'vue-router'
 
 export interface Element {
@@ -8,7 +8,7 @@ export interface Element {
 }
 
 export const useNavigation = () =>
-  new VuexCompositionApi.Module({
+  new Module({
     name: 'navigation',
     namespaced: true,
     setup({ state }) {
