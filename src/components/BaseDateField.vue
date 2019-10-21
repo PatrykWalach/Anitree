@@ -54,10 +54,11 @@ export default createComponent<Readonly<Props>>({
     )
 
     const save = () => {
-      menu.value.save(date.value)
+      const newDate = date.value
 
-      if (date.value !== props.value) {
-        emit('change', date.value)
+      menu.value.save(newDate)
+      if (newDate !== props.value) {
+        emit('change', newDate)
       }
     }
 

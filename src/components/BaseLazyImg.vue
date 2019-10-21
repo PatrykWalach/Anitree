@@ -52,10 +52,11 @@ export default createComponent<Readonly<Props>>({
     const inView = ref(false)
 
     const get = computed(() => {
+      const { src, srcset } = props
       if (inView.value) {
         return {
-          src: props.src,
-          srcset: props.srcset,
+          src,
+          srcset,
         }
       }
       return {}

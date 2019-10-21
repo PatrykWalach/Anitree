@@ -25,18 +25,20 @@ export const useTimeline = () =>
       }
 
       const sorters: State<
-        ((mediaA: Media, mediaB: Media) => number)[]
-      > = state([
-        compare(['startDate', 'year']),
-        compare(['startDate', 'month']),
-        compare(['startDate', 'day']),
-        compare(['seasonInt'], int => (int < 500 ? 2000 : 1900) + int),
-        compare(['status'], int =>
-          ['FINISHED', 'RELEASING', 'NOT_YET_RELEASED', 'CANCELLED'].indexOf(
-            int,
+        Set<(mediaA: Media, mediaB: Media) => number>
+      > = state(
+        new Set([
+          compare(['startDate', 'year']),
+          compare(['startDate', 'month']),
+          compare(['startDate', 'day']),
+          compare(['seasonInt'], int => (int < 500 ? 2000 : 1900) + int),
+          compare(['status'], int =>
+            ['FINISHED', 'RELEASING', 'NOT_YET_RELEASED', 'CANCELLED'].indexOf(
+              int,
+            ),
           ),
-        ),
-      ])
+        ]),
+      )
 
       const order = state(1)
 

@@ -1,7 +1,7 @@
 import BaseField from './BaseField.vue'
 
 export interface Props {
-  validators: ((v: string) => boolean)[]
+  validators: ((v: string) => boolean)[] | Set<(v: string) => boolean>
   transformations: ((v: string) => string)[]
   tag: string
   beforeTransform: ((v: any) => any)[]

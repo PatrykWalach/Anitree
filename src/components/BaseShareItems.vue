@@ -8,7 +8,7 @@ import {
   VSlideGroup,
   VSlideItem,
 } from 'vuetify/lib'
-import { createComponent, createElement, ref } from '@vue/composition-api'
+import { computed, createComponent, createElement } from '@vue/composition-api'
 import {
   faFacebookF,
   faRedditAlien,
@@ -41,41 +41,51 @@ export default createComponent<Readonly<Props>>({
   setup: (props, { root }) => {
     const h = createElement
 
-    const items = ref([
-      {
-        color: '#3B5998',
-        href: `http://www.facebook.com/sharer.php?u=${props.url}`,
-        icon: (
-          <font-awesome-icon icon={['fab', 'facebook-f']}></font-awesome-icon>
-        ),
-        title: 'Facebook',
-      },
-      {
-        color: '#1DA1F2',
-        href: `https://twitter.com/intent/tweet?url=${props.url}`,
-        icon: <font-awesome-icon icon={['fab', 'twitter']}></font-awesome-icon>,
-        title: 'Twitter',
-      },
-      {
-        color: '#35465C',
-        href: `http://www.tumblr.com/share/link?url=${props.url}`,
-        icon: <font-awesome-icon icon={['fab', 'tumblr']}></font-awesome-icon>,
-        title: 'Tumblr',
-      },
-      {
-        color: '#FF4500',
-        href: `http://www.reddit.com/submit?url=${props.url}`,
-        icon: (
-          <font-awesome-icon icon={['fab', 'reddit-alien']}></font-awesome-icon>
-        ),
-        title: 'Reddit',
-      },
-      {
-        href: `mailto:?body=${props.url}`,
-        icon: <v-icon dark>email</v-icon>,
-        title: 'E-mail',
-      },
-    ])
+    const items = computed(() => {
+      const { url } = props
+
+      return [
+        {
+          color: '#3B5998',
+          href: `http://www.facebook.com/sharer.php?u=${url}`,
+          icon: (
+            <font-awesome-icon icon={['fab', 'facebook-f']}></font-awesome-icon>
+          ),
+          title: 'Facebook',
+        },
+        {
+          color: '#1DA1F2',
+          href: `https://twitter.com/intent/tweet?url=${url}`,
+          icon: (
+            <font-awesome-icon icon={['fab', 'twitter']}></font-awesome-icon>
+          ),
+          title: 'Twitter',
+        },
+        {
+          color: '#35465C',
+          href: `http://www.tumblr.com/share/link?url=${url}`,
+          icon: (
+            <font-awesome-icon icon={['fab', 'tumblr']}></font-awesome-icon>
+          ),
+          title: 'Tumblr',
+        },
+        {
+          color: '#FF4500',
+          href: `http://www.reddit.com/submit?url=${url}`,
+          icon: (
+            <font-awesome-icon
+              icon={['fab', 'reddit-alien']}
+            ></font-awesome-icon>
+          ),
+          title: 'Reddit',
+        },
+        {
+          href: `mailto:?body=${url}`,
+          icon: <v-icon dark>email</v-icon>,
+          title: 'E-mail',
+        },
+      ]
+    })
 
     return () =>
       root.$vuetify.breakpoint.xsOnly ? (

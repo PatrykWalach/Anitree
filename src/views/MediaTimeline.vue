@@ -110,14 +110,13 @@ export default createComponent({
           )
           .filter(id => !data.Page.media.find(media => media.id === id))
 
-        // console.log('TCL: setup -> idIn', idIn)
-
         if (idIn.length) {
           fetchMore({
             updateQuery: (previousResult, { fetchMoreResult }) => {
               if (!fetchMoreResult) {
                 return previousResult
               }
+
               return {
                 Page: {
                   ...fetchMoreResult.Page,
@@ -139,30 +138,25 @@ export default createComponent({
       state: { sorters, order },
     } = root.$modules.timeline
 
-    // const sorters: ((mediaA: Media, mediaB: Media) => number)[] = [
-    //   compare(['startDate', 'year']),
-    //   compare(['startDate', 'month']),
-    //   compare(['startDate', 'day']),
-    //   compare(['seasonInt'], int => (int < 500 ? 2000 : 1900) + int),
-    //   compare(['status'], int =>
-    //     ['FINISHED', 'RELEASING', 'NOT_YET_RELEASED', 'CANCELLED'].indexOf(int),
-    //   ),
-    // ]
+    const mediaList = computed(() => {
+      const _data = data.value
+      const _order = order.value
 
-    const mediaList = computed(
-      () =>
-        (data.value &&
-          data.value.Page.media.slice().sort((a, b) => {
+      return (
+        (_data &&
+          _data.Page.media.slice().sort((a, b) => {
             for (const sort of sorters.value) {
-              const result = sort(a, b) * order.value
+              const result = sort(a, b) * _order
+
               if (result) {
                 return result
               }
             }
             return 0
           })) ||
-        [],
-    )
+        []
+      )
+    })
 
     return {
       data,

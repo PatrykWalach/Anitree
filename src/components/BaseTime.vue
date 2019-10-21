@@ -23,8 +23,8 @@ export default createComponent<Readonly<Props>>({
       year: 'numeric',
     })
 
-    const toDate = (date: ValidDate) =>
-      new Date(date.year, date.month - 1, date.day || 1)
+    const toDate = ({ year, month, day }: ValidDate) =>
+      new Date(year, month - 1, day || 1)
 
     const formattedRange = computed(() => {
       const { startDate, endDate } = props

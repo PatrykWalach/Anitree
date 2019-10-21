@@ -49,20 +49,27 @@ export default createComponent<Readonly<Props>>({
   },
   setup(props) {
     const year = computed(() => {
-      if (props.media && props.media.seasonInt) {
-        const year = Math.floor(props.media && props.media.seasonInt / 10)
+      const { media } = props
+      if (media && media.seasonInt) {
+        const year = Math.floor(media && media.seasonInt / 10)
         return year > 50 ? 1900 + year : 2000 + year
       }
       return null
     })
 
-    const season = computed(() => props.media && props.media.season)
+    const season = computed(() => {
+      const { media } = props
 
-    const link = computed(() =>
-      [season.value && season.value.toLowerCase(), year.value]
+      return media && media.season
+    })
+
+    const link = computed(() => {
+      const _season = season.value
+
+      return [_season && _season.toLowerCase(), year.value]
         .filter(e => e)
-        .join(' '),
-    )
+        .join(' ')
+    })
 
     const query = computed(() => ({ season: season.value, year: year.value }))
 

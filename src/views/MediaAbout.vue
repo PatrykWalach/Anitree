@@ -62,9 +62,13 @@
                         >
                         <v-list-item-subtitle class="text-capitalize">
                           {{
-                            Media && getSeason(Media.seasonInt).toLowerCase()
+                            Media &&
+                              Media.seasonInt &&
+                              getSeason(Media.seasonInt).toLowerCase()
                           }}
-                          {{ Media && getYear(Media.seasonInt) }}
+                          {{
+                            Media && Media.seasonInt && getYear(Media.seasonInt)
+                          }}
                         </v-list-item-subtitle>
                       </v-list-item-content>
                     </v-list-item>
@@ -262,6 +266,7 @@ export default createComponent({
       const year = Math.floor(seasonInt / 10)
       return (year < 50 ? 2000 : 1900) + year
     }
+
     const getSeason = (seasonInt: number) => {
       const season = seasonInt % 10
       switch (season) {

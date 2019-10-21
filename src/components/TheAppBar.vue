@@ -114,11 +114,10 @@ export default createComponent({
     TheAppBarViewer,
   },
   setup(_, { root }) {
-    const routeTitle = computed(
-      () =>
-        root.$route.name === 'media-about' ||
-        root.$route.name === 'media-timeline',
-    )
+    const routeTitle = computed(() => {
+      const { name } = root.$route
+      return name === 'media-about' || name === 'media-timeline'
+    })
     const routeHome = computed(() => root.$route.name === 'home')
     const routeSearch = computed(() => root.$route.name === 'search')
 
@@ -136,12 +135,13 @@ export default createComponent({
         (routeSearch.value && !!Object.keys(root.$route.query).length),
     )
 
-    const mainRoute = computed(
-      () =>
-        !!root.$modules.navigation.state.main.value.find(
-          ({ to }) => to.name === root.$route.name,
-        ),
-    )
+    const mainRoute = computed(() => {
+      const { name } = root.$route
+
+      return !!root.$modules.navigation.state.main.value.find(
+        ({ to }) => to.name === name,
+      )
+    })
 
     return {
       ...useFab(root),

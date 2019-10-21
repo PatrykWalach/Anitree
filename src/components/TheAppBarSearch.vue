@@ -55,10 +55,12 @@ export default createComponent({
     }
 
     const submit = () => {
-      if (value.value !== root.$route.query.search)
+      const _value = value.value
+
+      if (_value !== root.$route.query.search)
         root.$router.push({
           name: 'search',
-          query: { search: value.value },
+          query: { search: _value },
         })
     }
 

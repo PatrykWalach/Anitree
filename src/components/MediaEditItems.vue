@@ -55,11 +55,11 @@ export default createComponent<Readonly<Props>>({
     )
 
     const scoreFormat = computed(() => {
-      const split = props.user.mediaListOptions.scoreFormat.split('_')
+      const [, max, round] = props.user.mediaListOptions.scoreFormat.split('_')
 
       return {
-        max: parseInt(split[1]),
-        round: split[2] === 'DECIMAL' ? 1 : 0,
+        max: parseInt(max),
+        round: round === 'DECIMAL' ? 1 : 0,
       }
     })
 

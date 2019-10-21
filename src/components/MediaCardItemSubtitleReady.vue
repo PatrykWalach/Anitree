@@ -43,20 +43,26 @@ export default createComponent<Readonly<Props>>({
       )
     })
 
-    const chapters = computed(
-      () =>
-        (chaptersNumber.value &&
-          chaptersNumber.value +
+    const chapters = computed(() => {
+      const _chaptersNumber = chaptersNumber.value
+
+      return (
+        (_chaptersNumber &&
+          _chaptersNumber +
             (manga.value ? ' Chapter' : ' Episode') +
-            (chaptersNumber.value === 1 ? '' : 's')) ||
-        null,
-    )
+            (_chaptersNumber === 1 ? '' : 's')) ||
+        null
+      )
+    })
 
     const subheading = computed(() => {
-      if (!props.media) {
+      const { media } = props
+
+      if (!media) {
         return ''
       }
-      const { format, status } = props.media
+
+      const { format, status } = media
 
       return [format, status]
         .concat([chapters.value])
