@@ -36,9 +36,11 @@ export default createComponent<Readonly<Props>>({
     media: { default: null, required: true, type: null },
   },
   setup(props) {
-    const lines = computed(() =>
-      !props.media || props.media.description ? 'three-line' : 'two-line',
-    )
+    const lines = computed(() => {
+      const { media } = props
+
+      return !media || media.description ? 'three-line' : 'two-line'
+    })
 
     return { lines }
   },

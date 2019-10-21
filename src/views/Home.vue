@@ -97,17 +97,19 @@ export default createComponent({
     ]
 
     return () => {
-      const timeline = root.$vuetify.breakpoint.xsOnly ? (
+      const { smAndDown, xsOnly } = root.$vuetify.breakpoint
+
+      const timeline = xsOnly ? (
         content.flat().map(el => <v-col cols="12">{el}</v-col>)
       ) : (
         <v-col>
-          <v-timeline dense={root.$vuetify.breakpoint.smAndDown}>
+          <v-timeline dense={smAndDown}>
             {content.map((el, i) =>
               el
                 .map((el, j) => (
                   <v-timeline-item
-                    large={!root.$vuetify.breakpoint.smAndDown && j === 0}
-                    small={root.$vuetify.breakpoint.smAndDown && j !== 0}
+                    large={!smAndDown && j === 0}
+                    small={smAndDown && j !== 0}
                     left={!!(i % 2)}
                     right={!!((i + 1) % 2)}
                   >

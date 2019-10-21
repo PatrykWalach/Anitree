@@ -36,18 +36,22 @@ export default createComponent<Readonly<Props>>({
     },
   },
   setup(props) {
-    const srcset = computed(
-      () =>
-        (props.media &&
-          `${props.media.coverImage.medium} 1x, 
-            ${props.media.coverImage.large} 2x, 
-            ${props.media.coverImage.extraLarge} 3x`) ||
-        '',
-    )
+    const srcset = computed(() => {
+      const { media } = props
 
-    const src = computed(
-      () => (props.media && props.media.coverImage.extraLarge) || '',
-    )
+      return (
+        (media &&
+          `${media.coverImage.medium} 1x, 
+            ${media.coverImage.large} 2x, 
+            ${media.coverImage.extraLarge} 3x`) ||
+        ''
+      )
+    })
+
+    const src = computed(() => {
+      const { media } = props
+      return (media && media.coverImage.extraLarge) || ''
+    })
 
     return { src, srcset }
   },

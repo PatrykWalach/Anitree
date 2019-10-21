@@ -27,15 +27,21 @@ export default createComponent<Readonly<Props>>({
   setup(props) {
     const manga = computed(() => props.media.type === 'MANGA')
 
-    const status = computed(
-      () => props.media.mediaListEntry && props.media.mediaListEntry.status,
-    )
+    const status = computed(() => {
+      const {
+        media: { mediaListEntry },
+      } = props
 
-    const progress = computed(
-      () =>
-        (props.media.mediaListEntry && props.media.mediaListEntry.progress) ||
-        0,
-    )
+      return mediaListEntry && mediaListEntry.status
+    })
+
+    const progress = computed(() => {
+      const {
+        media: { mediaListEntry },
+      } = props
+
+      return (mediaListEntry && mediaListEntry.progress) || 0
+    })
 
     const episodes = computed(() => {
       const { episodes, chapters } = props.media
@@ -51,8 +57,9 @@ export default createComponent<Readonly<Props>>({
         case 'DROPPED':
           return 100
         default: {
-          if (episodes.value) {
-            return (progress.value / episodes.value) * 100
+          const _episodes = episodes.value
+          if (_episodes) {
+            return (progress.value / _episodes) * 100
           }
           return 50
         }
@@ -90,23 +97,28 @@ export default createComponent<Readonly<Props>>({
       }
     })
 
-    const tipString = computed(
-      () =>
-        (tipObject.value &&
-          ((manga.value && tipObject.value.manga) || tipObject.value.text)) ||
-        '',
-    )
+    const tipString = computed(() => {
+      const _tipObject = tipObject.value
+
+      return (
+        (_tipObject &&
+          ((manga.value && _tipObject.manga) || _tipObject.text)) ||
+        ''
+      )
+    })
 
     const tip = computed(() => {
+      const _tipString = tipString.value
+
       switch (status.value) {
         case 'COMPLETED':
-          return tipString.value
+          return _tipString
         case 'PLANNING':
-          return tipString.value
+          return _tipString
         case 'DROPPED':
-          return tipString.value
+          return _tipString
         default:
-          return tipString.value + ' ' + stringValue.value
+          return _tipString + ' ' + stringValue.value
       }
     })
 

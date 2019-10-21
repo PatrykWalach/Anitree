@@ -68,14 +68,16 @@ function useActions(props: Readonly<Props>, { root }: SetupContext) {
   }
 
   const remove = async () => {
-    if (props.media && props.media.mediaListEntry) {
+    const { media } = props
+
+    if (media && media.mediaListEntry) {
       confirmation.value = false
       await root.$modules.commands.actions.add(
         new DeleteCommand({
           apollo: root.$apollo,
           variables: {
-            id: props.media.mediaListEntry.id,
-            mediaId: props.media.id,
+            id: media.mediaListEntry.id,
+            mediaId: media.id,
           },
         }),
       )

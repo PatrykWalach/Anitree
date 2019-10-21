@@ -28,7 +28,10 @@ export default createComponent<Readonly<Props>>({
   setup(props) {
     const isValidDate = (
       date: Omit<FuzzyDate, '__typename'>,
-    ): date is ValidDate => date.year !== null && date.month !== null
+    ): date is ValidDate => {
+      const { year, month } = date
+      return year !== null && month !== null
+    }
 
     const validStartDate = computed(() => isValidDate(props.media.startDate))
 

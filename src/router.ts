@@ -5,18 +5,36 @@ import Vue from 'vue'
 import { apollo } from '@/apollo'
 import { settings } from '@/modules'
 
-const Home = () => import(/* webpackPrefetch: true */ './views/Home.vue')
-const Media = () => import(/* webpackPrefetch: true */ './views/Media.vue')
+const Home = () =>
+  import(
+    /* webpackChunkName: "Home" */ /* webpackPrefetch: true */ './views/Home.vue'
+  )
+const Media = () =>
+  import(
+    /* webpackChunkName: "Media" */ /* webpackPrefetch: true */ './views/Media.vue'
+  )
 const MediaAbout = () =>
-  import(/* webpackPrefetch: true */ './views/MediaAbout.vue')
+  import(
+    /* webpackChunkName: "MediaAbout" */ /* webpackPrefetch: true */ './views/MediaAbout.vue'
+  )
 const MediaTimeline = () =>
-  import(/* webpackPrefetch: true */ './views/MediaTimeline.vue')
+  import(
+    /* webpackChunkName: "MediaTimeline" */ /* webpackPrefetch: true */ './views/MediaTimeline.vue'
+  )
 
-const Changes = () => import(/* webpackPrefetch: true */ './views/Changes.vue')
+const Changes = () =>
+  import(
+    /* webpackChunkName: "Changes" */ /* webpackPrefetch: true */ './views/Changes.vue'
+  )
 
 const Settings = () =>
-  import(/* webpackPrefetch: true */ './views/Settings.vue')
-const Search = () => import(/* webpackPrefetch: true */ './views/Search.vue')
+  import(
+    /* webpackChunkName: "Settings" */ /* webpackPrefetch: true */ './views/Settings.vue'
+  )
+const Search = () =>
+  import(
+    /* webpackChunkName: "Search" */ /* webpackPrefetch: true */ './views/Search.vue'
+  )
 
 const router = new Router({
   base: process.env.BASE_URL,

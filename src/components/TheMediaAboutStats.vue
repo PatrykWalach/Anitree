@@ -88,8 +88,10 @@ export default createComponent<Readonly<Props>>({
   },
   setup(props) {
     const distribution = computed(() => {
-      const _distribution = (props.distribution || []).slice()
-      if (_distribution.length && props.sort) {
+      const { distribution, sort } = props
+
+      const _distribution = (distribution || []).slice()
+      if (_distribution.length && sort) {
         return _distribution.sort(({ amount: a }, { amount: b }) => b - a)
       }
       return _distribution
@@ -97,16 +99,17 @@ export default createComponent<Readonly<Props>>({
 
     const value = computed(() => distribution.value.map(({ amount }) => amount))
 
-    const fmt = new Intl.NumberFormat('en-US', {
+    const { format } = new Intl.NumberFormat('en-US', {
       compactDisplay: 'short',
       notation: 'compact',
     } as Intl.NumberFormatOptions)
 
-    const labeledValue = computed(() => value.value.map(fmt.format))
+    const labeledValue = computed(() => value.value.map(format))
 
-    const labels = computed(() =>
-      distribution.value.map(_distribution => _distribution[props.labelKey]),
-    )
+    const labels = computed(() => {
+      const { labelKey } = props
+      return distribution.value.map(_distribution => _distribution[labelKey])
+    })
 
     return { labeledValue, labels, value }
   },

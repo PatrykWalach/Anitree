@@ -26,21 +26,22 @@ export default createComponent<Readonly<Props>>({
     const fmt = new Intl.RelativeTimeFormat('en', {
       style: 'narrow',
     })
-    const types = [
+
+    const types = new Set([
       { type: 'day', value: 3600 * 24 },
       {
         type: 'hour',
         value: 3600,
       },
       { type: 'minute', value: 60 },
-    ] as const
+    ] as const)
 
-    const timeUntilAiring = computed(
-      () =>
-        (props.media.nextAiringEpisode &&
-          props.media.nextAiringEpisode.timeUntilAiring) ||
-        0,
-    )
+    const timeUntilAiring = computed(() => {
+      const {
+        media: { nextAiringEpisode },
+      } = props
+      return (nextAiringEpisode && nextAiringEpisode.timeUntilAiring) || 0
+    })
 
     const type = computed(() => {
       for (const type of types) {
@@ -54,12 +55,14 @@ export default createComponent<Readonly<Props>>({
       return { type: 'second', value: 1 } as const
     })
 
-    const subtitle = computed(() =>
-      fmt.format(
-        Math.floor(timeUntilAiring.value / type.value.value),
-        type.value.type,
-      ),
-    )
+    const subtitle = computed(() => {
+      const _type = type.value
+
+      return fmt.format(
+        Math.floor(timeUntilAiring.value / _type.value),
+        _type.type,
+      )
+    })
 
     return { subtitle, type }
   },

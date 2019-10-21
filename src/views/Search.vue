@@ -81,7 +81,8 @@ export default createComponent({
 
     const page = computed({
       get: () => {
-        const page = query.value.page
+        const { page } = query.value
+
         switch (typeof page) {
           case 'string':
             return parseInt(page)

@@ -62,20 +62,28 @@ export default createComponent<Readonly<Props>>({
                   result: { data, error, loading },
                   isLoading,
                   query,
-                }) =>
-                  slot(
+                }) => {
+                  const {
+                    errors,
+                    isLoading: _isLoading,
+                    loading: _loading,
+                    queries,
+                  } = scopedProps
+
+                  return slot(
                     add(
                       {
                         ...scopedProps,
-                        errors: add(scopedProps.errors, key, error),
-                        isLoading: add(scopedProps.isLoading, key, isLoading),
-                        loading: add(scopedProps.loading, key, loading),
-                        queries: add(scopedProps.queries, key, query),
+                        errors: add(errors, key, error),
+                        isLoading: add(_isLoading, key, isLoading),
+                        loading: add(_loading, key, loading),
+                        queries: add(queries, key, query),
                       },
                       key,
                       data && data[key],
                     ),
-                  ),
+                  )
+                },
               },
             }),
           ],

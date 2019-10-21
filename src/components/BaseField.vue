@@ -29,7 +29,11 @@ export default createComponent<Readonly<Props>>({
       type: String,
     },
     transformations: { default: () => [], required: false, type: Array },
-    validators: { default: () => [], required: false, type: Array },
+    validators: {
+      default: () => [],
+      required: false,
+      type: [Array, Set],
+    },
     value: {
       default: '',
       required: false,
@@ -61,13 +65,15 @@ export default createComponent<Readonly<Props>>({
     })
 
     const changeInput = (newValue: string) => {
-      input.value = transform(newValue, props.transformations)
+      const { transformations, afterTransform, beforeTransform, value } = props
+
+      input.value = transform(newValue, transformations)
       if (isValid.value) {
-        const finalValue = transform(input.value, props.afterTransform)
+        const finalValue = transform(input.value, afterTransform)
         emit('input', finalValue)
         emit('change', finalValue)
       } else {
-        input.value = transform(props.value, props.beforeTransform)
+        input.value = transform(value, beforeTransform)
       }
     }
 

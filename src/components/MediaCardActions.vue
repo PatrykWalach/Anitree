@@ -101,12 +101,12 @@ export const useShare = (root: SetupContext['root']) => {
     CHANGE_IS_SHARED(true)
   }
 
-  const share = (media: Media) => {
+  const share = ({ title, siteUrl }: Media) => {
     const share = navigator.share || desktopShare
 
     share.call(navigator, {
-      title: getTitle.value(media.title),
-      url: media.siteUrl,
+      title: getTitle.value(title),
+      url: siteUrl,
     })
   }
 

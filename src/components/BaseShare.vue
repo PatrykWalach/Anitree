@@ -76,16 +76,19 @@ export default createComponent<Readonly<Props>>({
   setup(props, { root }) {
     const snackbar = ref(false)
     const {
-      state,
+      state: { isShared: _isShared },
       mutations: { CHANGE_IS_SHARED },
     } = root.$modules.share
 
     const isShared = computed({
-      get: () => state.isShared.value,
+      get: () => _isShared.value,
       set: CHANGE_IS_SHARED,
     })
 
-    const url = computed(() => (props.options && props.options.url) || '')
+    const url = computed(() => {
+      const { options } = props
+      return (options && options.url) || ''
+    })
 
     return { isShared, snackbar, url }
   },

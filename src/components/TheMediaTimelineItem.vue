@@ -37,19 +37,22 @@ export default createComponent<Readonly<Props>>({
     media: { default: null, required: true, type: null },
   },
   setup(props, { root }: SetupContext) {
-    const color = computed(
-      () =>
-        (props.media && props.media.coverImage.color) ||
-        (root.$vuetify.theme.dark ? '#555' : '#e0e0e0'),
-    )
+    const color = computed(() => {
+      const { media } = props
+      return (
+        (media && media.coverImage.color) ||
+        (root.$vuetify.theme.dark ? '#555' : '#e0e0e0')
+      )
+    })
 
     const currentId = computed(() => parseInt(root.$route.params.mediaId, 10))
 
-    const large = computed(
-      () =>
-        !!currentId.value &&
-        (props.media && props.media.id === currentId.value),
-    )
+    const large = computed(() => {
+      const { media } = props
+      const _currentId = currentId.value
+
+      return !!_currentId && (media && media.id === _currentId)
+    })
 
     return { color, currentId, large }
   },

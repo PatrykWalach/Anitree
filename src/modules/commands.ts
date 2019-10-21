@@ -53,15 +53,15 @@ export const loadHistory = (stored: string | null) =>
     return value
   })
 
-export const executeNotDoneCommands = async (commands: ListCommand[]) => {
-  for (const command of commands.filter(({ done }) => !done)) {
-    try {
-      await command.execute()
-    } catch {
-      break
-    }
-  }
-}
+// export const executeNotDoneCommands = async (commands: ListCommand[]) => {
+//   for (const command of commands.filter(({ done }) => !done)) {
+//     try {
+//       await command.execute()
+//     } catch {
+//       break
+//     }
+//   }
+// }
 
 export const useCommands = () =>
   // settings: ReturnType<typeof useSettings>

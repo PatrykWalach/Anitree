@@ -98,11 +98,10 @@ export class FormDirector {
         },
         props: {
           afterTransform: [
-            (e: string) => Object.fromEntries([['status', e]]),
-            (form: Partial<SaveVariables>) =>
+            (status: Partial<SaveVariables>['status']) =>
               root.$modules.edit.actions.changeForm({
                 apollo: root.$apollo,
-                form,
+                form: { status },
               }),
           ],
           value: form.status,
@@ -119,11 +118,10 @@ export class FormDirector {
           props: {
             afterTransform: [
               parseFloat,
-              (e: string) => Object.fromEntries([['score', e]]),
-              (form: Partial<SaveVariables>) =>
+              (score: Partial<SaveVariables>['score']) =>
                 root.$modules.edit.actions.changeForm({
                   apollo: root.$apollo,
-                  form,
+                  form: { score },
                 }),
             ],
             beforeTransform: [(e: string) => e.toString()],
@@ -131,10 +129,10 @@ export class FormDirector {
               formatToNumber,
               numberRound.bind(null, scoreFormat.round),
             ],
-            validators: [
+            validators: new Set([
               scoreFormat.round ? validFloat : validInteger,
               validScore.bind(null, scoreFormat.max),
-            ],
+            ]),
             value: form.score,
           },
         },
@@ -146,11 +144,10 @@ export class FormDirector {
             afterTransform: [
               parseFloat,
 
-              (e: string) => Object.fromEntries([['progress', e]]),
-              (form: Partial<SaveVariables>) =>
+              (progress: Partial<SaveVariables>['progress']) =>
                 root.$modules.edit.actions.changeForm({
                   apollo: root.$apollo,
-                  form,
+                  form: { progress },
                 }),
             ],
             beforeTransform: [(e: string) => e.toString()],
@@ -162,7 +159,7 @@ export class FormDirector {
                 (manga ? media.chapters : media.episodes) || Infinity,
               ),
             ],
-            validators: [validInteger],
+            validators: new Set([validInteger]),
             value: form.progress || 0,
           },
         },
@@ -173,11 +170,10 @@ export class FormDirector {
           props: {
             afterTransform: [
               parseFloat,
-              (e: string) => Object.fromEntries([['volumeProgress', e]]),
-              (form: Partial<SaveVariables>) =>
+              (progressVolumes: Partial<SaveVariables>['progressVolumes']) =>
                 root.$modules.edit.actions.changeForm({
                   apollo: root.$apollo,
-                  form,
+                  form: { progressVolumes },
                 }),
             ],
             beforeTransform: [(e: string) => e.toString()],
@@ -186,7 +182,7 @@ export class FormDirector {
               numberRound.bind(null, 0),
               min.bind(null, media.volumes || Infinity),
             ],
-            validators: [validInteger],
+            validators: new Set([validInteger]),
             value: form.progressVolumes || 0,
           },
         },
@@ -208,11 +204,10 @@ export class FormDirector {
         props: {
           afterTransform: [
             stringToDate,
-            (e: string) => Object.fromEntries([['startedAt', e]]),
-            (form: Partial<SaveVariables>) =>
+            (startedAt: Partial<SaveVariables>['startedAt']) =>
               root.$modules.edit.actions.changeForm({
                 apollo: root.$apollo,
-                form,
+                form: { startedAt },
               }),
           ],
           beforeTransform: [dateToString],
@@ -227,11 +222,10 @@ export class FormDirector {
         props: {
           afterTransform: [
             stringToDate,
-            (e: string) => Object.fromEntries([['completedAt', e]]),
-            (form: Partial<SaveVariables>) =>
+            (completedAt: Partial<SaveVariables>['completedAt']) =>
               root.$modules.edit.actions.changeForm({
                 apollo: root.$apollo,
-                form,
+                form: { completedAt },
               }),
           ],
           beforeTransform: [dateToString],
@@ -247,17 +241,17 @@ export class FormDirector {
         props: {
           afterTransform: [
             parseFloat,
-            (e: string) => Object.fromEntries([['repeat', e]]),
-            (form: Partial<SaveVariables>) =>
+
+            (repeat: Partial<SaveVariables>['repeat']) =>
               root.$modules.edit.actions.changeForm({
                 apollo: root.$apollo,
-                form,
+                form: { repeat },
               }),
           ],
           beforeTransform: [(e: string) => e.toString()],
           transformations: [formatToNumber, numberRound.bind(null, 0)],
 
-          validators: [validInteger],
+          validators: new Set([validInteger]),
           value: form.repeat,
         },
       },
@@ -278,11 +272,10 @@ export class FormDirector {
         },
         props: {
           afterTransform: [
-            (e: string) => Object.fromEntries([['notes', e]]),
-            (form: Partial<SaveVariables>) =>
+            (notes: Partial<SaveVariables>['notes']) =>
               root.$modules.edit.actions.changeForm({
                 apollo: root.$apollo,
-                form,
+                form: { notes },
               }),
           ],
           value: form.notes || '',
@@ -307,7 +300,6 @@ export class FormDirector {
             parseFloat,
             (e: number) => {
               const array: number[] = form.advancedScores
-
               array[i] = e
               return array
             },
@@ -337,7 +329,7 @@ export class FormDirector {
           ],
           beforeTransform: [(e: any) => e.toString()],
           transformations: [formatToNumber],
-          validators: [scoreFormat.round ? validFloat : validInteger],
+          validators: new Set([scoreFormat.round ? validFloat : validInteger]),
           value: form.advancedScores[i] || 0,
         },
       })),

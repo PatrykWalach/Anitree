@@ -33,14 +33,16 @@ export default createComponent<Readonly<Props>>({
       getters: { getTitle },
     } = root.$modules.title
 
-    const media = computed(() =>
-      props.page.media
-        .map(({ id, title }) => ({ id, title: getTitle.value(title) }))
+    const media = computed(() => {
+      const _getTitle = getTitle.value
+
+      return props.page.media
+        .map(({ id, title }) => ({ id, title: _getTitle(title) }))
         .filter(
           ({ title }, i, arr) =>
             arr.findIndex(media => media.title === title) === i,
-        ),
-    )
+        )
+    })
     const { theme } = useTheme()
 
     const activeClass = computed(() =>

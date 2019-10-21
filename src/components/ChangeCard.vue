@@ -110,8 +110,12 @@ export default createComponent<Readonly<Props>>({
       e.hasOwnProperty('year')
 
     const keys = computed(() => {
-      const variables = Object.assign({}, props.command.variables)
-      const backup = Object.assign({}, props.command.backup)
+      const {
+        command: { variables: _variables, backup: _backup },
+      } = props
+
+      const variables = Object.assign({}, _variables)
+      const backup = Object.assign({}, _backup)
 
       delete variables.id
       delete variables.mediaId
