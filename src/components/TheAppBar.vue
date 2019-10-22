@@ -45,7 +45,7 @@
       <template v-if="!routeSearch">
         <v-spacer></v-spacer>
         <v-btn
-          v-if="!active.to || active.to.name !== 'search'"
+          v-if="!active.to || active.to.name !== 'search' || bottomNavigation"
           icon
           :to="{ name: 'search' }"
         >

@@ -9,7 +9,7 @@
       <TheSearchFilters />
       <MediaEdit :id="mediaId" />
       <BaseShare :options="options" />
-      <TheFab v-if="!bottomNavigation" />
+      <TheFab />
     </v-content>
 
     <TheBottomNavigation v-if="bottomNavigation" />
@@ -28,20 +28,9 @@ import {
 import BaseShare from './components/BaseShare.vue'
 import MediaEdit from './components/MediaEdit.vue'
 import TheAppBar from './components/TheAppBar.vue'
-
-const TheBottomNavigation = () =>
-  import(
-    /* webpackChunkName: "TheBottomNavigation" */ /* webpackPrefetch: true */ './components/TheBottomNavigation.vue'
-  )
-const TheDrawer = () =>
-  import(
-    /* webpackChunkName: "TheDrawer" */ /* webpackPrefetch: true */ './components/TheDrawer.vue'
-  )
-const TheFab = () =>
-  import(
-    /* webpackChunkName: "TheFab" */ /* webpackPrefetch: true */ './components/TheFab.vue'
-  )
-
+import TheBottomNavigation from './components/TheBottomNavigation.vue'
+import TheDrawer from './components/TheDrawer.vue'
+import TheFab from './components/TheFab.vue'
 import TheFooter from './components/TheFooter.vue'
 import TheSearchFilters from './components/TheSearchFilters.vue'
 
@@ -54,6 +43,18 @@ export const useTheme = (root: SetupContext['root']) => {
     },
   })
   return { dark }
+}
+export const useBottomNavigation = (root: SetupContext['root']) => {
+  const bottomNavigation = computed(() => {
+    const { name } = root.$route
+    return (
+      root.$vuetify.breakpoint.xsOnly &&
+      !!root.$modules.navigation.state.main.value.find(
+        ({ to }) => to.name === name,
+      )
+    )
+  })
+  return { bottomNavigation }
 }
 
 export default createComponent({
@@ -82,10 +83,6 @@ export default createComponent({
       state: { options },
     } = root.$modules.share
 
-    // const {
-    //   state: { active },
-    // } = context.root.$modules.fab
-
     const { dark } = useTheme(root)
 
     const stored = localStorage.getItem('THEME')
@@ -100,19 +97,9 @@ export default createComponent({
       dark.value = localStorage.getItem('THEME') === 'true'
     }
 
-    const bottomNavigation = computed(() => {
-      const { name } = root.$route
-      return (
-        root.$vuetify.breakpoint.xsOnly &&
-        !!root.$modules.navigation.state.main.value.find(
-          ({ to }) => to.name === name,
-        )
-      )
-    })
-
     return {
-      bottomNavigation,
       drawer,
+      ...useBottomNavigation(root),
       mediaId,
       options,
       toggleDrawer,
