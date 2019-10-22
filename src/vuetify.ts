@@ -1,6 +1,6 @@
 import(
   // @ts-ignore
-  /* webpackPreload: true */ 'material-design-icons-iconfont/dist/material-design-icons.css'
+  /* webpackChunkName: "MaterialDesignIcons" */ /* webpackPreload: true */ 'material-design-icons-iconfont/dist/material-design-icons.css'
 )
 import Vue from 'vue'
 import Vuetify from 'vuetify/lib'
@@ -10,7 +10,7 @@ WebFont.load({
   classes: false,
   events: false,
   google: {
-    families: ['Roboto:100,300,400,500,700,900'],
+    families: ['Roboto:100,300,400,500,700,900&display=swap'],
   },
 })
 
