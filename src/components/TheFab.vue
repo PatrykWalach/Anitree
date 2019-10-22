@@ -1,6 +1,7 @@
 <template>
   <v-fab-transition>
     <v-btn
+      v-if="!bottomNavigation"
       :key="active.icon"
       :color="active.color"
       :to="active.to"
@@ -19,6 +20,7 @@
 <script lang="ts">
 import { SetupContext, computed, createComponent } from '@vue/composition-api'
 import TheSearchFilters from './TheSearchFilters.vue'
+import { useBottomNavigation } from '@/App.vue'
 
 export const useFab = (root: SetupContext['root']) => {
   const active = computed(() => {
@@ -62,6 +64,7 @@ export const useFab = (root: SetupContext['root']) => {
 
   return {
     active,
+    ...useBottomNavigation(root),
   }
 }
 
