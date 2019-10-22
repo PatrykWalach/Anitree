@@ -45,16 +45,18 @@ export const useTheme = (root: SetupContext['root']) => {
   return { dark }
 }
 export const useBottomNavigation = (root: SetupContext['root']) => {
-  const bottomNavigation = computed(() => {
+  const mainRoute = computed(() => {
     const { name } = root.$route
-    return (
-      root.$vuetify.breakpoint.xsOnly &&
-      !!root.$modules.navigation.state.main.value.find(
-        ({ to }) => to.name === name,
-      )
+
+    return !!root.$modules.navigation.state.main.value.find(
+      ({ bind }) => bind.to.name === name,
     )
   })
-  return { bottomNavigation }
+
+  const bottomNavigation = computed(
+    () => root.$vuetify.breakpoint.xsOnly && mainRoute.value,
+  )
+  return { bottomNavigation, mainRoute }
 }
 
 export default createComponent({

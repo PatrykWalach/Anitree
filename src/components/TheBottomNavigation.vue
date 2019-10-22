@@ -4,7 +4,7 @@
     :value="value"
     :color="theme.isDark ? undefined : 'primary'"
   >
-    <v-btn v-for="{ to, icon, title } in main" :key="title" exact :to="to">
+    <v-btn v-for="{ bind, icon, title } in main" :key="title" v-bind="bind">
       <span>{{ title }}</span>
       <v-icon>{{ icon }}</v-icon>
     </v-btn>

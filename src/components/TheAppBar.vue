@@ -63,6 +63,23 @@
               v-bind="attrs"
               icon
               :disabled="!Media"
+              v-on="on"
+              @click.stop="Media && share(Media)"
+            >
+              <v-icon>share</v-icon>
+            </v-btn>
+          </template>
+          <span>Share</span>
+        </v-tooltip>
+      </template>
+
+      <!-- <template v-if="routeTitle">
+        <v-tooltip bottom>
+          <template v-slot:activator="{ attrs, on }">
+            <v-btn
+              v-bind="attrs"
+              icon
+              :disabled="!Media"
               rel="noopener"
               target="_blank"
               :href="Media && Media.siteUrl"
@@ -88,7 +105,8 @@
           </template>
           <span>Share</span>
         </v-tooltip>
-      </template>
+      </template> -->
+      <TheAppBarMenu :media="Media" :routeTitle="routeTitle" />
     </v-app-bar>
   </BaseQuery>
 </template>
@@ -98,9 +116,10 @@ import { useMedia, useViewer } from '@/graphql'
 import BaseQuery from './BaseQuery.vue'
 import TheAppBarExtensionChips from './TheAppBarExtensionChips.vue'
 import TheAppBarExtensionTabs from './TheAppBarExtensionTabs.vue'
-// import TheSearchFilters from './TheSearchFilters.vue'
+import TheAppBarMenu from './TheAppBarMenu.vue'
 import TheAppBarSearch from './TheAppBarSearch.vue'
 import TheAppBarViewer from './TheAppBarViewer.vue'
+import { useBottomNavigation } from '@/App.vue'
 import { useFab } from './TheFab.vue'
 import { useShare } from './MediaCardActions.vue'
 
@@ -109,7 +128,7 @@ export default createComponent({
     BaseQuery,
     TheAppBarExtensionChips,
     TheAppBarExtensionTabs,
-    // TheSearchFilters,
+    TheAppBarMenu,
     TheAppBarSearch,
     TheAppBarViewer,
   },
@@ -135,22 +154,14 @@ export default createComponent({
         (routeSearch.value && !!Object.keys(root.$route.query).length),
     )
 
-    const mainRoute = computed(() => {
-      const { name } = root.$route
-
-      return !!root.$modules.navigation.state.main.value.find(
-        ({ to }) => to.name === name,
-      )
-    })
-
     return {
       ...useFab(root),
       ...useShare(root),
       ...useViewer(root),
+      ...useBottomNavigation(root),
       ...useMedia(() => ({ id: parseInt(root.$route.params.mediaId, 10) })),
       extension,
       getTitle,
-      mainRoute,
       routeHome,
       routeSearch,
       routeTitle,

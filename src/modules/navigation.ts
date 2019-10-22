@@ -4,7 +4,8 @@ import { Location } from 'vue-router'
 export interface Element {
   title: string
   icon: string
-  to: Location // |string
+  bind?: Record<string, any>
+  on?: Record<string, (e: any) => any>
 }
 
 export const useNavigation = () =>
@@ -12,10 +13,22 @@ export const useNavigation = () =>
     name: 'navigation',
     namespaced: true,
     setup({ state }) {
-      const main: State<Element[]> = state([
-        { icon: 'home', title: 'Home', to: { name: 'home' } },
-        { icon: 'change_history', title: 'Changes', to: { name: 'changes' } },
-        { icon: 'settings', title: 'Settings', to: { name: 'settings' } },
+      const main: State<(Element & { bind: { to: Location } })[]> = state([
+        {
+          bind: { exact: true, to: { name: 'home' } },
+          icon: 'home',
+          title: 'Home',
+        },
+        {
+          bind: { exact: true, to: { name: 'changes' } },
+          icon: 'change_history',
+          title: 'Changes',
+        },
+        {
+          bind: { exact: true, to: { name: 'settings' } },
+          icon: 'settings',
+          title: 'Settings',
+        },
       ])
 
       const search: State<Element[]> = state([

@@ -7,11 +7,10 @@
   >
     <v-list nav>
       <v-list-item
-        v-for="{ to, title, icon } in main"
+        v-for="{ bind, title, icon } in main"
         :key="title"
         :color="theme.isDark ? undefined : 'primary'"
-        exact
-        :to="to"
+        v-bind="bind"
       >
         <v-list-item-icon>
           <v-icon>{{ icon }}</v-icon>
