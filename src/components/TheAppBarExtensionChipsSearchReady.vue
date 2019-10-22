@@ -24,6 +24,18 @@ export interface Props {
 }
 import { useTheme } from './TheMediaAboutStats.vue'
 
+export const useExtensionChip = () => {
+  const { theme } = useTheme()
+
+  const activeClass = computed(() =>
+    theme.isDark ? 'white black--text ' : 'grey darken-2 white--text',
+  )
+  return {
+    activeClass,
+    theme,
+  }
+}
+
 export default createComponent<Readonly<Props>>({
   props: {
     page: { default: null, required: true, type: Object },
@@ -43,14 +55,9 @@ export default createComponent<Readonly<Props>>({
             arr.findIndex(media => media.title === title) === i,
         )
     })
-    const { theme } = useTheme()
-
-    const activeClass = computed(() =>
-      theme.isDark ? 'grey lighten-2 black--text' : 'grey darken-2 white--text',
-    )
 
     return {
-      activeClass,
+      ...useExtensionChip(),
       media,
     }
   },
