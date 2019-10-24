@@ -5,8 +5,7 @@
         v-if="media.mediaListEntry"
         :color="color"
         :value="progressValue"
-        @click="show"
-        v-bind="{ ...attrs, ...menuAttrs }"
+        v-bind="attrs"
         v-on="on"
       ></v-progress-linear>
     </template>
