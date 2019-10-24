@@ -59,9 +59,8 @@ export const useFab = (root: SetupContext['root']) => {
         return editBtn.value
       default:
         return {
-          bind: { color: 'primary' },
+          bind: { color: 'primary', to: { name: 'search', query: {} } },
           icon: 'search',
-          to: { name: 'search', query: {} },
         }
     }
   })
