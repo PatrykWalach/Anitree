@@ -1,5 +1,17 @@
 <template>
-  <v-menu bottom left v-if="list.length">
+  <v-tooltip v-if="action" bottom>
+    <template v-slot:activator="{ on, attrs }">
+      <v-btn
+        icon
+        v-on="{ ...on, ...action.on }"
+        v-bind="{ ...attrs, ...action.bind }"
+      >
+        <v-icon>{{ action.icon }}</v-icon>
+      </v-btn>
+    </template>
+    <span>{{ action.title }}</span>
+  </v-tooltip>
+  <v-menu bottom left v-else-if="list.length">
     <template v-slot:activator="{ on, attrs }">
       <v-btn icon v-on="on" v-bind="attrs"><v-icon>more_vert</v-icon></v-btn>
     </template>
@@ -51,7 +63,7 @@ export default createComponent<Readonly<Props>>({
 
     const anilistBtn = computed(() => _anilistBtn(props.media))
 
-    const editBtn = computed(() => _editBtn(props.media))
+    const editBtn = computed(() => _editBtn(props.media && props.media.id))
 
     const list = computed(() =>
       (root.$route.name === 'title-timeline' ? [editBtn.value] : []).concat(
@@ -62,11 +74,11 @@ export default createComponent<Readonly<Props>>({
       ),
     )
 
-    return {
-      bottomNavigation,
-      list,
-      main,
-    }
+    const action = computed(() =>
+      list.value.length === 1 ? list.value[0] : null,
+    )
+
+    return { action, bottomNavigation, list, main }
   },
 })
 </script>

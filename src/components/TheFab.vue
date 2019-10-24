@@ -3,8 +3,7 @@
     <v-btn
       v-if="!bottomNavigation"
       :key="active.icon"
-      :color="active.color"
-      :to="active.to"
+      v-bind="active.bind"
       v-on="active.on"
       fab
       large
@@ -21,15 +20,27 @@
 import { SetupContext, computed, createComponent } from '@vue/composition-api'
 import TheSearchFilters from './TheSearchFilters.vue'
 import { useBottomNavigation } from '@/App.vue'
+import { useEdit } from './MediaCardActions.vue'
 
 export const useFab = (root: SetupContext['root']) => {
+  const { editBtn: _editBtn } = useEdit(root)
+
+  const editBtn = computed(() => {
+    const btn = _editBtn(parseInt(root.$route.params.mediaId, 10))
+
+    return {
+      ...btn,
+      bind: { ...btn.bind, color: 'red' },
+    }
+  })
+
   const active = computed(() => {
-    const { filter, timeline, edit } = root.$modules
+    const { filter, timeline } = root.$modules
 
     switch (root.$route.name) {
       case 'search':
         return {
-          color: 'accent',
+          bind: { color: 'accent' },
           icon: 'tune',
           on: {
             click: () => filter.mutations.CHANGE_IS_SHOWN(true),
@@ -37,7 +48,7 @@ export const useFab = (root: SetupContext['root']) => {
         }
       case 'media-timeline':
         return {
-          color: 'accent',
+          bind: { color: 'accent' },
           icon: 'sort',
           on: {
             click: () =>
@@ -45,17 +56,10 @@ export const useFab = (root: SetupContext['root']) => {
           },
         }
       case 'media-about':
-        return {
-          color: 'error',
-          icon: 'edit',
-          on: {
-            click: () =>
-              edit.actions.open(parseInt(root.$route.params.mediaId, 10)),
-          },
-        }
+        return editBtn.value
       default:
         return {
-          color: 'primary',
+          bind: { color: 'primary' },
           icon: 'search',
           to: { name: 'search', query: {} },
         }

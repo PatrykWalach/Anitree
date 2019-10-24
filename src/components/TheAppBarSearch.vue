@@ -1,6 +1,6 @@
 <template>
-  <v-container>
-    <v-row justify="center">
+  <v-container pa-0>
+    <v-row justify="center" no-gutters>
       <v-col cols="12" md="6">
         <v-form @submit.prevent="submit">
           <v-text-field

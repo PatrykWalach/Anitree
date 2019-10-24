@@ -28,10 +28,14 @@
       <v-tooltip
         top
         :key="title"
-        v-for="{ bind, icon, title } in actions(media)"
+        v-for="{ bind, icon, title, on: action } in actions(media)"
       >
         <template v-slot:activator="{ attrs, on }">
-          <v-btn v-bind="{ ...bind, ...attrs }" icon v-on="on">
+          <v-btn
+            v-bind="{ ...bind, ...attrs }"
+            icon
+            v-on="{ ...action, ...on }"
+          >
             <v-icon>{{ icon }}</v-icon>
           </v-btn>
         </template>
@@ -106,7 +110,7 @@ export const useMediaCardActions = (root: SetupContext['root']) => {
   const { editBtn, ...edit } = useEdit(root)
 
   const actions = (media: Media | null): Element[] => [
-    editBtn(media),
+    editBtn(media && media.id),
     shareBtn(media),
     anilistBtn(media),
   ]
@@ -161,13 +165,13 @@ export const useEdit = (root: SetupContext['root']) => {
     actions: { open },
   } = root.$modules.edit
 
-  const editBtn = (media: Media | null): Element => ({
+  const editBtn = (id: number | null): Element => ({
     bind: {
-      disabled: !media,
+      disabled: !id,
     },
     icon: 'edit',
     on: {
-      click: () => media && open(media.id),
+      click: () => id && open(id),
     },
     title: 'Edit',
   })

@@ -7,7 +7,7 @@ import {
   VTimeline,
   VTimelineItem,
 } from 'vuetify/lib'
-import { createComponent, createElement } from '@vue/composition-api'
+import { computed, createComponent, createElement } from '@vue/composition-api'
 import BaseQuery from '@/components/BaseQuery.vue'
 import HomeItem from '@/components/HomeItem.vue'
 import MediaCard from '@/components/MediaCard.vue'
@@ -96,12 +96,11 @@ export default createComponent({
       ],
     ]
 
-    return () => {
-      const { smAndDown, xsOnly } = root.$vuetify.breakpoint
+    const mobile = content.flat().map(el => <v-col cols="12">{el}</v-col>)
+    const desktop = computed(() => {
+      const { smAndDown } = root.$vuetify.breakpoint
 
-      const timeline = xsOnly ? (
-        content.flat().map(el => <v-col cols="12">{el}</v-col>)
-      ) : (
+      return (
         <v-col>
           <v-timeline dense={smAndDown}>
             {content.map((el, i) =>
@@ -121,10 +120,41 @@ export default createComponent({
           </v-timeline>
         </v-col>
       )
+    })
+
+    const timeline = computed(() =>
+      root.$vuetify.breakpoint.xsOnly ? mobile : desktop.value,
+    )
+
+    return () => {
+      // const { smAndDown, xsOnly } = root.$vuetify.breakpoint
+
+      // const timeline = xsOnly ? (
+      //   content.flat().map(el => <v-col cols="12">{el}</v-col>)
+      // ) : (
+      //   <v-col>
+      //     <v-timeline dense={smAndDown}>
+      //       {content.map((el, i) =>
+      //         el
+      //           .map((el, j) => (
+      //             <v-timeline-item
+      //               large={!smAndDown && j === 0}
+      //               small={smAndDown && j !== 0}
+      //               left={!!(i % 2)}
+      //               right={!!((i + 1) % 2)}
+      //             >
+      //               {el}
+      //             </v-timeline-item>
+      //           ))
+      //           .flat(),
+      //       )}
+      //     </v-timeline>
+      //   </v-col>
+      // )
 
       return (
         <v-container>
-          <v-row>{timeline}</v-row>
+          <v-row>{timeline.value}</v-row>
         </v-container>
       )
     }

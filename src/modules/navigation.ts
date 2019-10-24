@@ -39,11 +39,9 @@ export const useNavigation = () =>
             name: 'search',
             query: {
               season: (() => {
-                const date = new Date().getMonth() / 3
-                if (date < 1) return 'WINTER'
-                if (date < 2) return 'SPRING'
-                if (date < 3) return 'SUMMER'
-                return 'FALL'
+                const months = ['WINTER', 'SPRING', 'SUMMER', 'FALL']
+                const date = Math.floor(new Date().getMonth() / 3)
+                return months[date]
               })(),
               sort: 'POPULARITY_DESC',
               year: new Date().getFullYear().toString(),

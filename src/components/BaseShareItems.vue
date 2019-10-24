@@ -87,32 +87,35 @@ export default createComponent<Readonly<Props>>({
       ]
     })
 
-    return () =>
-      root.$vuetify.breakpoint.xsOnly ? (
-        <v-container>
-          <v-row no-gutters>
-            {items.value.map(({ href, color, title, icon }) => (
-              <v-col cols="3" key={title}>
-                <base-share-item href={href} color={color} title={title}>
-                  {icon}
-                </base-share-item>
-              </v-col>
-            ))}
-          </v-row>
-        </v-container>
-      ) : (
-        <v-card-text>
-          <v-slide-group show-arrows>
-            {items.value.map(({ href, color, title, icon }) => (
-              <v-slide-item>
-                <base-share-item href={href} color={color} title={title}>
-                  {icon}
-                </base-share-item>
-              </v-slide-item>
-            ))}
-          </v-slide-group>
-        </v-card-text>
-      )
+    const mobile = (
+      <v-container>
+        <v-row no-gutters>
+          {items.value.map(({ href, color, title, icon }) => (
+            <v-col cols="3" key={title}>
+              <base-share-item href={href} color={color} title={title}>
+                {icon}
+              </base-share-item>
+            </v-col>
+          ))}
+        </v-row>
+      </v-container>
+    )
+
+    const desktop = (
+      <v-card-text>
+        <v-slide-group show-arrows>
+          {items.value.map(({ href, color, title, icon }) => (
+            <v-slide-item>
+              <base-share-item href={href} color={color} title={title}>
+                {icon}
+              </base-share-item>
+            </v-slide-item>
+          ))}
+        </v-slide-group>
+      </v-card-text>
+    )
+
+    return () => (root.$vuetify.breakpoint.xsOnly ? mobile : desktop)
   },
 })
 </script>
