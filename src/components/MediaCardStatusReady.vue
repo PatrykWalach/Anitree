@@ -1,66 +1,61 @@
 <template>
-  <v-menu v-model="menu" :position-x="x" :position-y="y" absolute offset-y>
-    <template v-slot:activator="{ attrs: menuAttrs }">
-      <v-tooltip bottom>
-        <template v-slot:activator="{ on, attrs }">
-          <v-progress-linear
-            v-if="media.mediaListEntry"
-            :color="color"
-            :value="progressValue"
-            @click="show"
-            v-bind="{ ...attrs, ...menuAttrs }"
-            v-on="on"
-          ></v-progress-linear>
-        </template>
-        <span>{{ tip }}</span>
-      </v-tooltip>
+  <v-tooltip bottom>
+    <template v-slot:activator="{ on, attrs }">
+      <v-progress-linear
+        v-if="media.mediaListEntry"
+        :color="color"
+        :value="progressValue"
+        @click="show"
+        v-bind="{ ...attrs, ...menuAttrs }"
+        v-on="on"
+      ></v-progress-linear>
     </template>
-    <v-list>
-      <v-list-item></v-list-item>
-      <v-list-item></v-list-item>
-    </v-list>
-  </v-menu>
+    <span>{{ tip }}</span>
+  </v-tooltip>
 </template>
 
 <script lang="ts">
 import {
-  SetupContext,
+  // SetupContext,
   computed,
   createComponent,
-  ref,
+  // ref,
 } from '@vue/composition-api'
 import { Media } from '@/graphql/schema/media'
 
 export interface Props {
   media: Media
 }
-export const useMenu = (root: SetupContext['root']) => {
-  const x = ref(0)
-  const y = ref(0)
-  const menu = ref(false)
+// export const useMenu = (root: SetupContext['root']) => {
+//   const x = ref(0)
+//   const y = ref(0)
+//   const menu = ref(false)
 
-  const show = (e: MouseEvent) => {
-    e.preventDefault()
-    menu.value = false
-    x.value = e.clientX
-    y.value = e.clientY
-    root.$nextTick(() => {
-      menu.value = true
-    })
-  }
+//   const show = (e: MouseEvent) => {
+//     e.preventDefault()
+//     menu.value = false
+//     x.value = e.clientX
+//     y.value = e.clientY
+//     root.$nextTick(() => {
+//       menu.value = true
+//     })
+//   }
 
-  return {
-    menu,
-    x,
-    y,
-    show,
-  }
-}
+//   return {
+//     menu,
+//     show,
+//     x,
+//     y,
+//   }
+// }
 export default createComponent<Readonly<Props>>({
   props: {
     media: { default: null, required: true, type: Object },
   },
-  setup(props, { root }) {
+  setup(
+    props,
+    // , { root }
+  ) {
     const manga = computed(() => props.media.type === 'MANGA')
 
     const status = computed(() => {
@@ -188,7 +183,7 @@ export default createComponent<Readonly<Props>>({
       tip,
       tipObject,
       tipString,
-      ...useMenu(root),
+      // ...useMenu(root),
     }
   },
 })
