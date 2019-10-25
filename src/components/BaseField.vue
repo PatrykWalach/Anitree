@@ -6,13 +6,7 @@
 
 <script lang="ts">
 const BaseDateField = () => import('./BaseDateField.vue')
-import {
-  VChipGroup,
-  VSelect,
-  VSwitch,
-  VTextField,
-  VTextarea,
-} from 'vuetify/lib'
+import { VChipGroup, VSelect, VTextField, VTextarea } from 'vuetify/lib'
 
 import { computed, createComponent, ref, watch } from '@vue/composition-api'
 import { Props } from './FormBuilder'
@@ -22,7 +16,6 @@ export default createComponent<Readonly<Props>>({
     BaseDateField,
     VChipGroup,
     VSelect,
-    VSwitch,
     VTextField,
     VTextarea,
   },

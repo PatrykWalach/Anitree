@@ -10,14 +10,13 @@
             <v-col cols="12">
               <span class="subheading">Type</span>
 
-              <base-field
+              <v-chip-group
                 :value="form.type"
-                :after-transform="[
+                @change="
                   type => {
                     form = { type }
-                  },
-                ]"
-                tag="v-chip-group"
+                  }
+                "
                 column
                 active-class="accent--text"
               >
@@ -29,20 +28,19 @@
                 >
                   {{ type.toLowerCase() }}
                 </v-chip>
-              </base-field>
+              </v-chip-group>
             </v-col>
 
             <v-col cols="12">
               <span class="subheading">Sort</span>
 
-              <base-field
-                tag="v-chip-group"
+              <v-chip-group
                 :value="form.sort"
-                :after-transform="[
+                @change="
                   sort => {
                     form = { sort }
-                  },
-                ]"
+                  }
+                "
                 column
                 active-class="accent--text"
               >
@@ -83,12 +81,11 @@
                 >
                   {{ text }}
                 </v-chip>
-              </base-field>
+              </v-chip-group>
             </v-col>
 
             <v-col cols="12">
               <span class="subheading">Status</span>
-
               <base-field
                 :value="form.status"
                 :before-transform="[
@@ -97,8 +94,8 @@
                 tag="v-chip-group"
                 :after-transform="[
                   e => (e.length ? e : undefined),
-                  e => {
-                    form = { status: e }
+                  status => {
+                    form = { status }
                   },
                 ]"
                 multiple
@@ -130,7 +127,14 @@
         </v-card-text>
         <v-list flat subheader>
           <v-subheader>Other</v-subheader>
-          <v-list-item-group v-model="onList">
+          <v-list-item-group
+            :value="form.onList"
+            @change="
+              onList => {
+                form = { onList }
+              }
+            "
+          >
             <v-list-item v-slot="{ active }" value="false">
               <v-list-item-content>
                 <v-list-item-title>
@@ -153,7 +157,14 @@
             </v-list-item>
           </v-list-item-group>
 
-          <v-list-item-group v-model="adult">
+          <v-list-item-group
+            :value="form.isAdult"
+            @change="
+              isAdult => {
+                form = { isAdult }
+              }
+            "
+          >
             <v-list-item v-slot="{ active }" value="true">
               <v-list-item-content>
                 <v-list-item-title>
@@ -191,7 +202,6 @@ import {
 import BaseField from './BaseField.vue'
 import { MediaSort } from '../graphql/schema/page'
 import { VChipGroup } from 'vuetify/lib'
-import { mergeDeep } from 'apollo-utilities'
 
 export interface Filters {
   sort: MediaSort
@@ -222,8 +232,8 @@ export const useForm = (root: SetupContext['root']) => {
       ...query.value,
       ..._form.value,
     }),
-    set: e => {
-      _form.value = mergeDeep(_form.value, e)
+    set: change => {
+      _form.value = { ..._form.value, ...change }
     },
   })
 
@@ -263,27 +273,11 @@ export default createComponent({
       return false
     })
 
-    const onList = computed({
-      get: () => form.value.onList || undefined,
-      set: onList => {
-        form.value = { onList }
-      },
-    })
-
-    const adult = computed({
-      get: () => form.value.isAdult || undefined,
-      set: isAdult => {
-        form.value = { isAdult }
-      },
-    })
-
     return {
       _form,
-      adult,
       close,
       dialog,
       form,
-      onList,
       submit,
       submitRequired,
     }
