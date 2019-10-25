@@ -266,7 +266,6 @@ export default createComponent({
     const onList = computed({
       get: () => form.value.onList || undefined,
       set: onList => {
-        console.log(onList)
         form.value = { onList }
       },
     })
@@ -274,7 +273,6 @@ export default createComponent({
     const adult = computed({
       get: () => form.value.isAdult || undefined,
       set: isAdult => {
-        console.log(isAdult)
         form.value = { isAdult }
       },
     })
