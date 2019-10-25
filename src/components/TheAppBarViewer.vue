@@ -69,9 +69,7 @@ export default createComponent({
     VMenu,
   },
   setup(_, { root }) {
-    const {
-      mutations: { CHANGE_TOKEN },
-    } = root.$modules.settings
+    const { CHANGE_TOKEN } = root.$modules.settings
 
     const logout = () => {
       CHANGE_TOKEN(null)

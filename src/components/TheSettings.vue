@@ -62,20 +62,20 @@ import TheSettingsTitle from '@/components/TheSettingsTitle.vue'
 
 import { useTheme } from '@/App.vue'
 
-const useAccount = (root: SetupContext['root']) => {
+export const useAccount = (root: SetupContext['root']) => {
   const id = ref(process.env.VUE_APP_ANILIST_ID || false)
 
-  const {
-    state: { token },
-  } = root.$modules.settings
+  const { token } = root.$modules.settings
 
   return { id, token }
 }
 
 const useCache = (root: SetupContext['root']) => {
   const {
-    state: { cacheApollo, cacheChanges },
-    mutations: { CHANGE_CACHE_APOLLO, CHANGE_CACHE_CHANGES },
+    cacheApollo,
+    cacheChanges,
+    CHANGE_CACHE_APOLLO,
+    CHANGE_CACHE_CHANGES,
   } = root.$modules.settings
 
   const cache = computed({
@@ -95,10 +95,7 @@ const useCache = (root: SetupContext['root']) => {
 }
 
 const useSite = (root: SetupContext['root']) => {
-  const {
-    state: { syncChanges },
-    mutations: { CHANGE_SYNC_CHANGES },
-  } = root.$modules.settings
+  const { syncChanges, CHANGE_SYNC_CHANGES } = root.$modules.settings
 
   const { dark } = useTheme(root)
 

@@ -99,7 +99,7 @@ export class FormDirector {
         props: {
           afterTransform: [
             (status: Partial<SaveVariables>['status']) =>
-              root.$modules.edit.actions.changeForm({
+              root.$modules.edit.changeForm({
                 apollo: root.$apollo,
                 form: { status },
               }),
@@ -119,7 +119,7 @@ export class FormDirector {
             afterTransform: [
               parseFloat,
               (score: Partial<SaveVariables>['score']) =>
-                root.$modules.edit.actions.changeForm({
+                root.$modules.edit.changeForm({
                   apollo: root.$apollo,
                   form: { score },
                 }),
@@ -145,7 +145,7 @@ export class FormDirector {
               parseFloat,
 
               (progress: Partial<SaveVariables>['progress']) =>
-                root.$modules.edit.actions.changeForm({
+                root.$modules.edit.changeForm({
                   apollo: root.$apollo,
                   form: { progress },
                 }),
@@ -171,7 +171,7 @@ export class FormDirector {
             afterTransform: [
               parseFloat,
               (progressVolumes: Partial<SaveVariables>['progressVolumes']) =>
-                root.$modules.edit.actions.changeForm({
+                root.$modules.edit.changeForm({
                   apollo: root.$apollo,
                   form: { progressVolumes },
                 }),
@@ -205,7 +205,7 @@ export class FormDirector {
           afterTransform: [
             stringToDate,
             (startedAt: Partial<SaveVariables>['startedAt']) =>
-              root.$modules.edit.actions.changeForm({
+              root.$modules.edit.changeForm({
                 apollo: root.$apollo,
                 form: { startedAt },
               }),
@@ -223,7 +223,7 @@ export class FormDirector {
           afterTransform: [
             stringToDate,
             (completedAt: Partial<SaveVariables>['completedAt']) =>
-              root.$modules.edit.actions.changeForm({
+              root.$modules.edit.changeForm({
                 apollo: root.$apollo,
                 form: { completedAt },
               }),
@@ -243,7 +243,7 @@ export class FormDirector {
             parseFloat,
 
             (repeat: Partial<SaveVariables>['repeat']) =>
-              root.$modules.edit.actions.changeForm({
+              root.$modules.edit.changeForm({
                 apollo: root.$apollo,
                 form: { repeat },
               }),
@@ -273,7 +273,7 @@ export class FormDirector {
         props: {
           afterTransform: [
             (notes: Partial<SaveVariables>['notes']) =>
-              root.$modules.edit.actions.changeForm({
+              root.$modules.edit.changeForm({
                 apollo: root.$apollo,
                 form: { notes },
               }),
@@ -322,7 +322,7 @@ export class FormDirector {
               }
             },
             (form: Partial<SaveVariables>) =>
-              root.$modules.edit.actions.changeForm({
+              root.$modules.edit.changeForm({
                 apollo: root.$apollo,
                 form,
               }),

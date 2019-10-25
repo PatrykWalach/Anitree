@@ -1,8 +1,8 @@
-import { Module, State } from 'vuex-composition-api'
+import { State, createModule } from 'vuex-composition-api'
 import { Media } from '@/graphql/schema/media'
 
 export const useTimeline = () =>
-  new Module({
+  createModule({
     name: 'timeline',
     namespaced: true,
     setup({ state, mutation }) {

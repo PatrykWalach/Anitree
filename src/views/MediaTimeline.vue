@@ -134,9 +134,7 @@ export default createComponent({
       }
     })
 
-    const {
-      state: { sorters, order },
-    } = root.$modules.timeline
+    const { sorters, order } = root.$modules.timeline
 
     const mediaList = computed(() => {
       const _data = data.value

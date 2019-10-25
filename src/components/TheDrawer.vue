@@ -50,9 +50,7 @@ export default createComponent<Readonly<Props>>({
 
     const { theme } = useTheme()
 
-    const {
-      state: { main },
-    } = root.$modules.navigation
+    const { main } = root.$modules.navigation
 
     return { main, syncedValue, theme }
   },

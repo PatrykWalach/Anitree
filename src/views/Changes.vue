@@ -29,10 +29,7 @@ import { createComponent } from '@vue/composition-api'
 export default createComponent({
   components: { ChangeCard },
   setup(_, { root }) {
-    const {
-      state: { history },
-      actions: { undo },
-    } = root.$modules.commands
+    const { history, undo } = root.$modules.commands
 
     return {
       history,

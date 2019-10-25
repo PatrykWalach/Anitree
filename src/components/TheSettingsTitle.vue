@@ -63,9 +63,9 @@ export default createComponent({
     const dialog = ref(false)
 
     const {
-      getters: { getPreferedTitle },
-      state: { titles },
-      actions: { changePreferedTitle },
+      getPreferedTitle,
+      titles,
+      changePreferedTitle,
     } = root.$modules.title
 
     const preferedTitle = computed({

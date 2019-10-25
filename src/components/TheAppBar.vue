@@ -140,9 +140,7 @@ export default createComponent({
     const routeHome = computed(() => root.$route.name === 'home')
     const routeSearch = computed(() => root.$route.name === 'search')
 
-    const {
-      getters: { getTitle },
-    } = root.$modules.title
+    const { getTitle } = root.$modules.title
 
     const tabs = computed(
       () => routeTitle.value && root.$vuetify.breakpoint.xsOnly,

@@ -99,9 +99,7 @@ export default createComponent<Readonly<Props>>({
     },
   },
   setup(props, { root }) {
-    const {
-      getters: { getTitle },
-    } = root.$modules.title
+    const { getTitle } = root.$modules.title
 
     const isDate = (e: any): e is Omit<FuzzyDate, '__typename'> =>
       e instanceof Object &&

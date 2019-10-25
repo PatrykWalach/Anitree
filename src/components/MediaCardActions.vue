@@ -41,52 +41,6 @@
         </template>
         <span>{{ title }}</span>
       </v-tooltip>
-      <!-- <v-tooltip top>
-        <template v-slot:activator="{ attrs, on }">
-          <v-btn
-            v-bind="attrs"
-            icon
-            :disabled="!media"
-            rel="noopener"
-            target="_blank"
-            :href="media && media.siteUrl"
-            v-on="on"
-          >
-            <v-icon>open_in_new</v-icon>
-          </v-btn>
-        </template>
-        <span>Anilist</span>
-      </v-tooltip>
-
-      <v-tooltip top>
-        <template v-slot:activator="{ attrs, on }">
-          <v-btn
-            v-bind="attrs"
-            icon
-            :disabled="!media"
-            v-on="on"
-            @click.stop="share(media)"
-          >
-            <v-icon>share</v-icon>
-          </v-btn>
-        </template>
-        <span>Share</span>
-      </v-tooltip>
-
-      <v-tooltip v-if="Viewer" top>
-        <template v-slot:activator="{ attrs, on }">
-          <v-btn
-            v-bind="attrs"
-            icon
-            :disabled="!media"
-            v-on="on"
-            @click.stop="open(media && media.id)"
-          >
-            <v-icon>edit</v-icon>
-          </v-btn>
-        </template>
-        <span>Edit</span>
-      </v-tooltip> -->
     </v-card-actions>
   </BaseQuery>
 </template>
@@ -124,13 +78,9 @@ export const useMediaCardActions = (root: SetupContext['root']) => {
 }
 
 export const useShare = (root: SetupContext['root']) => {
-  const {
-    mutations: { CHANGE_OPTIONS, CHANGE_IS_SHARED },
-  } = root.$modules.share
+  const { CHANGE_OPTIONS, CHANGE_IS_SHARED } = root.$modules.share
 
-  const {
-    getters: { getTitle },
-  } = root.$modules.title
+  const { getTitle } = root.$modules.title
 
   const desktopShare = async (data: ShareData) => {
     CHANGE_OPTIONS(data)
@@ -161,9 +111,7 @@ export const useShare = (root: SetupContext['root']) => {
 }
 
 export const useEdit = (root: SetupContext['root']) => {
-  const {
-    actions: { open },
-  } = root.$modules.edit
+  const { open } = root.$modules.edit
 
   const editBtn = (id: number | null): Element => ({
     bind: {

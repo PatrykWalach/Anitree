@@ -41,9 +41,7 @@ export const useMedia = (props: () => Variables) => {
 }
 
 export const useViewer = (root: SetupContext['root']) => {
-  const {
-    state: { token },
-  } = root.$modules.settings
+  const { token } = root.$modules.settings
 
   const Viewer: Ref<ApolloQueryProps<{ Viewer: User }, never>> = computed(
     () => ({

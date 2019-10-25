@@ -27,42 +27,51 @@
 
           <MediaCardItem :media="Media" />
           <v-divider></v-divider>
-
           <MediaEditTabs
-            :loading="
-              !!isLoading.Viewer ||
-                !!isLoading.Media ||
-                !!errors.Viewer ||
-                !!errors.Media
-            "
+            :style="{ position: 'sticky', top: 0, 'z-index': 2 }"
+            :loading="!token || !Media || !Viewer"
           />
-
           <v-container v-if="isLoading.Viewer || isLoading.Media" fill-height>
             <v-row justify="center" align="center">
               <v-progress-circular indeterminate></v-progress-circular>
             </v-row>
           </v-container>
 
+          <template v-else-if="!token">
+            <v-card-title>
+              You are not logged in
+            </v-card-title>
+            <v-card-actions>
+              <v-btn
+                block
+                color="primary"
+                rel="noopener"
+                :href="
+                  `https://anilist.co/api/v2/oauth/authorize?client_id=${appId}&response_type=token`
+                "
+              >
+                Login with Anilist
+              </v-btn>
+            </v-card-actions>
+          </template>
           <MediaEditItems
             v-else-if="Media && Viewer"
             :media="Media"
             :user="Viewer"
           />
-          <v-list v-else subheader>
-            <v-subheader>
-              <template v-if="!token">
-                Please log in
-              </template>
-              <template v-else>
-                Connect to the internet
-                <p>You're offline Chek your connection.</p>
-                <v-btn @click="queries.Media.refetch()" text color="primary"
-                  >retry</v-btn
-                >
-              </template>
-            </v-subheader>
-            <TheSettingsLogin v-if="!token" />
-          </v-list>
+          <template v-else>
+            <v-card-title>
+              Connect to the internet
+            </v-card-title>
+            <v-card-text>
+              You're offline. Check your connection.
+            </v-card-text>
+            <v-card-actions>
+              <v-btn @click="queries.Media.refetch()" text color="primary"
+                >retry</v-btn
+              >
+            </v-card-actions>
+          </template>
         </v-card-text>
         <v-divider></v-divider>
         <MediaEditActions :media="Media" :user="Viewer" />
@@ -80,6 +89,7 @@ import MediaEditActions from './MediaEditActions.vue'
 import MediaEditItems from './MediaEditItems.vue'
 
 import MediaEditTabs from './MediaEditTabs.vue'
+import { useAccount } from './TheSettings.vue'
 import { useMedia } from '@/graphql'
 
 export interface Props {
@@ -100,9 +110,10 @@ export default createComponent<Readonly<Props>>({
   },
   setup(props, { root }) {
     const {
-      actions: { close },
-      state: { isEdited: _isEdited, loading },
-      mutations: { CHANGE_IS_EDITED },
+      close,
+      isEdited: _isEdited,
+      loading,
+      CHANGE_IS_EDITED,
     } = root.$modules.edit
 
     const isEdited = computed({
@@ -115,8 +126,10 @@ export default createComponent<Readonly<Props>>({
         }
       },
     })
+    const { id: appId } = useAccount(root)
 
     return {
+      appId,
       close,
       isEdited,
       loading,

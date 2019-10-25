@@ -41,9 +41,7 @@ export default createComponent<Readonly<Props>>({
     user: { default: null, required: true, type: null },
   },
   setup(_, { root }) {
-    const {
-      state: { search },
-    } = root.$modules.navigation
+    const { search } = root.$modules.navigation
     return { search }
   },
 })

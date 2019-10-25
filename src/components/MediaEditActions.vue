@@ -54,11 +54,7 @@ export interface Props {
 function useActions(props: Readonly<Props>, { root }: SetupContext) {
   const confirmation = ref(false)
 
-  const {
-    mutations: { CHANGE_IS_EDITED },
-    actions: { submit: _submit, close },
-    state: { form },
-  } = root.$modules.edit
+  const { CHANGE_IS_EDITED, submit: _submit, close, form } = root.$modules.edit
 
   const submitRequired = computed(() => !!Object.values(form.value).length)
 
@@ -72,7 +68,7 @@ function useActions(props: Readonly<Props>, { root }: SetupContext) {
 
     if (media && media.mediaListEntry) {
       confirmation.value = false
-      await root.$modules.commands.actions.add(
+      await root.$modules.commands.add(
         new DeleteCommand({
           apollo: root.$apollo,
           variables: {

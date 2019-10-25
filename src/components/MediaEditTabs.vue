@@ -1,5 +1,5 @@
 <template>
-  <v-tabs v-model="tab" grow>
+  <v-tabs v-model="tab" grow v-bind="$attrs">
     <v-tab
       v-for="{ icon, title, href } in tabs"
       :key="title"
@@ -19,14 +19,12 @@ export interface Props {
 }
 
 export default createComponent<Readonly<Props>>({
+  inheritAttrs: false,
   props: {
     loading: { default: false, required: true, type: Boolean },
   },
   setup(_, { root }) {
-    const {
-      state: { tab: _tab, tabs },
-      mutations: { CHANGE_TAB },
-    } = root.$modules.edit
+    const { tab: _tab, tabs, CHANGE_TAB } = root.$modules.edit
 
     const tab = computed({ get: () => _tab.value, set: CHANGE_TAB })
     return {

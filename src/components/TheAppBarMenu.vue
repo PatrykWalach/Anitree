@@ -53,9 +53,7 @@ export default createComponent<Readonly<Props>>({
   setup(props, { root }) {
     const { bottomNavigation } = useBottomNavigation(root)
 
-    const {
-      state: { main },
-    } = root.$modules.navigation
+    const { main } = root.$modules.navigation
 
     const { editBtn: _editBtn } = useEdit(root)
 

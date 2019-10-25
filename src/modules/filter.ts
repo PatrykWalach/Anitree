@@ -1,7 +1,7 @@
-import { Module } from 'vuex-composition-api'
+import { createModule } from 'vuex-composition-api'
 
 export const useFilter = () =>
-  new Module({
+  createModule({
     name: 'filter',
     namespaced: true,
     setup({ state, mutation }) {

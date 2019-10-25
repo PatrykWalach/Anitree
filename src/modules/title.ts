@@ -1,10 +1,10 @@
 import { MediaTitle } from '@/graphql/schema/media'
-import { Module } from 'vuex-composition-api'
+import { createModule } from 'vuex-composition-api'
 
 const stored: string | null = localStorage.getItem('TITLE')
 
 export const useTitle = () =>
-  new Module({
+  createModule({
     name: 'title',
     namespaced: true,
     setup({ state, getter, mutation }) {

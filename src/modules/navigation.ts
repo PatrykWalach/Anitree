@@ -1,4 +1,4 @@
-import { Module, State } from 'vuex-composition-api'
+import { State, createModule } from 'vuex-composition-api'
 import { Location } from 'vue-router'
 
 export interface Element {
@@ -9,7 +9,7 @@ export interface Element {
 }
 
 export const useNavigation = () =>
-  new Module({
+  createModule({
     name: 'navigation',
     namespaced: true,
     setup({ state }) {
@@ -55,16 +55,6 @@ export const useNavigation = () =>
             name: 'search',
             query: {
               sort: 'ID_DESC',
-            },
-          },
-        },
-        {
-          icon: 'folder',
-          title: 'From list',
-          to: {
-            name: 'search',
-            query: {
-              onList: 'true',
             },
           },
         },

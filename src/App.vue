@@ -48,7 +48,7 @@ export const useBottomNavigation = (root: SetupContext['root']) => {
   const mainRoute = computed(() => {
     const { name } = root.$route
 
-    return !!root.$modules.navigation.state.main.value.find(
+    return !!root.$modules.navigation.main.value.find(
       ({ bind }) => bind.to.name === name,
     )
   })
@@ -77,13 +77,9 @@ export default createComponent({
       drawer.value = !drawer.value
     }
 
-    const {
-      state: { mediaId },
-    } = root.$modules.edit
+    const { mediaId } = root.$modules.edit
 
-    const {
-      state: { options },
-    } = root.$modules.share
+    const { options } = root.$modules.share
 
     const { dark } = useTheme(root)
 

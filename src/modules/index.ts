@@ -14,5 +14,4 @@ export const share = useShare()
 export const navigation = useNavigation()
 export const filter = useFilter()
 export const commands = useCommands()
-// settings
 export const edit = useEdit(settings, commands)

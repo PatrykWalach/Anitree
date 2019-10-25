@@ -1,4 +1,4 @@
-import VuexCompositionApi, { Module, State } from 'vuex-composition-api'
+import VuexCompositionApi, { State, createModule } from 'vuex-composition-api'
 import Vue from 'vue'
 
 import { watch } from '@vue/composition-api'
@@ -10,7 +10,7 @@ const cache = localStorage.getItem('SETTINGS')
 const stored = cache && JSON.parse(cache)
 
 export const useSettings = () =>
-  new Module({
+  createModule({
     name: 'settings',
     namespaced: true,
     setup({ state, mutation }) {

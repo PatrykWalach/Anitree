@@ -20,9 +20,7 @@ export default createComponent({
   setup(_, { root }) {
     const value = computed(() => root.$route.name)
 
-    const {
-      state: { main },
-    } = root.$modules.navigation
+    const { main } = root.$modules.navigation
     const { theme } = useTheme()
 
     return {

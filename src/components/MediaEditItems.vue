@@ -40,10 +40,7 @@ export default createComponent<Readonly<Props>>({
     user: { default: null, required: true, type: Object },
   },
   setup(props, { root }) {
-    const {
-      state: { tab: _tab, form: _form },
-      mutations: { CHANGE_TAB },
-    } = root.$modules.edit
+    const { tab: _tab, form: _form, CHANGE_TAB } = root.$modules.edit
 
     const tab = computed({ get: () => _tab.value, set: CHANGE_TAB })
     const manga = computed(() => props.media.type === 'MANGA')

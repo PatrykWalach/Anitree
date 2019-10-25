@@ -1,9 +1,9 @@
-import { Module, State } from 'vuex-composition-api'
+import { State, createModule } from 'vuex-composition-api'
 
 import { ShareData } from '@/types'
 
 export const useShare = () =>
-  new Module({
+  createModule({
     name: 'share',
     namespaced: true,
     setup({ state, mutation }) {

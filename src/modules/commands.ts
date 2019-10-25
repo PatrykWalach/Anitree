@@ -2,8 +2,8 @@ import {
   DeleteCommand,
   DeleteCommandConstructor,
 } from './commands/DeleteCommand'
-import { Module, State } from 'vuex-composition-api'
 import { SaveCommand, SaveCommandConstructor } from './commands/SaveCommand'
+import { State, createModule } from 'vuex-composition-api'
 import { Form } from '@/types'
 import { FuzzyDate } from '@/graphql/schema/media'
 import { MediaList } from '@/graphql/schema/mediaListCollection'
@@ -65,7 +65,7 @@ export const loadHistory = (stored: string | null) =>
 
 export const useCommands = () =>
   // settings: ReturnType<typeof useSettings>
-  new Module({
+  createModule({
     name: 'commands',
     namespaced: true,
     setup({ state, mutation }) {

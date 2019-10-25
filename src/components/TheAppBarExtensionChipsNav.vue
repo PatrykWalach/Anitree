@@ -11,9 +11,7 @@ import { useExtensionChip } from './TheAppBarExtensionChipsSearchReady.vue'
 
 export default createComponent({
   setup(_, { root }) {
-    const {
-      state: { search },
-    } = root.$modules.navigation
+    const { search } = root.$modules.navigation
 
     return {
       ...useExtensionChip(),

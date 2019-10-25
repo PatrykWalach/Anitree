@@ -43,7 +43,7 @@ export const useFab = (root: SetupContext['root']) => {
           bind: { color: 'accent' },
           icon: 'tune',
           on: {
-            click: () => filter.mutations.CHANGE_IS_SHOWN(true),
+            click: () => filter.CHANGE_IS_SHOWN(true),
           },
         }
       case 'media-timeline':
@@ -51,8 +51,7 @@ export const useFab = (root: SetupContext['root']) => {
           bind: { color: 'accent' },
           icon: 'sort',
           on: {
-            click: () =>
-              timeline.mutations.CHANGE_ORDER(timeline.state.order.value * -1),
+            click: () => timeline.CHANGE_ORDER(timeline.state.order.value * -1),
           },
         }
       case 'media-about':

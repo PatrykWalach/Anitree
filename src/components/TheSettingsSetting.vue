@@ -11,7 +11,7 @@
       </v-list-item-subtitle>
     </v-list-item-content>
     <v-list-item-action v-if="action">
-      <v-switch v-model="active" @click="toggle"></v-switch>
+      <v-switch v-model="active"></v-switch>
     </v-list-item-action>
   </v-list-item>
 </template>

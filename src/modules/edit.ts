@@ -1,4 +1,4 @@
-import { Module, State } from 'vuex-composition-api'
+import { State, createModule } from 'vuex-composition-api'
 
 import { DollarApollo } from 'vue-apollo/types/vue-apollo'
 import { Form } from '@/types'
@@ -14,7 +14,7 @@ export const useEdit = (
   settings: ReturnType<typeof useSettings>,
   commands: ReturnType<typeof useCommands>,
 ) =>
-  new Module({
+  createModule({
     name: 'edit',
     namespaced: true,
     setup({ state, mutation }) {

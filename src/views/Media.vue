@@ -143,9 +143,7 @@ export default createComponent({
   setup(_, { root }) {
     const id = computed(() => parseInt(root.$route.params.mediaId, 10))
 
-    const {
-      actions: { open },
-    } = root.$modules.edit
+    const { open } = root.$modules.edit
 
     return {
       open,

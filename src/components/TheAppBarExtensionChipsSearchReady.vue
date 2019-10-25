@@ -41,9 +41,7 @@ export default createComponent<Readonly<Props>>({
     page: { default: null, required: true, type: Object },
   },
   setup(props, { root }) {
-    const {
-      getters: { getTitle },
-    } = root.$modules.title
+    const { getTitle } = root.$modules.title
 
     const media = computed(() => {
       const _getTitle = getTitle.value
