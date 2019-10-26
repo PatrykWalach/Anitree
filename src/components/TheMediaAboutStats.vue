@@ -3,32 +3,41 @@
     <v-subheader>
       {{ subheader }}
       <v-spacer></v-spacer>
-      <v-icon left>bar_chart</v-icon>
+      <v-tooltip top>
+        <template v-slot:activator="{ on }">
+          <v-icon
+            v-on="on"
+            left
+            @click="showMore = !showMore"
+            :color="showMore ? 'primary' : ''"
+            >bar_chart</v-icon
+          ></template
+        >
+        <span>{{ showMore ? 'Less' : 'More' }}</span>
+      </v-tooltip>
     </v-subheader>
 
     <v-card-text>
       <v-skeleton-loader height="156" :loading="loading" type="image">
-        <v-hover v-slot="{ hover }">
-          <v-sheet color="rgba(0, 0, 0, .12)" class="pa-2">
-            <v-sparkline
-              auto-draw
-              :auto-draw-duration="1000"
-              line-width="3"
-              :smooth="10"
-              type="bar"
-              :labels="hover ? labeledValue : labels"
-              :value="value"
-              :gradient="gradient"
-              gradient-direction="left"
-            ></v-sparkline>
-          </v-sheet>
-        </v-hover>
+        <v-sheet color="rgba(0, 0, 0, .12)" class="pa-2">
+          <v-sparkline
+            auto-draw
+            :auto-draw-duration="1000"
+            line-width="3"
+            :smooth="10"
+            type="bar"
+            :labels="showMore ? labeledValue : labels"
+            :value="value"
+            :gradient="gradient"
+            gradient-direction="left"
+          ></v-sparkline>
+        </v-sheet>
       </v-skeleton-loader>
     </v-card-text>
   </v-card>
 </template>
 <script lang="ts">
-import { computed, createComponent, inject } from '@vue/composition-api'
+import { computed, createComponent, inject, ref } from '@vue/composition-api'
 
 export const useTheme = () => {
   const theme = inject('theme', { isDark: false })
@@ -87,6 +96,8 @@ export default createComponent<Readonly<Props>>({
     },
   },
   setup(props) {
+    const showMore = ref(false)
+
     const distribution = computed(() => {
       const { distribution, sort } = props
 
@@ -111,7 +122,7 @@ export default createComponent<Readonly<Props>>({
       return distribution.value.map(_distribution => _distribution[labelKey])
     })
 
-    return { labeledValue, labels, value }
+    return { labeledValue, labels, showMore, value }
   },
 })
 </script>
