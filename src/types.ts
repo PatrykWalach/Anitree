@@ -19,7 +19,12 @@ export type NextBefore<V extends Vue = Vue> = (
 export interface Data<T = any> {
   [index: string]: T
 }
-
+export interface NavigationElement {
+  title: string
+  icon: string
+  bind?: Record<string, any>
+  on?: Record<string, (e: any) => any>
+}
 export type RecursivePartial<T> = {
   [P in keyof T]?: T[P] extends (infer U)[]
     ? RecursivePartial<U>[]

@@ -5,7 +5,17 @@
     :mini-variant="!$vuetify.breakpoint.xsOnly"
     :permanent="!$vuetify.breakpoint.xsOnly"
   >
-    <v-list nav>
+    <template v-if="$vuetify.breakpoint.xsOnly">
+      <v-list>
+        <v-list-item>
+          <v-list-item-title>
+            Anitree <sup class="overline">alpha</sup>
+          </v-list-item-title>
+        </v-list-item>
+      </v-list>
+      <v-divider />
+    </template>
+    <v-list :nav="!$vuetify.breakpoint.xsOnly">
       <v-list-item
         v-for="{ bind, title, icon } in main"
         :key="title"
@@ -26,14 +36,46 @@
 </template>
 
 <script lang="ts">
-import { computed, createComponent } from '@vue/composition-api'
+import {
+  Ref,
+  SetupContext,
+  computed,
+  createComponent,
+} from '@vue/composition-api'
+import { Location } from 'vue-router'
+import { NavigationElement } from '../types'
+import { useTheme } from './TheMediaAboutStats.vue'
 
-interface Props {
+export interface Props {
   value: boolean
 }
 
-import { useTheme } from './TheMediaAboutStats.vue'
+export const useNavigation = (root: SetupContext['root']) => {
+  const main: Ref<
+    (NavigationElement & { bind: { to: Location } })[]
+  > = computed(() => [
+    {
+      bind: { exact: true, to: { name: 'home' } },
+      icon: 'home',
+      title: 'Home',
+    },
+    {
+      badge: {
+        value: root.$modules.commands.pending.value.length,
+      },
+      bind: { exact: true, to: { name: 'changes' } },
+      icon: 'change_history',
+      title: 'Changes',
+    },
+    {
+      bind: { exact: true, to: { name: 'settings' } },
+      icon: 'settings',
+      title: 'Settings',
+    },
+  ])
 
+  return { main }
+}
 export default createComponent<Readonly<Props>>({
   props: {
     value: {
@@ -50,9 +92,7 @@ export default createComponent<Readonly<Props>>({
 
     const { theme } = useTheme()
 
-    const { main } = root.$modules.navigation
-
-    return { main, syncedValue, theme }
+    return { syncedValue, theme, ...useNavigation(root) }
   },
 })
 </script>

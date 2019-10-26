@@ -15,7 +15,29 @@
             @click="move"
           >
             <template v-slot:append>
-              <v-icon @click="submit" color="primary">search</v-icon>
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-icon
+                    color="primary"
+                    @click="submit"
+                    v-on="on"
+                    v-bind="attrs"
+                  >
+                    search
+                  </v-icon>
+                </template>
+                <span>Search</span>
+              </v-tooltip>
+            </template>
+            <template v-slot:prepend-inner>
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-icon @click="$router.back()" v-on="on" v-bind="attrs"
+                    >arrow_back</v-icon
+                  >
+                </template>
+                <span>Back</span>
+              </v-tooltip>
             </template>
           </v-text-field>
         </v-form>

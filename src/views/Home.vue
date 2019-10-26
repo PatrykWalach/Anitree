@@ -126,38 +126,11 @@ export default createComponent({
       root.$vuetify.breakpoint.xsOnly ? mobile : desktop.value,
     )
 
-    return () => {
-      // const { smAndDown, xsOnly } = root.$vuetify.breakpoint
-
-      // const timeline = xsOnly ? (
-      //   content.flat().map(el => <v-col cols="12">{el}</v-col>)
-      // ) : (
-      //   <v-col>
-      //     <v-timeline dense={smAndDown}>
-      //       {content.map((el, i) =>
-      //         el
-      //           .map((el, j) => (
-      //             <v-timeline-item
-      //               large={!smAndDown && j === 0}
-      //               small={smAndDown && j !== 0}
-      //               left={!!(i % 2)}
-      //               right={!!((i + 1) % 2)}
-      //             >
-      //               {el}
-      //             </v-timeline-item>
-      //           ))
-      //           .flat(),
-      //       )}
-      //     </v-timeline>
-      //   </v-col>
-      // )
-
-      return (
-        <v-container>
-          <v-row>{timeline.value}</v-row>
-        </v-container>
-      )
-    }
+    return () => (
+      <v-container>
+        <v-row>{timeline.value}</v-row>
+      </v-container>
+    )
   },
 })
 </script>

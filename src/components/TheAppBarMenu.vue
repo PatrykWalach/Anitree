@@ -1,5 +1,5 @@
 <template>
-  <v-tooltip v-if="action" bottom>
+  <v-tooltip v-if="action" v-bind="{ bottom, top }">
     <template v-slot:activator="{ on, attrs }">
       <v-btn
         icon
@@ -11,13 +11,18 @@
     </template>
     <span>{{ action.title }}</span>
   </v-tooltip>
-  <v-menu bottom left v-else-if="list.length">
+  <component
+    :is="$vuetify.breakpoint.xsOnly ? 'v-bottom-sheet' : 'v-menu'"
+    :bottom="$vuetify.breakpoint.xsOnly ? undefined : true"
+    :left="$vuetify.breakpoint.xsOnly ? undefined : true"
+    v-else-if="actions.length"
+  >
     <template v-slot:activator="{ on, attrs }">
       <v-btn icon v-on="on" v-bind="attrs"><v-icon>more_vert</v-icon></v-btn>
     </template>
-    <v-list shaped>
+    <v-list :shaped="!$vuetify.breakpoint.xsOnly">
       <v-list-item
-        v-for="{ title, on, bind, icon } in list"
+        v-for="{ title, on, bind, icon } in actions"
         v-bind="bind"
         v-on="on"
         :key="title"
@@ -32,51 +37,36 @@
         </v-list-item-content>
       </v-list-item>
     </v-list>
-  </v-menu>
+  </component>
 </template>
 <script lang="ts">
+import { VBottomSheet, VMenu } from 'vuetify/lib'
 import { computed, createComponent } from '@vue/composition-api'
-import { useAnilist, useEdit } from './MediaCardActions.vue'
-import { Media } from '@/graphql/schema/media'
-import { useBottomNavigation } from '@/App.vue'
+import { NavigationElement } from '../types'
 
 export interface Props {
-  media: Media | null
-  routeTitle: boolean
+  actions: NavigationElement[]
+  top: boolean
+  bottom: boolean
 }
 
 export default createComponent<Readonly<Props>>({
+  components: { VBottomSheet, VMenu },
   props: {
-    media: { default: null, required: true, type: null },
-    routeTitle: { default: false, required: true, type: Boolean },
+    actions: { default: null, required: true, type: Array },
+    bottom: { default: false, required: false, type: Boolean },
+    top: { default: false, required: false, type: Boolean },
   },
-  setup(props, { root }) {
-    const { bottomNavigation } = useBottomNavigation(root)
+  setup(props) {
+    const action = computed(() => {
+      const actions = props.actions
 
-    const { main } = root.$modules.navigation
+      return actions.length === 1 ? actions[0] : null
+    })
 
-    const { editBtn: _editBtn } = useEdit(root)
-
-    const { anilistBtn: _anilistBtn } = useAnilist()
-
-    const anilistBtn = computed(() => _anilistBtn(props.media))
-
-    const editBtn = computed(() => _editBtn(props.media && props.media.id))
-
-    const list = computed(() =>
-      (root.$route.name === 'title-timeline' ? [editBtn.value] : []).concat(
-        props.routeTitle ? [anilistBtn.value] : [],
-        root.$vuetify.breakpoint.xsOnly && !bottomNavigation.value
-          ? main.value
-          : [],
-      ),
-    )
-
-    const action = computed(() =>
-      list.value.length === 1 ? list.value[0] : null,
-    )
-
-    return { action, bottomNavigation, list, main }
+    return {
+      action,
+    }
   },
 })
 </script>

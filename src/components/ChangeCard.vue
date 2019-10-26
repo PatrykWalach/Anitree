@@ -122,9 +122,12 @@ export default createComponent<Readonly<Props>>({
         return Object.keys(variables).sort()
       }
 
-      return [
-        ...new Set(Object.keys(variables).concat(Object.keys(backup))),
-      ].sort()
+      return Object.keys(variables)
+        .concat(Object.keys(backup))
+        .filter(
+          (key, i, arr) => arr.findIndex(otherKey => otherKey === key) === i,
+        )
+        .sort()
     })
 
     return {

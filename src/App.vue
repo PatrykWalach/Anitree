@@ -1,22 +1,38 @@
 <template>
-  <v-app>
-    <TheAppBar @toggle:drawer="toggleDrawer" />
+  <BaseQuery
+    :apollo="{
+      Viewer,
+      Media: {
+        ...Media,
+        tag: null,
+      },
+    }"
+    v-slot="{ Media, Viewer }"
+  >
+    <v-app>
+      <TheAppBar :media="Media" @toggle:drawer="toggleDrawer" />
 
-    <v-content>
-      <keep-alive>
-        <router-view />
-      </keep-alive>
-      <TheSearchFilters />
-      <MediaEdit :id="mediaId" />
-      <BaseShare :options="options" />
-      <TheFab />
-    </v-content>
+      <v-content>
+        <keep-alive>
+          <router-view />
+        </keep-alive>
+        <TheSearchFilters />
+        <MediaEdit :id="mediaId" />
+        <BaseShare :options="options" />
+        <TheFab fixed bottom v-if="!$vuetify.breakpoint.xsOnly" />
+      </v-content>
 
-    <TheBottomNavigation v-if="bottomNavigation" />
-    <TheDrawer v-else-if="!$vuetify.breakpoint.xsOnly" :value.sync="drawer" />
+      <TheBottomAppBar
+        :media="Media"
+        :drawer.sync="drawer"
+        v-if="$vuetify.breakpoint.xsOnly"
+      />
 
-    <TheFooter />
-  </v-app>
+      <TheDrawer :value.sync="drawer" />
+
+      <TheFooter />
+    </v-app>
+  </BaseQuery>
 </template>
 <script lang="ts">
 import {
@@ -25,10 +41,12 @@ import {
   createComponent,
   ref,
 } from '@vue/composition-api'
+import { useMedia, useViewer } from '@/graphql'
+import BaseQuery from '@/components/BaseQuery.vue'
 import BaseShare from './components/BaseShare.vue'
 import MediaEdit from './components/MediaEdit.vue'
 import TheAppBar from './components/TheAppBar.vue'
-import TheBottomNavigation from './components/TheBottomNavigation.vue'
+import TheBottomAppBar from './components/TheBottomAppBar.vue'
 import TheDrawer from './components/TheDrawer.vue'
 import TheFab from './components/TheFab.vue'
 import TheFooter from './components/TheFooter.vue'
@@ -44,27 +62,14 @@ export const useTheme = (root: SetupContext['root']) => {
   })
   return { dark }
 }
-export const useBottomNavigation = (root: SetupContext['root']) => {
-  const mainRoute = computed(() => {
-    const { name } = root.$route
-
-    return !!root.$modules.navigation.main.value.find(
-      ({ bind }) => bind.to.name === name,
-    )
-  })
-
-  const bottomNavigation = computed(
-    () => root.$vuetify.breakpoint.xsOnly && mainRoute.value,
-  )
-  return { bottomNavigation, mainRoute }
-}
 
 export default createComponent({
   components: {
+    BaseQuery,
     BaseShare,
     MediaEdit,
     TheAppBar,
-    TheBottomNavigation,
+    TheBottomAppBar,
     TheDrawer,
     TheFab,
     TheFooter,
@@ -97,7 +102,9 @@ export default createComponent({
 
     return {
       drawer,
-      ...useBottomNavigation(root),
+      ...useViewer(root),
+      ...useMedia(() => ({ id: parseInt(root.$route.params.mediaId, 10) })),
+      // ...useBottomNavigation(root),
       mediaId,
       options,
       toggleDrawer,

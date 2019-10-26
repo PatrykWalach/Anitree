@@ -46,24 +46,23 @@
 </template>
 
 <script lang="ts">
+import { NavigationElement, ShareData } from '../types'
 import { SetupContext, createComponent } from '@vue/composition-api'
 import BaseQuery from './BaseQuery.vue'
-import { Element } from '@/modules/navigation'
+// import { Element } from '@/modules/navigation'
 import { Media } from '@/graphql/schema/media'
-
-import { ShareData } from '../types'
+import { useViewer } from '@/graphql'
 
 export interface Props {
   media: Media | null
 }
-import { useViewer } from '@/graphql'
 
 export const useMediaCardActions = (root: SetupContext['root']) => {
   const { shareBtn, ...share } = useShare(root)
   const { anilistBtn, ...anilist } = useAnilist()
   const { editBtn, ...edit } = useEdit(root)
 
-  const actions = (media: Media | null): Element[] => [
+  const actions = (media: Media | null): NavigationElement[] => [
     editBtn(media && media.id),
     shareBtn(media),
     anilistBtn(media),
@@ -96,7 +95,7 @@ export const useShare = (root: SetupContext['root']) => {
     })
   }
 
-  const shareBtn = (media: Media | null): Element => ({
+  const shareBtn = (media: Media | null): NavigationElement => ({
     bind: {
       disabled: !media,
     },
@@ -113,7 +112,7 @@ export const useShare = (root: SetupContext['root']) => {
 export const useEdit = (root: SetupContext['root']) => {
   const { open } = root.$modules.edit
 
-  const editBtn = (id: number | null): Element => ({
+  const editBtn = (id: number | null): NavigationElement => ({
     bind: {
       disabled: !id,
     },
@@ -127,7 +126,7 @@ export const useEdit = (root: SetupContext['root']) => {
   return { editBtn, open }
 }
 export const useAnilist = () => {
-  const anilistBtn = (media: Media | null): Element => ({
+  const anilistBtn = (media: Media | null): NavigationElement => ({
     bind: {
       disabled: !media,
       href: media && media.siteUrl,

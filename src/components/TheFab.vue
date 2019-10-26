@@ -1,15 +1,12 @@
 <template>
   <v-fab-transition>
     <v-btn
-      v-if="!bottomNavigation"
       :key="active.icon"
-      v-bind="active.bind"
+      v-bind="{ ...active.bind, ...$attrs }"
       v-on="active.on"
       fab
       large
       dark
-      fixed
-      bottom
       right
     >
       <v-icon>{{ active.icon }}</v-icon>
@@ -18,9 +15,20 @@
 </template>
 <script lang="ts">
 import { SetupContext, computed, createComponent } from '@vue/composition-api'
+import { NavigationElement } from '@/types'
 import TheSearchFilters from './TheSearchFilters.vue'
-import { useBottomNavigation } from '@/App.vue'
+// import { useBottomNavigation } from '@/App.vue'
 import { useEdit } from './MediaCardActions.vue'
+
+export const useSearch = () => {
+  const searchBtn = (): NavigationElement => ({
+    bind: { color: 'primary', exact: true, to: { name: 'search', query: {} } },
+    icon: 'search',
+    title: 'Search',
+  })
+
+  return { searchBtn }
+}
 
 export const useFab = (root: SetupContext['root']) => {
   const { editBtn: _editBtn } = useEdit(root)
@@ -33,6 +41,10 @@ export const useFab = (root: SetupContext['root']) => {
       bind: { ...btn.bind, color: 'red' },
     }
   })
+
+  const { searchBtn: _searchBtn } = useSearch()
+
+  const searchBtn = computed(_searchBtn)
 
   const active = computed(() => {
     const { filter, timeline } = root.$modules
@@ -57,16 +69,12 @@ export const useFab = (root: SetupContext['root']) => {
       case 'media-about':
         return editBtn.value
       default:
-        return {
-          bind: { color: 'primary', to: { name: 'search', query: {} } },
-          icon: 'search',
-        }
+        return searchBtn.value
     }
   })
 
   return {
     active,
-    ...useBottomNavigation(root),
   }
 }
 
@@ -74,6 +82,7 @@ export default createComponent({
   components: {
     TheSearchFilters,
   },
+  inheritAttrs: false,
   setup(_, { root }) {
     return useFab(root)
   },

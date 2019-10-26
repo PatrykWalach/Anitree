@@ -15,7 +15,7 @@
     }"
     v-slot="{ Viewer, Page, isLoading, errors }"
   >
-    <TheSearchList v-if="!isSearched" :user="Viewer" />
+    <TheSearchNavigation v-if="!isSearched" :user="Viewer" />
 
     <v-container v-else>
       <v-row
@@ -47,14 +47,14 @@
 import { computed, createComponent } from '@vue/composition-api'
 import BaseQuery from '@/components/BaseQuery.vue'
 import TheMediaTimeline from '@/components/TheMediaTimeline.vue'
-import TheSearchList from '@/components/TheSearchList.vue'
+import TheSearchNavigation from '@/components/TheSearchNavigation.vue'
 import { useViewer } from '@/graphql'
 
 export default createComponent({
   components: {
     BaseQuery,
     TheMediaTimeline,
-    TheSearchList,
+    TheSearchNavigation,
   },
   setup(_, { root }) {
     const query = computed({

@@ -68,7 +68,7 @@ export const useCommands = () =>
   createModule({
     name: 'commands',
     namespaced: true,
-    setup({ state, mutation }) {
+    setup({ getter, state, mutation }) {
       const history: State<ListCommand[]> = state(
         // loadHistory(stored) ||
         [],
@@ -103,11 +103,15 @@ export const useCommands = () =>
         await command.execute()
         return command
       }
+      const pending = getter(() => history.value.filter(({ done }) => !done))
 
       return {
         actions: {
           add,
           undo,
+        },
+        getters: {
+          pending,
         },
         mutations: {
           POP_COMMAND,
