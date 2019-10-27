@@ -92,8 +92,7 @@ const MediaEditItems = () =>
   )
 
 import MediaEditTabs from './MediaEditTabs.vue'
-
-import { useAccount } from '@/mixins'
+import { useAccount } from './TheSettings.vue'
 import { useMedia } from '@/graphql'
 
 export interface Props {

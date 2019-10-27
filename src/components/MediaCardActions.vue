@@ -46,16 +46,106 @@
 </template>
 
 <script lang="ts">
-import { computed, createComponent } from '@vue/composition-api'
+import { NavigationElement, ShareData } from '../types'
+import { SetupContext, computed, createComponent } from '@vue/composition-api'
 import BaseQuery from './BaseQuery.vue'
-
+// import { Element } from '@/modules/navigation'
 import { Media } from '@/graphql/schema/media'
-import { useMediaCardActions } from '@/mixins'
 import { useViewer } from '@/graphql'
 
 export interface Props {
   media: Media | null
 }
+
+export const useMediaCardActions = (root: SetupContext['root']) => {
+  const { shareBtn, ...share } = useShare(root)
+  const { anilistBtn, ...anilist } = useAnilist()
+  const { editBtn, ...edit } = useEdit(root)
+
+  const actions = (media: Media | null): NavigationElement[] => [
+    editBtn(media && media.id),
+    shareBtn(media),
+    anilistBtn(media),
+  ]
+
+  return {
+    ...edit,
+    ...anilist,
+    ...share,
+    actions,
+  }
+}
+
+export const useShare = (root: SetupContext['root']) => {
+  const { CHANGE_OPTIONS, CHANGE_IS_SHARED } = root.$modules.share
+
+  const { getTitle } = root.$modules.title
+
+  const desktopShare = (data: ShareData) => {
+    CHANGE_OPTIONS(data)
+    CHANGE_IS_SHARED(true)
+  }
+
+  const share = ({ title, siteUrl }: Media) => {
+    const share = navigator.share || desktopShare
+
+    share.call(navigator, {
+      title: getTitle.value(title),
+      url: siteUrl,
+    })
+  }
+
+  const shareBtn = (media: Media | null): NavigationElement => ({
+    bind: {
+      disabled: !media,
+    },
+    icon: 'share',
+    on: {
+      click: (e: Event) => {
+        e.preventDefault()
+        media && share(media)
+      },
+    },
+    title: 'Share',
+  })
+
+  return { share, shareBtn }
+}
+
+export const useEdit = (root: SetupContext['root']) => {
+  const { open } = root.$modules.edit
+
+  const editBtn = (id: number | null): NavigationElement => ({
+    bind: {
+      disabled: !id,
+    },
+    icon: 'edit',
+    on: {
+      click: (e: Event) => {
+        e.preventDefault()
+        id && open(id)
+      },
+    },
+    title: 'Edit',
+  })
+
+  return { editBtn, open }
+}
+export const useAnilist = () => {
+  const anilistBtn = (media: Media | null): NavigationElement => ({
+    bind: {
+      disabled: !media,
+      href: media && media.siteUrl,
+      rel: 'noopener',
+      target: '_blank',
+    },
+    icon: 'open_in_new',
+    title: 'Anilist',
+  })
+
+  return { anilistBtn }
+}
+
 export default createComponent<Readonly<Props>>({
   components: {
     BaseQuery,

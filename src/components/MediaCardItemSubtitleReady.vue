@@ -12,7 +12,21 @@ import { Media } from '@/graphql/schema/media'
 export interface Props {
   media: Media
 }
-import { useString } from '@/mixins'
+
+export const useString = () => ({
+  clean: (str: string | null) =>
+    (str &&
+      str
+        .split(/_/g)
+        .map(str => {
+          if (str !== 'TV' && str !== 'OVA' && str !== 'ONA')
+            return str.toLowerCase()
+          return str
+        })
+        .join(' ')) ||
+    '',
+})
+
 export default createComponent<Readonly<Props>>({
   props: {
     media: { default: null, required: true, type: Object },

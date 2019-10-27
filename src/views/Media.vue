@@ -55,7 +55,7 @@ import MediaCardItemSubtitle from '@/components/MediaCardItemSubtitle.vue'
 import MediaCardItemTitle from '@/components/MediaCardItemTitle.vue'
 import TheAppBarExtensionTabs from '@/components/TheAppBarExtensionTabs.vue'
 
-import { useShare } from '@/mixins'
+import { useShare } from '@/components/MediaCardActions.vue'
 
 export default createComponent({
   components: {

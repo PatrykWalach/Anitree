@@ -14,18 +14,47 @@
 </template>
 
 <script lang="ts">
-import { computed, createComponent } from '@vue/composition-api'
+import {
+  // SetupContext,
+  computed,
+  createComponent,
+  // ref,
+} from '@vue/composition-api'
 import { Media } from '@/graphql/schema/media'
 
 export interface Props {
   media: Media
 }
+// export const useMenu = (root: SetupContext['root']) => {
+//   const x = ref(0)
+//   const y = ref(0)
+//   const menu = ref(false)
 
+//   const show = (e: MouseEvent) => {
+//     e.preventDefault()
+//     menu.value = false
+//     x.value = e.clientX
+//     y.value = e.clientY
+//     root.$nextTick(() => {
+//       menu.value = true
+//     })
+//   }
+
+//   return {
+//     menu,
+//     show,
+//     x,
+//     y,
+//   }
+// }
 export default createComponent<Readonly<Props>>({
   props: {
     media: { default: null, required: true, type: Object },
   },
-  setup(props) {
+  setup(
+    props,
+    // , { root }
+  ) {
     const manga = computed(() => props.media.type === 'MANGA')
 
     const status = computed(() => {
@@ -149,6 +178,7 @@ export default createComponent<Readonly<Props>>({
       tip,
       tipObject,
       tipString,
+      // ...useMenu(root),
     }
   },
 })

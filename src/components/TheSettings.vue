@@ -51,10 +51,24 @@
 </template>
 
 <script lang="ts">
-import { SetupContext, computed, createComponent } from '@vue/composition-api'
-import { useAccount, useTheme } from '@/mixins'
+import {
+  SetupContext,
+  computed,
+  createComponent,
+  ref,
+} from '@vue/composition-api'
 import TheSettingsSetting from '@/components/TheSettingsSetting.vue'
 import TheSettingsTitle from '@/components/TheSettingsTitle.vue'
+
+import { useTheme } from '@/App.vue'
+
+export const useAccount = (root: SetupContext['root']) => {
+  const id = ref(process.env.VUE_APP_ANILIST_ID || false)
+
+  const { token } = root.$modules.settings
+
+  return { id, token }
+}
 
 const useCache = (root: SetupContext['root']) => {
   const {

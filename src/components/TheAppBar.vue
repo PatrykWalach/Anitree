@@ -57,8 +57,7 @@
   </v-app-bar>
 </template>
 <script lang="ts">
-import { computed, createComponent } from '@vue/composition-api'
-import { useAppBarActions, useFab, useRoutes } from '@/mixins'
+import { SetupContext, computed, createComponent } from '@vue/composition-api'
 import { Media } from '../graphql/schema/media'
 import TheAppBarSearch from './TheAppBarSearch.vue'
 const TheAppBarExtensionChips = () =>
@@ -74,9 +73,37 @@ const TheAppBarMenu = () =>
     /* webpackChunkName: "TheAppBarMenu" */ /* webpackPrefetch: true */ './TheAppBarMenu.vue'
   )
 
+import { useAppBarActions } from './TheBottomAppBar.vue'
+import { useFab } from './TheFab.vue'
+import { useNavigation } from './TheDrawer.vue'
+
+export const useRoutes = (root: SetupContext['root']) => {
+  const routeTitle = computed(() => {
+    const { name } = root.$route
+    return name === 'media-about' || name === 'media-timeline'
+  })
+  const routeHome = computed(() => root.$route.name === 'home')
+  const routeSearch = computed(() => root.$route.name === 'search')
+
+  const { main } = useNavigation(root)
+
+  const routeMain = computed(() => {
+    const { name } = root.$route
+
+    return !!main.value.find(({ bind }) => bind.to.name === name)
+  })
+
+  return {
+    routeHome,
+    routeMain,
+    routeSearch,
+    routeTitle,
+  }
+}
 export interface Props {
   media: Media | null
 }
+
 export default createComponent<Readonly<Props>>({
   components: {
     TheAppBarExtensionChips,
