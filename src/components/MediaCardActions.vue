@@ -28,7 +28,7 @@
       <v-tooltip
         top
         :key="title"
-        v-for="{ bind, icon, title, on: action } in actions(media)"
+        v-for="{ bind, icon, title, on: action } in actions"
       >
         <template v-slot:activator="{ attrs, on }">
           <v-btn
@@ -47,7 +47,7 @@
 
 <script lang="ts">
 import { NavigationElement, ShareData } from '../types'
-import { SetupContext, createComponent } from '@vue/composition-api'
+import { SetupContext, computed, createComponent } from '@vue/composition-api'
 import BaseQuery from './BaseQuery.vue'
 // import { Element } from '@/modules/navigation'
 import { Media } from '@/graphql/schema/media'
@@ -81,7 +81,7 @@ export const useShare = (root: SetupContext['root']) => {
 
   const { getTitle } = root.$modules.title
 
-  const desktopShare = async (data: ShareData) => {
+  const desktopShare = (data: ShareData) => {
     CHANGE_OPTIONS(data)
     CHANGE_IS_SHARED(true)
   }
@@ -154,9 +154,13 @@ export default createComponent<Readonly<Props>>({
     media: { default: null, required: true, type: null },
   },
   setup(props, { root }) {
+    const { actions: _actions } = useMediaCardActions(root)
+
+    const actions = computed(() => _actions(props.media))
+
     return {
+      actions,
       ...useViewer(root),
-      ...useMediaCardActions(root),
     }
   },
 })
