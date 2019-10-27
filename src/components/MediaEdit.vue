@@ -31,7 +31,7 @@
             :style="{ position: 'sticky', top: 0, 'z-index': 2 }"
             :loading="!token || !Media || !Viewer"
           />
-          <v-container v-if="isLoading.Viewer || isLoading.Media" fill-height>
+          <v-container v-if="isLoading.Viewer || isLoading.Media">
             <v-row justify="center" align="center">
               <v-progress-circular indeterminate></v-progress-circular>
             </v-row>
@@ -67,7 +67,7 @@
               You're offline. Check your connection.
             </v-card-text>
             <v-card-actions>
-              <v-btn @click="queries.Media.refetch()" text color="primary"
+              <v-btn @click.stop="queries.Media.refetch()" text color="primary"
                 >retry</v-btn
               >
             </v-card-actions>
@@ -86,7 +86,10 @@ import BaseQuery from './BaseQuery.vue'
 import MediaCardBanner from './MediaCardBanner.vue'
 import MediaCardItem from './MediaCardItem.vue'
 import MediaEditActions from './MediaEditActions.vue'
-import MediaEditItems from './MediaEditItems.vue'
+const MediaEditItems = () =>
+  import(
+    /* webpackChunkName: "MediaEditItems" */ /* webpackPrefetch: true */ './MediaEditItems.vue'
+  )
 
 import MediaEditTabs from './MediaEditTabs.vue'
 import { useAccount } from './TheSettings.vue'

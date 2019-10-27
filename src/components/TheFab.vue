@@ -4,6 +4,7 @@
       :key="active.icon"
       v-bind="{ ...active.bind, ...$attrs }"
       v-on="active.on"
+      color="accent"
       fab
       large
       dark
@@ -22,7 +23,7 @@ import { useEdit } from './MediaCardActions.vue'
 
 export const useSearch = () => {
   const searchBtn = (): NavigationElement => ({
-    bind: { color: 'primary', exact: true, to: { name: 'search', query: {} } },
+    bind: { exact: true, to: { name: 'search', query: {} } },
     icon: 'search',
     title: 'Search',
   })
@@ -33,14 +34,9 @@ export const useSearch = () => {
 export const useFab = (root: SetupContext['root']) => {
   const { editBtn: _editBtn } = useEdit(root)
 
-  const editBtn = computed(() => {
-    const btn = _editBtn(parseInt(root.$route.params.mediaId, 10))
-
-    return {
-      ...btn,
-      bind: { ...btn.bind, color: 'red' },
-    }
-  })
+  const editBtn = computed(() =>
+    _editBtn(parseInt(root.$route.params.mediaId, 10)),
+  )
 
   const { searchBtn: _searchBtn } = useSearch()
 
@@ -52,19 +48,25 @@ export const useFab = (root: SetupContext['root']) => {
     switch (root.$route.name) {
       case 'search':
         return {
-          bind: { color: 'accent' },
           icon: 'tune',
           on: {
-            click: () => filter.CHANGE_IS_SHOWN(true),
+            click: (e: Event) => {
+              e.preventDefault()
+              filter.CHANGE_IS_SHOWN(true)
+            },
           },
+          title: 'Filter',
         }
       case 'media-timeline':
         return {
-          bind: { color: 'accent' },
           icon: 'sort',
           on: {
-            click: () => timeline.CHANGE_ORDER(timeline.state.order.value * -1),
+            click: (e: Event) => {
+              e.preventDefault()
+              timeline.CHANGE_ORDER(timeline.state.order.value * -1)
+            },
           },
+          title: 'Sort',
         }
       case 'media-about':
         return editBtn.value

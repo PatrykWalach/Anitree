@@ -125,7 +125,9 @@
                           <a
                             rel="noopener"
                             target="_blank"
-                            :href="`www.twitter.com?s=${Media.hashtag}`"
+                            :href="
+                              `www.twitter.com?s=${Media && Media.hashtag}`
+                            "
                           >
                             {{ Media && Media.hashtag }}
                             <v-icon color="primary" small>open_in_new</v-icon>

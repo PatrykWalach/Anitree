@@ -12,7 +12,9 @@
       There was an error while loading the data. Please make sure your have a
       stable internet connection and try again.
       <template v-slot:actions>
-        <v-btn color="error" text @click="queries.Media.refetch()">Retry</v-btn>
+        <v-btn color="error" text @click.stop="queries.Media.refetch()"
+          >Retry</v-btn
+        >
       </template>
     </v-banner>
     <v-card :style="{ overflow: 'hidden' }" v-else>

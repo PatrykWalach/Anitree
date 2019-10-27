@@ -8,7 +8,7 @@
           <v-icon
             v-on="on"
             left
-            @click="showMore = !showMore"
+            @click.stop="showMore = !showMore"
             :color="showMore ? 'primary' : ''"
             >bar_chart</v-icon
           ></template

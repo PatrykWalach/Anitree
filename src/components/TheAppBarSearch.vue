@@ -12,14 +12,14 @@
             hide-details
             name="search"
             label="Search"
-            @click="move"
+            @click.stop="move"
           >
             <template v-slot:append>
               <v-tooltip bottom>
                 <template v-slot:activator="{ on, attrs }">
                   <v-icon
                     color="primary"
-                    @click="submit"
+                    @click.stop="submit"
                     v-on="on"
                     v-bind="attrs"
                   >
@@ -32,7 +32,7 @@
             <template v-slot:prepend-inner>
               <v-tooltip bottom>
                 <template v-slot:activator="{ on, attrs }">
-                  <v-icon @click="$router.back()" v-on="on" v-bind="attrs"
+                  <v-icon @click.stop="$router.back()" v-on="on" v-bind="attrs"
                     >arrow_back</v-icon
                   >
                 </template>

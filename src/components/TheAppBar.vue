@@ -6,7 +6,7 @@
   >
     <v-tooltip v-if="!routeHome && !routeSearch" bottom>
       <template v-slot:activator="{ on, attrs }">
-        <v-btn icon v-bind="attrs" v-on="on" @click="$router.back()"
+        <v-btn icon v-bind="attrs" v-on="on" @click.stop="$router.back()"
           ><v-icon>arrow_back</v-icon></v-btn
         >
       </template>
@@ -52,24 +52,30 @@
         </template>
         <span>{{ title }}</span>
       </v-tooltip>
-
       <TheAppBarMenu bottom :actions="moreActions" />
     </template>
   </v-app-bar>
 </template>
 <script lang="ts">
 import { SetupContext, computed, createComponent } from '@vue/composition-api'
-
 import { Media } from '../graphql/schema/media'
-import TheAppBarExtensionChips from './TheAppBarExtensionChips.vue'
-import TheAppBarExtensionTabs from './TheAppBarExtensionTabs.vue'
-import TheAppBarMenu from './TheAppBarMenu.vue'
 import TheAppBarSearch from './TheAppBarSearch.vue'
-// import TheAppBarViewer from './TheAppBarViewer.vue'
+const TheAppBarExtensionChips = () =>
+  import(
+    /* webpackChunkName: "TheAppBarExtensionChips" */ /* webpackPrefetch: true */ './TheAppBarExtensionChips.vue'
+  )
+const TheAppBarExtensionTabs = () =>
+  import(
+    /* webpackChunkName: "TheAppBarExtensionTabs" */ /* webpackPrefetch: true */ './TheAppBarExtensionTabs.vue'
+  )
+const TheAppBarMenu = () =>
+  import(
+    /* webpackChunkName: "TheAppBarMenu" */ /* webpackPrefetch: true */ './TheAppBarMenu.vue'
+  )
+
 import { useAppBarActions } from './TheBottomAppBar.vue'
 import { useFab } from './TheFab.vue'
 import { useNavigation } from './TheDrawer.vue'
-import { useShare } from './MediaCardActions.vue'
 
 export const useRoutes = (root: SetupContext['root']) => {
   const routeTitle = computed(() => {
@@ -131,7 +137,6 @@ export default createComponent<Readonly<Props>>({
 
     return {
       ...useFab(root),
-      ...useShare(root),
       ...useAppBarActions(props, root),
       extension,
       routeHome,

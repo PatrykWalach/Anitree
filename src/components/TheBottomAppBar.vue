@@ -1,6 +1,6 @@
 <template>
   <v-app-bar app bottom>
-    <v-app-bar-nav-icon @click="syncedDrawer = !syncedDrawer" />
+    <v-app-bar-nav-icon @click.stop="syncedDrawer = !syncedDrawer" />
 
     <v-tooltip
       top
@@ -30,7 +30,10 @@ import { SetupContext, computed, createComponent } from '@vue/composition-api'
 import TheFab, { useFab } from './TheFab.vue'
 
 import { Media } from '../graphql/schema/media'
-import TheAppBarMenu from './TheAppBarMenu.vue'
+const TheAppBarMenu = () =>
+  import(
+    /* webpackChunkName: "TheAppBarMenu" */ /* webpackPrefetch: true */ './TheAppBarMenu.vue'
+  )
 import { useMediaCardActions } from './MediaCardActions.vue'
 import { useRoutes } from './TheAppBar.vue'
 import { useSearch } from './TheFab.vue'

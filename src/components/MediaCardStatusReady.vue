@@ -81,15 +81,13 @@ export default createComponent<Readonly<Props>>({
     const progressValue = computed((): number => {
       switch (status.value) {
         case 'COMPLETED':
-          return 100
         case 'PLANNING':
-          return 100
         case 'DROPPED':
           return 100
         default: {
-          const _episodes = episodes.value
-          if (_episodes) {
-            return (progress.value / _episodes) * 100
+          const episodesValue = episodes.value
+          if (episodesValue) {
+            return (progress.value / episodesValue) * 100
           }
           return 50
         }
@@ -142,9 +140,7 @@ export default createComponent<Readonly<Props>>({
 
       switch (status.value) {
         case 'COMPLETED':
-          return _tipString
         case 'PLANNING':
-          return _tipString
         case 'DROPPED':
           return _tipString
         default:

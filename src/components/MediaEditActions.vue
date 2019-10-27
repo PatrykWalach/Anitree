@@ -18,17 +18,23 @@
         >
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn text color="error" @click="confirmation = false">Cancel</v-btn>
+          <v-btn text color="error" @click.stop="confirmation = false"
+            >Cancel</v-btn
+          >
 
-          <v-btn text color="primary" @click="remove">Ok</v-btn>
+          <v-btn text color="primary" @click.stop="remove">Ok</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
     <v-spacer></v-spacer>
 
-    <v-btn text outlined color="primary" @click="close">Cancel</v-btn>
+    <v-btn text outlined color="primary" @click.stop="close">Cancel</v-btn>
 
-    <v-btn :disabled="!submitRequired" depressed color="primary" @click="submit"
+    <v-btn
+      :disabled="!submitRequired"
+      depressed
+      color="primary"
+      @click.stop="submit"
       >Save</v-btn
     >
   </v-card-actions>

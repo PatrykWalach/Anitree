@@ -7,7 +7,7 @@
       <template v-else>
         Recent changes:
         <v-spacer></v-spacer>
-        <v-btn @click="undo()">Undo</v-btn>
+        <v-btn @click.stop="undo()">Undo</v-btn>
       </template>
     </v-subheader>
 

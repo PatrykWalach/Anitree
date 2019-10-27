@@ -43,7 +43,7 @@
 
         <v-card-actions v-if="!$vuetify.breakpoint.xsOnly"
           ><v-spacer> </v-spacer>
-          <v-btn text @click="dialog = false">cancel</v-btn>
+          <v-btn text @click.stop="dialog = false">cancel</v-btn>
         </v-card-actions>
       </v-card>
     </component>

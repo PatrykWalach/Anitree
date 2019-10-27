@@ -181,8 +181,12 @@
       <v-divider></v-divider>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn text color="error" @click="close">cancel</v-btn>
-        <v-btn :disabled="!submitRequired" text color="primary" @click="submit"
+        <v-btn text color="error" @click.stop="close">cancel</v-btn>
+        <v-btn
+          :disabled="!submitRequired"
+          text
+          color="primary"
+          @click.stop="submit"
           >submit</v-btn
         >
       </v-card-actions>

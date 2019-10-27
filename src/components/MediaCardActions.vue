@@ -101,7 +101,10 @@ export const useShare = (root: SetupContext['root']) => {
     },
     icon: 'share',
     on: {
-      click: () => media && share(media),
+      click: (e: Event) => {
+        e.preventDefault()
+        media && share(media)
+      },
     },
     title: 'Share',
   })
@@ -118,7 +121,10 @@ export const useEdit = (root: SetupContext['root']) => {
     },
     icon: 'edit',
     on: {
-      click: () => id && open(id),
+      click: (e: Event) => {
+        e.preventDefault()
+        id && open(id)
+      },
     },
     title: 'Edit',
   })

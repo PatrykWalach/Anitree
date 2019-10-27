@@ -20,8 +20,10 @@
     </template>
     <v-date-picker v-model="date" no-title scrollable>
       <v-spacer></v-spacer>
-      <v-btn text color="primary" @click="menuActive = false">Cancel</v-btn>
-      <v-btn text color="primary" @click="save">OK</v-btn>
+      <v-btn text color="primary" @click.stop="menuActive = false"
+        >Cancel</v-btn
+      >
+      <v-btn text color="primary" @click.stop="save">OK</v-btn>
     </v-date-picker>
   </v-menu>
 </template>

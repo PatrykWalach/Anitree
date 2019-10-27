@@ -19,7 +19,6 @@
         <TheSearchFilters />
         <MediaEdit :id="mediaId" />
         <BaseShare :options="options" />
-        <TheFab fixed bottom v-if="!$vuetify.breakpoint.xsOnly" />
       </v-content>
 
       <TheBottomAppBar
@@ -28,7 +27,7 @@
         v-if="$vuetify.breakpoint.xsOnly"
       />
 
-      <TheDrawer :value.sync="drawer" />
+      <TheDrawer :viewer="Viewer" :value.sync="drawer" />
 
       <TheFooter />
     </v-app>
@@ -46,9 +45,12 @@ import BaseQuery from '@/components/BaseQuery.vue'
 import BaseShare from './components/BaseShare.vue'
 import MediaEdit from './components/MediaEdit.vue'
 import TheAppBar from './components/TheAppBar.vue'
-import TheBottomAppBar from './components/TheBottomAppBar.vue'
+
+const TheBottomAppBar = () =>
+  import(
+    /* webpackChunkName: "TheBottomAppBar" */ /* webpackPrefetch: true */ './components/TheBottomAppBar.vue'
+  )
 import TheDrawer from './components/TheDrawer.vue'
-import TheFab from './components/TheFab.vue'
 import TheFooter from './components/TheFooter.vue'
 import TheSearchFilters from './components/TheSearchFilters.vue'
 
@@ -71,7 +73,6 @@ export default createComponent({
     TheAppBar,
     TheBottomAppBar,
     TheDrawer,
-    TheFab,
     TheFooter,
     TheSearchFilters,
   },
@@ -104,7 +105,6 @@ export default createComponent({
       drawer,
       ...useViewer(root),
       ...useMedia(() => ({ id: parseInt(root.$route.params.mediaId, 10) })),
-      // ...useBottomNavigation(root),
       mediaId,
       options,
       toggleDrawer,

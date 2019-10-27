@@ -11,7 +11,7 @@
         <v-spacer></v-spacer>
         <v-tooltip v-if="!$vuetify.breakpoint.xsOnly" top>
           <template v-slot:activator="{ on, attrs }">
-            <v-btn icon v-bind="attrs" @click="isShared = false" v-on="on">
+            <v-btn icon v-bind="attrs" @click.stop="isShared = false" v-on="on">
               <v-icon>close</v-icon>
             </v-btn>
           </template>
@@ -21,7 +21,7 @@
 
       <v-snackbar v-model="snackbar" left>
         Link copied to clipboard
-        <v-btn color="accent" text @click="snackbar = false">
+        <v-btn color="accent" text @click.stop="snackbar = false">
           Close
         </v-btn>
       </v-snackbar>
