@@ -85,7 +85,9 @@ export default createComponent({
 
     const { mediaId } = root.$modules.edit
 
-    const { options } = root.$modules.share
+    const {
+      state: { options },
+    } = root.$modules.share
 
     const { dark } = useTheme(root)
 
