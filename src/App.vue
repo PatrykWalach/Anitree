@@ -34,36 +34,47 @@
   </BaseQuery>
 </template>
 <script lang="ts">
-import {
-  SetupContext,
-  computed,
-  createComponent,
-  ref,
-} from '@vue/composition-api'
+import { createComponent, ref } from '@vue/composition-api'
 import { useMedia, useViewer } from '@/graphql'
 import BaseQuery from '@/components/BaseQuery.vue'
-import BaseShare from './components/BaseShare.vue'
-import MediaEdit from './components/MediaEdit.vue'
-import TheAppBar from './components/TheAppBar.vue'
+// import BaseShare from './components/BaseShare.vue'
+// import MediaEdit from './components/MediaEdit.vue'
+// import TheAppBar from './components/TheAppBar.vue'
+
+const MediaEdit = () =>
+  import(
+    /* webpackChunkName: "MediaEdit" */ /* webpackPreload: true */ './components/MediaEdit.vue'
+  )
+const BaseShare = () =>
+  import(
+    /* webpackChunkName: "BaseShare" */ /* webpackPreload: true */ './components/BaseShare.vue'
+  )
+const TheAppBar = () =>
+  import(
+    /* webpackChunkName: "TheAppBar" */ /* webpackPreload: true */ './components/TheAppBar.vue'
+  )
 
 const TheBottomAppBar = () =>
   import(
     /* webpackChunkName: "TheBottomAppBar" */ /* webpackPrefetch: true */ './components/TheBottomAppBar.vue'
   )
-import TheDrawer from './components/TheDrawer.vue'
-import TheFooter from './components/TheFooter.vue'
-import TheSearchFilters from './components/TheSearchFilters.vue'
+const TheDrawer = () =>
+  import(
+    /* webpackChunkName: "TheDrawer" */ /* webpackPreload: true */ './components/TheDrawer.vue'
+  )
+const TheFooter = () =>
+  import(
+    /* webpackChunkName: "TheFooter" */ /* webpackPreload: true */ './components/TheFooter.vue'
+  )
+const TheSearchFilters = () =>
+  import(
+    /* webpackChunkName: "TheSearchFilters" */ /* webpackPreload: true */ './components/TheSearchFilters.vue'
+  )
+// import TheDrawer from './components/TheDrawer.vue'
+// import TheFooter from './components/TheFooter.vue'
+// import TheSearchFilters from './components/TheSearchFilters.vue'
 
-export const useTheme = (root: SetupContext['root']) => {
-  const dark = computed({
-    get: () => root.$vuetify.theme.dark,
-    set: dark => {
-      root.$vuetify.theme.dark = dark
-      localStorage.setItem('THEME', dark.toString())
-    },
-  })
-  return { dark }
-}
+import { useTheme } from '@/mixins'
 
 export default createComponent({
   components: {

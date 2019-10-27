@@ -61,50 +61,16 @@
 </template>
 
 <script lang="ts">
-import {
-  Ref,
-  SetupContext,
-  computed,
-  createComponent,
-} from '@vue/composition-api'
+import { computed, createComponent } from '@vue/composition-api'
 
-import { Location } from 'vue-router'
-import { NavigationElement } from '../types'
+import { useFab, useInjectedTheme, useMainNavigation } from '@/mixins'
+
 import TheDrawerViewer from './TheDrawerViewer.vue'
 import { User } from '../graphql/schema/viewer'
-import { useFab } from './TheFab.vue'
-import { useTheme } from './TheMediaAboutStats.vue'
 
 export interface Props {
   value: boolean
   viewer: User | null
-}
-
-export const useNavigation = (root: SetupContext['root']) => {
-  const main: Ref<
-    (NavigationElement & { bind: { to: Location } })[]
-  > = computed(() => [
-    {
-      bind: { exact: true, to: { name: 'home' } },
-      icon: 'home',
-      title: 'Home',
-    },
-    {
-      badge: {
-        value: root.$modules.commands.pending.value.length,
-      },
-      bind: { exact: true, to: { name: 'changes' } },
-      icon: 'change_history',
-      title: 'Changes',
-    },
-    {
-      bind: { exact: true, to: { name: 'settings' } },
-      icon: 'settings',
-      title: 'Settings',
-    },
-  ])
-
-  return { main }
 }
 
 export default createComponent<Readonly<Props>>({
@@ -131,8 +97,8 @@ export default createComponent<Readonly<Props>>({
 
     return {
       syncedValue,
-      ...useNavigation(root),
-      ...useTheme(),
+      ...useMainNavigation(root),
+      ...useInjectedTheme(),
       ...useFab(root),
     }
   },

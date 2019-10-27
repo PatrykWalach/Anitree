@@ -25,64 +25,22 @@
 </template>
 
 <script lang="ts">
-import { SetupContext, computed, createComponent } from '@vue/composition-api'
-
-import TheFab, { useFab } from './TheFab.vue'
+import { computed, createComponent } from '@vue/composition-api'
 
 import { Media } from '../graphql/schema/media'
+import TheFab from './TheFab.vue'
+
 const TheAppBarMenu = () =>
   import(
     /* webpackChunkName: "TheAppBarMenu" */ /* webpackPrefetch: true */ './TheAppBarMenu.vue'
   )
-import { useMediaCardActions } from './MediaCardActions.vue'
-import { useRoutes } from './TheAppBar.vue'
-import { useSearch } from './TheFab.vue'
 
 export interface Props {
   media: Media | null
   drawer: boolean
 }
-export const useAppBarActions = (
-  props: Pick<Props, 'media'>,
-  root: SetupContext['root'],
-) => {
-  const { actions: _actions } = useMediaCardActions(root)
 
-  const { active } = useFab(root)
-
-  const { routeTitle } = useRoutes(root)
-
-  const { searchBtn: _searchBtn } = useSearch()
-
-  const searchBtn = computed(_searchBtn)
-  const actions = computed(() => _actions(props.media))
-
-  const allActions = computed(() =>
-    (routeTitle.value ? actions.value : []).concat([searchBtn.value]),
-  )
-
-  const filteredActions = computed(() => {
-    const { name } = root.$route
-    const activeIcon = active.value.icon
-
-    return allActions.value
-      .filter(
-        ({ icon, bind }) =>
-          icon !== activeIcon && (!bind || !bind.to || bind.to.name !== name),
-      )
-      .reverse()
-  })
-
-  const mainActions = computed(() => filteredActions.value.slice().splice(0, 2))
-  const moreActions = computed(() => filteredActions.value.slice().splice(2))
-
-  return {
-    allActions,
-    filteredActions,
-    mainActions,
-    moreActions,
-  }
-}
+import { useAppBarActions } from '@/mixins'
 export default createComponent<Readonly<Props>>({
   components: { TheAppBarMenu, TheFab },
   props: {

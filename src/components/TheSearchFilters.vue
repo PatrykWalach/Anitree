@@ -195,54 +195,12 @@
 </template>
 
 <script lang="ts">
-import {
-  Ref,
-  SetupContext,
-  computed,
-  createComponent,
-  ref,
-} from '@vue/composition-api'
+import { computed, createComponent } from '@vue/composition-api'
 
+import { useDialog, useForm } from '@/mixins'
 import BaseField from './BaseField.vue'
-import { MediaSort } from '../graphql/schema/page'
+
 import { VChipGroup } from 'vuetify/lib'
-
-export interface Filters {
-  sort: MediaSort
-  onList: 'false' | 'true'
-  adult: 'false' | 'true'
-  isAdult: 'false' | 'true'
-}
-
-export const useDialog = (root: SetupContext['root']) => {
-  const { isShown, CHANGE_IS_SHOWN } = root.$modules.filter
-
-  const dialog = computed({
-    get: () => isShown.value,
-    set: _value => CHANGE_IS_SHOWN(_value),
-  })
-
-  return {
-    dialog,
-  }
-}
-export const useForm = (root: SetupContext['root']) => {
-  const _form: Ref<Partial<Filters>> = ref({})
-
-  const query = computed(() => root.$route.query)
-
-  const form = computed({
-    get: () => ({
-      ...query.value,
-      ..._form.value,
-    }),
-    set: change => {
-      _form.value = { ..._form.value, ...change }
-    },
-  })
-
-  return { _form, form, query }
-}
 
 export default createComponent({
   components: {

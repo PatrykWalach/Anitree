@@ -18,22 +18,10 @@
 <script lang="ts">
 import { computed, createComponent } from '@vue/composition-api'
 import { Page } from '../graphql/schema/page'
+import { useExtensionChip } from '@/mixins'
 
 export interface Props {
   page: Page
-}
-import { useTheme } from './TheMediaAboutStats.vue'
-
-export const useExtensionChip = () => {
-  const { theme } = useTheme()
-
-  const activeClass = computed(() =>
-    theme.isDark ? 'white black--text ' : 'grey darken-2 white--text',
-  )
-  return {
-    activeClass,
-    theme,
-  }
 }
 
 export default createComponent<Readonly<Props>>({

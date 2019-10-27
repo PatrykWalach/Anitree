@@ -254,8 +254,8 @@ import TheMediaAboutStats from '@/components/TheMediaAboutStats.vue'
 import TheMediaAboutTags from '@/components/TheMediaAboutTags.vue'
 import { createComponent } from '@vue/composition-api'
 import { useMedia } from '@/graphql'
-import { useString } from '@/components/MediaCardItemSubtitleReady.vue'
 
+import { useString } from '@/mixins'
 export default createComponent({
   components: {
     BaseQuery,

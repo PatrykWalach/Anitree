@@ -12,15 +12,14 @@
   </v-chip-group>
 </template>
 <script lang="ts">
+import { useExtensionChip, useSearchNavigation } from '@/mixins'
 import { createComponent } from '@vue/composition-api'
-import { useExtensionChip } from './TheAppBarExtensionChipsSearchReady.vue'
-import { useNavigation } from './TheSearchNavigation.vue'
 
 export default createComponent({
   setup() {
     return {
       ...useExtensionChip(),
-      ...useNavigation(),
+      ...useSearchNavigation(),
     }
   },
 })

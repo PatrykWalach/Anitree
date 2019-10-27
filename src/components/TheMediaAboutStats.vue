@@ -10,9 +10,9 @@
             left
             @click.stop="showMore = !showMore"
             :color="showMore ? 'primary' : ''"
-            >bar_chart</v-icon
-          ></template
-        >
+            >bar_chart
+          </v-icon>
+        </template>
         <span>{{ showMore ? 'Less' : 'More' }}</span>
       </v-tooltip>
     </v-subheader>
@@ -37,17 +37,7 @@
   </v-card>
 </template>
 <script lang="ts">
-import { computed, createComponent, inject, ref } from '@vue/composition-api'
-
-export const useTheme = () => {
-  const theme = inject('theme', { isDark: false })
-
-  const color = computed(() =>
-    theme.isDark ? 'grey darken-2' : 'grey lighten-2',
-  )
-
-  return { color, theme }
-}
+import { computed, createComponent, ref } from '@vue/composition-api'
 
 export interface Props {
   gradient: string[]

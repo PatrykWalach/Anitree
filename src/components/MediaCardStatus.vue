@@ -16,7 +16,7 @@ export interface Props {
   media: Media | null
 }
 
-import { useTheme } from './TheMediaAboutStats.vue'
+import { useInjectedTheme } from '@/mixins'
 
 export default createComponent<Readonly<Props>>({
   components: {
@@ -26,7 +26,7 @@ export default createComponent<Readonly<Props>>({
     media: { default: null, required: true, type: null },
   },
   setup() {
-    return useTheme()
+    return useInjectedTheme()
   },
 })
 </script>
