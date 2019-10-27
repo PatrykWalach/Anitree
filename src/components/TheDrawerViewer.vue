@@ -2,24 +2,26 @@
   <components
     v-if="token"
     :is="$vuetify.breakpoint.xsOnly ? 'v-bottom-sheet' : 'v-menu'"
-    :offset-y="$vuetify.breakpoint.xsOnly ? undefined : true"
+    :offset-x="$vuetify.breakpoint.xsOnly ? undefined : true"
   >
     <template v-slot:activator="{ on, attrs }">
-      <v-list rounded>
-        <v-skeleton-loader type="list-item-avatar" :loading="!viewer">
-          <v-list-item v-bind="attrs" v-on="on">
-            <v-list-item-avatar>
-              <v-avatar :size="40">
-                <v-img :src="viewer && viewer.avatar.large"></v-img>
-              </v-avatar>
-            </v-list-item-avatar>
-            <v-list-item-content>
-              <v-list-item-title>
+      <v-list>
+        <v-list-item v-bind="attrs" v-on="on">
+          <v-list-item-avatar size="40">
+            <v-img :src="(viewer && viewer.avatar.large) || ''">
+              <template v-slot:placeholder>
+                <v-skeleton-loader type="image"> </v-skeleton-loader>
+              </template>
+            </v-img>
+          </v-list-item-avatar>
+          <v-list-item-content>
+            <v-list-item-title>
+              <v-skeleton-loader type="text" :loading="!viewer">
                 {{ viewer && viewer.name }}
-              </v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </v-skeleton-loader>
+              </v-skeleton-loader>
+            </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
       </v-list>
     </template>
     <v-card>
@@ -76,7 +78,7 @@ export default createComponent<Readonly<Props>>({
     VMenu,
   },
   props: {
-    viewer: { default: null },
+    viewer: { default: null, required: true, type: null },
   },
   setup(_, { root }) {
     const { CHANGE_TOKEN, token } = root.$modules.settings
