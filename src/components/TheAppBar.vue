@@ -52,7 +52,7 @@
         </template>
         <span>{{ title }}</span>
       </v-tooltip>
-      <TheAppBarMenu bottom :actions="moreActions" />
+      <TheAppBarMenu :media="media" bottom :actions="moreActions" />
     </template>
   </v-app-bar>
 </template>
@@ -110,7 +110,6 @@ export default createComponent<Readonly<Props>>({
     TheAppBarExtensionTabs,
     TheAppBarMenu,
     TheAppBarSearch,
-    // TheAppBarViewer,
   },
   props: {
     media: { default: null, required: true, type: null },
