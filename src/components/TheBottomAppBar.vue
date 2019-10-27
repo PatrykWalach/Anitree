@@ -19,7 +19,7 @@
       <span>{{ title }}</span>
     </v-tooltip>
 
-    <TheAppBarMenu top :actions="moreActions" />
+    <TheAppBarMenu :media="media" top :actions="moreActions" />
     <TheFab top absolute />
   </v-app-bar>
 </template>

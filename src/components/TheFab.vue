@@ -7,10 +7,9 @@
       color="accent"
       fab
       large
-      dark
       right
     >
-      <v-icon>{{ active.icon }}</v-icon>
+      <v-icon color="white">{{ active.icon }}</v-icon>
     </v-btn>
   </v-fab-transition>
 </template>

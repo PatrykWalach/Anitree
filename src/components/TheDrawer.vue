@@ -27,7 +27,7 @@
           v-bind="active.bind"
         >
           <v-list-item-icon>
-            <v-icon>
+            <v-icon color="white">
               {{ active.icon }}
             </v-icon>
           </v-list-item-icon>

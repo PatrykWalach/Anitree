@@ -2,7 +2,7 @@
   <components
     v-if="token"
     :is="$vuetify.breakpoint.xsOnly ? 'v-bottom-sheet' : 'v-menu'"
-    :offset-x="$vuetify.breakpoint.xsOnly ? undefined : true"
+    :offset-x="!$vuetify.breakpoint.xsOnly || undefined"
   >
     <template v-slot:activator="{ on, attrs }">
       <v-list>
