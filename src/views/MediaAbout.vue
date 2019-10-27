@@ -50,7 +50,7 @@
                   </v-skeleton-loader>
                 </v-col>
 
-                <v-col cols="6" md="3" v-if="!Media && Media.seasonInt">
+                <v-col cols="6" md="3" v-if="!Media || Media.seasonInt">
                   <v-skeleton-loader
                     :loading="!Media"
                     type="list-item-two-line"
