@@ -188,56 +188,8 @@
         </v-col>
       </v-row>
       <v-row>
-        <template v-if="Media && Media.rankings.length">
-          <v-col
-            cols="12"
-            md="4"
-            v-for="(rankings, i) in Media.rankings.reduce(
-              (acc, ranking) => {
-                acc[ranking.type === 'POPULAR' ? 0 : 1].push(ranking)
-
-                return acc
-              },
-              [[], []],
-            )"
-            :key="i === 0 ? 'POPULAR' : 'RATED'"
-          >
-            <v-card>
-              <v-list>
-                <v-list-item
-                  v-for="{ id, rank, context, year, type, season } in rankings"
-                  :key="id"
-                  :to="{
-                    name: 'search',
-                    query: {
-                      year: year || undefined,
-                      season: season || undefined,
-                      sort:
-                        type === 'POPULAR' ? 'POPULARITY_DESC' : 'SCORE_DESC',
-                      type: Media.type,
-                    },
-                  }"
-                >
-                  <v-list-item-icon>
-                    <v-icon :color="type === 'POPULAR' ? 'red' : 'yellow'">
-                      {{ type === 'POPULAR' ? 'favorite' : 'star' }}
-                    </v-icon>
-                  </v-list-item-icon>
-                  <v-list-item-content>
-                    <v-list-item-title class="text-capitalize">
-                      #{{ rank }}
-                      {{ context }}
-                    </v-list-item-title>
-                    <v-list-item-subtitle class="text-capitalize">
-                      {{ season }}
-                      {{ year }}
-                    </v-list-item-subtitle>
-                  </v-list-item-content>
-                </v-list-item>
-              </v-list>
-            </v-card>
-          </v-col>
-        </template>
+        <TheMediaAboutRanking :media="Media" />
+        <TheMediaAboutRanking popularity :media="Media" />
 
         <v-col cols="12" v-if="!Media || Media.tags">
           <v-subheader>Tags</v-subheader>
@@ -250,6 +202,7 @@
 <script lang="ts">
 import BaseQuery from '@/components/BaseQuery.vue'
 import TheMediaAboutEpisode from '@/components/TheMediaAboutEpisode.vue'
+import TheMediaAboutRanking from '@/components/TheMediaAboutRanking.vue'
 import TheMediaAboutStats from '@/components/TheMediaAboutStats.vue'
 import TheMediaAboutTags from '@/components/TheMediaAboutTags.vue'
 import { createComponent } from '@vue/composition-api'
@@ -260,6 +213,7 @@ export default createComponent({
   components: {
     BaseQuery,
     TheMediaAboutEpisode,
+    TheMediaAboutRanking,
     TheMediaAboutStats,
     TheMediaAboutTags,
   },

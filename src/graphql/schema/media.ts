@@ -39,7 +39,7 @@ export interface Media extends Node {
   chapters: number | null
   volumes: number | null
   isFavourite: boolean
-  ranknigs: MediaRank[]
+  rankings: MediaRank[]
   mediaListEntry: MediaList | null
   title: MediaTitle
   trailer: MediaTrailer | null
