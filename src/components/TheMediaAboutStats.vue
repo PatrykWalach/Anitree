@@ -1,20 +1,10 @@
 <template>
-  <v-card v-if="loading || value.length">
+  <v-card v-if="loading || value.length" @click.stop="showMore = !showMore">
     <v-subheader>
       {{ subheader }}
       <v-spacer></v-spacer>
-      <v-tooltip top>
-        <template v-slot:activator="{ on }">
-          <v-icon
-            v-on="on"
-            left
-            @click.stop="showMore = !showMore"
-            :color="showMore ? 'primary' : ''"
-            >bar_chart</v-icon
-          ></template
-        >
-        <span>{{ showMore ? 'Less' : 'More' }}</span>
-      </v-tooltip>
+
+      <v-icon left :color="showMore ? 'primary' : ''">bar_chart</v-icon>
     </v-subheader>
 
     <v-card-text>
