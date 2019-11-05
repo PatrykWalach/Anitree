@@ -1,17 +1,16 @@
 <template>
   <BaseQuery
     :apollo="{
-      Viewer,
-      Media: ({ Viewer }) => ({
+      Media: {
         ...Media,
         variables: {
           ...variables,
-          format: (Viewer && Viewer.mediaListOptions.scoreFormat) || undefined,
+          format: (viewer && viewer.mediaListOptions.scoreFormat) || undefined,
         },
         tag: null,
-      }),
+      },
     }"
-    v-slot="{ Viewer, Media, isLoading, errors }"
+    v-slot="{ Media, isLoading, errors }"
   >
     <v-dialog
       v-model="isEdited"
@@ -28,10 +27,11 @@
           <MediaCardItem :media="Media" />
           <v-divider></v-divider>
           <MediaEditTabs
+            :tab.sync="tab"
             :style="{ position: 'sticky', top: 0, 'z-index': 2 }"
-            :loading="!token || !Media || !Viewer"
+            :loading="!token || !Media || !viewer"
           />
-          <v-container v-if="isLoading.Viewer || isLoading.Media">
+          <v-container v-if="!viewer || isLoading.Media">
             <v-row justify="center" align="center">
               <v-progress-circular indeterminate></v-progress-circular>
             </v-row>
@@ -55,9 +55,10 @@
             </v-card-actions>
           </template>
           <MediaEditItems
-            v-else-if="Media && Viewer"
+            v-else-if="Media && viewer"
+            :tab.sync="tab"
             :media="Media"
-            :user="Viewer"
+            :user="viewer"
           />
           <template v-else>
             <v-card-title>
@@ -74,13 +75,13 @@
           </template>
         </v-card-text>
         <v-divider></v-divider>
-        <MediaEditActions :media="Media" :user="Viewer" />
+        <MediaEditActions :media="Media" :user="viewer" />
       </v-card>
     </v-dialog>
   </BaseQuery>
 </template>
 <script lang="ts">
-import { computed, createComponent } from '@vue/composition-api'
+import { computed, createComponent, ref } from '@vue/composition-api'
 
 import BaseQuery from './BaseQuery.vue'
 import MediaCardBanner from './MediaCardBanner.vue'
@@ -92,13 +93,15 @@ const MediaEditItems = () =>
   )
 
 import MediaEditTabs from './MediaEditTabs.vue'
+import { User } from '../graphql/schema/viewer'
 import { useAccount } from './TheSettings.vue'
 import { useMedia } from '@/graphql'
 
+import { useViewer } from '@/graphql'
 export interface Props {
   id: number | null
+  viewer: User | null
 }
-import { useViewer } from '@/graphql'
 export default createComponent<Readonly<Props>>({
   components: {
     BaseQuery,
@@ -110,6 +113,7 @@ export default createComponent<Readonly<Props>>({
   },
   props: {
     id: { default: null, required: true, type: null },
+    viewer: { default: null, required: true, type: null },
   },
   setup(props, { root }) {
     const {
@@ -131,11 +135,14 @@ export default createComponent<Readonly<Props>>({
     })
     const { id: appId } = useAccount(root)
 
+    const tab = ref('edit1')
+
     return {
       appId,
       close,
       isEdited,
       loading,
+      tab,
       ...useViewer(root),
       ...useMedia(() => ({ id: props.id || 0 })),
     }

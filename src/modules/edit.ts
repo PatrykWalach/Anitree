@@ -23,15 +23,6 @@ export const useEdit = (
       const loading = state(false)
       const form: State<Partial<Form>> = state({})
 
-      const tabs = state([
-        { href: 'edit1', icon: 'dashboard', title: 'Progress' },
-        { href: 'edit2', icon: 'date_range', title: 'Dates' },
-        { href: 'edit3', icon: 'insert_comment', title: 'Notes' },
-        { href: 'edit4', icon: 'edit', title: ' Advanced Scores' },
-      ])
-
-      const tab = state('edit1')
-
       const CHANGE_FORM = mutation(
         'CHANGE_FORM',
         { form },
@@ -49,14 +40,6 @@ export const useEdit = (
         { isEdited },
         (state, payload: boolean) => {
           state.isEdited = payload
-        },
-      )
-
-      const CHANGE_TAB = mutation(
-        'CHANGE_TAB',
-        { tab },
-        (state, payload: string) => {
-          state.tab = payload
         },
       )
 
@@ -126,7 +109,6 @@ export const useEdit = (
           CHANGE_FORM,
           CHANGE_IS_EDITED,
           CHANGE_LOADING,
-          CHANGE_TAB,
           RESET_FORM,
         },
         state: {
@@ -134,8 +116,6 @@ export const useEdit = (
           isEdited,
           loading,
           mediaId,
-          tab,
-          tabs,
         },
       }
     },

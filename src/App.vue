@@ -17,7 +17,7 @@
           <router-view />
         </keep-alive>
         <TheSearchFilters />
-        <MediaEdit :id="mediaId" />
+        <MediaEdit :id="mediaId" :viewer="Viewer" />
         <BaseShare :options="options" />
       </v-content>
 

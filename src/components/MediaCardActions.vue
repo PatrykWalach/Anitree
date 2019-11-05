@@ -10,6 +10,7 @@
         color="primary"
         text
         :disabled="!media"
+        exact
         :to="
           (media && {
             name: 'media',
