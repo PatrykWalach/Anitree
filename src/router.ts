@@ -45,7 +45,19 @@ const router = new Router({
       name: 'home',
       path: '/',
     },
-
+    {
+      beforeEnter: (to, from, next) => {
+        next({
+          name: 'media-about',
+          params: {
+            ...to.params,
+            title: 'title',
+          },
+        })
+      },
+      name: 'media',
+      path: '/:mediaType/:mediaId',
+    },
     {
       beforeEnter: (to, from, next) => {
         const currentId = parseInt(to.params.mediaId, 10)
@@ -59,27 +71,25 @@ const router = new Router({
           .then(media => {
             const title = media.title.romaji || ''
             document.title = 'Anitree - ' + title
+
             const slush = title
               .trim()
               .replace(/[^\w\s]/g, '')
               .replace(/\s/g, '-')
 
-            return next({
-              name: 'media-about',
-              params: {
-                ...to.params,
-                title: slush,
-              },
-            })
-          })
-          .catch(() => {
-            next(from ? false : { name: 'home' })
+            if (to.params.title === slush) {
+              next()
+            } else {
+              next({
+                ...to,
+                params: {
+                  ...to.params,
+                  title: slush,
+                },
+              })
+            }
           })
       },
-      name: 'media',
-      path: '/:mediaType/:mediaId',
-    },
-    {
       children: [
         {
           component: MediaAbout,
@@ -144,9 +154,10 @@ const router = new Router({
 router.afterEach(to => {
   const { name, params, query } = to
   if (name) {
-    if (name !== 'title') {
+    if (name !== 'media-timeline' && name !== 'media-about') {
+      const [[firstLetter, ...otherLetters]] = name.split('-')
       document.title =
-        'Anitree - ' + name[0].toUpperCase() + name.split('-')[0].substr(1)
+        'Anitree - ' + firstLetter.toUpperCase() + otherLetters.join('')
     }
 
     localStorage.setItem('LAST_ROUTE', JSON.stringify({ name, params, query }))
