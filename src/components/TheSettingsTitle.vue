@@ -26,11 +26,11 @@
             <v-list-item
               v-for="title in titles"
               :key="title"
-              v-slot="{ active }"
+              v-slot="{ active, toggle }"
               :value="title"
             >
               <v-list-item-action>
-                <v-checkbox v-model="active"></v-checkbox>
+                <v-checkbox :input-value="active" @click="toggle"></v-checkbox>
               </v-list-item-action>
               <v-list-item-content>
                 <v-list-item-title class="text-capitalize">

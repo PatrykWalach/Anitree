@@ -10,7 +10,7 @@
         tag: null,
       },
     }"
-    v-slot="{ Media, isLoading, errors }"
+    v-slot="{ Media, isLoading }"
   >
     <v-dialog
       v-model="isEdited"

@@ -135,24 +135,24 @@
               }
             "
           >
-            <v-list-item v-slot="{ active }" value="false">
+            <v-list-item v-slot="{ active, toggle }" value="false">
               <v-list-item-content>
                 <v-list-item-title>
                   Hide anime on my list
                 </v-list-item-title>
               </v-list-item-content>
               <v-list-item-action>
-                <v-checkbox v-model="active"></v-checkbox>
+                <v-checkbox :input-value="active" @click="toggle"></v-checkbox>
               </v-list-item-action>
             </v-list-item>
-            <v-list-item v-slot="{ active }" value="true">
+            <v-list-item v-slot="{ active, toggle }" value="true">
               <v-list-item-content>
                 <v-list-item-title>
                   Only show anime on my list
                 </v-list-item-title>
               </v-list-item-content>
               <v-list-item-action>
-                <v-checkbox v-model="active"></v-checkbox>
+                <v-checkbox :input-value="active" @click="toggle"></v-checkbox>
               </v-list-item-action>
             </v-list-item>
           </v-list-item-group>
@@ -165,14 +165,14 @@
               }
             "
           >
-            <v-list-item v-slot="{ active }" value="true">
+            <v-list-item v-slot="{ active, toggle }" value="true">
               <v-list-item-content>
                 <v-list-item-title>
                   Adult
                 </v-list-item-title>
               </v-list-item-content>
               <v-list-item-action>
-                <v-checkbox v-model="active"></v-checkbox>
+                <v-checkbox :input-value="active" @click="toggle"></v-checkbox>
               </v-list-item-action>
             </v-list-item>
           </v-list-item-group>

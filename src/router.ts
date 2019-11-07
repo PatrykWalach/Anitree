@@ -70,7 +70,7 @@ const router = new Router({
           .then(({ data }) => data.Media)
           .then(media => {
             const title = media.title.romaji || ''
-            document.title =  title+ ' - Anitree'
+            document.title = title + ' - Anitree'
 
             const slush = title
               .trim()
@@ -156,7 +156,8 @@ router.afterEach(to => {
   if (name) {
     if (name !== 'media-timeline' && name !== 'media-about') {
       const [[firstLetter, ...otherLetters]] = name.split('-')
-      document.title = firstLetter.toUpperCase() + otherLetters.join('')+         ' - Anitree' 
+      document.title =
+        firstLetter.toUpperCase() + otherLetters.join('') + ' - Anitree'
     }
 
     localStorage.setItem('LAST_ROUTE', JSON.stringify({ name, params, query }))

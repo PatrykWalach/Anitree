@@ -4,7 +4,7 @@
       Viewer,
       Media: { ...Media, 'fetch-policy': 'cache-and-network' },
     }"
-    v-slot="{ Viewer, Media, loading }"
+    v-slot="{ Viewer, Media }"
   >
     <MediaCardBanner :media="Media" />
 
