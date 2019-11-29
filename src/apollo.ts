@@ -9,21 +9,20 @@ import { Variables } from '@/graphql/schema/media'
 import Vue from 'vue'
 import VueApollo from 'vue-apollo'
 import { persistCache } from 'apollo-cache-persist'
-import { settings } from '@/modules'
+
+import { store } from '@/store'
 
 const link = new HttpLink({
   uri: 'https://graphql.anilist.co',
 })
 
 const middle = new ApolloLink((operation, forward) => {
-  const {
-    state: { token },
-  } = settings
+  const token = store.getState().settings.token
 
-  if (token.value) {
+  if (token) {
     operation.setContext({
       headers: {
-        Authorization: `Bearer ${token.value}`,
+        Authorization: `Bearer ${token}`,
       },
     })
   }

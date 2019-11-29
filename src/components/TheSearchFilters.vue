@@ -203,9 +203,12 @@ import {
   ref,
 } from '@vue/composition-api'
 
+import { useStore,useState } from '@/store'
 import BaseField from './BaseField.vue'
 import { MediaSort } from '../graphql/schema/page'
 import { VChipGroup } from 'vuetify/lib'
+
+
 
 export interface Filters {
   sort: MediaSort
@@ -214,12 +217,19 @@ export interface Filters {
   isAdult: 'false' | 'true'
 }
 
-export const useDialog = (root: SetupContext['root']) => {
-  const { isShown, CHANGE_IS_SHOWN } = root.$modules.filter
+export const useDialog = () => {
+  const {
+    dispatch,
+    actions: {
+      filter: { CHANGE_IS_SHOWN },
+    },
+  } = useStore()
+
+  const isShown = useState(state => state.filter.isShown)
 
   const dialog = computed({
     get: () => isShown.value,
-    set: _value => CHANGE_IS_SHOWN(_value),
+    set: _value => dispatch(CHANGE_IS_SHOWN(_value)),
   })
 
   return {
@@ -251,7 +261,7 @@ export default createComponent({
   },
   inheritAttrs: false,
   setup(_, { root }) {
-    const { dialog } = useDialog(root)
+    const { dialog } = useDialog()
     const { _form, query, form } = useForm(root)
 
     const close = () => {

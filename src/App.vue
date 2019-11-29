@@ -40,6 +40,7 @@ import {
   createComponent,
   ref,
 } from '@vue/composition-api'
+
 import { useMedia, useViewer } from '@/graphql'
 import BaseQuery from '@/components/BaseQuery.vue'
 import BaseShare from './components/BaseShare.vue'
@@ -53,6 +54,7 @@ const TheBottomAppBar = () =>
 import TheDrawer from './components/TheDrawer.vue'
 import TheFooter from './components/TheFooter.vue'
 import TheSearchFilters from './components/TheSearchFilters.vue'
+import { useState } from '@/store'
 
 export const useTheme = (root: SetupContext['root']) => {
   const dark = computed({
@@ -83,11 +85,8 @@ export default createComponent({
       drawer.value = !drawer.value
     }
 
-    const { mediaId } = root.$modules.edit
-
-    const {
-      state: { options },
-    } = root.$modules.share
+    const mediaId = useState(state => state.edit.mediaId)
+    const options = useState(state => state.share.options)
 
     const { dark } = useTheme(root)
 
@@ -105,7 +104,7 @@ export default createComponent({
 
     return {
       drawer,
-      ...useViewer(root),
+      ...useViewer(),
       ...useMedia(() => ({ id: parseInt(root.$route.params.mediaId, 10) })),
       mediaId,
       options,

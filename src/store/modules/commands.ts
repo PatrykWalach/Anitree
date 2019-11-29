@@ -3,12 +3,15 @@ import {
   DeleteCommandConstructor,
 } from './commands/DeleteCommand'
 import { SaveCommand, SaveCommandConstructor } from './commands/SaveCommand'
-import { State, createModule } from 'vuex-composition-api'
+
+import CompositionApi from '@vue/composition-api'
 import { Form } from '@/types'
 import { FuzzyDate } from '@/graphql/schema/media'
 import { MediaList } from '@/graphql/schema/mediaListCollection'
-// import { useSettings } from './settings'
-// import { watch } from '@vue/composition-api'
+import Vue from 'vue'
+import { createSlice } from '@reduxjs/toolkit'
+
+Vue.use(CompositionApi)
 
 export interface Command {
   saveState?(): void | Promise<void>
@@ -39,19 +42,19 @@ export const isSaveCommand = (
 
 // const stored = localStorage.getItem('CHANGES')
 
-export const loadHistory = (stored: string | null) =>
-  stored &&
-  JSON.parse(stored, (key, value) => {
-    if (value instanceof Object) {
-      if (isSaveCommand(value)) {
-        return new SaveCommand(value)
-      }
-      if (isDeleteCommand(value)) {
-        return new DeleteCommand(value)
-      }
-    }
-    return value
-  })
+// export const loadHistory = (stored: string | null) =>
+//   stored &&
+//   JSON.parse(stored, (key, value) => {
+//     if (value instanceof Object) {
+//       if (isSaveCommand(value)) {
+//         return new SaveCommand(value)
+//       }
+//       if (isDeleteCommand(value)) {
+//         return new DeleteCommand(value)
+//       }
+//     }
+//     return value
+//   })
 
 // export const executeNotDoneCommands = async (commands: ListCommand[]) => {
 //   for (const command of commands.filter(({ done }) => !done)) {
@@ -63,66 +66,32 @@ export const loadHistory = (stored: string | null) =>
 //   }
 // }
 
-export const useCommands = () =>
-  // settings: ReturnType<typeof useSettings>
-  createModule({
-    name: 'commands',
-    namespaced: true,
-    setup({ getter, state, mutation }) {
-      const history: State<ListCommand[]> = state(
-        // loadHistory(stored) ||
-        [],
-      )
-
-      // executeNotDoneCommands(history.value)
-
-      // watch(() => {
-      //   if (settings.state.cacheChanges.value) {
-      //     localStorage.setItem('CHANGES', JSON.stringify(history.value))
-      //   } else {
-      //     localStorage.removeItem('CHANGES')
-      //   }
-      // })
-
-      const PUSH_COMMAND = mutation(
-        'PUSH_COMMAND',
-        { history },
-        (state, command: ListCommand) => state.history.push(command),
-      )
-
-      const POP_COMMAND = mutation('POP_COMMAND', { history }, state =>
-        state.history.pop(),
-      )
-
-      const undo = async () => {
-        history.value[history.value.length - 1].undo().then(POP_COMMAND)
-      }
-
-      const add = async (command: ListCommand) => {
-        PUSH_COMMAND(command)
-        await command.execute()
-        return command
-      }
-      const pending = getter(() => history.value.filter(({ done }) => !done))
-
-      return {
-        actions: {
-          add,
-          undo,
-        },
-        getters: {
-          pending,
-        },
-        mutations: {
-          POP_COMMAND,
-          PUSH_COMMAND,
-        },
-        state: {
-          history,
-        },
-      }
+export const { reducer: commands, actions: commandsActions } = createSlice({
+  initialState: { history: [] as ListCommand[] },
+  name: 'commands',
+  reducers: {
+    POP_COMMAND: state => {
+      state.history.pop()
     },
-  })
+    PUSH_COMMAND: (state, { payload }: { payload: ListCommand }) => {
+      state.history.push(payload)
+    },
+  },
+})
+
+//   // commandsActionContext
+
+//     // loadHistory(stored) ||
+
+//   // executeNotDoneCommands(history.value)
+
+//   // watch(() => {
+//   //   if (settings.state.cacheChanges.value) {
+//   //     localStorage.setItem('CHANGES', JSON.stringify(history.value))
+//   //   } else {
+//   //     localStorage.removeItem('CHANGES')
+//   //   }
+//   // })
 
 export const mediaListToForm = (
   mediaListEntry: MediaList | null,

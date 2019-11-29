@@ -57,9 +57,12 @@
 <script lang="ts">
 import { VBottomSheet, VDialog } from 'vuetify/lib'
 import { computed, createComponent, ref } from '@vue/composition-api'
+import { useStore,useState } from '@/store'
 import BaseShareItems from './BaseShareItems.vue'
 import { ShareData } from '../types'
 import { clipboard } from 'vue-clipboards'
+
+
 
 export interface Props {
   options: ShareData | null
@@ -73,14 +76,27 @@ export default createComponent<Readonly<Props>>({
   props: {
     options: { default: null, required: true, type: null },
   },
-  setup(props, { root }) {
+  setup(props) {
     const snackbar = ref(false)
-    const { isShared: _isShared, CHANGE_IS_SHARED } = root.$modules.share
+
+    const {
+      dispatch,
+      actions: {
+        share: { CHANGE_IS_SHARED },
+      },
+    } = useStore()
+
+    const isSharedState = useState(state => state.share.isShared)
 
     const isShared = computed({
-      get: () => _isShared.value,
-      set: CHANGE_IS_SHARED,
+      get: () => isSharedState.value,
+      set: v => dispatch(CHANGE_IS_SHARED(v)),
     })
+
+    // const isShared = computed({
+    //   get: () => isSharedState.value,
+    //   set: v => dispatch(CHANGE_IS_SHARED(v)),
+    // })
 
     const url = computed(() => {
       const { options } = props

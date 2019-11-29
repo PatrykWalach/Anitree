@@ -15,10 +15,11 @@
 </template>
 <script lang="ts">
 import { SetupContext, computed, createComponent } from '@vue/composition-api'
+import { useStore,useState } from '@/store'
 import { NavigationElement } from '@/types'
 import TheSearchFilters from './TheSearchFilters.vue'
-// import { useBottomNavigation } from '@/App.vue'
 import { useEdit } from './MediaCardActions.vue'
+
 
 export const useSearch = () => {
   const searchBtn = (): NavigationElement => ({
@@ -31,7 +32,7 @@ export const useSearch = () => {
 }
 
 export const useFab = (root: SetupContext['root']) => {
-  const { editBtn: _editBtn } = useEdit(root)
+  const { editBtn: _editBtn } = useEdit()
 
   const editBtn = computed(() =>
     _editBtn(parseInt(root.$route.params.mediaId, 10)),
@@ -41,9 +42,17 @@ export const useFab = (root: SetupContext['root']) => {
 
   const searchBtn = computed(_searchBtn)
 
-  const active = computed(() => {
-    const { filter, timeline } = root.$modules
+  const {
+    dispatch,
+    actions: {
+      filter: { CHANGE_IS_SHOWN },
+      timeline: { CHANGE_ORDER },
+    },
+  } = useStore()
 
+  const order = useState(state => state.timeline.order)
+
+  const active = computed(() => {
     switch (root.$route.name) {
       case 'search':
         return {
@@ -51,7 +60,7 @@ export const useFab = (root: SetupContext['root']) => {
           on: {
             click: (e: Event) => {
               e.preventDefault()
-              filter.CHANGE_IS_SHOWN(true)
+              dispatch(CHANGE_IS_SHOWN(true))
             },
           },
           title: 'Filter',
@@ -62,7 +71,7 @@ export const useFab = (root: SetupContext['root']) => {
           on: {
             click: (e: Event) => {
               e.preventDefault()
-              timeline.CHANGE_ORDER(timeline.state.order.value * -1)
+              dispatch(CHANGE_ORDER(order.value * -1))
             },
           },
           title: 'Sort',

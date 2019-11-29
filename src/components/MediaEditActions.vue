@@ -47,34 +47,47 @@ import {
   ref,
 } from '@vue/composition-api'
 
-import { DeleteCommand } from '@/modules/commands/DeleteCommand'
+import { useCommands, useEdit } from '../store'
+import { useStore,useState } from '@/store'
+import { DeleteCommand } from '@/store/modules/commands/DeleteCommand'
 
 import { Media } from '@/graphql/schema/media'
 import { User } from '@/graphql/schema/viewer'
+
+
 
 export interface Props {
   user: User | null
   media: Media | null
 }
 
-function useActions(props: Readonly<Props>, { root }: SetupContext) {
+const useActions = (props: Readonly<Props>, { root }: SetupContext) => {
   const confirmation = ref(false)
 
-  const { CHANGE_IS_EDITED, submit: _submit, close, form } = root.$modules.edit
+  const {
+    dispatch,
+    actions: {
+      edit: { CHANGE_IS_EDITED },
+    },
+  } = useStore()
+
+  const form = useState(state => state.edit.form)
 
   const submitRequired = computed(() => !!Object.values(form.value).length)
 
-  const submit = async () => {
-    await _submit(root.$apollo)
-    CHANGE_IS_EDITED(false)
-  }
+  const { submit: dispatchSubmit, close } = useEdit()
 
+  const submit = async () => {
+    await dispatchSubmit(root.$apollo)
+    dispatch(CHANGE_IS_EDITED(false))
+  }
+  const { add } = useCommands()
   const remove = async () => {
     const { media } = props
 
     if (media && media.mediaListEntry) {
       confirmation.value = false
-      await root.$modules.commands.add(
+      await add(
         new DeleteCommand({
           apollo: root.$apollo,
           variables: {
@@ -84,7 +97,7 @@ function useActions(props: Readonly<Props>, { root }: SetupContext) {
         }),
       )
 
-      CHANGE_IS_EDITED(false)
+      dispatch(CHANGE_IS_EDITED(false))
     }
   }
 

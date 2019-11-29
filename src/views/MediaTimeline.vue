@@ -26,6 +26,9 @@ import { DocumentNode } from 'graphql'
 import { PAGE } from '@/graphql'
 import TheMediaTimeline from '../components/TheMediaTimeline.vue'
 
+import { sorters } from '@/store/modules/timeline'
+import { useState } from '@/store'
+
 export const useQuery = <R, TVariables = OperationVariables>(
   root: SetupContext['root'],
   queryDocument: DocumentNode,
@@ -134,7 +137,7 @@ export default createComponent({
       }
     })
 
-    const { sorters, order } = root.$modules.timeline
+    const order = useState(state => state.timeline.order)
 
     const mediaList = computed(() => {
       const _data = data.value
@@ -143,7 +146,7 @@ export default createComponent({
       return (
         (_data &&
           _data.Page.media.slice().sort((a, b) => {
-            for (const sort of sorters.value) {
+            for (const sort of sorters) {
               const result = sort(a, b) * _order
 
               if (result) {

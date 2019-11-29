@@ -4,6 +4,7 @@ import { FormBuilder } from './FormBuilder'
 import { SaveVariables } from '@/graphql/schema/listEntry'
 import { SetupContext } from '@vue/composition-api'
 import { User } from '@/graphql/schema/viewer'
+import { useEdit } from '@/store'
 
 export interface Props {
   method: keyof FormDirector
@@ -80,6 +81,7 @@ export class FormDirector {
     { scoreFormat, manga, media, form }: Readonly<Props>,
     { root }: SetupContext,
   ) {
+    const { changeForm } = useEdit()
     builder.setSelects([
       {
         attrs: {
@@ -99,7 +101,7 @@ export class FormDirector {
         props: {
           afterTransform: [
             (status: Partial<SaveVariables>['status']) =>
-              root.$modules.edit.changeForm({
+              changeForm({
                 apollo: root.$apollo,
                 form: { status },
               }),
@@ -119,7 +121,7 @@ export class FormDirector {
             afterTransform: [
               parseFloat,
               (score: Partial<SaveVariables>['score']) =>
-                root.$modules.edit.changeForm({
+                changeForm({
                   apollo: root.$apollo,
                   form: { score },
                 }),
@@ -145,7 +147,7 @@ export class FormDirector {
               parseFloat,
 
               (progress: Partial<SaveVariables>['progress']) =>
-                root.$modules.edit.changeForm({
+                changeForm({
                   apollo: root.$apollo,
                   form: { progress },
                 }),
@@ -171,7 +173,7 @@ export class FormDirector {
             afterTransform: [
               parseFloat,
               (progressVolumes: Partial<SaveVariables>['progressVolumes']) =>
-                root.$modules.edit.changeForm({
+                changeForm({
                   apollo: root.$apollo,
                   form: { progressVolumes },
                 }),
@@ -195,6 +197,7 @@ export class FormDirector {
     { manga, form }: Readonly<Props>,
     { root }: SetupContext,
   ) {
+    const { changeForm } = useEdit()
     builder.setDateFields([
       {
         attrs: {
@@ -205,7 +208,7 @@ export class FormDirector {
           afterTransform: [
             stringToDate,
             (startedAt: Partial<SaveVariables>['startedAt']) =>
-              root.$modules.edit.changeForm({
+              changeForm({
                 apollo: root.$apollo,
                 form: { startedAt },
               }),
@@ -223,7 +226,7 @@ export class FormDirector {
           afterTransform: [
             stringToDate,
             (completedAt: Partial<SaveVariables>['completedAt']) =>
-              root.$modules.edit.changeForm({
+              changeForm({
                 apollo: root.$apollo,
                 form: { completedAt },
               }),
@@ -243,7 +246,7 @@ export class FormDirector {
             parseFloat,
 
             (repeat: Partial<SaveVariables>['repeat']) =>
-              root.$modules.edit.changeForm({
+              changeForm({
                 apollo: root.$apollo,
                 form: { repeat },
               }),
@@ -263,7 +266,7 @@ export class FormDirector {
     { root }: SetupContext,
   ) {
     const { form } = data
-
+    const { changeForm } = useEdit()
     builder.setTextareas([
       {
         attrs: {
@@ -273,7 +276,7 @@ export class FormDirector {
         props: {
           afterTransform: [
             (notes: Partial<SaveVariables>['notes']) =>
-              root.$modules.edit.changeForm({
+              changeForm({
                 apollo: root.$apollo,
                 form: { notes },
               }),
@@ -290,6 +293,7 @@ export class FormDirector {
     { root }: SetupContext,
   ) {
     const { scoreFormat, advancedScoring, form } = data
+    const { changeForm } = useEdit()
     builder.setFields(
       advancedScoring.map((label, i) => ({
         attrs: {
@@ -322,7 +326,7 @@ export class FormDirector {
               }
             },
             (form: Partial<SaveVariables>) =>
-              root.$modules.edit.changeForm({
+              changeForm({
                 apollo: root.$apollo,
                 form,
               }),

@@ -24,7 +24,9 @@ import { Media } from '@/graphql/schema/media'
 import MediaEditItemsTab from './MediaEditItemsTab.vue'
 import { User } from '@/graphql/schema/viewer'
 
-import { mediaListToForm } from '@/modules/commands'
+import { mediaListToForm } from '@/store/modules/commands'
+
+import { useState } from '@/store'
 
 export interface Props {
   media: Media
@@ -41,9 +43,7 @@ export default createComponent<Readonly<Props>>({
     tab: { default: 'edit1', required: true, type: String },
     user: { default: null, required: true, type: Object },
   },
-  setup(props, { root, emit }) {
-    const { form: _form } = root.$modules.edit
-
+  setup(props, { emit }) {
     const syncedTab = computed({
       get: () => props.tab,
       set: e => emit('update:tab', e),
@@ -69,9 +69,11 @@ export default createComponent<Readonly<Props>>({
       mediaListToForm(props.media.mediaListEntry, advancedScoring.value),
     )
 
+    const editForm = useState(state => state.edit.form)
+
     const form = computed(() => ({
       ...stored.value,
-      ..._form.value,
+      ...editForm.value,
     }))
 
     return { advancedScoring, form, manga, scoreFormat, syncedTab }

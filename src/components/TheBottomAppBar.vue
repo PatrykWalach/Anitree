@@ -46,7 +46,7 @@ export const useAppBarActions = (
   props: Pick<Props, 'media'>,
   root: SetupContext['root'],
 ) => {
-  const { actions: _actions } = useMediaCardActions(root)
+  const { actions: _actions } = useMediaCardActions()
 
   const { active } = useFab(root)
 

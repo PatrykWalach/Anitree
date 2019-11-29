@@ -42,8 +42,8 @@ export default createComponent({
     BaseQuery,
     TheAppBarExtensionChipsSearchReady,
   },
-  setup(_, { root }) {
-    return useViewer(root)
+  setup() {
+    return useViewer()
   },
 })
 </script>

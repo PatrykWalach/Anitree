@@ -12,14 +12,16 @@ export interface Props {
   media: Media
 }
 
+import { useTitle } from '@/store'
+
 export default createComponent<Readonly<Props>>({
   props: {
     media: { default: null, required: true, type: Object },
   },
-  setup(props, { root }) {
-    const { getTitle } = root.$modules.title
+  setup(props) {
+    const { getTitle } = useTitle()
 
-    const title = computed(() => getTitle.value(props.media.title))
+    const title = computed(() => getTitle(props.media.title))
 
     return {
       title,

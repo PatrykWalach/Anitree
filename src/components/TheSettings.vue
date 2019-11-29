@@ -57,26 +57,30 @@ import {
   createComponent,
   ref,
 } from '@vue/composition-api'
+import { useState, useStore } from '@/store'
 import TheSettingsSetting from '@/components/TheSettingsSetting.vue'
 import TheSettingsTitle from '@/components/TheSettingsTitle.vue'
 
 import { useTheme } from '@/App.vue'
 
-export const useAccount = (root: SetupContext['root']) => {
+export const useAccount = () => {
   const id = ref(process.env.VUE_APP_ANILIST_ID || false)
 
-  const { token } = root.$modules.settings
+  const token = useState(state => state.settings.token)
 
   return { id, token }
 }
 
-const useCache = (root: SetupContext['root']) => {
+const useCache = () => {
   const {
-    cacheApollo,
-    cacheChanges,
-    CHANGE_CACHE_APOLLO,
-    CHANGE_CACHE_CHANGES,
-  } = root.$modules.settings
+    dispatch,
+    actions: {
+      settings: { CHANGE_CACHE_APOLLO, CHANGE_CACHE_CHANGES },
+    },
+  } = useStore()
+
+  const cacheApollo = useState(state => state.settings.cacheApollo)
+  const cacheChanges = useState(state => state.settings.cacheChanges)
 
   const cache = computed({
     get: () =>
@@ -84,10 +88,9 @@ const useCache = (root: SetupContext['root']) => {
         cacheApollo.value ? [0] : [],
         cacheChanges.value ? [1] : [],
       ),
-
     set: a => {
-      CHANGE_CACHE_APOLLO(!!a.includes(0))
-      CHANGE_CACHE_CHANGES(!!a.includes(1))
+      dispatch(CHANGE_CACHE_APOLLO(!!a.includes(0)))
+      dispatch(CHANGE_CACHE_CHANGES(!!a.includes(1)))
     },
   })
 
@@ -95,9 +98,16 @@ const useCache = (root: SetupContext['root']) => {
 }
 
 const useSite = (root: SetupContext['root']) => {
-  const { syncChanges, CHANGE_SYNC_CHANGES } = root.$modules.settings
+  const {
+    dispatch,
+    actions: {
+      settings: { CHANGE_SYNC_CHANGES },
+    },
+  } = useStore()
 
   const { dark } = useTheme(root)
+
+  const syncChanges = useState(state => state.settings.syncChanges)
 
   const site = computed({
     get: () =>
@@ -107,7 +117,7 @@ const useSite = (root: SetupContext['root']) => {
       ),
     set: a => {
       dark.value = !!a.includes(0)
-      CHANGE_SYNC_CHANGES(!!a.includes(1))
+      dispatch(CHANGE_SYNC_CHANGES(!!a.includes(1)))
     },
   })
 
@@ -120,8 +130,8 @@ export default createComponent({
     TheSettingsTitle,
   },
   setup: (_, { root }) => ({
-    ...useAccount(root),
-    ...useCache(root),
+    ...useAccount(),
+    ...useCache(),
     ...useSite(root),
   }),
 })

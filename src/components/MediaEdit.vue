@@ -31,12 +31,11 @@
             :style="{ position: 'sticky', top: 0, 'z-index': 2 }"
             :loading="!token || !Media || !viewer"
           />
-          <v-container v-if="!viewer || isLoading.Media">
+          <v-container v-if="isLoading.viewer || isLoading.Media">
             <v-row justify="center" align="center">
               <v-progress-circular indeterminate></v-progress-circular>
             </v-row>
           </v-container>
-
           <template v-else-if="!token">
             <v-card-title>
               You are not logged in
@@ -95,9 +94,12 @@ const MediaEditItems = () =>
 import MediaEditTabs from './MediaEditTabs.vue'
 import { User } from '../graphql/schema/viewer'
 import { useAccount } from './TheSettings.vue'
+import { useEdit } from '../store'
 import { useMedia } from '@/graphql'
-
+import { useState } from '@/store'
+import { useStore } from '@/store'
 import { useViewer } from '@/graphql'
+
 export interface Props {
   id: number | null
   viewer: User | null
@@ -115,25 +117,42 @@ export default createComponent<Readonly<Props>>({
     id: { default: null, required: true, type: null },
     viewer: { default: null, required: true, type: null },
   },
-  setup(props, { root }) {
+  setup(props) {
     const {
-      close,
-      isEdited: _isEdited,
-      loading,
-      CHANGE_IS_EDITED,
-    } = root.$modules.edit
+      dispatch,
+      actions: {
+        edit: { CHANGE_IS_EDITED },
+      },
+    } = useStore()
+
+    const loading = useState(state => state.edit.loading)
+    const isEditedState = useState(state => state.edit.isEdited)
 
     const isEdited = computed({
-      get: () => _isEdited.value,
+      get: () => isEditedState.value,
       set: isEdited => {
         if (!isEdited) {
           close()
         } else {
-          CHANGE_IS_EDITED(isEdited)
+          dispatch(CHANGE_IS_EDITED(isEdited))
         }
       },
     })
-    const { id: appId } = useAccount(root)
+
+    const { close } = useEdit()
+
+    // const isEdited = computed({
+    //   get: () => isEditedState.value,
+    //   set: isEdited => {
+    //     if (!isEdited) {
+    //       close()
+    //     } else {
+    //       dispatch(CHANGE_IS_EDITED(isEdited))
+    //     }
+    //   },
+    // })
+
+    const { id: appId } = useAccount()
 
     const tab = ref('edit1')
 
@@ -143,7 +162,7 @@ export default createComponent<Readonly<Props>>({
       isEdited,
       loading,
       tab,
-      ...useViewer(root),
+      ...useViewer(),
       ...useMedia(() => ({ id: props.id || 0 })),
     }
   },

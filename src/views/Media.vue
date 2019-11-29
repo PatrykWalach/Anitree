@@ -55,6 +55,7 @@ import MediaCardItemSubtitle from '@/components/MediaCardItemSubtitle.vue'
 import MediaCardItemTitle from '@/components/MediaCardItemTitle.vue'
 import TheAppBarExtensionTabs from '@/components/TheAppBarExtensionTabs.vue'
 
+import { useEdit } from '@/store'
 import { useShare } from '@/components/MediaCardActions.vue'
 
 export default createComponent({
@@ -72,13 +73,13 @@ export default createComponent({
   setup(_, { root }) {
     const id = computed(() => parseInt(root.$route.params.mediaId, 10))
 
-    const { open } = root.$modules.edit
+    const { open } = useEdit()
 
     return {
       open,
-      ...useShare(root),
+      ...useShare(),
       ...useMedia(() => ({ id: id.value })),
-      ...useViewer(root),
+      ...useViewer(),
     }
   },
 })

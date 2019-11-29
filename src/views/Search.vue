@@ -104,7 +104,7 @@ export default createComponent({
       isSearched,
       page,
       query,
-      ...useViewer(root),
+      ...useViewer(),
     }
   },
 })

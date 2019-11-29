@@ -51,7 +51,7 @@ export default createComponent<Readonly<Props>>({
       const { media } = props
       const _currentId = currentId.value
 
-      return !!_currentId && (media && media.id === _currentId)
+      return !!_currentId && media && media.id === _currentId
     })
 
     return { color, currentId, large }

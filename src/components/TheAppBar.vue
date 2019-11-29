@@ -26,9 +26,7 @@
         <template v-else-if="!routeHome">
           {{ $route.name }}
         </template>
-        <template v-else>
-          Anitree <sup class="overline">alpha</sup>
-        </template>
+        <template v-else> Anitree <sup class="overline">alpha</sup> </template>
       </v-toolbar-title>
     </template>
 
@@ -75,7 +73,9 @@ const TheAppBarMenu = () =>
 
 import { useAppBarActions } from './TheBottomAppBar.vue'
 import { useFab } from './TheFab.vue'
+
 import { useNavigation } from './TheDrawer.vue'
+import { useTitle } from '../store'
 
 export const useRoutes = (root: SetupContext['root']) => {
   const routeTitle = computed(() => {
@@ -85,7 +85,7 @@ export const useRoutes = (root: SetupContext['root']) => {
   const routeHome = computed(() => root.$route.name === 'home')
   const routeSearch = computed(() => root.$route.name === 'search')
 
-  const { main } = useNavigation(root)
+  const { main } = useNavigation()
 
   const routeMain = computed(() => {
     const { name } = root.$route
@@ -117,11 +117,11 @@ export default createComponent<Readonly<Props>>({
   setup(props, { root }) {
     const { routeSearch, routeHome, routeTitle } = useRoutes(root)
 
-    const { getTitle } = root.$modules.title
+    const { getTitle } = useTitle()
 
     const title = computed(() => {
       const media = props.media
-      return getTitle.value(media && media.title)
+      return getTitle(media && media.title)
     })
 
     const tabs = computed(

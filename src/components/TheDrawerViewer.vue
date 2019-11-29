@@ -66,8 +66,10 @@
 </template>
 <script lang="ts">
 import { VBottomSheet, VMenu } from 'vuetify/lib'
+import { useStore,useState } from '@/store'
 import { User } from '../graphql/schema/viewer'
-import { createComponent } from '@vue/composition-api'
+import {  createComponent } from '@vue/composition-api'
+
 
 export interface Props {
   viewer: User | null
@@ -80,12 +82,19 @@ export default createComponent<Readonly<Props>>({
   props: {
     viewer: { default: null, required: true, type: null },
   },
-  setup(_, { root }) {
-    const { CHANGE_TOKEN, token } = root.$modules.settings
+  setup() {
+    const {
+      dispatch,
+      actions: {
+        settings: { CHANGE_TOKEN },
+      },
+    } = useStore()
 
     const logout = () => {
-      CHANGE_TOKEN(null)
+      dispatch(CHANGE_TOKEN(null))
     }
+
+    const token = useState(state => state.settings.token)
 
     return { logout, token }
   },

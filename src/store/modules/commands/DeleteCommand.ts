@@ -10,7 +10,7 @@ import {
   Deleted,
   SaveVariables,
 } from '@/graphql/schema/listEntry'
-import { ListCommand, mediaListToForm } from '../commands'
+import { ListCommand, mediaListToForm } from '.'
 import { Media, Variables as MediaVariables } from '@/graphql/schema/media'
 import { DollarApollo } from 'vue-apollo/types/vue-apollo'
 import { Form } from '@/types'

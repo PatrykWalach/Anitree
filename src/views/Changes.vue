@@ -23,13 +23,15 @@
   </v-container>
 </template>
 <script lang="ts">
+import { useCommands, useState } from '@/store'
 import ChangeCard from '@/components/ChangeCard.vue'
 import { createComponent } from '@vue/composition-api'
 
 export default createComponent({
   components: { ChangeCard },
-  setup(_, { root }) {
-    const { history, undo } = root.$modules.commands
+  setup() {
+    const { undo } = useCommands()
+    const history = useState(state => state.commands.history)
 
     return {
       history,

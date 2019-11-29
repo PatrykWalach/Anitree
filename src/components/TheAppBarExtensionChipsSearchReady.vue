@@ -19,10 +19,13 @@
 import { computed, createComponent } from '@vue/composition-api'
 import { Page } from '../graphql/schema/page'
 
+
+import { useTheme } from './TheMediaAboutStats.vue'
+import { useTitle } from '../store'
+
 export interface Props {
   page: Page
 }
-import { useTheme } from './TheMediaAboutStats.vue'
 
 export const useExtensionChip = () => {
   const { theme } = useTheme()
@@ -40,19 +43,17 @@ export default createComponent<Readonly<Props>>({
   props: {
     page: { default: null, required: true, type: Object },
   },
-  setup(props, { root }) {
-    const { getTitle } = root.$modules.title
+  setup(props) {
+    const { getTitle } = useTitle()
 
-    const media = computed(() => {
-      const _getTitle = getTitle.value
-
-      return props.page.media
-        .map(({ id, title }) => ({ id, title: _getTitle(title) }))
+    const media = computed(() =>
+      props.page.media
+        .map(({ id, title }) => ({ id, title: getTitle(title) }))
         .filter(
           ({ title }, i, arr) =>
             arr.findIndex(media => media.title === title) === i,
-        )
-    })
+        ),
+    )
 
     return {
       ...useExtensionChip(),

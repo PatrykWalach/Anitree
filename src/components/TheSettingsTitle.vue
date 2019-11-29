@@ -54,19 +54,17 @@
 import { VBottomSheet, VDialog } from 'vuetify/lib'
 import { computed, createComponent, ref } from '@vue/composition-api'
 
+import { useTitle } from '../store'
+
 export default createComponent({
   components: {
     VBottomSheet,
     VDialog,
   },
-  setup(_, { root }) {
+  setup() {
     const dialog = ref(false)
 
-    const {
-      getPreferedTitle,
-      titles,
-      changePreferedTitle,
-    } = root.$modules.title
+    const { titles, getPreferedTitle, changePreferedTitle } = useTitle()
 
     const preferedTitle = computed({
       get: () => getPreferedTitle.value,

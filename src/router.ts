@@ -3,7 +3,8 @@ import { MEDIA } from '@/graphql'
 import Router from 'vue-router'
 import Vue from 'vue'
 import { apollo } from '@/apollo'
-import { settings } from '@/modules'
+import { settingsActions } from './store/modules/settings'
+import { store } from './store'
 
 const Home = () =>
   import(
@@ -131,11 +132,7 @@ const router = new Router({
             .map(el => el.split(/=/)),
         )
 
-        const {
-          mutations: { CHANGE_TOKEN },
-        } = settings
-
-        CHANGE_TOKEN(hash.access_token || null)
+        store.dispatch(settingsActions.CHANGE_TOKEN(hash.access_token || null))
 
         const route = localStorage.getItem('LAST_ROUTE')
         if (route) {

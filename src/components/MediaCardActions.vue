@@ -48,20 +48,23 @@
 
 <script lang="ts">
 import { NavigationElement, ShareData } from '../types'
-import { SetupContext, computed, createComponent } from '@vue/composition-api'
+import { computed, createComponent } from '@vue/composition-api'
 import BaseQuery from './BaseQuery.vue'
-// import { Element } from '@/modules/navigation'
+
 import { Media } from '@/graphql/schema/media'
+import { useEdit as useEditActions } from '@/store'
+import { useStore } from '@/store'
+import { useTitle } from '../store'
 import { useViewer } from '@/graphql'
 
 export interface Props {
   media: Media | null
 }
 
-export const useMediaCardActions = (root: SetupContext['root']) => {
-  const { shareBtn, ...share } = useShare(root)
+export const useMediaCardActions = () => {
+  const { shareBtn, ...share } = useShare()
   const { anilistBtn, ...anilist } = useAnilist()
-  const { editBtn, ...edit } = useEdit(root)
+  const { editBtn, ...edit } = useEdit()
 
   const actions = (media: Media | null): NavigationElement[] => [
     editBtn(media && media.id),
@@ -77,21 +80,26 @@ export const useMediaCardActions = (root: SetupContext['root']) => {
   }
 }
 
-export const useShare = (root: SetupContext['root']) => {
-  const { CHANGE_OPTIONS, CHANGE_IS_SHARED } = root.$modules.share
+export const useShare = () => {
+  const {
+    dispatch,
 
-  const { getTitle } = root.$modules.title
+    actions: {
+      share: { CHANGE_IS_SHARED, CHANGE_OPTIONS },
+    },
+  } = useStore()
 
   const desktopShare = (data: ShareData) => {
-    CHANGE_OPTIONS(data)
-    CHANGE_IS_SHARED(true)
+    dispatch(CHANGE_OPTIONS(data))
+    dispatch(CHANGE_IS_SHARED(true))
   }
+
+  const { getTitle } = useTitle()
 
   const share = ({ title, siteUrl }: Media) => {
     const share = navigator.share || desktopShare
-
     share.call(navigator, {
-      title: getTitle.value(title),
+      title: getTitle(title),
       url: siteUrl,
     })
   }
@@ -113,8 +121,8 @@ export const useShare = (root: SetupContext['root']) => {
   return { share, shareBtn }
 }
 
-export const useEdit = (root: SetupContext['root']) => {
-  const { open } = root.$modules.edit
+export const useEdit = () => {
+  const { open } = useEditActions()
 
   const editBtn = (id: number | null): NavigationElement => ({
     bind: {
@@ -132,6 +140,7 @@ export const useEdit = (root: SetupContext['root']) => {
 
   return { editBtn, open }
 }
+
 export const useAnilist = () => {
   const anilistBtn = (media: Media | null): NavigationElement => ({
     bind: {
@@ -154,14 +163,14 @@ export default createComponent<Readonly<Props>>({
   props: {
     media: { default: null, required: true, type: null },
   },
-  setup(props, { root }) {
-    const { actions: _actions } = useMediaCardActions(root)
+  setup(props) {
+    const { actions: _actions } = useMediaCardActions()
 
     const actions = computed(() => _actions(props.media))
 
     return {
       actions,
-      ...useViewer(root),
+      ...useViewer(),
     }
   },
 })

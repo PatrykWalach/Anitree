@@ -61,18 +61,15 @@
 </template>
 
 <script lang="ts">
-import {
-  Ref,
-  SetupContext,
-  computed,
-  createComponent,
-} from '@vue/composition-api'
+import { Ref, computed, createComponent } from '@vue/composition-api'
 
 import { Location } from 'vue-router'
 import { NavigationElement } from '../types'
 import TheDrawerViewer from './TheDrawerViewer.vue'
 import { User } from '../graphql/schema/viewer'
+import { useCommands } from '../store'
 import { useFab } from './TheFab.vue'
+
 import { useTheme } from './TheMediaAboutStats.vue'
 
 export interface Props {
@@ -80,10 +77,12 @@ export interface Props {
   viewer: User | null
 }
 
-export const useNavigation = (root: SetupContext['root']) => {
-  const main: Ref<
-    (NavigationElement & { bind: { to: Location } })[]
-  > = computed(() => [
+export const useNavigation = () => {
+  const { getPending } = useCommands()
+
+  const main: Ref<(NavigationElement & {
+    bind: { to: Location }
+  })[]> = computed(() => [
     {
       bind: { exact: true, to: { name: 'home' } },
       icon: 'home',
@@ -91,7 +90,7 @@ export const useNavigation = (root: SetupContext['root']) => {
     },
     {
       badge: {
-        value: root.$modules.commands.pending.value.length,
+        value: getPending.value.length,
       },
       bind: { exact: true, to: { name: 'changes' } },
       icon: 'change_history',
@@ -131,7 +130,7 @@ export default createComponent<Readonly<Props>>({
 
     return {
       syncedValue,
-      ...useNavigation(root),
+      ...useNavigation(),
       ...useTheme(),
       ...useFab(root),
     }

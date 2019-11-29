@@ -75,10 +75,11 @@
 <script lang="ts">
 import { computed, createComponent } from '@vue/composition-api'
 import BaseQuery from './BaseQuery.vue'
-import { DeleteCommand } from '@/modules/commands/DeleteCommand'
+import { DeleteCommand } from '@/store/modules/commands/DeleteCommand'
 import { FuzzyDate } from '../graphql/schema/media'
-import { SaveCommand } from '@/modules/commands/SaveCommand'
+import { SaveCommand } from '@/store/modules/commands/SaveCommand'
 import { useMedia } from '@/graphql'
+import { useTitle } from '../store'
 
 const BaseTime = () => import('./BaseTime.vue')
 
@@ -98,8 +99,8 @@ export default createComponent<Readonly<Props>>({
       type: [SaveCommand, DeleteCommand],
     },
   },
-  setup(props, { root }) {
-    const { getTitle } = root.$modules.title
+  setup(props) {
+    const { getTitle } = useTitle()
 
     const isDate = (e: any): e is Omit<FuzzyDate, '__typename'> =>
       e instanceof Object &&

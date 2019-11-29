@@ -1,4 +1,4 @@
-import { ListCommand, mediaListToForm } from '../commands'
+import { ListCommand, mediaListToForm } from '.'
 import { MEDIA, SAVE_MEDIA_LIST_ENTRY, VIEWER } from '@/graphql'
 import { Media, Variables as MediaVariables } from '@/graphql/schema/media'
 
