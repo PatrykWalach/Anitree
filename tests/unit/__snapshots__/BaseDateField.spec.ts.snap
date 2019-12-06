@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BaseDateField matches snapshot 1`] = `
+<v-menu-stub
+  closedelay="0"
+  closeonclick="true"
+  contentclass=""
+  maxheight="auto"
+  maxwidth="auto"
+  minwidth="290px"
+  nudgebottom="0"
+  nudgeleft="0"
+  nudgeright="0"
+  nudgetop="0"
+  nudgewidth="0"
+  offsety="true"
+  opendelay="0"
+  openonclick="true"
+  origin="top left"
+  returnvalue=""
+  transition="scale-transition"
+>
+   
+  <v-date-picker-stub
+    eventcolor="warning"
+    firstdayofweek="0"
+    nexticon="$next"
+    notitle="true"
+    previcon="$prev"
+    scrollable="true"
+    selecteditemstext="$vuetify.datePicker.itemsSelected"
+    showcurrent="true"
+    type="date"
+    value=""
+    width="290"
+  >
+    <v-spacer-stub />
+     
+    <v-btn-stub
+      activeclass=""
+      color="primary"
+      tag="button"
+      text="true"
+      type="button"
+    >
+      Cancel
+    </v-btn-stub>
+     
+    <v-btn-stub
+      activeclass=""
+      color="primary"
+      tag="button"
+      text="true"
+      type="button"
+    >
+      OK
+    </v-btn-stub>
+  </v-date-picker-stub>
+</v-menu-stub>
+`;
