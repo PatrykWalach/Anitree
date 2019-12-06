@@ -1,5 +1,6 @@
-import { createLocalVue, shallowMount } from '@vue/test-utils'
+import { VueClass, createLocalVue, shallowMount } from '@vue/test-utils'
 import BaseDateField from '@/components/BaseDateField.vue'
+import Vue from 'vue'
 import VueCompostionApi from '@vue/composition-api'
 import Vuetify from 'vuetify'
 
@@ -8,7 +9,7 @@ describe('BaseDateField', () => {
   localVue.use(Vuetify)
   localVue.use(VueCompostionApi)
   test('matches snapshot', () => {
-    const wrapper = shallowMount(BaseDateField, {
+    const wrapper = shallowMount(BaseDateField as VueClass<Vue>, {
       localVue,
       propsData: {
         value: '',
