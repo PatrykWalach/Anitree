@@ -1,13 +1,14 @@
+import { State, useActions } from '../'
+import { useDispatch, useSelector } from 'vue-redux-hooks'
 import { DollarApollo } from 'vue-apollo/types/vue-apollo'
 import { SaveCommand } from '../modules/commands/SaveCommand'
 import { SaveVariables } from '@/graphql/schema/listEntry'
 import Vue from 'vue'
 import { useCommands } from './useCommands'
-import { useState } from './useState'
-import { useStore } from './useStore'
 
 export const useEdit = () => {
-  const { dispatch, actions } = useStore()
+  const dispatch = useDispatch()
+  const actions = useActions()
   const { add } = useCommands()
 
   const close = async () => {
@@ -15,8 +16,8 @@ export const useEdit = () => {
     dispatch(actions.edit.RESET_FORM())
   }
 
-  const mediaId = useState(state => state.edit.mediaId)
-  const form = useState(state => state.edit.form)
+  const mediaId = useSelector((state: State) => state.edit.mediaId)
+  const form = useSelector((state: State) => state.edit.form)
 
   const submit = async (apollo: DollarApollo<Vue>) => {
     if (mediaId.value) {
@@ -44,7 +45,9 @@ export const useEdit = () => {
     form: Partial<SaveVariables>
     apollo: DollarApollo<Vue>
   }) => {
-    const syncChanges = useState(state => state.settings.syncChanges)
+    const syncChanges = useSelector(
+      (state: State) => state.settings.syncChanges,
+    )
     dispatch(actions.edit.CHANGE_FORM(form))
     if (syncChanges.value) {
       submit(apollo)

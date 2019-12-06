@@ -19,10 +19,19 @@ export type NextBefore<V extends Vue = Vue> = (
 export interface Data<T = any> {
   [index: string]: T
 }
-export interface NavigationElement {
+export interface NavigationElement<
+  Bind = Partial<{
+    to: Location
+    exact: boolean
+    disabled: boolean
+    href: string | null
+    rel: string
+    target: string
+  }>
+> {
   title: string
   icon: string
-  bind?: Record<string, any>
+  bind: Bind
   on?: Record<string, (e: any) => any>
 }
 export type RecursivePartial<T> = {

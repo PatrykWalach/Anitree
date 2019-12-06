@@ -55,14 +55,13 @@
 </template>
 
 <script lang="ts">
+import { State, useActions } from '@/store'
 import { VBottomSheet, VDialog } from 'vuetify/lib'
 import { computed, createComponent, ref } from '@vue/composition-api'
-import { useStore,useState } from '@/store'
+import { useDispatch, useSelector } from 'vue-redux-hooks'
 import BaseShareItems from './BaseShareItems.vue'
 import { ShareData } from '../types'
 import { clipboard } from 'vue-clipboards'
-
-
 
 export interface Props {
   options: ShareData | null
@@ -79,14 +78,12 @@ export default createComponent<Readonly<Props>>({
   setup(props) {
     const snackbar = ref(false)
 
+    const dispatch = useDispatch()
     const {
-      dispatch,
-      actions: {
-        share: { CHANGE_IS_SHARED },
-      },
-    } = useStore()
+      share: { CHANGE_IS_SHARED },
+    } = useActions()
 
-    const isSharedState = useState(state => state.share.isShared)
+    const isSharedState = useSelector((state: State) => state.share.isShared)
 
     const isShared = computed({
       get: () => isSharedState.value,

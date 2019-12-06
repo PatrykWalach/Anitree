@@ -1,5 +1,8 @@
 <template>
-  <div v-if="media.studios.nodes.length" class="overline text-truncate">
+  <div
+    v-if="media.studios.nodes.length"
+    class="overline primary--text text-truncate"
+  >
     <span v-for="{ id, name } in media.studios.nodes" :key="id" class="mr-2"
       >{{ name }}
     </span>

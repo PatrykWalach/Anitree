@@ -24,10 +24,11 @@ import { ClientOptions } from 'vue-apollo/types/vue-apollo'
 import { DocumentNode } from 'graphql'
 
 import { PAGE } from '@/graphql'
+import { State } from '@/store'
 import TheMediaTimeline from '../components/TheMediaTimeline.vue'
 
 import { sorters } from '@/store/modules/timeline'
-import { useState } from '@/store'
+import { useSelector } from 'vue-redux-hooks'
 
 export const useQuery = <R, TVariables = OperationVariables>(
   root: SetupContext['root'],
@@ -137,7 +138,7 @@ export default createComponent({
       }
     })
 
-    const order = useState(state => state.timeline.order)
+    const order = useSelector((state: State) => state.timeline.order)
 
     const mediaList = computed(() => {
       const _data = data.value

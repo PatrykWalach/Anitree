@@ -9,8 +9,8 @@
     v-slot="{ Media }"
   >
     <v-banner single-line>
-      <span :title="getTitle(Media && Media.title)">
-        {{ getTitle(Media && Media.title) }}
+      <span :title="getTitle.value(Media && Media.title)">
+        {{ getTitle.value(Media && Media.title) }}
       </span>
 
       <template v-slot:icon>

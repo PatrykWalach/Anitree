@@ -3,6 +3,17 @@ import { SaveVariables } from '@/graphql/schema/listEntry'
 import { createSlice } from '@reduxjs/toolkit'
 import { mergeDeep } from 'apollo-utilities'
 
+export const { reducer: form } = createSlice({
+  initialState: {} as Partial<Form>,
+  name: 'form',
+  reducers: {
+    CHANGE_FORM: (state, { payload }: { payload: Partial<SaveVariables> }) => {
+      state = mergeDeep(state, payload)
+    },
+    RESET_FORM: () => ({}),
+  },
+})
+
 export const { reducer: edit, actions: editActions } = createSlice({
   initialState: {
     form: {} as Partial<Form>,

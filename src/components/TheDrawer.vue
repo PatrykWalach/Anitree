@@ -61,13 +61,13 @@
 </template>
 
 <script lang="ts">
-import { Ref, computed, createComponent } from '@vue/composition-api'
+import { computed, createComponent } from '@vue/composition-api'
 
 import { Location } from 'vue-router'
 import { NavigationElement } from '../types'
 import TheDrawerViewer from './TheDrawerViewer.vue'
 import { User } from '../graphql/schema/viewer'
-import { useCommands } from '../store'
+// import { useCommands } from '../store'
 import { useFab } from './TheFab.vue'
 
 import { useTheme } from './TheMediaAboutStats.vue'
@@ -78,20 +78,21 @@ export interface Props {
 }
 
 export const useNavigation = () => {
-  const { getPending } = useCommands()
+  // const { getPending } = useCommands()
 
-  const main: Ref<(NavigationElement & {
-    bind: { to: Location }
-  })[]> = computed(() => [
+  const main: NavigationElement<{
+    to: Location
+    exact: boolean
+  }>[] = [
     {
       bind: { exact: true, to: { name: 'home' } },
       icon: 'home',
       title: 'Home',
     },
     {
-      badge: {
-        value: getPending.value.length,
-      },
+      // badge: {
+      //   value: getPending.value.length,
+      // },
       bind: { exact: true, to: { name: 'changes' } },
       icon: 'change_history',
       title: 'Changes',
@@ -101,7 +102,7 @@ export const useNavigation = () => {
       icon: 'settings',
       title: 'Settings',
     },
-  ])
+  ]
 
   return { main }
 }

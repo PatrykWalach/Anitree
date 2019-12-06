@@ -21,7 +21,7 @@ export default createComponent<Readonly<Props>>({
   setup(props) {
     const { getTitle } = useTitle()
 
-    const title = computed(() => getTitle(props.media.title))
+    const title = computed(() => getTitle.value(props.media.title))
 
     return {
       title,

@@ -19,7 +19,6 @@
 import { computed, createComponent } from '@vue/composition-api'
 import { Page } from '../graphql/schema/page'
 
-
 import { useTheme } from './TheMediaAboutStats.vue'
 import { useTitle } from '../store'
 
@@ -48,7 +47,7 @@ export default createComponent<Readonly<Props>>({
 
     const media = computed(() =>
       props.page.media
-        .map(({ id, title }) => ({ id, title: getTitle(title) }))
+        .map(({ id, title }) => ({ id, title: getTitle.value(title) }))
         .filter(
           ({ title }, i, arr) =>
             arr.findIndex(media => media.title === title) === i,

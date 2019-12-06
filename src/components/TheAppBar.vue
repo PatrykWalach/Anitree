@@ -90,7 +90,7 @@ export const useRoutes = (root: SetupContext['root']) => {
   const routeMain = computed(() => {
     const { name } = root.$route
 
-    return !!main.value.find(({ bind }) => bind.to.name === name)
+    return !!main.find(({ bind }) => bind.to.name === name)
   })
 
   return {
@@ -121,7 +121,7 @@ export default createComponent<Readonly<Props>>({
 
     const title = computed(() => {
       const media = props.media
-      return getTitle(media && media.title)
+      return getTitle.value(media && media.title)
     })
 
     const tabs = computed(

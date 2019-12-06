@@ -65,11 +65,11 @@
   </components>
 </template>
 <script lang="ts">
+import { State, useActions } from '@/store'
 import { VBottomSheet, VMenu } from 'vuetify/lib'
-import { useStore,useState } from '@/store'
+import { useDispatch, useSelector } from 'vue-redux-hooks'
 import { User } from '../graphql/schema/viewer'
-import {  createComponent } from '@vue/composition-api'
-
+import { createComponent } from '@vue/composition-api'
 
 export interface Props {
   viewer: User | null
@@ -83,18 +83,17 @@ export default createComponent<Readonly<Props>>({
     viewer: { default: null, required: true, type: null },
   },
   setup() {
+    const dispatch = useDispatch()
+
     const {
-      dispatch,
-      actions: {
-        settings: { CHANGE_TOKEN },
-      },
-    } = useStore()
+      settings: { CHANGE_TOKEN },
+    } = useActions()
 
     const logout = () => {
       dispatch(CHANGE_TOKEN(null))
     }
 
-    const token = useState(state => state.settings.token)
+    const token = useSelector((state: State) => state.settings.token)
 
     return { logout, token }
   },

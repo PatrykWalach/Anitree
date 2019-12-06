@@ -49,11 +49,12 @@
 <script lang="ts">
 import { NavigationElement, ShareData } from '../types'
 import { computed, createComponent } from '@vue/composition-api'
+import { useActions, useEdit as useEditActions } from '@/store'
 import BaseQuery from './BaseQuery.vue'
 
 import { Media } from '@/graphql/schema/media'
-import { useEdit as useEditActions } from '@/store'
-import { useStore } from '@/store'
+
+import { useDispatch } from 'vue-redux-hooks'
 import { useTitle } from '../store'
 import { useViewer } from '@/graphql'
 
@@ -81,13 +82,10 @@ export const useMediaCardActions = () => {
 }
 
 export const useShare = () => {
+  const dispatch = useDispatch()
   const {
-    dispatch,
-
-    actions: {
-      share: { CHANGE_IS_SHARED, CHANGE_OPTIONS },
-    },
-  } = useStore()
+    share: { CHANGE_IS_SHARED, CHANGE_OPTIONS },
+  } = useActions()
 
   const desktopShare = (data: ShareData) => {
     dispatch(CHANGE_OPTIONS(data))
@@ -99,7 +97,7 @@ export const useShare = () => {
   const share = ({ title, siteUrl }: Media) => {
     const share = navigator.share || desktopShare
     share.call(navigator, {
-      title: getTitle(title),
+      title: getTitle.value(title),
       url: siteUrl,
     })
   }

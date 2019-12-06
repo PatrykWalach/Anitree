@@ -4,10 +4,11 @@ import { ApolloQueryProps } from '@/graphql/schema'
 
 import MEDIA from '@/graphql/queries/Media.gql'
 import { Media as MediaT } from '@/graphql/schema/media'
+import { State } from '@/store'
 import { User } from './graphql/schema/viewer'
 import VIEWER from '@/graphql/queries/Viewer.gql'
 import { Variables } from '@/graphql/schema/media'
-import { useState } from '@/store'
+import { useSelector } from 'vue-redux-hooks'
 
 export { default as MEDIA } from '@/graphql/queries/Media.gql'
 
@@ -36,7 +37,7 @@ export const useMedia = (props: () => Variables) => {
 }
 
 export const useViewer = () => {
-  const token = useState(state => state.settings.token)
+  const token = useSelector((state: State) => state.settings.token)
 
   const Viewer: Ref<ApolloQueryProps<{ Viewer: User }, never>> = computed(
     () => ({

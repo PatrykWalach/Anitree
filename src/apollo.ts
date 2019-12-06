@@ -41,7 +41,7 @@ const cache = new InMemoryCache({
   },
 })
 
-// if (settings.state.cacheApollo.value) {
+// if (store.getState()settings..cacheApollo) {
 persistCache({
   cache,
   storage: window.localStorage as PersistentStorage<

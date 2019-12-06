@@ -45,6 +45,7 @@ import { useMedia, useViewer } from '@/graphql'
 import BaseQuery from '@/components/BaseQuery.vue'
 import BaseShare from './components/BaseShare.vue'
 import MediaEdit from './components/MediaEdit.vue'
+import { State } from '@/store'
 import TheAppBar from './components/TheAppBar.vue'
 
 const TheBottomAppBar = () =>
@@ -54,7 +55,7 @@ const TheBottomAppBar = () =>
 import TheDrawer from './components/TheDrawer.vue'
 import TheFooter from './components/TheFooter.vue'
 import TheSearchFilters from './components/TheSearchFilters.vue'
-import { useState } from '@/store'
+import { useSelector } from 'vue-redux-hooks'
 
 export const useTheme = (root: SetupContext['root']) => {
   const dark = computed({
@@ -85,8 +86,8 @@ export default createComponent({
       drawer.value = !drawer.value
     }
 
-    const mediaId = useState(state => state.edit.mediaId)
-    const options = useState(state => state.share.options)
+    const mediaId = useSelector((state: State) => state.edit.mediaId)
+    const options = useSelector((state: State) => state.share.options)
 
     const { dark } = useTheme(root)
 

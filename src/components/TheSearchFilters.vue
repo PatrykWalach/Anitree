@@ -203,12 +203,11 @@ import {
   ref,
 } from '@vue/composition-api'
 
-import { useStore,useState } from '@/store'
+import { State, useActions } from '@/store'
+import { useDispatch, useSelector } from 'vue-redux-hooks'
 import BaseField from './BaseField.vue'
 import { MediaSort } from '../graphql/schema/page'
 import { VChipGroup } from 'vuetify/lib'
-
-
 
 export interface Filters {
   sort: MediaSort
@@ -218,14 +217,13 @@ export interface Filters {
 }
 
 export const useDialog = () => {
-  const {
-    dispatch,
-    actions: {
-      filter: { CHANGE_IS_SHOWN },
-    },
-  } = useStore()
+  const dispatch = useDispatch()
 
-  const isShown = useState(state => state.filter.isShown)
+  const {
+    filter: { CHANGE_IS_SHOWN },
+  } = useActions()
+
+  const isShown = useSelector((state: State) => state.filter.isShown)
 
   const dialog = computed({
     get: () => isShown.value,

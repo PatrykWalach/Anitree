@@ -46,15 +46,15 @@ import {
   createComponent,
   ref,
 } from '@vue/composition-api'
+import { State, useActions as useStoreActions } from '@/store'
 
 import { useCommands, useEdit } from '../store'
-import { useStore,useState } from '@/store'
+
+import { useDispatch, useSelector } from 'vue-redux-hooks'
 import { DeleteCommand } from '@/store/modules/commands/DeleteCommand'
 
 import { Media } from '@/graphql/schema/media'
 import { User } from '@/graphql/schema/viewer'
-
-
 
 export interface Props {
   user: User | null
@@ -64,14 +64,13 @@ export interface Props {
 const useActions = (props: Readonly<Props>, { root }: SetupContext) => {
   const confirmation = ref(false)
 
-  const {
-    dispatch,
-    actions: {
-      edit: { CHANGE_IS_EDITED },
-    },
-  } = useStore()
+  const dispatch = useDispatch()
 
-  const form = useState(state => state.edit.form)
+  const {
+    edit: { CHANGE_IS_EDITED },
+  } = useStoreActions()
+
+  const form = useSelector((state: State) => state.edit.form)
 
   const submitRequired = computed(() => !!Object.values(form.value).length)
 

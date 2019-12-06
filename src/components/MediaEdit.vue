@@ -82,6 +82,8 @@
 <script lang="ts">
 import { computed, createComponent, ref } from '@vue/composition-api'
 
+import { useActions, useEdit } from '../store'
+import { useDispatch, useSelector } from 'vue-redux-hooks'
 import BaseQuery from './BaseQuery.vue'
 import MediaCardBanner from './MediaCardBanner.vue'
 import MediaCardItem from './MediaCardItem.vue'
@@ -92,12 +94,10 @@ const MediaEditItems = () =>
   )
 
 import MediaEditTabs from './MediaEditTabs.vue'
+import { State } from '@/store'
 import { User } from '../graphql/schema/viewer'
 import { useAccount } from './TheSettings.vue'
-import { useEdit } from '../store'
 import { useMedia } from '@/graphql'
-import { useState } from '@/store'
-import { useStore } from '@/store'
 import { useViewer } from '@/graphql'
 
 export interface Props {
@@ -118,15 +118,13 @@ export default createComponent<Readonly<Props>>({
     viewer: { default: null, required: true, type: null },
   },
   setup(props) {
+    const dispatch = useDispatch()
     const {
-      dispatch,
-      actions: {
-        edit: { CHANGE_IS_EDITED },
-      },
-    } = useStore()
+      edit: { CHANGE_IS_EDITED },
+    } = useActions()
 
-    const loading = useState(state => state.edit.loading)
-    const isEditedState = useState(state => state.edit.isEdited)
+    const loading = useSelector((state: State) => state.edit.loading)
+    const isEditedState = useSelector((state: State) => state.edit.isEdited)
 
     const isEdited = computed({
       get: () => isEditedState.value,

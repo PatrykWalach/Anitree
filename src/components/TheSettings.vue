@@ -57,7 +57,8 @@ import {
   createComponent,
   ref,
 } from '@vue/composition-api'
-import { useState, useStore } from '@/store'
+import { State, useActions } from '@/store'
+import { useDispatch, useSelector } from 'vue-redux-hooks'
 import TheSettingsSetting from '@/components/TheSettingsSetting.vue'
 import TheSettingsTitle from '@/components/TheSettingsTitle.vue'
 
@@ -66,21 +67,21 @@ import { useTheme } from '@/App.vue'
 export const useAccount = () => {
   const id = ref(process.env.VUE_APP_ANILIST_ID || false)
 
-  const token = useState(state => state.settings.token)
+  const token = useSelector((state: State) => state.settings.token)
 
   return { id, token }
 }
 
 const useCache = () => {
+  const dispatch = useDispatch()
   const {
-    dispatch,
-    actions: {
-      settings: { CHANGE_CACHE_APOLLO, CHANGE_CACHE_CHANGES },
-    },
-  } = useStore()
+    settings: { CHANGE_CACHE_APOLLO, CHANGE_CACHE_CHANGES },
+  } = useActions()
 
-  const cacheApollo = useState(state => state.settings.cacheApollo)
-  const cacheChanges = useState(state => state.settings.cacheChanges)
+  const cacheApollo = useSelector((state: State) => state.settings.cacheApollo)
+  const cacheChanges = useSelector(
+    (state: State) => state.settings.cacheChanges,
+  )
 
   const cache = computed({
     get: () =>
@@ -98,16 +99,15 @@ const useCache = () => {
 }
 
 const useSite = (root: SetupContext['root']) => {
+  const dispatch = useDispatch()
+
   const {
-    dispatch,
-    actions: {
-      settings: { CHANGE_SYNC_CHANGES },
-    },
-  } = useStore()
+    settings: { CHANGE_SYNC_CHANGES },
+  } = useActions()
 
   const { dark } = useTheme(root)
 
-  const syncChanges = useState(state => state.settings.syncChanges)
+  const syncChanges = useSelector((state: State) => state.settings.syncChanges)
 
   const site = computed({
     get: () =>

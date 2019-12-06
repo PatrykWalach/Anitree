@@ -1,12 +1,13 @@
+import { State, useActions } from '../'
+import { useDispatch, useSelector } from 'vue-redux-hooks'
 import { ListCommand } from '../modules/commands'
 import { computed } from '@vue/composition-api'
-import { useState } from './useState'
-import { useStore } from './useStore'
 
 export const useCommands = () => {
-  const { dispatch, actions } = useStore()
+  const dispatch = useDispatch()
+  const actions = useActions()
 
-  const history = useState(state => state.commands.history)
+  const history = useSelector((state: State) => state.commands.history)
 
   const undo = async () => {
     history.value[history.value.length - 1]

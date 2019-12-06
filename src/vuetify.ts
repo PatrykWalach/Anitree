@@ -20,4 +20,18 @@ export const vuetify = new Vuetify({
   icons: {
     iconfont: 'md',
   },
+  theme: {
+    themes: {
+      dark: {
+        accent: '#2DD881',
+        primary: '#8980F5',
+      },
+      light: {
+        accent: '#574AE2',
+        primary: '#C95D63',
+        // primary: '#654597',
+        // primary: '#222A68',
+      },
+    },
+  },
 })

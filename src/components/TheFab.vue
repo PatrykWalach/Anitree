@@ -15,14 +15,18 @@
 </template>
 <script lang="ts">
 import { SetupContext, computed, createComponent } from '@vue/composition-api'
-import { useStore,useState } from '@/store'
+import { State, useActions } from '@/store'
+import { useDispatch, useSelector } from 'vue-redux-hooks'
+import { Location } from 'vue-router'
 import { NavigationElement } from '@/types'
 import TheSearchFilters from './TheSearchFilters.vue'
 import { useEdit } from './MediaCardActions.vue'
 
-
 export const useSearch = () => {
-  const searchBtn = (): NavigationElement => ({
+  const searchBtn = (): NavigationElement<{
+    to: Location
+    exact: boolean
+  }> => ({
     bind: { exact: true, to: { name: 'search', query: {} } },
     icon: 'search',
     title: 'Search',
@@ -42,15 +46,13 @@ export const useFab = (root: SetupContext['root']) => {
 
   const searchBtn = computed(_searchBtn)
 
+  const dispatch = useDispatch()
   const {
-    dispatch,
-    actions: {
-      filter: { CHANGE_IS_SHOWN },
-      timeline: { CHANGE_ORDER },
-    },
-  } = useStore()
+    filter: { CHANGE_IS_SHOWN },
+    timeline: { CHANGE_ORDER },
+  } = useActions()
 
-  const order = useState(state => state.timeline.order)
+  const order = useSelector((state: State) => state.timeline.order)
 
   const active = computed(() => {
     switch (root.$route.name) {

@@ -23,15 +23,16 @@
   </v-container>
 </template>
 <script lang="ts">
-import { useCommands, useState } from '@/store'
+import { State, useCommands } from '@/store'
 import ChangeCard from '@/components/ChangeCard.vue'
 import { createComponent } from '@vue/composition-api'
+import { useSelector } from 'vue-redux-hooks'
 
 export default createComponent({
   components: { ChangeCard },
   setup() {
     const { undo } = useCommands()
-    const history = useState(state => state.commands.history)
+    const history = useSelector((state: State) => state.commands.history)
 
     return {
       history,

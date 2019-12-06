@@ -22,11 +22,12 @@ import { computed, createComponent } from '@vue/composition-api'
 
 import { Media } from '@/graphql/schema/media'
 import MediaEditItemsTab from './MediaEditItemsTab.vue'
+import { State } from '@/store'
 import { User } from '@/graphql/schema/viewer'
 
 import { mediaListToForm } from '@/store/modules/commands'
 
-import { useState } from '@/store'
+import { useSelector } from 'vue-redux-hooks'
 
 export interface Props {
   media: Media
@@ -66,10 +67,13 @@ export default createComponent<Readonly<Props>>({
     })
 
     const stored = computed(() =>
-      mediaListToForm(props.media.mediaListEntry, advancedScoring.value),
+      mediaListToForm(
+        props.media.mediaListEntry,
+        advancedScoring.value.slice(),
+      ),
     )
 
-    const editForm = useState(state => state.edit.form)
+    const editForm = useSelector((state: State) => state.edit.form)
 
     const form = computed(() => ({
       ...stored.value,

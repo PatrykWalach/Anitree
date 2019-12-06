@@ -28,6 +28,7 @@
 </template>
 
 <script lang="ts">
+import { Location } from 'vue-router'
 import { NavigationElement } from '../types'
 import { User } from '@/graphql/schema/viewer'
 import { createComponent } from '@vue/composition-api'
@@ -36,7 +37,7 @@ export interface Props {
   user: null | User
 }
 export const useNavigation = () => {
-  const search: NavigationElement[] = [
+  const search: NavigationElement<{ to: Location }>[] = [
     {
       bind: {
         to: {
