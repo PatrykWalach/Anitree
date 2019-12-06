@@ -9,7 +9,7 @@
         "test": "vue-cli-service test:unit",
         "watch": "vue-cli-service test:unit --watch",
         "coverage": "vue-cli-service test:unit --coverage",
-        "codecove": "codecove"
+        "codecov": "codecov"
     },
     "dependencies": {
         "@fortawesome/fontawesome-svg-core": "^1.2.25",

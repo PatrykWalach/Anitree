@@ -10,12 +10,12 @@ jobs:
       - attach_workspace:
           at: ~/repo
       - run: npm run test
-  codecove:
+  codecov:
     <<: *defaults
     steps:
       - attach_workspace:
           at: ~/repo
-      - run: npm run codecove
+      - run: npm run codecov
   coverage:
     <<: *defaults
     steps:
@@ -77,7 +77,7 @@ workflows:
               only: /.*/
           requires:
             - install
-      - codecove:
+      - codecov:
           filters:
             tags:
               only: /.*/
