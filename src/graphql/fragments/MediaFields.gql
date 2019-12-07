@@ -39,7 +39,7 @@ fragment MediaFields on Media {
   type
   airingSchedule {
     nodes {
-...AiringScheduleFields
+      ...AiringScheduleFields
     }
   }
   duration

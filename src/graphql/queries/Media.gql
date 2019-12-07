@@ -1,14 +1,7 @@
 #import "../fragments/MediaFields.gql"
 
-  query Media(
-    $isAdult: Boolean
-    $id: Int
-    $format: ScoreFormat
-  ) {
-    Media(
-      isAdult: $isAdult
-      id: $id
-    ) {
-      ...MediaFields
-    }
+query Media($isAdult: Boolean, $id: Int, $format: ScoreFormat) {
+  Media(isAdult: $isAdult, id: $id) {
+    ...MediaFields
   }
+}

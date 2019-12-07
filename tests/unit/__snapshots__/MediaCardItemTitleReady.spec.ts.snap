@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MediaCardItemTitleReady matches snapshot 1`] = `
+<v-list-item-title-stub
+  class="headline"
+  title="Cowboy Bebop"
+>
+  
+  Cowboy Bebop
+
+</v-list-item-title-stub>
+`;

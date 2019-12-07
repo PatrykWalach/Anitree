@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MediaEdit matches snapshot 1`] = `
+<basequery-stub
+  apollo="[object Object]"
+/>
+`;
+
+exports[`MediaEdit matches snapshot 2`] = `
+<basequery-stub
+  apollo="[object Object]"
+/>
+`;
+
+exports[`MediaEdit matches snapshot 3`] = `
+<basequery-stub
+  apollo="[object Object]"
+/>
+`;
+
+exports[`MediaEdit matches snapshot 4`] = `
+<basequery-stub
+  apollo="[object Object]"
+/>
+`;

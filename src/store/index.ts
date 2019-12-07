@@ -4,7 +4,10 @@ import * as reducers from './reducers'
 import { combineReducers } from 'redux'
 import { configureStore } from '@reduxjs/toolkit'
 
-export const store = configureStore({ reducer: combineReducers(reducers) })
+export const store = configureStore({
+  devTools: process.env.NODE_ENV === 'development',
+  reducer: combineReducers(reducers),
+})
 
 export const useActions = () => actions
 export type Store = typeof store

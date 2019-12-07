@@ -6,4 +6,9 @@ module.exports = {
   },
   preset: '@vue/cli-plugin-unit-jest/presets/typescript-and-babel',
   setupFilesAfterEnv: ['<rootDir>/tests/unit/setup.ts'],
+  transform: {
+    '\\.(gql|graphql)$': 'jest-transform-graphql',
+    '^.+\\.tsx?$': require.resolve('ts-jest'),
+  },
+  transformIgnorePatterns: ['/node_modules/(?!vue-redux-hooks)'],
 }

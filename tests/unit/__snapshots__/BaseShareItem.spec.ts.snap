@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BaseShareItem matches snapshot 1`] = `
+<v-card-stub
+  flat="true"
+  href=""
+  loaderheight="4"
+  rel="noopener"
+  tag="div"
+  target="_blank"
+>
+  <v-card-title-stub>
+    <v-avatar-stub
+      class="white--text"
+      color="grey darken-2"
+      size="48"
+    />
+  </v-card-title-stub>
+   
+  <v-card-text-stub
+    class="text-center"
+  >
+    
+    
+  
+  </v-card-text-stub>
+</v-card-stub>
+`;

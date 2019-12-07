@@ -1,0 +1,108 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BaseShare matches snapshot 1`] = `
+<v-dialog
+  max-width="440px"
+  scrollable=""
+>
+  <v-card-stub
+    loaderheight="4"
+    tag="div"
+  >
+    <v-card-title-stub>
+      Share link
+      
+      <v-spacer-stub />
+       
+      <v-tooltip-stub
+        closedelay="0"
+        contentclass=""
+        fixed="true"
+        maxwidth="auto"
+        nudgebottom="0"
+        nudgeleft="0"
+        nudgeright="0"
+        nudgetop="0"
+        nudgewidth="0"
+        opendelay="0"
+        openonhover="true"
+        tag="span"
+        top="true"
+      >
+         
+        <span>
+          Close
+        </span>
+      </v-tooltip-stub>
+    </v-card-title-stub>
+     
+    <v-snackbar-stub
+      left="true"
+      timeout="6000"
+    >
+      
+      Link copied to clipboard
+      
+      <v-btn-stub
+        activeclass=""
+        color="accent"
+        tag="button"
+        text="true"
+        type="button"
+      >
+        
+        Close
+      
+      </v-btn-stub>
+    </v-snackbar-stub>
+     
+    <v-list-stub
+      tag="div"
+      tile="true"
+    >
+      <v-list-item-stub
+        activeclass=""
+        tag="div"
+      >
+        <v-list-item-content-stub>
+          <v-list-item-subtitle-stub>
+            <v-text-field-stub
+              backgroundcolor=""
+              clearicon="$clear"
+              errorcount="1"
+              errormessages=""
+              flat="true"
+              hidedetails="true"
+              loaderheight="2"
+              messages=""
+              readonly="true"
+              rules=""
+              singleline="true"
+              solo="true"
+              successmessages=""
+              type="text"
+              value=""
+            />
+          </v-list-item-subtitle-stub>
+        </v-list-item-content-stub>
+         
+        <v-list-item-action-stub>
+          <v-btn-stub
+            activeclass=""
+            tag="button"
+            type="button"
+          >
+            
+            copy
+          
+          </v-btn-stub>
+        </v-list-item-action-stub>
+      </v-list-item-stub>
+    </v-list-stub>
+     
+    <baseshareitems-stub
+      url=""
+    />
+  </v-card-stub>
+</v-dialog>
+`;

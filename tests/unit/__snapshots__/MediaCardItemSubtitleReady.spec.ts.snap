@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MediaCardItemSubtitleReady matches snapshot 1`] = `
+<v-list-item-subtitle-stub
+  class="text-capitalize"
+>
+  <span
+    class="text--primary"
+  >
+    
+    TV · finished · 26 episodes
+  
+  </span>
+</v-list-item-subtitle-stub>
+`;

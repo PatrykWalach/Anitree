@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MediaCardItemTitle matches snapshot 1`] = `
+<v-list-item-title-stub
+  class="headline"
+>
+  <v-skeleton-loader-stub
+    maxwidth="100%"
+    type="text"
+    types="[object Object]"
+    width="420px"
+  />
+</v-list-item-title-stub>
+`;
+
+exports[`MediaCardItemTitle matches snapshot 2`] = `
+<mediacarditemtitleready-stub
+  media="[object Object]"
+/>
+`;

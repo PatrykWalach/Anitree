@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MediaCardStatusReady matches snapshot 1`] = `
+<v-tooltip-stub
+  bottom="true"
+  closedelay="0"
+  contentclass=""
+  fixed="true"
+  maxwidth="auto"
+  nudgebottom="0"
+  nudgeleft="0"
+  nudgeright="0"
+  nudgetop="0"
+  nudgewidth="0"
+  opendelay="0"
+  openonhover="true"
+  tag="span"
+>
+   
+  <span>
+     0/26
+  </span>
+</v-tooltip-stub>
+`;

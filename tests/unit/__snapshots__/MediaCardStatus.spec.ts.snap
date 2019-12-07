@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MediaCardStatus matches snapshot 1`] = `
+<v-progress-linear-stub
+  active="true"
+  buffervalue="100"
+  color="grey lighten-2"
+  height="4"
+  value="50"
+/>
+`;
+
+exports[`MediaCardStatus matches snapshot 2`] = `
+<mediacardstatusready-stub
+  media="[object Object]"
+/>
+`;

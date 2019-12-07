@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MediaCardItemAvatar matches snapshot 1`] = `
+<v-list-item-avatar-stub
+  size="80"
+  style="align-self: center;"
+>
+  <base-lazy-img-stub
+    lazysrc=""
+    src=""
+    srcset=""
+  />
+</v-list-item-avatar-stub>
+`;
+
+exports[`MediaCardItemAvatar matches snapshot 2`] = `
+<v-list-item-avatar-stub
+  size="80"
+  style="align-self: center;"
+>
+  <base-lazy-img-stub
+    lazysrc=""
+    src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx1-90fRJRDmt2f2.png"
+    srcset="https://s4.anilist.co/file/anilistcdn/media/anime/cover/small/bx1-90fRJRDmt2f2.png 1x, 
+            https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx1-90fRJRDmt2f2.png 2x, 
+            https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx1-90fRJRDmt2f2.png 3x"
+  />
+</v-list-item-avatar-stub>
+`;

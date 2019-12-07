@@ -46,6 +46,7 @@ import BaseQuery from '@/components/BaseQuery.vue'
 import BaseShare from './components/BaseShare.vue'
 import MediaEdit from './components/MediaEdit.vue'
 import { State } from '@/store'
+
 import TheAppBar from './components/TheAppBar.vue'
 
 const TheBottomAppBar = () =>

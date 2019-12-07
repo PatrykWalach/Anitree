@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MediaCardActions matches snapshot 1`] = `
+<basequery-stub
+  apollo="[object Object]"
+/>
+`;
+
+exports[`MediaCardActions matches snapshot 2`] = `
+<basequery-stub
+  apollo="[object Object]"
+/>
+`;

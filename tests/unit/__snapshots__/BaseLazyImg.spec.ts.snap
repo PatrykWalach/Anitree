@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BaseLazyImg matches snapshot 1`] = `
+<v-img-stub
+  lazysrc=""
+  options="[object Object]"
+  position="center center"
+  src=""
+  transition="fade-transition"
+/>
+`;
