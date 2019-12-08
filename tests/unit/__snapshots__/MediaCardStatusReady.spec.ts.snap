@@ -22,3 +22,164 @@ exports[`MediaCardStatusReady matches snapshot 1`] = `
   </span>
 </v-tooltip-stub>
 `;
+
+exports[`MediaCardStatusReady matches snapshot 2`] = `
+<v-tooltip-stub
+  bottom="true"
+  closedelay="0"
+  contentclass=""
+  fixed="true"
+  maxwidth="auto"
+  nudgebottom="0"
+  nudgeleft="0"
+  nudgeright="0"
+  nudgetop="0"
+  nudgewidth="0"
+  opendelay="0"
+  openonhover="true"
+  tag="span"
+>
+   
+  <span>
+    Completed
+  </span>
+</v-tooltip-stub>
+`;
+
+exports[`MediaCardStatusReady matches snapshot 3`] = `
+<v-tooltip-stub
+  bottom="true"
+  closedelay="0"
+  contentclass=""
+  fixed="true"
+  maxwidth="auto"
+  nudgebottom="0"
+  nudgeleft="0"
+  nudgeright="0"
+  nudgetop="0"
+  nudgewidth="0"
+  opendelay="0"
+  openonhover="true"
+  tag="span"
+>
+   
+  <span>
+    Watching 26/26
+  </span>
+</v-tooltip-stub>
+`;
+
+exports[`MediaCardStatusReady matches snapshot 4`] = `
+<v-tooltip-stub
+  bottom="true"
+  closedelay="0"
+  contentclass=""
+  fixed="true"
+  maxwidth="auto"
+  nudgebottom="0"
+  nudgeleft="0"
+  nudgeright="0"
+  nudgetop="0"
+  nudgewidth="0"
+  opendelay="0"
+  openonhover="true"
+  tag="span"
+>
+   
+  <span>
+    Plan to watch
+  </span>
+</v-tooltip-stub>
+`;
+
+exports[`MediaCardStatusReady matches snapshot 5`] = `
+<v-tooltip-stub
+  bottom="true"
+  closedelay="0"
+  contentclass=""
+  fixed="true"
+  maxwidth="auto"
+  nudgebottom="0"
+  nudgeleft="0"
+  nudgeright="0"
+  nudgetop="0"
+  nudgewidth="0"
+  opendelay="0"
+  openonhover="true"
+  tag="span"
+>
+   
+  <span>
+    Completed
+  </span>
+</v-tooltip-stub>
+`;
+
+exports[`MediaCardStatusReady matches snapshot 6`] = `
+<v-tooltip-stub
+  bottom="true"
+  closedelay="0"
+  contentclass=""
+  fixed="true"
+  maxwidth="auto"
+  nudgebottom="0"
+  nudgeleft="0"
+  nudgeright="0"
+  nudgetop="0"
+  nudgewidth="0"
+  opendelay="0"
+  openonhover="true"
+  tag="span"
+>
+   
+  <span>
+    Dropped
+  </span>
+</v-tooltip-stub>
+`;
+
+exports[`MediaCardStatusReady matches snapshot 7`] = `
+<v-tooltip-stub
+  bottom="true"
+  closedelay="0"
+  contentclass=""
+  fixed="true"
+  maxwidth="auto"
+  nudgebottom="0"
+  nudgeleft="0"
+  nudgeright="0"
+  nudgetop="0"
+  nudgewidth="0"
+  opendelay="0"
+  openonhover="true"
+  tag="span"
+>
+   
+  <span>
+    Paused 26/26
+  </span>
+</v-tooltip-stub>
+`;
+
+exports[`MediaCardStatusReady matches snapshot 8`] = `
+<v-tooltip-stub
+  bottom="true"
+  closedelay="0"
+  contentclass=""
+  fixed="true"
+  maxwidth="auto"
+  nudgebottom="0"
+  nudgeleft="0"
+  nudgeright="0"
+  nudgetop="0"
+  nudgewidth="0"
+  opendelay="0"
+  openonhover="true"
+  tag="span"
+>
+   
+  <span>
+    Rewatching 26/26
+  </span>
+</v-tooltip-stub>
+`;

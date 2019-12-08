@@ -92,30 +92,26 @@ export default createComponent<Readonly<Props>>({
         case 'DROPPED':
           return { text: 'Dropped' }
         default:
-          return ''
+          return { text: '' }
       }
     })
 
     const tipString = computed(() => {
-      const _tipObject = tipObject.value
+      const tipObjectValue = tipObject.value
 
-      return (
-        (_tipObject &&
-          ((manga.value && _tipObject.manga) || _tipObject.text)) ||
-        ''
-      )
+      return (manga.value && tipObjectValue.manga) || tipObjectValue.text
     })
 
     const tip = computed(() => {
-      const _tipString = tipString.value
+      const tipStringValue = tipString.value
 
       switch (status.value) {
         case 'COMPLETED':
         case 'PLANNING':
         case 'DROPPED':
-          return _tipString
+          return tipStringValue
         default:
-          return _tipString + ' ' + stringValue.value
+          return tipStringValue + ' ' + stringValue.value
       }
     })
 
