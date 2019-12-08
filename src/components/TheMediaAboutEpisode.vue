@@ -2,7 +2,9 @@
   <v-list-item selectable>
     <v-list-item-content>
       <v-list-item-title class="primary--text text-capitalize"
-        >Episode #{{ media.nextAiringEpisode.episode }}</v-list-item-title
+        >Episode #{{
+          media.nextAiringEpisode && media.nextAiringEpisode.episode
+        }}</v-list-item-title
       >
       <v-list-item-subtitle class="primary--text text-capitalize">
         {{ subtitle }}</v-list-item-subtitle

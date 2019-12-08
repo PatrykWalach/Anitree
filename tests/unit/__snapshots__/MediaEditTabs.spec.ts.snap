@@ -133,3 +133,405 @@ exports[`MediaEditTabs matches snapshot 2`] = `
   </v-tab-stub>
 </v-tabs-stub>
 `;
+
+exports[`MediaEditTabs matches snapshot 3`] = `
+<v-tabs-stub
+  activeclass=""
+  grow="true"
+  mobilebreakpoint="1264"
+  nexticon="$next"
+  previcon="$prev"
+  slidersize="2"
+  value="edit2"
+>
+  <v-tab-stub
+    href="#edit1"
+    ripple="true"
+  >
+    <v-icon-stub
+      left=""
+    >
+      dashboard
+    </v-icon-stub>
+    
+    Progress
+  
+  </v-tab-stub>
+  <v-tab-stub
+    href="#edit2"
+    ripple="true"
+  >
+    <v-icon-stub
+      left=""
+    >
+      date_range
+    </v-icon-stub>
+    
+    Dates
+  
+  </v-tab-stub>
+  <v-tab-stub
+    href="#edit3"
+    ripple="true"
+  >
+    <v-icon-stub
+      left=""
+    >
+      insert_comment
+    </v-icon-stub>
+    
+    Notes
+  
+  </v-tab-stub>
+  <v-tab-stub
+    href="#edit4"
+    ripple="true"
+  >
+    <v-icon-stub
+      left=""
+    >
+      edit
+    </v-icon-stub>
+    
+     Advanced Scores
+  
+  </v-tab-stub>
+</v-tabs-stub>
+`;
+
+exports[`MediaEditTabs matches snapshot 4`] = `
+<v-tabs-stub
+  activeclass=""
+  grow="true"
+  mobilebreakpoint="1264"
+  nexticon="$next"
+  previcon="$prev"
+  slidersize="2"
+  value="edit2"
+>
+  <v-tab-stub
+    disabled="true"
+    href="#edit1"
+    ripple="true"
+  >
+    <v-icon-stub
+      left=""
+    >
+      dashboard
+    </v-icon-stub>
+    
+    Progress
+  
+  </v-tab-stub>
+  <v-tab-stub
+    disabled="true"
+    href="#edit2"
+    ripple="true"
+  >
+    <v-icon-stub
+      left=""
+    >
+      date_range
+    </v-icon-stub>
+    
+    Dates
+  
+  </v-tab-stub>
+  <v-tab-stub
+    disabled="true"
+    href="#edit3"
+    ripple="true"
+  >
+    <v-icon-stub
+      left=""
+    >
+      insert_comment
+    </v-icon-stub>
+    
+    Notes
+  
+  </v-tab-stub>
+  <v-tab-stub
+    disabled="true"
+    href="#edit4"
+    ripple="true"
+  >
+    <v-icon-stub
+      left=""
+    >
+      edit
+    </v-icon-stub>
+    
+     Advanced Scores
+  
+  </v-tab-stub>
+</v-tabs-stub>
+`;
+
+exports[`MediaEditTabs matches snapshot 5`] = `
+<v-tabs-stub
+  activeclass=""
+  grow="true"
+  mobilebreakpoint="1264"
+  nexticon="$next"
+  previcon="$prev"
+  slidersize="2"
+  value="edit3"
+>
+  <v-tab-stub
+    href="#edit1"
+    ripple="true"
+  >
+    <v-icon-stub
+      left=""
+    >
+      dashboard
+    </v-icon-stub>
+    
+    Progress
+  
+  </v-tab-stub>
+  <v-tab-stub
+    href="#edit2"
+    ripple="true"
+  >
+    <v-icon-stub
+      left=""
+    >
+      date_range
+    </v-icon-stub>
+    
+    Dates
+  
+  </v-tab-stub>
+  <v-tab-stub
+    href="#edit3"
+    ripple="true"
+  >
+    <v-icon-stub
+      left=""
+    >
+      insert_comment
+    </v-icon-stub>
+    
+    Notes
+  
+  </v-tab-stub>
+  <v-tab-stub
+    href="#edit4"
+    ripple="true"
+  >
+    <v-icon-stub
+      left=""
+    >
+      edit
+    </v-icon-stub>
+    
+     Advanced Scores
+  
+  </v-tab-stub>
+</v-tabs-stub>
+`;
+
+exports[`MediaEditTabs matches snapshot 6`] = `
+<v-tabs-stub
+  activeclass=""
+  grow="true"
+  mobilebreakpoint="1264"
+  nexticon="$next"
+  previcon="$prev"
+  slidersize="2"
+  value="edit3"
+>
+  <v-tab-stub
+    disabled="true"
+    href="#edit1"
+    ripple="true"
+  >
+    <v-icon-stub
+      left=""
+    >
+      dashboard
+    </v-icon-stub>
+    
+    Progress
+  
+  </v-tab-stub>
+  <v-tab-stub
+    disabled="true"
+    href="#edit2"
+    ripple="true"
+  >
+    <v-icon-stub
+      left=""
+    >
+      date_range
+    </v-icon-stub>
+    
+    Dates
+  
+  </v-tab-stub>
+  <v-tab-stub
+    disabled="true"
+    href="#edit3"
+    ripple="true"
+  >
+    <v-icon-stub
+      left=""
+    >
+      insert_comment
+    </v-icon-stub>
+    
+    Notes
+  
+  </v-tab-stub>
+  <v-tab-stub
+    disabled="true"
+    href="#edit4"
+    ripple="true"
+  >
+    <v-icon-stub
+      left=""
+    >
+      edit
+    </v-icon-stub>
+    
+     Advanced Scores
+  
+  </v-tab-stub>
+</v-tabs-stub>
+`;
+
+exports[`MediaEditTabs matches snapshot 7`] = `
+<v-tabs-stub
+  activeclass=""
+  grow="true"
+  mobilebreakpoint="1264"
+  nexticon="$next"
+  previcon="$prev"
+  slidersize="2"
+  value="edit4"
+>
+  <v-tab-stub
+    href="#edit1"
+    ripple="true"
+  >
+    <v-icon-stub
+      left=""
+    >
+      dashboard
+    </v-icon-stub>
+    
+    Progress
+  
+  </v-tab-stub>
+  <v-tab-stub
+    href="#edit2"
+    ripple="true"
+  >
+    <v-icon-stub
+      left=""
+    >
+      date_range
+    </v-icon-stub>
+    
+    Dates
+  
+  </v-tab-stub>
+  <v-tab-stub
+    href="#edit3"
+    ripple="true"
+  >
+    <v-icon-stub
+      left=""
+    >
+      insert_comment
+    </v-icon-stub>
+    
+    Notes
+  
+  </v-tab-stub>
+  <v-tab-stub
+    href="#edit4"
+    ripple="true"
+  >
+    <v-icon-stub
+      left=""
+    >
+      edit
+    </v-icon-stub>
+    
+     Advanced Scores
+  
+  </v-tab-stub>
+</v-tabs-stub>
+`;
+
+exports[`MediaEditTabs matches snapshot 8`] = `
+<v-tabs-stub
+  activeclass=""
+  grow="true"
+  mobilebreakpoint="1264"
+  nexticon="$next"
+  previcon="$prev"
+  slidersize="2"
+  value="edit4"
+>
+  <v-tab-stub
+    disabled="true"
+    href="#edit1"
+    ripple="true"
+  >
+    <v-icon-stub
+      left=""
+    >
+      dashboard
+    </v-icon-stub>
+    
+    Progress
+  
+  </v-tab-stub>
+  <v-tab-stub
+    disabled="true"
+    href="#edit2"
+    ripple="true"
+  >
+    <v-icon-stub
+      left=""
+    >
+      date_range
+    </v-icon-stub>
+    
+    Dates
+  
+  </v-tab-stub>
+  <v-tab-stub
+    disabled="true"
+    href="#edit3"
+    ripple="true"
+  >
+    <v-icon-stub
+      left=""
+    >
+      insert_comment
+    </v-icon-stub>
+    
+    Notes
+  
+  </v-tab-stub>
+  <v-tab-stub
+    disabled="true"
+    href="#edit4"
+    ripple="true"
+  >
+    <v-icon-stub
+      left=""
+    >
+      edit
+    </v-icon-stub>
+    
+     Advanced Scores
+  
+  </v-tab-stub>
+</v-tabs-stub>
+`;

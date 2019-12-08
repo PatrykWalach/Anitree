@@ -30,22 +30,22 @@ export default createComponent({
     })
 
     const tabs = computed(() => {
-      const _params = params.value
+      const paramsValue = params.value
       return [
         {
           icon: 'info',
           title: 'about',
-          to: _params && {
+          to: paramsValue && {
             name: 'media-about',
-            params: _params,
+            params: paramsValue,
           },
         },
         {
           icon: 'timeline',
           title: 'timeline',
-          to: _params && {
+          to: paramsValue && {
             name: 'media-timeline',
-            params: _params,
+            params: paramsValue,
           },
         },
       ]

@@ -1,0 +1,169 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TheBottomAppBar matches snapshot 1`] = `
+<v-app-bar-stub
+  app="true"
+  bottom="true"
+  extensionheight="48"
+  src=""
+  tag="header"
+  tile="true"
+  value="true"
+>
+  <v-app-bar-nav-icon-stub />
+    
+  <!---->
+   
+  <thefab-stub
+    absolute=""
+    top=""
+  />
+</v-app-bar-stub>
+`;
+
+exports[`TheBottomAppBar matches snapshot 2`] = `
+<v-app-bar-stub
+  app="true"
+  bottom="true"
+  extensionheight="48"
+  src=""
+  tag="header"
+  tile="true"
+  value="true"
+>
+  <v-app-bar-nav-icon-stub />
+    
+  <!---->
+   
+  <thefab-stub
+    absolute=""
+    top=""
+  />
+</v-app-bar-stub>
+`;
+
+exports[`TheBottomAppBar matches snapshot 3`] = `
+<v-app-bar-stub
+  app="true"
+  bottom="true"
+  extensionheight="48"
+  src=""
+  tag="header"
+  tile="true"
+  value="true"
+>
+  <v-app-bar-nav-icon-stub />
+    
+  <!---->
+   
+  <thefab-stub
+    absolute=""
+    top=""
+  />
+</v-app-bar-stub>
+`;
+
+exports[`TheBottomAppBar matches snapshot 4`] = `
+<v-app-bar-stub
+  app="true"
+  bottom="true"
+  extensionheight="48"
+  src=""
+  tag="header"
+  tile="true"
+  value="true"
+>
+  <v-app-bar-nav-icon-stub />
+    
+  <!---->
+   
+  <thefab-stub
+    absolute=""
+    top=""
+  />
+</v-app-bar-stub>
+`;
+
+exports[`TheBottomAppBar matches snapshot 5`] = `
+<v-app-bar-stub
+  app="true"
+  bottom="true"
+  extensionheight="48"
+  src=""
+  tag="header"
+  tile="true"
+  value="true"
+>
+  <v-app-bar-nav-icon-stub />
+    
+  <!---->
+   
+  <thefab-stub
+    absolute=""
+    top=""
+  />
+</v-app-bar-stub>
+`;
+
+exports[`TheBottomAppBar matches snapshot 6`] = `
+<v-app-bar-stub
+  app="true"
+  bottom="true"
+  extensionheight="48"
+  src=""
+  tag="header"
+  tile="true"
+  value="true"
+>
+  <v-app-bar-nav-icon-stub />
+    
+  <!---->
+   
+  <thefab-stub
+    absolute=""
+    top=""
+  />
+</v-app-bar-stub>
+`;
+
+exports[`TheBottomAppBar matches snapshot 7`] = `
+<v-app-bar-stub
+  app="true"
+  bottom="true"
+  extensionheight="48"
+  src=""
+  tag="header"
+  tile="true"
+  value="true"
+>
+  <v-app-bar-nav-icon-stub />
+    
+  <!---->
+   
+  <thefab-stub
+    absolute=""
+    top=""
+  />
+</v-app-bar-stub>
+`;
+
+exports[`TheBottomAppBar matches snapshot 8`] = `
+<v-app-bar-stub
+  app="true"
+  bottom="true"
+  extensionheight="48"
+  src=""
+  tag="header"
+  tile="true"
+  value="true"
+>
+  <v-app-bar-nav-icon-stub />
+    
+  <!---->
+   
+  <thefab-stub
+    absolute=""
+    top=""
+  />
+</v-app-bar-stub>
+`;

@@ -1,0 +1,55 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TheFooter matches snapshot 1`] = `
+<v-footer-stub
+  absolute="true"
+  app="true"
+  class="caption"
+  height="auto"
+  inset="true"
+  tag="div"
+  tile="true"
+>
+  <div>
+    
+    Powered by
+  
+  </div>
+   
+  <v-btn-stub
+    activeclass=""
+    href="https://anilist.co"
+    rel="noopener"
+    tag="button"
+    target="_blank"
+    text="true"
+    type="button"
+  >
+    
+    Anilist
+  
+  </v-btn-stub>
+   
+  <!---->
+   
+  <div>
+    Made by
+  </div>
+   
+  <v-btn-stub
+    activeclass=""
+    href="https://github.com/PatrykWalach/Anitree"
+    rel="noopener"
+    tag="button"
+    target="_blank"
+    text="true"
+    type="button"
+  >
+    <fontawesomeicon-stub
+      icon="fab,github"
+    />
+    PatrykWałach
+  
+  </v-btn-stub>
+</v-footer-stub>
+`;

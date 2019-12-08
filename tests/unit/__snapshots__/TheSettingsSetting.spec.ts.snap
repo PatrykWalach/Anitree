@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TheSettingsSetting matches snapshot 1`] = `
+<v-list-item-stub
+  activeclass=""
+  tag="div"
+/>
+`;
+
+exports[`TheSettingsSetting matches snapshot 2`] = `
+<v-list-item-stub
+  activeclass=""
+  tag="div"
+/>
+`;

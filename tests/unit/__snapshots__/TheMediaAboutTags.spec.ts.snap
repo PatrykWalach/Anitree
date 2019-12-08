@@ -1,0 +1,441 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TheMediaAboutTags matches snapshot 1`] = `
+<v-card-text-stub>
+  <v-chip-stub
+    active="true"
+    activeclass=""
+    class="text-uppercase"
+    closeicon="$delete"
+    filtericon="$complete"
+    label="true"
+    link="true"
+    outlined="true"
+    style="margin: 4px 8px 4px 0px;"
+    tag="span"
+    to="[object Object]"
+  >
+    
+    spring 1998
+  
+  </v-chip-stub>
+   
+  <v-chip-stub
+    active="true"
+    activeclass=""
+    closeicon="$delete"
+    filtericon="$complete"
+    label="true"
+    link="true"
+    style="margin: 4px 8px 4px 0px;"
+    tag="span"
+    to="[object Object]"
+  >
+    <v-avatar-stub
+      left="true"
+      size="48"
+    >
+       94 
+    </v-avatar-stub>
+    
+    space
+  
+  </v-chip-stub>
+  <v-chip-stub
+    active="true"
+    activeclass=""
+    closeicon="$delete"
+    filtericon="$complete"
+    label="true"
+    link="true"
+    style="margin: 4px 8px 4px 0px;"
+    tag="span"
+    to="[object Object]"
+  >
+    <v-avatar-stub
+      left="true"
+      size="48"
+    >
+       92 
+    </v-avatar-stub>
+    
+    lgbtq issues
+  
+  </v-chip-stub>
+  <v-chip-stub
+    active="true"
+    activeclass=""
+    closeicon="$delete"
+    filtericon="$complete"
+    label="true"
+    link="true"
+    style="margin: 4px 8px 4px 0px;"
+    tag="span"
+    to="[object Object]"
+  >
+    <v-avatar-stub
+      left="true"
+      size="48"
+    >
+       85 
+    </v-avatar-stub>
+    
+    episodic
+  
+  </v-chip-stub>
+  <v-chip-stub
+    active="true"
+    activeclass=""
+    closeicon="$delete"
+    filtericon="$complete"
+    label="true"
+    link="true"
+    style="margin: 4px 8px 4px 0px;"
+    tag="span"
+    to="[object Object]"
+  >
+    <v-avatar-stub
+      left="true"
+      size="48"
+    >
+       84 
+    </v-avatar-stub>
+    
+    ensemble cast
+  
+  </v-chip-stub>
+  <v-chip-stub
+    active="true"
+    activeclass=""
+    closeicon="$delete"
+    filtericon="$complete"
+    label="true"
+    link="true"
+    style="margin: 4px 8px 4px 0px;"
+    tag="span"
+    to="[object Object]"
+  >
+    <v-avatar-stub
+      left="true"
+      size="48"
+    >
+       79 
+    </v-avatar-stub>
+    
+    crime
+  
+  </v-chip-stub>
+  <v-chip-stub
+    active="true"
+    activeclass=""
+    closeicon="$delete"
+    filtericon="$complete"
+    label="true"
+    link="true"
+    style="margin: 4px 8px 4px 0px;"
+    tag="span"
+    to="[object Object]"
+  >
+    <v-avatar-stub
+      left="true"
+      size="48"
+    >
+       77 
+    </v-avatar-stub>
+    
+    primarily adult cast
+  
+  </v-chip-stub>
+  <v-chip-stub
+    active="true"
+    activeclass=""
+    closeicon="$delete"
+    filtericon="$complete"
+    label="true"
+    link="true"
+    style="margin: 4px 8px 4px 0px;"
+    tag="span"
+    to="[object Object]"
+  >
+    <v-avatar-stub
+      left="true"
+      size="48"
+    >
+       76 
+    </v-avatar-stub>
+    
+    noir
+  
+  </v-chip-stub>
+  <v-chip-stub
+    active="true"
+    activeclass=""
+    closeicon="$delete"
+    filtericon="$complete"
+    label="true"
+    link="true"
+    style="margin: 4px 8px 4px 0px;"
+    tag="span"
+    to="[object Object]"
+  >
+    <v-avatar-stub
+      left="true"
+      size="48"
+    >
+       72 
+    </v-avatar-stub>
+    
+    guns
+  
+  </v-chip-stub>
+  <v-chip-stub
+    active="true"
+    activeclass=""
+    closeicon="$delete"
+    filtericon="$complete"
+    label="true"
+    link="true"
+    style="margin: 4px 8px 4px 0px;"
+    tag="span"
+    to="[object Object]"
+  >
+    <v-avatar-stub
+      left="true"
+      size="48"
+    >
+       70 
+    </v-avatar-stub>
+    
+    drugs
+  
+  </v-chip-stub>
+  <v-chip-stub
+    active="true"
+    activeclass=""
+    closeicon="$delete"
+    filtericon="$complete"
+    label="true"
+    link="true"
+    style="margin: 4px 8px 4px 0px;"
+    tag="span"
+    to="[object Object]"
+  >
+    <v-avatar-stub
+      left="true"
+      size="48"
+    >
+       70 
+    </v-avatar-stub>
+    
+    tragedy
+  
+  </v-chip-stub>
+  <v-chip-stub
+    active="true"
+    activeclass=""
+    closeicon="$delete"
+    filtericon="$complete"
+    label="true"
+    link="true"
+    style="margin: 4px 8px 4px 0px;"
+    tag="span"
+    to="[object Object]"
+  >
+    <v-avatar-stub
+      left="true"
+      size="48"
+    >
+       68 
+    </v-avatar-stub>
+    
+    male protagonist
+  
+  </v-chip-stub>
+  <v-chip-stub
+    active="true"
+    activeclass=""
+    closeicon="$delete"
+    filtericon="$complete"
+    label="true"
+    link="true"
+    style="margin: 4px 8px 4px 0px;"
+    tag="span"
+    to="[object Object]"
+  >
+    <v-avatar-stub
+      left="true"
+      size="48"
+    >
+       60 
+    </v-avatar-stub>
+    
+    philosophy
+  
+  </v-chip-stub>
+  <v-chip-stub
+    active="true"
+    activeclass=""
+    closeicon="$delete"
+    filtericon="$complete"
+    label="true"
+    link="true"
+    style="margin: 4px 8px 4px 0px;"
+    tag="span"
+    to="[object Object]"
+  >
+    <v-avatar-stub
+      left="true"
+      size="48"
+    >
+       60 
+    </v-avatar-stub>
+    
+    martial arts
+  
+  </v-chip-stub>
+  <v-chip-stub
+    active="true"
+    activeclass=""
+    closeicon="$delete"
+    filtericon="$complete"
+    label="true"
+    link="true"
+    style="margin: 4px 8px 4px 0px;"
+    tag="span"
+    to="[object Object]"
+  >
+    <v-avatar-stub
+      left="true"
+      size="48"
+    >
+       58 
+    </v-avatar-stub>
+    
+    amnesia
+  
+  </v-chip-stub>
+  <v-chip-stub
+    active="true"
+    activeclass=""
+    closeicon="$delete"
+    filtericon="$complete"
+    label="true"
+    link="true"
+    style="margin: 4px 8px 4px 0px;"
+    tag="span"
+    to="[object Object]"
+  >
+    <v-avatar-stub
+      left="true"
+      size="48"
+    >
+       48 
+    </v-avatar-stub>
+    
+    primarily male cast
+  
+  </v-chip-stub>
+  <v-chip-stub
+    active="true"
+    activeclass=""
+    closeicon="$delete"
+    filtericon="$complete"
+    label="true"
+    link="true"
+    style="margin: 4px 8px 4px 0px;"
+    tag="span"
+    to="[object Object]"
+  >
+    <v-avatar-stub
+      left="true"
+      size="48"
+    >
+       46 
+    </v-avatar-stub>
+    
+    anti-hero
+  
+  </v-chip-stub>
+  <v-chip-stub
+    active="true"
+    activeclass=""
+    closeicon="$delete"
+    filtericon="$complete"
+    label="true"
+    link="true"
+    style="margin: 4px 8px 4px 0px;"
+    tag="span"
+    to="[object Object]"
+  >
+    <v-avatar-stub
+      left="true"
+      size="48"
+    >
+       45 
+    </v-avatar-stub>
+    
+    yakuza
+  
+  </v-chip-stub>
+</v-card-text-stub>
+`;
+
+exports[`TheMediaAboutTags matches snapshot 2`] = `
+<v-chip-group-stub
+  activeclass="v-slide-item--active"
+  mobilebreakpoint="1264"
+  nexticon="$next"
+  previcon="$prev"
+>
+  <v-skeleton-loader-stub
+    class="my-1 mr-2"
+    type="chip"
+    types="[object Object]"
+  />
+  <v-skeleton-loader-stub
+    class="my-1 mr-2"
+    type="chip"
+    types="[object Object]"
+  />
+  <v-skeleton-loader-stub
+    class="my-1 mr-2"
+    type="chip"
+    types="[object Object]"
+  />
+  <v-skeleton-loader-stub
+    class="my-1 mr-2"
+    type="chip"
+    types="[object Object]"
+  />
+  <v-skeleton-loader-stub
+    class="my-1 mr-2"
+    type="chip"
+    types="[object Object]"
+  />
+  <v-skeleton-loader-stub
+    class="my-1 mr-2"
+    type="chip"
+    types="[object Object]"
+  />
+  <v-skeleton-loader-stub
+    class="my-1 mr-2"
+    type="chip"
+    types="[object Object]"
+  />
+  <v-skeleton-loader-stub
+    class="my-1 mr-2"
+    type="chip"
+    types="[object Object]"
+  />
+  <v-skeleton-loader-stub
+    class="my-1 mr-2"
+    type="chip"
+    types="[object Object]"
+  />
+  <v-skeleton-loader-stub
+    class="my-1 mr-2"
+    type="chip"
+    types="[object Object]"
+  />
+</v-chip-group-stub>
+`;

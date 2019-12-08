@@ -1,41 +1,23 @@
+import { createVariations, matchSnapshot } from './utils'
 import MediaEditItems from '@/components/MediaEditItems.vue'
-
-import { matchSnapshot } from './utils'
 import { mockedMediaAndListEntry } from './mocks/media'
 import { mockedViewer } from './mocks/viewer'
 import { useMockedStore } from './mocks/store'
 
+
 describe('MediaEditItems', () => {
-  matchSnapshot(MediaEditItems, {
+  createVariations({
     propsData: {
-      media: mockedMediaAndListEntry,
-      tab: 'edit1',
-      user: mockedViewer,
+      tab: () => Array.from({ length: 4 }, (v, k) => 'edit' + (k + 1)),
     },
-    ...useMockedStore(),
-  })
-  matchSnapshot(MediaEditItems, {
-    propsData: {
-      media: mockedMediaAndListEntry,
-      tab: 'edit2',
-      user: mockedViewer,
-    },
-    ...useMockedStore(),
-  })
-  matchSnapshot(MediaEditItems, {
-    propsData: {
-      media: mockedMediaAndListEntry,
-      tab: 'edit3',
-      user: mockedViewer,
-    },
-    ...useMockedStore(),
-  })
-  matchSnapshot(MediaEditItems, {
-    propsData: {
-      media: mockedMediaAndListEntry,
-      tab: 'edit4',
-      user: mockedViewer,
-    },
-    ...useMockedStore(),
-  })
+  }).forEach(settings =>
+    matchSnapshot(MediaEditItems, {
+      propsData: {
+        ...settings.propsData,
+        media: mockedMediaAndListEntry,
+        user: mockedViewer,
+      },
+      ...useMockedStore(),
+    }),
+  )
 })

@@ -1,0 +1,123 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TheAppBar matches snapshot 1`] = `
+<v-app-bar-stub
+  app="true"
+  elevateonscroll="true"
+  extensionheight="48"
+  src=""
+  tag="header"
+  tile="true"
+  value="true"
+>
+  <!---->
+    
+  <v-toolbar-title-stub
+    class="text-capitalize"
+  >
+     Anitree 
+    <sup
+      class="overline"
+    >
+      alpha
+    </sup>
+  </v-toolbar-title-stub>
+   
+  <!---->
+   
+  <!---->
+    
+  <!---->
+</v-app-bar-stub>
+`;
+
+exports[`TheAppBar matches snapshot 2`] = `
+<v-app-bar-stub
+  app="true"
+  elevateonscroll="true"
+  extensionheight="48"
+  src=""
+  tag="header"
+  tile="true"
+  value="true"
+>
+  <v-tooltip-stub
+    bottom="true"
+    closedelay="0"
+    contentclass=""
+    fixed="true"
+    maxwidth="auto"
+    nudgebottom="0"
+    nudgeleft="0"
+    nudgeright="0"
+    nudgetop="0"
+    nudgewidth="0"
+    opendelay="0"
+    openonhover="true"
+    tag="span"
+  >
+     
+    <span>
+      Back
+    </span>
+  </v-tooltip-stub>
+    
+  <v-toolbar-title-stub
+    class="text-capitalize"
+  >
+    
+        settings
+      
+  </v-toolbar-title-stub>
+   
+  <!---->
+   
+  <!---->
+    
+  <!---->
+</v-app-bar-stub>
+`;
+
+exports[`TheAppBar matches snapshot 3`] = `
+<v-app-bar-stub
+  app="true"
+  elevateonscroll="true"
+  extensionheight="48"
+  src=""
+  tag="header"
+  tile="true"
+  value="true"
+>
+  <!---->
+    
+  <!---->
+   
+  <theappbarsearch-stub />
+   
+  <!---->
+    
+  <!---->
+</v-app-bar-stub>
+`;
+
+exports[`TheAppBar matches snapshot 4`] = `
+<v-app-bar-stub
+  app="true"
+  elevateonscroll="true"
+  extensionheight="48"
+  src=""
+  tag="header"
+  tile="true"
+  value="true"
+>
+  <!---->
+    
+  <!---->
+   
+  <theappbarsearch-stub />
+   
+  <!---->
+    
+  <!---->
+</v-app-bar-stub>
+`;

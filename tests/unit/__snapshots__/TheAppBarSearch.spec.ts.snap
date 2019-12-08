@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TheAppBarSearch matches snapshot 1`] = `
+<v-container-stub
+  pa-0=""
+  tag="div"
+>
+  <v-row-stub
+    justify="center"
+    nogutters="true"
+    tag="div"
+  >
+    <v-col-stub
+      cols="12"
+      md="6"
+      tag="div"
+    >
+      <v-form-stub>
+        <v-text-field-stub
+          backgroundcolor=""
+          clearicon="$clear"
+          errorcount="1"
+          errormessages=""
+          filled="true"
+          fullwidth="true"
+          hidedetails="true"
+          label="Search"
+          loaderheight="2"
+          messages=""
+          name="search"
+          rounded="true"
+          rules=""
+          singleline="true"
+          successmessages=""
+          type="text"
+          value=""
+        />
+      </v-form-stub>
+    </v-col-stub>
+  </v-row-stub>
+</v-container-stub>
+`;

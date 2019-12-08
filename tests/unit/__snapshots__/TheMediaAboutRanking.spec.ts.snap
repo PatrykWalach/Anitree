@@ -1,0 +1,241 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TheMediaAboutRanking matches snapshot 1`] = `
+<v-col-stub
+  cols="12"
+  md="4"
+  tag="div"
+>
+  <v-card-stub
+    loaderheight="4"
+    tag="div"
+  >
+    <v-list-stub
+      tag="div"
+      tile="true"
+    >
+      <v-list-item-stub
+        activeclass=""
+        tag="div"
+        to="[object Object]"
+      >
+        <v-list-item-icon-stub>
+          <v-icon-stub
+            color="red"
+          >
+            
+              favorite
+            
+          </v-icon-stub>
+        </v-list-item-icon-stub>
+         
+        <v-list-item-content-stub>
+          <v-list-item-title-stub
+            class="text-capitalize"
+          >
+            
+              #40
+              most popular all time
+            
+          </v-list-item-title-stub>
+           
+          <v-list-item-subtitle-stub
+            class="text-capitalize"
+          >
+            
+              
+              
+            
+          </v-list-item-subtitle-stub>
+        </v-list-item-content-stub>
+      </v-list-item-stub>
+      <v-list-item-stub
+        activeclass=""
+        tag="div"
+        to="[object Object]"
+      >
+        <v-list-item-icon-stub>
+          <v-icon-stub
+            color="red"
+          >
+            
+              favorite
+            
+          </v-icon-stub>
+        </v-list-item-icon-stub>
+         
+        <v-list-item-content-stub>
+          <v-list-item-title-stub
+            class="text-capitalize"
+          >
+            
+              #1
+              most popular
+            
+          </v-list-item-title-stub>
+           
+          <v-list-item-subtitle-stub
+            class="text-capitalize"
+          >
+            
+              
+              1998
+            
+          </v-list-item-subtitle-stub>
+        </v-list-item-content-stub>
+      </v-list-item-stub>
+    </v-list-stub>
+  </v-card-stub>
+</v-col-stub>
+`;
+
+exports[`TheMediaAboutRanking matches snapshot 2`] = `
+<v-col-stub
+  cols="12"
+  md="4"
+  tag="div"
+>
+  <v-card-stub
+    loaderheight="4"
+    tag="div"
+  >
+    <v-list-stub
+      tag="div"
+      tile="true"
+    >
+      <v-skeleton-loader-stub
+        type="list-item-avatar"
+        types="[object Object]"
+      />
+      <v-skeleton-loader-stub
+        type="list-item-avatar"
+        types="[object Object]"
+      />
+      <v-skeleton-loader-stub
+        type="list-item-avatar"
+        types="[object Object]"
+      />
+    </v-list-stub>
+  </v-card-stub>
+</v-col-stub>
+`;
+
+exports[`TheMediaAboutRanking matches snapshot 3`] = `
+<v-col-stub
+  cols="12"
+  md="4"
+  tag="div"
+>
+  <v-card-stub
+    loaderheight="4"
+    tag="div"
+  >
+    <v-list-stub
+      tag="div"
+      tile="true"
+    >
+      <v-list-item-stub
+        activeclass=""
+        tag="div"
+        to="[object Object]"
+      >
+        <v-list-item-icon-stub>
+          <v-icon-stub
+            color="yellow"
+          >
+            
+              star
+            
+          </v-icon-stub>
+        </v-list-item-icon-stub>
+         
+        <v-list-item-content-stub>
+          <v-list-item-title-stub
+            class="text-capitalize"
+          >
+            
+              #23
+              highest rated all time
+            
+          </v-list-item-title-stub>
+           
+          <v-list-item-subtitle-stub
+            class="text-capitalize"
+          >
+            
+              
+              
+            
+          </v-list-item-subtitle-stub>
+        </v-list-item-content-stub>
+      </v-list-item-stub>
+      <v-list-item-stub
+        activeclass=""
+        tag="div"
+        to="[object Object]"
+      >
+        <v-list-item-icon-stub>
+          <v-icon-stub
+            color="yellow"
+          >
+            
+              star
+            
+          </v-icon-stub>
+        </v-list-item-icon-stub>
+         
+        <v-list-item-content-stub>
+          <v-list-item-title-stub
+            class="text-capitalize"
+          >
+            
+              #1
+              highest rated
+            
+          </v-list-item-title-stub>
+           
+          <v-list-item-subtitle-stub
+            class="text-capitalize"
+          >
+            
+              
+              1998
+            
+          </v-list-item-subtitle-stub>
+        </v-list-item-content-stub>
+      </v-list-item-stub>
+    </v-list-stub>
+  </v-card-stub>
+</v-col-stub>
+`;
+
+exports[`TheMediaAboutRanking matches snapshot 4`] = `
+<v-col-stub
+  cols="12"
+  md="4"
+  tag="div"
+>
+  <v-card-stub
+    loaderheight="4"
+    tag="div"
+  >
+    <v-list-stub
+      tag="div"
+      tile="true"
+    >
+      <v-skeleton-loader-stub
+        type="list-item-avatar"
+        types="[object Object]"
+      />
+      <v-skeleton-loader-stub
+        type="list-item-avatar"
+        types="[object Object]"
+      />
+      <v-skeleton-loader-stub
+        type="list-item-avatar"
+        types="[object Object]"
+      />
+    </v-list-stub>
+  </v-card-stub>
+</v-col-stub>
+`;

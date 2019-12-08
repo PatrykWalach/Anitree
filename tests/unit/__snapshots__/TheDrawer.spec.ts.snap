@@ -1,0 +1,2001 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TheDrawer matches snapshot 1`] = `
+<v-navigation-drawer-stub
+  app="true"
+  height="100vh"
+  minivariant="true"
+  minivariantwidth="72"
+  mobilebreakpoint="1264"
+  permanent="true"
+  src=""
+  tag="nav"
+  value="true"
+  width="256"
+>
+  <!---->
+   
+  <thedrawerviewer-stub
+    viewer="[object Object]"
+  />
+   
+  <v-list-stub
+    rounded="true"
+    tag="div"
+    tile="true"
+  >
+    <v-fab-transition-stub
+      mode="out-in"
+      origin="center center"
+    >
+      <v-list-item-stub
+        activeclass=""
+        class="accent"
+        tag="div"
+      >
+        <v-list-item-icon-stub>
+          <v-icon-stub
+            color="white"
+          >
+            
+            tune
+          
+          </v-icon-stub>
+        </v-list-item-icon-stub>
+         
+        <v-list-item-content-stub>
+          <v-list-item-title-stub>
+            
+            Filter
+          
+          </v-list-item-title-stub>
+        </v-list-item-content-stub>
+      </v-list-item-stub>
+    </v-fab-transition-stub>
+  </v-list-stub>
+   
+  <v-list-stub
+    nav="true"
+    tag="div"
+    tile="true"
+  >
+    <v-list-item-stub
+      activeclass=""
+      color="primary"
+      exact="true"
+      tag="div"
+      to="[object Object]"
+    >
+      <v-list-item-icon-stub>
+        <v-icon-stub>
+          home
+        </v-icon-stub>
+      </v-list-item-icon-stub>
+       
+      <v-list-item-content-stub>
+        <v-list-item-title-stub>
+          
+          Home
+        
+        </v-list-item-title-stub>
+      </v-list-item-content-stub>
+    </v-list-item-stub>
+    <v-list-item-stub
+      activeclass=""
+      color="primary"
+      exact="true"
+      tag="div"
+      to="[object Object]"
+    >
+      <v-list-item-icon-stub>
+        <v-icon-stub>
+          change_history
+        </v-icon-stub>
+      </v-list-item-icon-stub>
+       
+      <v-list-item-content-stub>
+        <v-list-item-title-stub>
+          
+          Changes
+        
+        </v-list-item-title-stub>
+      </v-list-item-content-stub>
+    </v-list-item-stub>
+    <v-list-item-stub
+      activeclass=""
+      color="primary"
+      exact="true"
+      tag="div"
+      to="[object Object]"
+    >
+      <v-list-item-icon-stub>
+        <v-icon-stub>
+          settings
+        </v-icon-stub>
+      </v-list-item-icon-stub>
+       
+      <v-list-item-content-stub>
+        <v-list-item-title-stub>
+          
+          Settings
+        
+        </v-list-item-title-stub>
+      </v-list-item-content-stub>
+    </v-list-item-stub>
+  </v-list-stub>
+</v-navigation-drawer-stub>
+`;
+
+exports[`TheDrawer matches snapshot 2`] = `
+<v-navigation-drawer-stub
+  app="true"
+  height="100vh"
+  minivariant="true"
+  minivariantwidth="72"
+  mobilebreakpoint="1264"
+  permanent="true"
+  src=""
+  tag="nav"
+  value="true"
+  width="256"
+>
+  <!---->
+   
+  <thedrawerviewer-stub
+    viewer="[object Object]"
+  />
+   
+  <v-list-stub
+    rounded="true"
+    tag="div"
+    tile="true"
+  >
+    <v-fab-transition-stub
+      mode="out-in"
+      origin="center center"
+    >
+      <v-list-item-stub
+        activeclass=""
+        class="accent"
+        exact="true"
+        tag="div"
+        to="[object Object]"
+      >
+        <v-list-item-icon-stub>
+          <v-icon-stub
+            color="white"
+          >
+            
+            search
+          
+          </v-icon-stub>
+        </v-list-item-icon-stub>
+         
+        <v-list-item-content-stub>
+          <v-list-item-title-stub>
+            
+            Search
+          
+          </v-list-item-title-stub>
+        </v-list-item-content-stub>
+      </v-list-item-stub>
+    </v-fab-transition-stub>
+  </v-list-stub>
+   
+  <v-list-stub
+    nav="true"
+    tag="div"
+    tile="true"
+  >
+    <v-list-item-stub
+      activeclass=""
+      color="primary"
+      exact="true"
+      tag="div"
+      to="[object Object]"
+    >
+      <v-list-item-icon-stub>
+        <v-icon-stub>
+          home
+        </v-icon-stub>
+      </v-list-item-icon-stub>
+       
+      <v-list-item-content-stub>
+        <v-list-item-title-stub>
+          
+          Home
+        
+        </v-list-item-title-stub>
+      </v-list-item-content-stub>
+    </v-list-item-stub>
+    <v-list-item-stub
+      activeclass=""
+      color="primary"
+      exact="true"
+      tag="div"
+      to="[object Object]"
+    >
+      <v-list-item-icon-stub>
+        <v-icon-stub>
+          change_history
+        </v-icon-stub>
+      </v-list-item-icon-stub>
+       
+      <v-list-item-content-stub>
+        <v-list-item-title-stub>
+          
+          Changes
+        
+        </v-list-item-title-stub>
+      </v-list-item-content-stub>
+    </v-list-item-stub>
+    <v-list-item-stub
+      activeclass=""
+      color="primary"
+      exact="true"
+      tag="div"
+      to="[object Object]"
+    >
+      <v-list-item-icon-stub>
+        <v-icon-stub>
+          settings
+        </v-icon-stub>
+      </v-list-item-icon-stub>
+       
+      <v-list-item-content-stub>
+        <v-list-item-title-stub>
+          
+          Settings
+        
+        </v-list-item-title-stub>
+      </v-list-item-content-stub>
+    </v-list-item-stub>
+  </v-list-stub>
+</v-navigation-drawer-stub>
+`;
+
+exports[`TheDrawer matches snapshot 3`] = `
+<v-navigation-drawer-stub
+  app="true"
+  height="100vh"
+  minivariant="true"
+  minivariantwidth="72"
+  mobilebreakpoint="1264"
+  permanent="true"
+  src=""
+  tag="nav"
+  value="true"
+  width="256"
+>
+  <!---->
+   
+  <thedrawerviewer-stub
+    viewer="[object Object]"
+  />
+   
+  <v-list-stub
+    rounded="true"
+    tag="div"
+    tile="true"
+  >
+    <v-fab-transition-stub
+      mode="out-in"
+      origin="center center"
+    >
+      <v-list-item-stub
+        activeclass=""
+        class="accent"
+        tag="div"
+      >
+        <v-list-item-icon-stub>
+          <v-icon-stub
+            color="white"
+          >
+            
+            sort
+          
+          </v-icon-stub>
+        </v-list-item-icon-stub>
+         
+        <v-list-item-content-stub>
+          <v-list-item-title-stub>
+            
+            Sort
+          
+          </v-list-item-title-stub>
+        </v-list-item-content-stub>
+      </v-list-item-stub>
+    </v-fab-transition-stub>
+  </v-list-stub>
+   
+  <v-list-stub
+    nav="true"
+    tag="div"
+    tile="true"
+  >
+    <v-list-item-stub
+      activeclass=""
+      color="primary"
+      exact="true"
+      tag="div"
+      to="[object Object]"
+    >
+      <v-list-item-icon-stub>
+        <v-icon-stub>
+          home
+        </v-icon-stub>
+      </v-list-item-icon-stub>
+       
+      <v-list-item-content-stub>
+        <v-list-item-title-stub>
+          
+          Home
+        
+        </v-list-item-title-stub>
+      </v-list-item-content-stub>
+    </v-list-item-stub>
+    <v-list-item-stub
+      activeclass=""
+      color="primary"
+      exact="true"
+      tag="div"
+      to="[object Object]"
+    >
+      <v-list-item-icon-stub>
+        <v-icon-stub>
+          change_history
+        </v-icon-stub>
+      </v-list-item-icon-stub>
+       
+      <v-list-item-content-stub>
+        <v-list-item-title-stub>
+          
+          Changes
+        
+        </v-list-item-title-stub>
+      </v-list-item-content-stub>
+    </v-list-item-stub>
+    <v-list-item-stub
+      activeclass=""
+      color="primary"
+      exact="true"
+      tag="div"
+      to="[object Object]"
+    >
+      <v-list-item-icon-stub>
+        <v-icon-stub>
+          settings
+        </v-icon-stub>
+      </v-list-item-icon-stub>
+       
+      <v-list-item-content-stub>
+        <v-list-item-title-stub>
+          
+          Settings
+        
+        </v-list-item-title-stub>
+      </v-list-item-content-stub>
+    </v-list-item-stub>
+  </v-list-stub>
+</v-navigation-drawer-stub>
+`;
+
+exports[`TheDrawer matches snapshot 4`] = `
+<v-navigation-drawer-stub
+  app="true"
+  height="100vh"
+  minivariant="true"
+  minivariantwidth="72"
+  mobilebreakpoint="1264"
+  permanent="true"
+  src=""
+  tag="nav"
+  value="true"
+  width="256"
+>
+  <!---->
+   
+  <thedrawerviewer-stub
+    viewer="[object Object]"
+  />
+   
+  <v-list-stub
+    rounded="true"
+    tag="div"
+    tile="true"
+  >
+    <v-fab-transition-stub
+      mode="out-in"
+      origin="center center"
+    >
+      <v-list-item-stub
+        activeclass=""
+        class="accent"
+        tag="div"
+      >
+        <v-list-item-icon-stub>
+          <v-icon-stub
+            color="white"
+          >
+            
+            edit
+          
+          </v-icon-stub>
+        </v-list-item-icon-stub>
+         
+        <v-list-item-content-stub>
+          <v-list-item-title-stub>
+            
+            Edit
+          
+          </v-list-item-title-stub>
+        </v-list-item-content-stub>
+      </v-list-item-stub>
+    </v-fab-transition-stub>
+  </v-list-stub>
+   
+  <v-list-stub
+    nav="true"
+    tag="div"
+    tile="true"
+  >
+    <v-list-item-stub
+      activeclass=""
+      color="primary"
+      exact="true"
+      tag="div"
+      to="[object Object]"
+    >
+      <v-list-item-icon-stub>
+        <v-icon-stub>
+          home
+        </v-icon-stub>
+      </v-list-item-icon-stub>
+       
+      <v-list-item-content-stub>
+        <v-list-item-title-stub>
+          
+          Home
+        
+        </v-list-item-title-stub>
+      </v-list-item-content-stub>
+    </v-list-item-stub>
+    <v-list-item-stub
+      activeclass=""
+      color="primary"
+      exact="true"
+      tag="div"
+      to="[object Object]"
+    >
+      <v-list-item-icon-stub>
+        <v-icon-stub>
+          change_history
+        </v-icon-stub>
+      </v-list-item-icon-stub>
+       
+      <v-list-item-content-stub>
+        <v-list-item-title-stub>
+          
+          Changes
+        
+        </v-list-item-title-stub>
+      </v-list-item-content-stub>
+    </v-list-item-stub>
+    <v-list-item-stub
+      activeclass=""
+      color="primary"
+      exact="true"
+      tag="div"
+      to="[object Object]"
+    >
+      <v-list-item-icon-stub>
+        <v-icon-stub>
+          settings
+        </v-icon-stub>
+      </v-list-item-icon-stub>
+       
+      <v-list-item-content-stub>
+        <v-list-item-title-stub>
+          
+          Settings
+        
+        </v-list-item-title-stub>
+      </v-list-item-content-stub>
+    </v-list-item-stub>
+  </v-list-stub>
+</v-navigation-drawer-stub>
+`;
+
+exports[`TheDrawer matches snapshot 5`] = `
+<v-navigation-drawer-stub
+  app="true"
+  height="100vh"
+  minivariant="true"
+  minivariantwidth="72"
+  mobilebreakpoint="1264"
+  permanent="true"
+  src=""
+  tag="nav"
+  width="256"
+>
+  <!---->
+   
+  <thedrawerviewer-stub
+    viewer="[object Object]"
+  />
+   
+  <v-list-stub
+    rounded="true"
+    tag="div"
+    tile="true"
+  >
+    <v-fab-transition-stub
+      mode="out-in"
+      origin="center center"
+    >
+      <v-list-item-stub
+        activeclass=""
+        class="accent"
+        tag="div"
+      >
+        <v-list-item-icon-stub>
+          <v-icon-stub
+            color="white"
+          >
+            
+            tune
+          
+          </v-icon-stub>
+        </v-list-item-icon-stub>
+         
+        <v-list-item-content-stub>
+          <v-list-item-title-stub>
+            
+            Filter
+          
+          </v-list-item-title-stub>
+        </v-list-item-content-stub>
+      </v-list-item-stub>
+    </v-fab-transition-stub>
+  </v-list-stub>
+   
+  <v-list-stub
+    nav="true"
+    tag="div"
+    tile="true"
+  >
+    <v-list-item-stub
+      activeclass=""
+      color="primary"
+      exact="true"
+      tag="div"
+      to="[object Object]"
+    >
+      <v-list-item-icon-stub>
+        <v-icon-stub>
+          home
+        </v-icon-stub>
+      </v-list-item-icon-stub>
+       
+      <v-list-item-content-stub>
+        <v-list-item-title-stub>
+          
+          Home
+        
+        </v-list-item-title-stub>
+      </v-list-item-content-stub>
+    </v-list-item-stub>
+    <v-list-item-stub
+      activeclass=""
+      color="primary"
+      exact="true"
+      tag="div"
+      to="[object Object]"
+    >
+      <v-list-item-icon-stub>
+        <v-icon-stub>
+          change_history
+        </v-icon-stub>
+      </v-list-item-icon-stub>
+       
+      <v-list-item-content-stub>
+        <v-list-item-title-stub>
+          
+          Changes
+        
+        </v-list-item-title-stub>
+      </v-list-item-content-stub>
+    </v-list-item-stub>
+    <v-list-item-stub
+      activeclass=""
+      color="primary"
+      exact="true"
+      tag="div"
+      to="[object Object]"
+    >
+      <v-list-item-icon-stub>
+        <v-icon-stub>
+          settings
+        </v-icon-stub>
+      </v-list-item-icon-stub>
+       
+      <v-list-item-content-stub>
+        <v-list-item-title-stub>
+          
+          Settings
+        
+        </v-list-item-title-stub>
+      </v-list-item-content-stub>
+    </v-list-item-stub>
+  </v-list-stub>
+</v-navigation-drawer-stub>
+`;
+
+exports[`TheDrawer matches snapshot 6`] = `
+<v-navigation-drawer-stub
+  app="true"
+  height="100vh"
+  minivariant="true"
+  minivariantwidth="72"
+  mobilebreakpoint="1264"
+  permanent="true"
+  src=""
+  tag="nav"
+  width="256"
+>
+  <!---->
+   
+  <thedrawerviewer-stub
+    viewer="[object Object]"
+  />
+   
+  <v-list-stub
+    rounded="true"
+    tag="div"
+    tile="true"
+  >
+    <v-fab-transition-stub
+      mode="out-in"
+      origin="center center"
+    >
+      <v-list-item-stub
+        activeclass=""
+        class="accent"
+        exact="true"
+        tag="div"
+        to="[object Object]"
+      >
+        <v-list-item-icon-stub>
+          <v-icon-stub
+            color="white"
+          >
+            
+            search
+          
+          </v-icon-stub>
+        </v-list-item-icon-stub>
+         
+        <v-list-item-content-stub>
+          <v-list-item-title-stub>
+            
+            Search
+          
+          </v-list-item-title-stub>
+        </v-list-item-content-stub>
+      </v-list-item-stub>
+    </v-fab-transition-stub>
+  </v-list-stub>
+   
+  <v-list-stub
+    nav="true"
+    tag="div"
+    tile="true"
+  >
+    <v-list-item-stub
+      activeclass=""
+      color="primary"
+      exact="true"
+      tag="div"
+      to="[object Object]"
+    >
+      <v-list-item-icon-stub>
+        <v-icon-stub>
+          home
+        </v-icon-stub>
+      </v-list-item-icon-stub>
+       
+      <v-list-item-content-stub>
+        <v-list-item-title-stub>
+          
+          Home
+        
+        </v-list-item-title-stub>
+      </v-list-item-content-stub>
+    </v-list-item-stub>
+    <v-list-item-stub
+      activeclass=""
+      color="primary"
+      exact="true"
+      tag="div"
+      to="[object Object]"
+    >
+      <v-list-item-icon-stub>
+        <v-icon-stub>
+          change_history
+        </v-icon-stub>
+      </v-list-item-icon-stub>
+       
+      <v-list-item-content-stub>
+        <v-list-item-title-stub>
+          
+          Changes
+        
+        </v-list-item-title-stub>
+      </v-list-item-content-stub>
+    </v-list-item-stub>
+    <v-list-item-stub
+      activeclass=""
+      color="primary"
+      exact="true"
+      tag="div"
+      to="[object Object]"
+    >
+      <v-list-item-icon-stub>
+        <v-icon-stub>
+          settings
+        </v-icon-stub>
+      </v-list-item-icon-stub>
+       
+      <v-list-item-content-stub>
+        <v-list-item-title-stub>
+          
+          Settings
+        
+        </v-list-item-title-stub>
+      </v-list-item-content-stub>
+    </v-list-item-stub>
+  </v-list-stub>
+</v-navigation-drawer-stub>
+`;
+
+exports[`TheDrawer matches snapshot 7`] = `
+<v-navigation-drawer-stub
+  app="true"
+  height="100vh"
+  minivariant="true"
+  minivariantwidth="72"
+  mobilebreakpoint="1264"
+  permanent="true"
+  src=""
+  tag="nav"
+  width="256"
+>
+  <!---->
+   
+  <thedrawerviewer-stub
+    viewer="[object Object]"
+  />
+   
+  <v-list-stub
+    rounded="true"
+    tag="div"
+    tile="true"
+  >
+    <v-fab-transition-stub
+      mode="out-in"
+      origin="center center"
+    >
+      <v-list-item-stub
+        activeclass=""
+        class="accent"
+        tag="div"
+      >
+        <v-list-item-icon-stub>
+          <v-icon-stub
+            color="white"
+          >
+            
+            sort
+          
+          </v-icon-stub>
+        </v-list-item-icon-stub>
+         
+        <v-list-item-content-stub>
+          <v-list-item-title-stub>
+            
+            Sort
+          
+          </v-list-item-title-stub>
+        </v-list-item-content-stub>
+      </v-list-item-stub>
+    </v-fab-transition-stub>
+  </v-list-stub>
+   
+  <v-list-stub
+    nav="true"
+    tag="div"
+    tile="true"
+  >
+    <v-list-item-stub
+      activeclass=""
+      color="primary"
+      exact="true"
+      tag="div"
+      to="[object Object]"
+    >
+      <v-list-item-icon-stub>
+        <v-icon-stub>
+          home
+        </v-icon-stub>
+      </v-list-item-icon-stub>
+       
+      <v-list-item-content-stub>
+        <v-list-item-title-stub>
+          
+          Home
+        
+        </v-list-item-title-stub>
+      </v-list-item-content-stub>
+    </v-list-item-stub>
+    <v-list-item-stub
+      activeclass=""
+      color="primary"
+      exact="true"
+      tag="div"
+      to="[object Object]"
+    >
+      <v-list-item-icon-stub>
+        <v-icon-stub>
+          change_history
+        </v-icon-stub>
+      </v-list-item-icon-stub>
+       
+      <v-list-item-content-stub>
+        <v-list-item-title-stub>
+          
+          Changes
+        
+        </v-list-item-title-stub>
+      </v-list-item-content-stub>
+    </v-list-item-stub>
+    <v-list-item-stub
+      activeclass=""
+      color="primary"
+      exact="true"
+      tag="div"
+      to="[object Object]"
+    >
+      <v-list-item-icon-stub>
+        <v-icon-stub>
+          settings
+        </v-icon-stub>
+      </v-list-item-icon-stub>
+       
+      <v-list-item-content-stub>
+        <v-list-item-title-stub>
+          
+          Settings
+        
+        </v-list-item-title-stub>
+      </v-list-item-content-stub>
+    </v-list-item-stub>
+  </v-list-stub>
+</v-navigation-drawer-stub>
+`;
+
+exports[`TheDrawer matches snapshot 8`] = `
+<v-navigation-drawer-stub
+  app="true"
+  height="100vh"
+  minivariant="true"
+  minivariantwidth="72"
+  mobilebreakpoint="1264"
+  permanent="true"
+  src=""
+  tag="nav"
+  width="256"
+>
+  <!---->
+   
+  <thedrawerviewer-stub
+    viewer="[object Object]"
+  />
+   
+  <v-list-stub
+    rounded="true"
+    tag="div"
+    tile="true"
+  >
+    <v-fab-transition-stub
+      mode="out-in"
+      origin="center center"
+    >
+      <v-list-item-stub
+        activeclass=""
+        class="accent"
+        tag="div"
+      >
+        <v-list-item-icon-stub>
+          <v-icon-stub
+            color="white"
+          >
+            
+            edit
+          
+          </v-icon-stub>
+        </v-list-item-icon-stub>
+         
+        <v-list-item-content-stub>
+          <v-list-item-title-stub>
+            
+            Edit
+          
+          </v-list-item-title-stub>
+        </v-list-item-content-stub>
+      </v-list-item-stub>
+    </v-fab-transition-stub>
+  </v-list-stub>
+   
+  <v-list-stub
+    nav="true"
+    tag="div"
+    tile="true"
+  >
+    <v-list-item-stub
+      activeclass=""
+      color="primary"
+      exact="true"
+      tag="div"
+      to="[object Object]"
+    >
+      <v-list-item-icon-stub>
+        <v-icon-stub>
+          home
+        </v-icon-stub>
+      </v-list-item-icon-stub>
+       
+      <v-list-item-content-stub>
+        <v-list-item-title-stub>
+          
+          Home
+        
+        </v-list-item-title-stub>
+      </v-list-item-content-stub>
+    </v-list-item-stub>
+    <v-list-item-stub
+      activeclass=""
+      color="primary"
+      exact="true"
+      tag="div"
+      to="[object Object]"
+    >
+      <v-list-item-icon-stub>
+        <v-icon-stub>
+          change_history
+        </v-icon-stub>
+      </v-list-item-icon-stub>
+       
+      <v-list-item-content-stub>
+        <v-list-item-title-stub>
+          
+          Changes
+        
+        </v-list-item-title-stub>
+      </v-list-item-content-stub>
+    </v-list-item-stub>
+    <v-list-item-stub
+      activeclass=""
+      color="primary"
+      exact="true"
+      tag="div"
+      to="[object Object]"
+    >
+      <v-list-item-icon-stub>
+        <v-icon-stub>
+          settings
+        </v-icon-stub>
+      </v-list-item-icon-stub>
+       
+      <v-list-item-content-stub>
+        <v-list-item-title-stub>
+          
+          Settings
+        
+        </v-list-item-title-stub>
+      </v-list-item-content-stub>
+    </v-list-item-stub>
+  </v-list-stub>
+</v-navigation-drawer-stub>
+`;
+
+exports[`TheDrawer matches snapshot 9`] = `
+<v-navigation-drawer-stub
+  app="true"
+  height="100vh"
+  minivariant="true"
+  minivariantwidth="72"
+  mobilebreakpoint="1264"
+  permanent="true"
+  src=""
+  tag="nav"
+  value="true"
+  width="256"
+>
+  <!---->
+   
+  <thedrawerviewer-stub />
+   
+  <v-list-stub
+    rounded="true"
+    tag="div"
+    tile="true"
+  >
+    <v-fab-transition-stub
+      mode="out-in"
+      origin="center center"
+    >
+      <v-list-item-stub
+        activeclass=""
+        class="accent"
+        tag="div"
+      >
+        <v-list-item-icon-stub>
+          <v-icon-stub
+            color="white"
+          >
+            
+            tune
+          
+          </v-icon-stub>
+        </v-list-item-icon-stub>
+         
+        <v-list-item-content-stub>
+          <v-list-item-title-stub>
+            
+            Filter
+          
+          </v-list-item-title-stub>
+        </v-list-item-content-stub>
+      </v-list-item-stub>
+    </v-fab-transition-stub>
+  </v-list-stub>
+   
+  <v-list-stub
+    nav="true"
+    tag="div"
+    tile="true"
+  >
+    <v-list-item-stub
+      activeclass=""
+      color="primary"
+      exact="true"
+      tag="div"
+      to="[object Object]"
+    >
+      <v-list-item-icon-stub>
+        <v-icon-stub>
+          home
+        </v-icon-stub>
+      </v-list-item-icon-stub>
+       
+      <v-list-item-content-stub>
+        <v-list-item-title-stub>
+          
+          Home
+        
+        </v-list-item-title-stub>
+      </v-list-item-content-stub>
+    </v-list-item-stub>
+    <v-list-item-stub
+      activeclass=""
+      color="primary"
+      exact="true"
+      tag="div"
+      to="[object Object]"
+    >
+      <v-list-item-icon-stub>
+        <v-icon-stub>
+          change_history
+        </v-icon-stub>
+      </v-list-item-icon-stub>
+       
+      <v-list-item-content-stub>
+        <v-list-item-title-stub>
+          
+          Changes
+        
+        </v-list-item-title-stub>
+      </v-list-item-content-stub>
+    </v-list-item-stub>
+    <v-list-item-stub
+      activeclass=""
+      color="primary"
+      exact="true"
+      tag="div"
+      to="[object Object]"
+    >
+      <v-list-item-icon-stub>
+        <v-icon-stub>
+          settings
+        </v-icon-stub>
+      </v-list-item-icon-stub>
+       
+      <v-list-item-content-stub>
+        <v-list-item-title-stub>
+          
+          Settings
+        
+        </v-list-item-title-stub>
+      </v-list-item-content-stub>
+    </v-list-item-stub>
+  </v-list-stub>
+</v-navigation-drawer-stub>
+`;
+
+exports[`TheDrawer matches snapshot 10`] = `
+<v-navigation-drawer-stub
+  app="true"
+  height="100vh"
+  minivariant="true"
+  minivariantwidth="72"
+  mobilebreakpoint="1264"
+  permanent="true"
+  src=""
+  tag="nav"
+  value="true"
+  width="256"
+>
+  <!---->
+   
+  <thedrawerviewer-stub />
+   
+  <v-list-stub
+    rounded="true"
+    tag="div"
+    tile="true"
+  >
+    <v-fab-transition-stub
+      mode="out-in"
+      origin="center center"
+    >
+      <v-list-item-stub
+        activeclass=""
+        class="accent"
+        exact="true"
+        tag="div"
+        to="[object Object]"
+      >
+        <v-list-item-icon-stub>
+          <v-icon-stub
+            color="white"
+          >
+            
+            search
+          
+          </v-icon-stub>
+        </v-list-item-icon-stub>
+         
+        <v-list-item-content-stub>
+          <v-list-item-title-stub>
+            
+            Search
+          
+          </v-list-item-title-stub>
+        </v-list-item-content-stub>
+      </v-list-item-stub>
+    </v-fab-transition-stub>
+  </v-list-stub>
+   
+  <v-list-stub
+    nav="true"
+    tag="div"
+    tile="true"
+  >
+    <v-list-item-stub
+      activeclass=""
+      color="primary"
+      exact="true"
+      tag="div"
+      to="[object Object]"
+    >
+      <v-list-item-icon-stub>
+        <v-icon-stub>
+          home
+        </v-icon-stub>
+      </v-list-item-icon-stub>
+       
+      <v-list-item-content-stub>
+        <v-list-item-title-stub>
+          
+          Home
+        
+        </v-list-item-title-stub>
+      </v-list-item-content-stub>
+    </v-list-item-stub>
+    <v-list-item-stub
+      activeclass=""
+      color="primary"
+      exact="true"
+      tag="div"
+      to="[object Object]"
+    >
+      <v-list-item-icon-stub>
+        <v-icon-stub>
+          change_history
+        </v-icon-stub>
+      </v-list-item-icon-stub>
+       
+      <v-list-item-content-stub>
+        <v-list-item-title-stub>
+          
+          Changes
+        
+        </v-list-item-title-stub>
+      </v-list-item-content-stub>
+    </v-list-item-stub>
+    <v-list-item-stub
+      activeclass=""
+      color="primary"
+      exact="true"
+      tag="div"
+      to="[object Object]"
+    >
+      <v-list-item-icon-stub>
+        <v-icon-stub>
+          settings
+        </v-icon-stub>
+      </v-list-item-icon-stub>
+       
+      <v-list-item-content-stub>
+        <v-list-item-title-stub>
+          
+          Settings
+        
+        </v-list-item-title-stub>
+      </v-list-item-content-stub>
+    </v-list-item-stub>
+  </v-list-stub>
+</v-navigation-drawer-stub>
+`;
+
+exports[`TheDrawer matches snapshot 11`] = `
+<v-navigation-drawer-stub
+  app="true"
+  height="100vh"
+  minivariant="true"
+  minivariantwidth="72"
+  mobilebreakpoint="1264"
+  permanent="true"
+  src=""
+  tag="nav"
+  value="true"
+  width="256"
+>
+  <!---->
+   
+  <thedrawerviewer-stub />
+   
+  <v-list-stub
+    rounded="true"
+    tag="div"
+    tile="true"
+  >
+    <v-fab-transition-stub
+      mode="out-in"
+      origin="center center"
+    >
+      <v-list-item-stub
+        activeclass=""
+        class="accent"
+        tag="div"
+      >
+        <v-list-item-icon-stub>
+          <v-icon-stub
+            color="white"
+          >
+            
+            sort
+          
+          </v-icon-stub>
+        </v-list-item-icon-stub>
+         
+        <v-list-item-content-stub>
+          <v-list-item-title-stub>
+            
+            Sort
+          
+          </v-list-item-title-stub>
+        </v-list-item-content-stub>
+      </v-list-item-stub>
+    </v-fab-transition-stub>
+  </v-list-stub>
+   
+  <v-list-stub
+    nav="true"
+    tag="div"
+    tile="true"
+  >
+    <v-list-item-stub
+      activeclass=""
+      color="primary"
+      exact="true"
+      tag="div"
+      to="[object Object]"
+    >
+      <v-list-item-icon-stub>
+        <v-icon-stub>
+          home
+        </v-icon-stub>
+      </v-list-item-icon-stub>
+       
+      <v-list-item-content-stub>
+        <v-list-item-title-stub>
+          
+          Home
+        
+        </v-list-item-title-stub>
+      </v-list-item-content-stub>
+    </v-list-item-stub>
+    <v-list-item-stub
+      activeclass=""
+      color="primary"
+      exact="true"
+      tag="div"
+      to="[object Object]"
+    >
+      <v-list-item-icon-stub>
+        <v-icon-stub>
+          change_history
+        </v-icon-stub>
+      </v-list-item-icon-stub>
+       
+      <v-list-item-content-stub>
+        <v-list-item-title-stub>
+          
+          Changes
+        
+        </v-list-item-title-stub>
+      </v-list-item-content-stub>
+    </v-list-item-stub>
+    <v-list-item-stub
+      activeclass=""
+      color="primary"
+      exact="true"
+      tag="div"
+      to="[object Object]"
+    >
+      <v-list-item-icon-stub>
+        <v-icon-stub>
+          settings
+        </v-icon-stub>
+      </v-list-item-icon-stub>
+       
+      <v-list-item-content-stub>
+        <v-list-item-title-stub>
+          
+          Settings
+        
+        </v-list-item-title-stub>
+      </v-list-item-content-stub>
+    </v-list-item-stub>
+  </v-list-stub>
+</v-navigation-drawer-stub>
+`;
+
+exports[`TheDrawer matches snapshot 12`] = `
+<v-navigation-drawer-stub
+  app="true"
+  height="100vh"
+  minivariant="true"
+  minivariantwidth="72"
+  mobilebreakpoint="1264"
+  permanent="true"
+  src=""
+  tag="nav"
+  value="true"
+  width="256"
+>
+  <!---->
+   
+  <thedrawerviewer-stub />
+   
+  <v-list-stub
+    rounded="true"
+    tag="div"
+    tile="true"
+  >
+    <v-fab-transition-stub
+      mode="out-in"
+      origin="center center"
+    >
+      <v-list-item-stub
+        activeclass=""
+        class="accent"
+        tag="div"
+      >
+        <v-list-item-icon-stub>
+          <v-icon-stub
+            color="white"
+          >
+            
+            edit
+          
+          </v-icon-stub>
+        </v-list-item-icon-stub>
+         
+        <v-list-item-content-stub>
+          <v-list-item-title-stub>
+            
+            Edit
+          
+          </v-list-item-title-stub>
+        </v-list-item-content-stub>
+      </v-list-item-stub>
+    </v-fab-transition-stub>
+  </v-list-stub>
+   
+  <v-list-stub
+    nav="true"
+    tag="div"
+    tile="true"
+  >
+    <v-list-item-stub
+      activeclass=""
+      color="primary"
+      exact="true"
+      tag="div"
+      to="[object Object]"
+    >
+      <v-list-item-icon-stub>
+        <v-icon-stub>
+          home
+        </v-icon-stub>
+      </v-list-item-icon-stub>
+       
+      <v-list-item-content-stub>
+        <v-list-item-title-stub>
+          
+          Home
+        
+        </v-list-item-title-stub>
+      </v-list-item-content-stub>
+    </v-list-item-stub>
+    <v-list-item-stub
+      activeclass=""
+      color="primary"
+      exact="true"
+      tag="div"
+      to="[object Object]"
+    >
+      <v-list-item-icon-stub>
+        <v-icon-stub>
+          change_history
+        </v-icon-stub>
+      </v-list-item-icon-stub>
+       
+      <v-list-item-content-stub>
+        <v-list-item-title-stub>
+          
+          Changes
+        
+        </v-list-item-title-stub>
+      </v-list-item-content-stub>
+    </v-list-item-stub>
+    <v-list-item-stub
+      activeclass=""
+      color="primary"
+      exact="true"
+      tag="div"
+      to="[object Object]"
+    >
+      <v-list-item-icon-stub>
+        <v-icon-stub>
+          settings
+        </v-icon-stub>
+      </v-list-item-icon-stub>
+       
+      <v-list-item-content-stub>
+        <v-list-item-title-stub>
+          
+          Settings
+        
+        </v-list-item-title-stub>
+      </v-list-item-content-stub>
+    </v-list-item-stub>
+  </v-list-stub>
+</v-navigation-drawer-stub>
+`;
+
+exports[`TheDrawer matches snapshot 13`] = `
+<v-navigation-drawer-stub
+  app="true"
+  height="100vh"
+  minivariant="true"
+  minivariantwidth="72"
+  mobilebreakpoint="1264"
+  permanent="true"
+  src=""
+  tag="nav"
+  width="256"
+>
+  <!---->
+   
+  <thedrawerviewer-stub />
+   
+  <v-list-stub
+    rounded="true"
+    tag="div"
+    tile="true"
+  >
+    <v-fab-transition-stub
+      mode="out-in"
+      origin="center center"
+    >
+      <v-list-item-stub
+        activeclass=""
+        class="accent"
+        tag="div"
+      >
+        <v-list-item-icon-stub>
+          <v-icon-stub
+            color="white"
+          >
+            
+            tune
+          
+          </v-icon-stub>
+        </v-list-item-icon-stub>
+         
+        <v-list-item-content-stub>
+          <v-list-item-title-stub>
+            
+            Filter
+          
+          </v-list-item-title-stub>
+        </v-list-item-content-stub>
+      </v-list-item-stub>
+    </v-fab-transition-stub>
+  </v-list-stub>
+   
+  <v-list-stub
+    nav="true"
+    tag="div"
+    tile="true"
+  >
+    <v-list-item-stub
+      activeclass=""
+      color="primary"
+      exact="true"
+      tag="div"
+      to="[object Object]"
+    >
+      <v-list-item-icon-stub>
+        <v-icon-stub>
+          home
+        </v-icon-stub>
+      </v-list-item-icon-stub>
+       
+      <v-list-item-content-stub>
+        <v-list-item-title-stub>
+          
+          Home
+        
+        </v-list-item-title-stub>
+      </v-list-item-content-stub>
+    </v-list-item-stub>
+    <v-list-item-stub
+      activeclass=""
+      color="primary"
+      exact="true"
+      tag="div"
+      to="[object Object]"
+    >
+      <v-list-item-icon-stub>
+        <v-icon-stub>
+          change_history
+        </v-icon-stub>
+      </v-list-item-icon-stub>
+       
+      <v-list-item-content-stub>
+        <v-list-item-title-stub>
+          
+          Changes
+        
+        </v-list-item-title-stub>
+      </v-list-item-content-stub>
+    </v-list-item-stub>
+    <v-list-item-stub
+      activeclass=""
+      color="primary"
+      exact="true"
+      tag="div"
+      to="[object Object]"
+    >
+      <v-list-item-icon-stub>
+        <v-icon-stub>
+          settings
+        </v-icon-stub>
+      </v-list-item-icon-stub>
+       
+      <v-list-item-content-stub>
+        <v-list-item-title-stub>
+          
+          Settings
+        
+        </v-list-item-title-stub>
+      </v-list-item-content-stub>
+    </v-list-item-stub>
+  </v-list-stub>
+</v-navigation-drawer-stub>
+`;
+
+exports[`TheDrawer matches snapshot 14`] = `
+<v-navigation-drawer-stub
+  app="true"
+  height="100vh"
+  minivariant="true"
+  minivariantwidth="72"
+  mobilebreakpoint="1264"
+  permanent="true"
+  src=""
+  tag="nav"
+  width="256"
+>
+  <!---->
+   
+  <thedrawerviewer-stub />
+   
+  <v-list-stub
+    rounded="true"
+    tag="div"
+    tile="true"
+  >
+    <v-fab-transition-stub
+      mode="out-in"
+      origin="center center"
+    >
+      <v-list-item-stub
+        activeclass=""
+        class="accent"
+        exact="true"
+        tag="div"
+        to="[object Object]"
+      >
+        <v-list-item-icon-stub>
+          <v-icon-stub
+            color="white"
+          >
+            
+            search
+          
+          </v-icon-stub>
+        </v-list-item-icon-stub>
+         
+        <v-list-item-content-stub>
+          <v-list-item-title-stub>
+            
+            Search
+          
+          </v-list-item-title-stub>
+        </v-list-item-content-stub>
+      </v-list-item-stub>
+    </v-fab-transition-stub>
+  </v-list-stub>
+   
+  <v-list-stub
+    nav="true"
+    tag="div"
+    tile="true"
+  >
+    <v-list-item-stub
+      activeclass=""
+      color="primary"
+      exact="true"
+      tag="div"
+      to="[object Object]"
+    >
+      <v-list-item-icon-stub>
+        <v-icon-stub>
+          home
+        </v-icon-stub>
+      </v-list-item-icon-stub>
+       
+      <v-list-item-content-stub>
+        <v-list-item-title-stub>
+          
+          Home
+        
+        </v-list-item-title-stub>
+      </v-list-item-content-stub>
+    </v-list-item-stub>
+    <v-list-item-stub
+      activeclass=""
+      color="primary"
+      exact="true"
+      tag="div"
+      to="[object Object]"
+    >
+      <v-list-item-icon-stub>
+        <v-icon-stub>
+          change_history
+        </v-icon-stub>
+      </v-list-item-icon-stub>
+       
+      <v-list-item-content-stub>
+        <v-list-item-title-stub>
+          
+          Changes
+        
+        </v-list-item-title-stub>
+      </v-list-item-content-stub>
+    </v-list-item-stub>
+    <v-list-item-stub
+      activeclass=""
+      color="primary"
+      exact="true"
+      tag="div"
+      to="[object Object]"
+    >
+      <v-list-item-icon-stub>
+        <v-icon-stub>
+          settings
+        </v-icon-stub>
+      </v-list-item-icon-stub>
+       
+      <v-list-item-content-stub>
+        <v-list-item-title-stub>
+          
+          Settings
+        
+        </v-list-item-title-stub>
+      </v-list-item-content-stub>
+    </v-list-item-stub>
+  </v-list-stub>
+</v-navigation-drawer-stub>
+`;
+
+exports[`TheDrawer matches snapshot 15`] = `
+<v-navigation-drawer-stub
+  app="true"
+  height="100vh"
+  minivariant="true"
+  minivariantwidth="72"
+  mobilebreakpoint="1264"
+  permanent="true"
+  src=""
+  tag="nav"
+  width="256"
+>
+  <!---->
+   
+  <thedrawerviewer-stub />
+   
+  <v-list-stub
+    rounded="true"
+    tag="div"
+    tile="true"
+  >
+    <v-fab-transition-stub
+      mode="out-in"
+      origin="center center"
+    >
+      <v-list-item-stub
+        activeclass=""
+        class="accent"
+        tag="div"
+      >
+        <v-list-item-icon-stub>
+          <v-icon-stub
+            color="white"
+          >
+            
+            sort
+          
+          </v-icon-stub>
+        </v-list-item-icon-stub>
+         
+        <v-list-item-content-stub>
+          <v-list-item-title-stub>
+            
+            Sort
+          
+          </v-list-item-title-stub>
+        </v-list-item-content-stub>
+      </v-list-item-stub>
+    </v-fab-transition-stub>
+  </v-list-stub>
+   
+  <v-list-stub
+    nav="true"
+    tag="div"
+    tile="true"
+  >
+    <v-list-item-stub
+      activeclass=""
+      color="primary"
+      exact="true"
+      tag="div"
+      to="[object Object]"
+    >
+      <v-list-item-icon-stub>
+        <v-icon-stub>
+          home
+        </v-icon-stub>
+      </v-list-item-icon-stub>
+       
+      <v-list-item-content-stub>
+        <v-list-item-title-stub>
+          
+          Home
+        
+        </v-list-item-title-stub>
+      </v-list-item-content-stub>
+    </v-list-item-stub>
+    <v-list-item-stub
+      activeclass=""
+      color="primary"
+      exact="true"
+      tag="div"
+      to="[object Object]"
+    >
+      <v-list-item-icon-stub>
+        <v-icon-stub>
+          change_history
+        </v-icon-stub>
+      </v-list-item-icon-stub>
+       
+      <v-list-item-content-stub>
+        <v-list-item-title-stub>
+          
+          Changes
+        
+        </v-list-item-title-stub>
+      </v-list-item-content-stub>
+    </v-list-item-stub>
+    <v-list-item-stub
+      activeclass=""
+      color="primary"
+      exact="true"
+      tag="div"
+      to="[object Object]"
+    >
+      <v-list-item-icon-stub>
+        <v-icon-stub>
+          settings
+        </v-icon-stub>
+      </v-list-item-icon-stub>
+       
+      <v-list-item-content-stub>
+        <v-list-item-title-stub>
+          
+          Settings
+        
+        </v-list-item-title-stub>
+      </v-list-item-content-stub>
+    </v-list-item-stub>
+  </v-list-stub>
+</v-navigation-drawer-stub>
+`;
+
+exports[`TheDrawer matches snapshot 16`] = `
+<v-navigation-drawer-stub
+  app="true"
+  height="100vh"
+  minivariant="true"
+  minivariantwidth="72"
+  mobilebreakpoint="1264"
+  permanent="true"
+  src=""
+  tag="nav"
+  width="256"
+>
+  <!---->
+   
+  <thedrawerviewer-stub />
+   
+  <v-list-stub
+    rounded="true"
+    tag="div"
+    tile="true"
+  >
+    <v-fab-transition-stub
+      mode="out-in"
+      origin="center center"
+    >
+      <v-list-item-stub
+        activeclass=""
+        class="accent"
+        tag="div"
+      >
+        <v-list-item-icon-stub>
+          <v-icon-stub
+            color="white"
+          >
+            
+            edit
+          
+          </v-icon-stub>
+        </v-list-item-icon-stub>
+         
+        <v-list-item-content-stub>
+          <v-list-item-title-stub>
+            
+            Edit
+          
+          </v-list-item-title-stub>
+        </v-list-item-content-stub>
+      </v-list-item-stub>
+    </v-fab-transition-stub>
+  </v-list-stub>
+   
+  <v-list-stub
+    nav="true"
+    tag="div"
+    tile="true"
+  >
+    <v-list-item-stub
+      activeclass=""
+      color="primary"
+      exact="true"
+      tag="div"
+      to="[object Object]"
+    >
+      <v-list-item-icon-stub>
+        <v-icon-stub>
+          home
+        </v-icon-stub>
+      </v-list-item-icon-stub>
+       
+      <v-list-item-content-stub>
+        <v-list-item-title-stub>
+          
+          Home
+        
+        </v-list-item-title-stub>
+      </v-list-item-content-stub>
+    </v-list-item-stub>
+    <v-list-item-stub
+      activeclass=""
+      color="primary"
+      exact="true"
+      tag="div"
+      to="[object Object]"
+    >
+      <v-list-item-icon-stub>
+        <v-icon-stub>
+          change_history
+        </v-icon-stub>
+      </v-list-item-icon-stub>
+       
+      <v-list-item-content-stub>
+        <v-list-item-title-stub>
+          
+          Changes
+        
+        </v-list-item-title-stub>
+      </v-list-item-content-stub>
+    </v-list-item-stub>
+    <v-list-item-stub
+      activeclass=""
+      color="primary"
+      exact="true"
+      tag="div"
+      to="[object Object]"
+    >
+      <v-list-item-icon-stub>
+        <v-icon-stub>
+          settings
+        </v-icon-stub>
+      </v-list-item-icon-stub>
+       
+      <v-list-item-content-stub>
+        <v-list-item-title-stub>
+          
+          Settings
+        
+        </v-list-item-title-stub>
+      </v-list-item-content-stub>
+    </v-list-item-stub>
+  </v-list-stub>
+</v-navigation-drawer-stub>
+`;

@@ -34,8 +34,8 @@
                 {{ year }}
               </v-list-item-subtitle>
             </v-list-item-content>
-          </v-list-item></template
-        >
+          </v-list-item>
+        </template>
       </v-list>
     </v-card>
   </v-col>

@@ -1,39 +1,39 @@
 #import "../fragments/MediaFields.gql"
 
-  query Page(
-    $isAdult: Boolean
-    $search: String
-    $idIn: [Int]
-    $page: Int = 0
-    $includedTags: [String]
-    $onList: Boolean
-    $year: Int
-    $type: MediaType
-    $status: [MediaStatus]
-    $season: MediaSeason
-    $sort: [MediaSort]
-    $format: ScoreFormat
-  ) {
-    Page(page: $page, perPage: 50) {
-      pageInfo {
-        total
-        hasNextPage
-        lastPage
-        currentPage
-      }
-      media(
-        isAdult: $isAdult
-        search: $search
-        id_in: $idIn
-        tag_in: $includedTags
-        onList: $onList
-        seasonYear: $year
-        season: $season
-        type: $type
-        sort: $sort
-        status_in: $status
-      ) {
-        ...MediaFields
-      }
+query Page(
+  $isAdult: Boolean
+  $search: String
+  $idIn: [Int]
+  $page: Int = 0
+  $includedTags: [String]
+  $onList: Boolean
+  $year: Int
+  $type: MediaType
+  $status: [MediaStatus]
+  $season: MediaSeason
+  $sort: [MediaSort]
+  $format: ScoreFormat
+) {
+  Page(page: $page, perPage: 50) {
+    pageInfo {
+      total
+      hasNextPage
+      lastPage
+      currentPage
+    }
+    media(
+      isAdult: $isAdult
+      search: $search
+      id_in: $idIn
+      tag_in: $includedTags
+      onList: $onList
+      seasonYear: $year
+      season: $season
+      type: $type
+      sort: $sort
+      status_in: $status
+    ) {
+      ...MediaFields
     }
   }
+}

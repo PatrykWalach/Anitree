@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MediaCardBanner matches snapshot 1`] = `<!---->`;
+
+exports[`MediaCardBanner matches snapshot 2`] = `
+<v-img-stub
+  aspect-ratio="3.3333333333333335"
+  aspectratio="3.3333333333333335"
+  lazysrc=""
+  min-width="100%"
+  minwidth="100%"
+  options="[object Object]"
+  position="center center"
+  src=""
+  transition="fade-transition"
+/>
+`;

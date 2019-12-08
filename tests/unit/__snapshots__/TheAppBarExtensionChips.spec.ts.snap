@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TheAppBarExtensionChips matches snapshot 1`] = `<theappbarextensionchipsnav-stub />`;
+
+exports[`TheAppBarExtensionChips matches snapshot 2`] = `<theappbarextensionchipssearch-stub />`;

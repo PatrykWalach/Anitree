@@ -139,16 +139,7 @@ export default createComponent<Readonly<Props>>({
 
     const { close } = useEdit()
 
-    // const isEdited = computed({
-    //   get: () => isEditedState.value,
-    //   set: isEdited => {
-    //     if (!isEdited) {
-    //       close()
-    //     } else {
-    //       dispatch(CHANGE_IS_EDITED(isEdited))
-    //     }
-    //   },
-    // })
+
 
     const { id: appId } = useAccount()
 

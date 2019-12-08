@@ -1,18 +1,11 @@
+import { createVariations, matchSnapshot } from './utils'
 import MediaEditTabs from '@/components/MediaEditTabs.vue'
 
-import { matchSnapshot } from './utils'
-
 describe('MediaEditTabs', () => {
-  matchSnapshot(MediaEditTabs, {
+  createVariations({
     propsData: {
-      loading: false,
-      tab: 'edit1',
+      loading: () => [false, true],
+      tab: () => Array.from({ length: 4 }, (v, k) => 'edit' + (k + 1)),
     },
-  })
-  matchSnapshot(MediaEditTabs, {
-    propsData: {
-      loading: true,
-      tab: 'edit1',
-    },
-  })
+  }).forEach(settings => matchSnapshot(MediaEditTabs, settings))
 })

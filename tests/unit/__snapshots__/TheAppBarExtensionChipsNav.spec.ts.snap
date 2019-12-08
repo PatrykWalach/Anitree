@@ -1,0 +1,66 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TheAppBarExtensionChipsNav matches snapshot 1`] = `
+<v-chip-group-stub
+  activeclass="grey darken-2 white--text"
+  mobilebreakpoint="1264"
+  nexticon="$next"
+  previcon="$prev"
+  style="max-width: 100%;"
+>
+  <v-chip-stub
+    active="true"
+    activeclass=""
+    closeicon="$delete"
+    exact="true"
+    filtericon="$complete"
+    tag="span"
+    to="[object Object]"
+  >
+    <v-icon-stub
+      left=""
+    >
+      whatshot
+    </v-icon-stub>
+    
+    Current season
+  
+  </v-chip-stub>
+  <v-chip-stub
+    active="true"
+    activeclass=""
+    closeicon="$delete"
+    exact="true"
+    filtericon="$complete"
+    tag="span"
+    to="[object Object]"
+  >
+    <v-icon-stub
+      left=""
+    >
+      new_releases
+    </v-icon-stub>
+    
+    Recently added
+  
+  </v-chip-stub>
+  <v-chip-stub
+    active="true"
+    activeclass=""
+    closeicon="$delete"
+    exact="true"
+    filtericon="$complete"
+    tag="span"
+    to="[object Object]"
+  >
+    <v-icon-stub
+      left=""
+    >
+      trending_up
+    </v-icon-stub>
+    
+    Trending
+  
+  </v-chip-stub>
+</v-chip-group-stub>
+`;

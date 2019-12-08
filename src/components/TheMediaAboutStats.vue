@@ -42,7 +42,7 @@ export const useTheme = () => {
 export interface Props {
   gradient: string[]
   subheader: string
-  labelKey: string
+  labelKey: 'score' | 'status'
   sort: boolean
   distribution:
     | {

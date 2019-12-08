@@ -1,0 +1,181 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TheSearchNavigation matches snapshot 1`] = `
+<v-container-stub
+  tag="div"
+>
+  <v-row-stub
+    align="start"
+    justify="center"
+    tag="div"
+  >
+    <v-col-stub
+      cols="12"
+      md="6"
+      tag="div"
+    >
+      <v-card-stub
+        loaderheight="4"
+        tag="div"
+      >
+        <v-list-stub
+          subheader="true"
+          tag="div"
+          tile="true"
+        >
+          <v-subheader-stub>
+            
+            Here are just some of the things you can see
+          
+          </v-subheader-stub>
+           
+          <v-list-item-stub
+            activeclass=""
+            replace="true"
+            tag="div"
+            to="[object Object]"
+          >
+            <v-list-item-icon-stub>
+              <v-icon-stub>
+                whatshot
+              </v-icon-stub>
+            </v-list-item-icon-stub>
+             
+            <v-list-item-content-stub>
+              <v-list-item-title-stub>
+                Current season
+              </v-list-item-title-stub>
+            </v-list-item-content-stub>
+          </v-list-item-stub>
+          <v-list-item-stub
+            activeclass=""
+            replace="true"
+            tag="div"
+            to="[object Object]"
+          >
+            <v-list-item-icon-stub>
+              <v-icon-stub>
+                new_releases
+              </v-icon-stub>
+            </v-list-item-icon-stub>
+             
+            <v-list-item-content-stub>
+              <v-list-item-title-stub>
+                Recently added
+              </v-list-item-title-stub>
+            </v-list-item-content-stub>
+          </v-list-item-stub>
+          <v-list-item-stub
+            activeclass=""
+            replace="true"
+            tag="div"
+            to="[object Object]"
+          >
+            <v-list-item-icon-stub>
+              <v-icon-stub>
+                trending_up
+              </v-icon-stub>
+            </v-list-item-icon-stub>
+             
+            <v-list-item-content-stub>
+              <v-list-item-title-stub>
+                Trending
+              </v-list-item-title-stub>
+            </v-list-item-content-stub>
+          </v-list-item-stub>
+        </v-list-stub>
+      </v-card-stub>
+    </v-col-stub>
+  </v-row-stub>
+</v-container-stub>
+`;
+
+exports[`TheSearchNavigation matches snapshot 2`] = `
+<v-container-stub
+  tag="div"
+>
+  <v-row-stub
+    align="start"
+    justify="center"
+    tag="div"
+  >
+    <v-col-stub
+      cols="12"
+      md="6"
+      tag="div"
+    >
+      <v-card-stub
+        loaderheight="4"
+        tag="div"
+      >
+        <v-list-stub
+          subheader="true"
+          tag="div"
+          tile="true"
+        >
+          <v-subheader-stub>
+            
+            Here are just some of the things you can see
+          
+          </v-subheader-stub>
+           
+          <v-list-item-stub
+            activeclass=""
+            replace="true"
+            tag="div"
+            to="[object Object]"
+          >
+            <v-list-item-icon-stub>
+              <v-icon-stub>
+                whatshot
+              </v-icon-stub>
+            </v-list-item-icon-stub>
+             
+            <v-list-item-content-stub>
+              <v-list-item-title-stub>
+                Current season
+              </v-list-item-title-stub>
+            </v-list-item-content-stub>
+          </v-list-item-stub>
+          <v-list-item-stub
+            activeclass=""
+            replace="true"
+            tag="div"
+            to="[object Object]"
+          >
+            <v-list-item-icon-stub>
+              <v-icon-stub>
+                new_releases
+              </v-icon-stub>
+            </v-list-item-icon-stub>
+             
+            <v-list-item-content-stub>
+              <v-list-item-title-stub>
+                Recently added
+              </v-list-item-title-stub>
+            </v-list-item-content-stub>
+          </v-list-item-stub>
+          <v-list-item-stub
+            activeclass=""
+            replace="true"
+            tag="div"
+            to="[object Object]"
+          >
+            <v-list-item-icon-stub>
+              <v-icon-stub>
+                trending_up
+              </v-icon-stub>
+            </v-list-item-icon-stub>
+             
+            <v-list-item-content-stub>
+              <v-list-item-title-stub>
+                Trending
+              </v-list-item-title-stub>
+            </v-list-item-content-stub>
+          </v-list-item-stub>
+        </v-list-stub>
+      </v-card-stub>
+    </v-col-stub>
+  </v-row-stub>
+</v-container-stub>
+`;

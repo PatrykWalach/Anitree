@@ -50,7 +50,7 @@
         </template>
         <span>{{ title }}</span>
       </v-tooltip>
-      <TheAppBarMenu :media="media" bottom :actions="moreActions" />
+      <TheAppBarMenu :media="media" :actions="moreActions" />
     </template>
   </v-app-bar>
 </template>

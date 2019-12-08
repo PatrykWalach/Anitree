@@ -1,17 +1,15 @@
 import { createVariations, matchSnapshot } from './utils'
-import MediaEditActions from '@/components/MediaEditActions.vue'
-import { mockedMedia } from './mocks/media'
+import TheDrawerViewer from '@/components/TheDrawerViewer.vue'
 import { mockedViewer } from './mocks/viewer'
 import { useMockedStore } from './mocks/store'
 
-describe('MediaEditActions', () => {
+describe('TheDrawerViewer', () => {
   createVariations({
     propsData: {
-      media: () => [null, mockedMedia],
-      user: () => [null, mockedViewer],
+      viewer: () => [mockedViewer, null],
     },
   }).forEach(settings =>
-    matchSnapshot(MediaEditActions, {
+    matchSnapshot(TheDrawerViewer, {
       ...settings,
       ...useMockedStore(),
     }),

@@ -1,0 +1,66 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TheSettingsTitle matches snapshot 1`] = `
+<v-list-item-stub
+  activeclass=""
+  tag="div"
+>
+  <v-dialog
+    max-width="320px"
+  >
+     
+    <v-card-stub
+      loaderheight="4"
+      tag="div"
+    >
+      <v-card-title-stub>
+        
+        Title language
+      
+      </v-card-title-stub>
+       
+      <!---->
+       
+      <v-list-stub
+        flat="true"
+        tag="div"
+        tile="true"
+      >
+        <v-list-item-group-stub
+          activeclass="v-item--active"
+          value="romaji"
+        >
+          <v-list-item-stub
+            activeclass=""
+            tag="div"
+            value="romaji"
+          />
+          <v-list-item-stub
+            activeclass=""
+            tag="div"
+            value="english"
+          />
+          <v-list-item-stub
+            activeclass=""
+            tag="div"
+            value="native"
+          />
+        </v-list-item-group-stub>
+      </v-list-stub>
+       
+      <v-card-actions-stub>
+        <v-spacer-stub />
+         
+        <v-btn-stub
+          activeclass=""
+          tag="button"
+          text="true"
+          type="button"
+        >
+          cancel
+        </v-btn-stub>
+      </v-card-actions-stub>
+    </v-card-stub>
+  </v-dialog>
+</v-list-item-stub>
+`;

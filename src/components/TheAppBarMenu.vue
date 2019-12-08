@@ -1,5 +1,5 @@
 <template>
-  <v-tooltip v-if="action" v-bind="{ bottom, top }">
+  <v-tooltip v-if="action" :[position]="true">
     <template v-slot:activator="{ on, attrs }">
       <v-btn
         icon
@@ -64,8 +64,6 @@ const MediaCardItemSubtitle = () => import('./MediaCardItemSubtitle.vue')
 
 export interface Props {
   actions: NavigationElement[]
-  top: boolean
-  bottom: boolean
   media: Media | null
 }
 
@@ -80,19 +78,22 @@ export default createComponent<Readonly<Props>>({
   },
   props: {
     actions: { default: null, required: true, type: Array },
-    bottom: { default: false, required: false, type: Boolean },
     media: { default: null, required: true, type: null },
-    top: { default: false, required: false, type: Boolean },
   },
-  setup(props) {
+  setup(props, { root }) {
     const action = computed(() => {
       const actions = props.actions
 
       return actions.length === 1 ? actions[0] : null
     })
 
+    const position = computed(() =>
+      root.$vuetify.breakpoint.xsOnly ? 'top' : 'bottom',
+    )
+
     return {
       action,
+      position,
     }
   },
 })

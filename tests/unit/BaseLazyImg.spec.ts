@@ -4,9 +4,6 @@ import { matchSnapshot } from './utils'
 
 describe('BaseLazyImg', () => {
   matchSnapshot(BaseLazyImg, {
-    directives: {
-      lazy() {},
-    },
     propsData: {
       src: '',
     },
