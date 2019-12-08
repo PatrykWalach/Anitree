@@ -22,12 +22,18 @@ jobs:
       - attach_workspace:
           at: ~/repo
       - run: npm run coverage
+      - persist_to_workspace:
+          root: ~/repo
+          paths: .
   build:
     <<: *defaults
     steps:
       - attach_workspace:
           at: ~/repo
       - run: npm run build
+      - persist_to_workspace:
+          root: ~/repo
+          paths: .
   deploy:
     <<: *defaults
     steps:
