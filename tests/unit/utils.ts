@@ -25,23 +25,29 @@ export const matchSnapshot = (
     expect(wrapper.element).toMatchSnapshot()
   })
 
-type Chunk<T> = Record<string, T>
-type Factory<A extends any[]> = () => A
+type Chunk<K extends string, T> = {
+  [key in K]: T
+}
+
+type Fn<A> = () => A
 
 type MakeVariations<T> = {
-  [K in keyof T]: T[K] extends Factory<infer R>
+  [K in keyof T]: T[K] extends Fn<infer R>
     ? R extends (infer U)[]
       ? U
-      : any
+      : T[K]
     : MakeVariations<T[K]>
 }
 
-const keyAndArrayToChunks = <A>(key: string, permutations: A[]): Chunk<A>[] =>
+const keyAndArrayToChunks = <K extends string, A>(key: K, permutations: A[]) =>
   permutations.map(value => ({
     [key]: value,
-  }))
+  })) as Chunk<K, A>[]
 
-const reduceChunksMap = <O extends Chunk<any>>(chunksMap: O[][], i: number) => {
+const reduceChunksMap = <O extends Chunk<any, any>>(
+  chunksMap: O[][],
+  i: number,
+) => {
   let product = 1
 
   return chunksMap.reduce((acc, chunks) => {
@@ -58,12 +64,9 @@ const reduceChunksMap = <O extends Chunk<any>>(chunksMap: O[][], i: number) => {
 const createArrayOfLength = (length: number) =>
   Array.from({ length }, (v, k) => k)
 
-export const createVariations = <O extends Chunk<any>>(
-  obj: O,
-): MakeVariations<O>[] => {
-  const chunksMap: {
-    [x: string]: any
-  }[][] = []
+type ChunksMap<T> = {}
+const createChunksMap = <O extends Record<string, any>>(obj: O) => {
+  const chunksMap: Chunk<string, any>[][] = []
 
   Object.entries(obj).forEach(([key, value]) => {
     if (value instanceof Function) {
@@ -73,6 +76,14 @@ export const createVariations = <O extends Chunk<any>>(
       return chunksMap.push(keyAndArrayToChunks(key, createVariations(value)))
     }
   })
+
+  return chunksMap
+}
+
+export const createVariations = <O extends Chunk<any, any>>(
+  obj: O,
+): MakeVariations<O>[] => {
+  const chunksMap = createChunksMap(obj)
 
   const permutations = chunksMap.reduce((acc, chunk) => acc * chunk.length, 1)
 
