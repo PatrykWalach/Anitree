@@ -90,8 +90,6 @@ export default createComponent<Readonly<Props>>({
       set: v => dispatch(CHANGE_IS_SHARED(v)),
     })
 
-
-
     const url = computed(() => {
       const { options } = props
       return (options && options.url) || ''

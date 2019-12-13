@@ -21,6 +21,7 @@ import { Location } from 'vue-router'
 import { NavigationElement } from '@/types'
 import TheSearchFilters from './TheSearchFilters.vue'
 import { useEdit } from './MediaCardActions.vue'
+import { useRouteParams } from '../router'
 
 export const useSearch = () => {
   const searchBtn = (): NavigationElement<{
@@ -38,9 +39,9 @@ export const useSearch = () => {
 export const useFab = (root: SetupContext['root']) => {
   const { editBtn: _editBtn } = useEdit()
 
-  const editBtn = computed(() =>
-    _editBtn(parseInt(root.$route.params.mediaId, 10)),
-  )
+  const { currentId } = useRouteParams(root)
+
+  const editBtn = computed(() => _editBtn(currentId.value))
 
   const { searchBtn: _searchBtn } = useSearch()
 

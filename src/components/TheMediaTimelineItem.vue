@@ -23,6 +23,7 @@ import { SetupContext, computed, createComponent } from '@vue/composition-api'
 import { Media } from '@/graphql/schema/media'
 import MediaCard from './MediaCard.vue'
 import MediaCardTime from './MediaCardTime.vue'
+import { useRouteParams } from '../router'
 
 export interface Props {
   media: Media | null
@@ -45,7 +46,7 @@ export default createComponent<Readonly<Props>>({
       )
     })
 
-    const currentId = computed(() => parseInt(root.$route.params.mediaId, 10))
+    const { currentId } = useRouteParams(root)
 
     const large = computed(() => {
       const { media } = props

@@ -1,4 +1,5 @@
 import { Media as MediaT, Variables } from '@/graphql/schema/media'
+import { SetupContext, computed } from '@vue/composition-api'
 import { MEDIA } from '@/graphql'
 import Router from 'vue-router'
 import Vue from 'vue'
@@ -164,3 +165,11 @@ router.afterEach(to => {
 export default router
 
 Vue.use(Router)
+
+export const useRouteParams = (root: SetupContext['root']) => {
+  const currentId = computed(() => parseInt(root.$route.params.mediaId, 10))
+
+  return {
+    currentId,
+  }
+}
