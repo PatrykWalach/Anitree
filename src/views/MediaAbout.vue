@@ -207,6 +207,7 @@ import TheMediaAboutStats from '@/components/TheMediaAboutStats.vue'
 import TheMediaAboutTags from '@/components/TheMediaAboutTags.vue'
 import { createComponent } from '@vue/composition-api'
 import { useMedia } from '@/graphql'
+import { useRouteParams } from '../App.vue'
 import { useString } from '@/components/MediaCardItemSubtitleReady.vue'
 
 export default createComponent({
@@ -237,11 +238,13 @@ export default createComponent({
       }
     }
 
+    const { currentId } = useRouteParams(root)
+
     return {
       getSeason,
       getYear,
       ...useString(),
-      ...useMedia(() => ({ id: parseInt(root.$route.params.mediaId, 10) })),
+      ...useMedia(() => ({ id: currentId.value })),
     }
   },
 })

@@ -44,7 +44,6 @@
 </template>
 <script lang="ts">
 import { VBottomSheet, VMenu } from 'vuetify/lib'
-import { computed, createComponent } from '@vue/composition-api'
 import { useMedia, useViewer } from '@/graphql'
 import BaseQuery from '@/components/BaseQuery.vue'
 
@@ -55,7 +54,9 @@ import MediaCardItemSubtitle from '@/components/MediaCardItemSubtitle.vue'
 import MediaCardItemTitle from '@/components/MediaCardItemTitle.vue'
 import TheAppBarExtensionTabs from '@/components/TheAppBarExtensionTabs.vue'
 
+import { createComponent } from '@vue/composition-api'
 import { useEdit } from '@/store'
+import { useRouteParams } from '../App.vue'
 import { useShare } from '@/components/MediaCardActions.vue'
 
 export default createComponent({
@@ -71,14 +72,14 @@ export default createComponent({
     VMenu,
   },
   setup(_, { root }) {
-    const id = computed(() => parseInt(root.$route.params.mediaId, 10))
+    const { currentId } = useRouteParams(root)
 
     const { open } = useEdit()
 
     return {
       open,
       ...useShare(),
-      ...useMedia(() => ({ id: id.value })),
+      ...useMedia(() => ({ id: currentId.value })),
       ...useViewer(),
     }
   },
