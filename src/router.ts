@@ -165,11 +165,3 @@ router.afterEach(to => {
 export default router
 
 Vue.use(Router)
-
-export const useRouteParams = (root: SetupContext['root']) => {
-  const currentId = computed(() => parseInt(root.$route.params.mediaId, 10))
-
-  return {
-    currentId,
-  }
-}

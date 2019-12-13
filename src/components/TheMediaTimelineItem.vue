@@ -23,7 +23,7 @@ import { SetupContext, computed, createComponent } from '@vue/composition-api'
 import { Media } from '@/graphql/schema/media'
 import MediaCard from './MediaCard.vue'
 import MediaCardTime from './MediaCardTime.vue'
-import { useRouteParams } from '../router'
+import { useRouteParams } from '@/App.vue'
 
 export interface Props {
   media: Media | null

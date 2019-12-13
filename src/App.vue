@@ -69,6 +69,14 @@ export const useTheme = (root: SetupContext['root']) => {
   return { dark }
 }
 
+export const useRouteParams = (root: SetupContext['root']) => {
+  const currentId = computed(() => parseInt(root.$route.params.mediaId, 10))
+
+  return {
+    currentId,
+  }
+}
+
 export default createComponent({
   components: {
     BaseQuery,
@@ -104,10 +112,12 @@ export default createComponent({
       dark.value = localStorage.getItem('THEME') === 'true'
     }
 
+    const { currentId } = useRouteParams(root)
+
     return {
       drawer,
       ...useViewer(),
-      ...useMedia(() => ({ id: parseInt(root.$route.params.mediaId, 10) })),
+      ...useMedia(() => ({ id: currentId.value })),
       mediaId,
       options,
       toggleDrawer,

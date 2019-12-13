@@ -21,7 +21,7 @@ import { Location } from 'vue-router'
 import { NavigationElement } from '@/types'
 import TheSearchFilters from './TheSearchFilters.vue'
 import { useEdit } from './MediaCardActions.vue'
-import { useRouteParams } from '../router'
+import { useRouteParams } from '@/App.vue'
 
 export const useSearch = () => {
   const searchBtn = (): NavigationElement<{
