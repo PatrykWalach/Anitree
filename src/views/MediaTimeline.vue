@@ -1,11 +1,12 @@
 <template>
   <v-container>
-    <TheMediaTimeline :loading="loading" :media-list="mediaList" />
+    <TheMediaTimeline :loading="loading" :media-list="mediaSorted" />
   </v-container>
 </template>
 <script lang="ts">
 import {
   ApolloQueryResult,
+  ObservableQuery,
   OperationVariables,
   WatchQueryOptions,
 } from 'apollo-client'
@@ -28,7 +29,9 @@ import { State } from '@/store'
 import TheMediaTimeline from '../components/TheMediaTimeline.vue'
 
 import { sorters } from '@/store/modules/timeline'
+import { useRouteParams } from '../App.vue'
 import { useSelector } from 'vue-redux-hooks'
+import { Media, Node } from '../graphql/schema/media'
 
 export const useQuery = <R, TVariables = OperationVariables>(
   root: SetupContext['root'],
@@ -42,9 +45,8 @@ export const useQuery = <R, TVariables = OperationVariables>(
     skip?: Ref<boolean>
   } & Omit<WatchQueryOptions<TVariables>, 'variables' | 'query'> &
     ClientOptions,
-) => {
-  const result: Ref<ApolloQueryResult<R> | null> = ref(null)
-  const error = ref(null)
+): [Ref<ApolloQueryResult<R>>, ObservableQuery<R, TVariables>] => {
+  const result: Ref<ApolloQueryResult<R>> = ref({ data: null })
 
   const query = root.$apollo.watchQuery<R, TVariables>({
     query: queryDocument,
@@ -62,25 +64,14 @@ export const useQuery = <R, TVariables = OperationVariables>(
 
   query.subscribe({
     error(_error) {
-      error.value = _error
+      result.value.errors = _error
     },
     next(_result) {
       result.value = _result
     },
   })
 
-  return {
-    data: computed(() => result.value && result.value.data),
-    error: computed(() => result.value && result.value.errors),
-    fetchMore: query.fetchMore.bind(query),
-    loading: computed(() => result.value && result.value.loading),
-    refetch: query.refetch.bind(query),
-    startPolling: query.startPolling.bind(query),
-    stopPolling: query.stopPolling.bind(query),
-    subscribeToMore: query.subscribeToMore.bind(query),
-    updateQuery: query.updateQuery.bind(query),
-    variables,
-  }
+  return [result, query]
 }
 
 export default createComponent({
@@ -90,32 +81,33 @@ export default createComponent({
   setup(_, { root }) {
     const loading = ref(false)
 
-    const currentId = computed(() => parseInt(root.$route.params.mediaId, 10))
+    const { currentId } = useRouteParams(root)
+
     const variables = computed(() => ({
       idIn: currentId.value,
     }))
 
     const skip = computed(() => !variables.value.idIn)
 
-    const { data, fetchMore } = useQuery<{ Page: Page }, PageVariables>(
+    const [result, query] = useQuery<{ Page: Page }, PageVariables>(
       root,
       PAGE,
       { skip, variables },
     )
 
-    watch(data, data => {
+    const page = computed(() => result.value.data && result.value.data.Page)
+
+    watch(page, page => {
       loading.value = true
-      if (data) {
-        const idIn = data.Page.media
+      if (page) {
+        const idIn = page.media
           .flatMap(({ relations }) => relations.edges)
           .map(({ node }) => node.id)
-          .filter(
-            (id, i, arr) => arr.findIndex(mediaId => mediaId === id) === i,
-          )
-          .filter(id => !data.Page.media.find(media => media.id === id))
+          .filter((id, i, arr) => arr.indexOf(id) === i)
+          .filter(id => !page.media.find(media => media.id === id))
 
         if (idIn.length) {
-          fetchMore({
+          query.fetchMore({
             updateQuery: (previousResult, { fetchMoreResult }) => {
               if (!fetchMoreResult) {
                 return previousResult
@@ -140,30 +132,29 @@ export default createComponent({
 
     const order = useSelector((state: State) => state.timeline.order)
 
-    const mediaList = computed(() => {
-      const _data = data.value
-      const _order = order.value
+    const media = computed(() => {
+      const pageValue = page.value
+      return (pageValue && pageValue.media) || []
+    })
 
-      return (
-        (_data &&
-          _data.Page.media.slice().sort((a, b) => {
-            for (const sort of sorters) {
-              const result = sort(a, b) * _order
+    const mediaSorted = computed(() => {
+      const orderValue = order.value
 
-              if (result) {
-                return result
-              }
-            }
-            return 0
-          })) ||
-        []
-      )
+      return media.value.slice().sort((a, b) => {
+        for (const sort of sorters) {
+          const result = sort(a, b) * orderValue
+
+          if (result) {
+            return result
+          }
+        }
+        return 0
+      })
     })
 
     return {
-      data,
       loading,
-      mediaList,
+      mediaSorted,
     }
   },
 })
