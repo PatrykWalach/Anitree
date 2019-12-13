@@ -1,5 +1,4 @@
 import { Media as MediaT, Variables } from '@/graphql/schema/media'
-import { SetupContext, computed } from '@vue/composition-api'
 import { MEDIA } from '@/graphql'
 import Router from 'vue-router'
 import Vue from 'vue'

@@ -31,7 +31,6 @@ import TheMediaTimeline from '../components/TheMediaTimeline.vue'
 import { sorters } from '@/store/modules/timeline'
 import { useRouteParams } from '../App.vue'
 import { useSelector } from 'vue-redux-hooks'
-import { Media, Node } from '../graphql/schema/media'
 
 export const useQuery = <R, TVariables = OperationVariables>(
   root: SetupContext['root'],

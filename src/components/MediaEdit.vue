@@ -139,8 +139,6 @@ export default createComponent<Readonly<Props>>({
 
     const { close } = useEdit()
 
-
-
     const { id: appId } = useAccount()
 
     const tab = ref('edit1')
