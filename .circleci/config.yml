@@ -95,6 +95,4 @@ workflows:
             - build
           filters:
             tags:
-              only: /^v.*/
-            branches:
-              ignore: /.*/
+              only: /.*/
