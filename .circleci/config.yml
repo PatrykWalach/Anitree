@@ -94,5 +94,5 @@ workflows:
             - test
             - build
           filters:
-            branches:
-              only: -master
+            tags:
+              only: /.*/
