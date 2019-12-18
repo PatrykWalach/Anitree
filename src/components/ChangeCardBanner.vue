@@ -35,7 +35,10 @@ interface Props {
   media: Media
   pending: SavePending | DeletePending
 }
-const ChangeCardBannerList = () => import('./ChangeCardBannerList.vue')
+const ChangeCardBannerList = () =>
+  import(
+    /*webpackChunkName: "ChangeCardBannerList" */ './ChangeCardBannerList.vue'
+  )
 export default createComponent<Readonly<Props>>({
   components: {
     ChangeCardBannerActions,

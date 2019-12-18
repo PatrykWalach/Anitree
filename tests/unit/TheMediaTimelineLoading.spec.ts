@@ -1,6 +1,6 @@
-import TheMediaTimelineloading from '@/components/TheMediaTimelineloading.vue'
+import TheMediaTimelineLoading from '@/components/TheMediaTimelineLoading.vue'
 import { matchSnapshot } from './utils'
 
-describe('TheMediaTimelineloading', () => {
-  matchSnapshot(TheMediaTimelineloading)
+describe('TheMediaTimelineLoading', () => {
+  matchSnapshot(TheMediaTimelineLoading)
 })
