@@ -1,17 +1,185 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`MediaCardStatus matches snapshot 1`] = `
-<v-progress-linear-stub
-  active="true"
-  buffervalue="100"
-  color="grey lighten-2"
-  height="4"
-  value="50"
-/>
+<v-tooltip-stub
+  bottom="true"
+  closedelay="0"
+  contentclass=""
+  fixed="true"
+  maxwidth="auto"
+  nudgebottom="0"
+  nudgeleft="0"
+  nudgeright="0"
+  nudgetop="0"
+  nudgewidth="0"
+  opendelay="0"
+  openonhover="true"
+  tag="span"
+>
+   
+  <span>
+     0/26
+  </span>
+</v-tooltip-stub>
 `;
 
 exports[`MediaCardStatus matches snapshot 2`] = `
-<mediacardstatusready-stub
-  media="[object Object]"
-/>
+<v-tooltip-stub
+  bottom="true"
+  closedelay="0"
+  contentclass=""
+  fixed="true"
+  maxwidth="auto"
+  nudgebottom="0"
+  nudgeleft="0"
+  nudgeright="0"
+  nudgetop="0"
+  nudgewidth="0"
+  opendelay="0"
+  openonhover="true"
+  tag="span"
+>
+   
+  <span>
+    Completed
+  </span>
+</v-tooltip-stub>
+`;
+
+exports[`MediaCardStatus matches snapshot 3`] = `
+<v-tooltip-stub
+  bottom="true"
+  closedelay="0"
+  contentclass=""
+  fixed="true"
+  maxwidth="auto"
+  nudgebottom="0"
+  nudgeleft="0"
+  nudgeright="0"
+  nudgetop="0"
+  nudgewidth="0"
+  opendelay="0"
+  openonhover="true"
+  tag="span"
+>
+   
+  <span>
+    Watching 26/26
+  </span>
+</v-tooltip-stub>
+`;
+
+exports[`MediaCardStatus matches snapshot 4`] = `
+<v-tooltip-stub
+  bottom="true"
+  closedelay="0"
+  contentclass=""
+  fixed="true"
+  maxwidth="auto"
+  nudgebottom="0"
+  nudgeleft="0"
+  nudgeright="0"
+  nudgetop="0"
+  nudgewidth="0"
+  opendelay="0"
+  openonhover="true"
+  tag="span"
+>
+   
+  <span>
+    Plan to watch
+  </span>
+</v-tooltip-stub>
+`;
+
+exports[`MediaCardStatus matches snapshot 5`] = `
+<v-tooltip-stub
+  bottom="true"
+  closedelay="0"
+  contentclass=""
+  fixed="true"
+  maxwidth="auto"
+  nudgebottom="0"
+  nudgeleft="0"
+  nudgeright="0"
+  nudgetop="0"
+  nudgewidth="0"
+  opendelay="0"
+  openonhover="true"
+  tag="span"
+>
+   
+  <span>
+    Completed
+  </span>
+</v-tooltip-stub>
+`;
+
+exports[`MediaCardStatus matches snapshot 6`] = `
+<v-tooltip-stub
+  bottom="true"
+  closedelay="0"
+  contentclass=""
+  fixed="true"
+  maxwidth="auto"
+  nudgebottom="0"
+  nudgeleft="0"
+  nudgeright="0"
+  nudgetop="0"
+  nudgewidth="0"
+  opendelay="0"
+  openonhover="true"
+  tag="span"
+>
+   
+  <span>
+    Dropped
+  </span>
+</v-tooltip-stub>
+`;
+
+exports[`MediaCardStatus matches snapshot 7`] = `
+<v-tooltip-stub
+  bottom="true"
+  closedelay="0"
+  contentclass=""
+  fixed="true"
+  maxwidth="auto"
+  nudgebottom="0"
+  nudgeleft="0"
+  nudgeright="0"
+  nudgetop="0"
+  nudgewidth="0"
+  opendelay="0"
+  openonhover="true"
+  tag="span"
+>
+   
+  <span>
+    Paused 26/26
+  </span>
+</v-tooltip-stub>
+`;
+
+exports[`MediaCardStatus matches snapshot 8`] = `
+<v-tooltip-stub
+  bottom="true"
+  closedelay="0"
+  contentclass=""
+  fixed="true"
+  maxwidth="auto"
+  nudgebottom="0"
+  nudgeleft="0"
+  nudgeright="0"
+  nudgetop="0"
+  nudgewidth="0"
+  opendelay="0"
+  openonhover="true"
+  tag="span"
+>
+   
+  <span>
+    Rewatching 26/26
+  </span>
+</v-tooltip-stub>
 `;

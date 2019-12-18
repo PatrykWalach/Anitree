@@ -11,62 +11,11 @@ exports[`TheMediaTimeline matches snapshot 1`] = `
     tag="div"
   >
     <v-timeline-stub>
-      <themediatimelineitem-stub />
-      <themediatimelineitem-stub />
-      <themediatimelineitem-stub />
+      <themediatimelineitem-stub
+        media="[object Object]"
+      />
     </v-timeline-stub>
   </v-col-stub>
+   
 </v-row-stub>
 `;
-
-exports[`TheMediaTimeline matches snapshot 2`] = `
-<the-media-timeline-ready-stub
-  medialist=""
-/>
-`;
-
-exports[`TheMediaTimeline matches snapshot 3`] = `
-<v-row-stub
-  align="center"
-  justify="center"
-  tag="div"
->
-  <v-col-stub
-    cols="12"
-    tag="div"
-  >
-    <v-timeline-stub>
-      <themediatimelineitem-stub />
-      <themediatimelineitem-stub />
-      <themediatimelineitem-stub />
-    </v-timeline-stub>
-  </v-col-stub>
-</v-row-stub>
-`;
-
-exports[`TheMediaTimeline matches snapshot 4`] = `
-<the-media-timeline-ready-stub
-  medialist="[object Object]"
-/>
-`;
-
-exports[`TheMediaTimeline matches snapshot 5`] = `
-<v-row-stub
-  align="center"
-  justify="center"
-  tag="div"
->
-  <v-col-stub
-    cols="12"
-    tag="div"
-  >
-    <v-timeline-stub>
-      <themediatimelineitem-stub />
-      <themediatimelineitem-stub />
-      <themediatimelineitem-stub />
-    </v-timeline-stub>
-  </v-col-stub>
-</v-row-stub>
-`;
-
-exports[`TheMediaTimeline matches snapshot 6`] = `<the-media-timeline-ready-stub />`;

@@ -2,19 +2,13 @@
 
 exports[`MediaCardItemOverline matches snapshot 1`] = `
 <div
-  class="overline"
+  class="overline primary--text text-truncate"
 >
-  <v-skeleton-loader-stub
-    maxwidth="100%"
-    type="text"
-    types="[object Object]"
-    width="100px"
-  />
+  <span
+    class="mr-2"
+  >
+    Sunrise
+  
+  </span>
 </div>
-`;
-
-exports[`MediaCardItemOverline matches snapshot 2`] = `
-<mediacarditemoverlineready-stub
-  media="[object Object]"
-/>
 `;

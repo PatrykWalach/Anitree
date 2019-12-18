@@ -1,0 +1,67 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MediaEditDialog matches snapshot 1`] = `
+<v-card-stub
+  loaderheight="4"
+  tag="div"
+>
+  <v-card-text-stub
+    class="pa-0"
+  >
+    <media-card-banner-stub
+      media="[object Object]"
+    >
+      <v-overlay-stub
+        absolute="true"
+        color="#212121"
+        dark="true"
+        opacity="0.46"
+        value="true"
+        zindex="5"
+      />
+    </media-card-banner-stub>
+     
+    <mediacarditem-stub
+      media="[object Object]"
+    />
+     
+    <v-divider-stub />
+     
+    <mediaeditdialogtabs-stub
+      style="position: sticky; top: 0px; z-index: 2;"
+      tab="edit1"
+    />
+     
+    <mediaeditdialogitems-stub
+      changeform="({
+    form
+  }) => {
+    dispatch(actions.edit.CHANGE_FORM(form));
+
+    if (syncChanges.value) {
+      submit();
+    }
+  }"
+      media="[object Object]"
+      tab="edit1"
+      user="[object Object]"
+    />
+  </v-card-text-stub>
+   
+  <v-divider-stub />
+   
+  <mediaeditdialogactions-stub
+    media="[object Object]"
+    submit="() => {
+    if (mediaId.value) {
+      saveEntry({
+        mediaId: mediaId.value,
+        ...form.value
+      });
+      dispatch(actions.edit.RESET_FORM());
+    }
+  }"
+    user="[object Object]"
+  />
+</v-card-stub>
+`;

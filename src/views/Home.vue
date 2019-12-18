@@ -1,4 +1,5 @@
 <script lang="tsx">
+import { Page, Variables } from '@/graphql/schema/page'
 import {
   VCol,
   VContainer,
@@ -8,16 +9,16 @@ import {
   VTimelineItem,
 } from 'vuetify/lib'
 import { computed, createComponent, createElement } from '@vue/composition-api'
-import BaseQuery from '@/components/BaseQuery.vue'
+import { useQuery, useResult } from '@vue/apollo-composable'
 import HomeItem from '@/components/HomeItem.vue'
-import MediaCard from '@/components/MediaCard.vue'
+import MediaCard from '../components/MediaCard.vue'
+// import MediaCardError from '../components/MediaCardError.vue'
+import MediaCardLoading from '@/components/MediaCardLoading.vue'
 import { PAGE } from '@/graphql'
-import { Page } from '@/graphql/schema/page'
 import TheSettings from '@/components/TheSettings.vue'
 
 export default createComponent({
   components: {
-    BaseQuery,
     HomeItem,
     MediaCard,
     TheSettings,
@@ -31,8 +32,28 @@ export default createComponent({
   setup: (_, { root }) => {
     const h = createElement
     const random = Math.floor(Math.random() * 49)
+    const { result } = useQuery<{ Page: Page }, Variables>(
+      PAGE,
+      {
+        sort: 'TRENDING_DESC',
+      },
+      {
+        fetchPolicy: 'cache-and-network',
+      },
+    )
 
-    const content = [
+    const media = useResult(result, [], data => data.Page.media)
+
+    const randomMedia = computed(() => media.value[random])
+
+    const trendingMedia = computed(() => {
+      if (randomMedia.value) {
+        return <MediaCard media={randomMedia.value}></MediaCard>
+      }
+      return <MediaCardLoading />
+    })
+
+    const content = computed(() => [
       [
         <home-item
           scopedSlots={{
@@ -71,22 +92,7 @@ export default createComponent({
           <br />
           Their layout and amount of information may change in future.
         </home-item>,
-
-        <BaseQuery
-          apollo={{
-            Page: {
-              'fetch-policy': 'cache-and-network',
-              query: PAGE,
-              tag: null,
-              variables: { sort: 'TRENDING_DESC' },
-            },
-          }}
-          scopedSlots={{
-            default: ({ Page: data }: { Page: Page }) => (
-              <MediaCard id={(data && data.media[random].id) || 0} />
-            ),
-          }}
-        />,
+        trendingMedia.value,
       ],
       [
         <home-item scopedSlots={{ title: () => 'Settings' }}>
@@ -94,16 +100,18 @@ export default createComponent({
         </home-item>,
         <the-settings />,
       ],
-    ]
+    ])
 
-    const mobile = content.flat().map(el => <v-col cols="12">{el}</v-col>)
+    const mobile = computed(() =>
+      content.value.flat().map(el => <v-col cols="12">{el}</v-col>),
+    )
     const desktop = computed(() => {
       const { smAndDown } = root.$vuetify.breakpoint
 
       return (
         <v-col>
           <v-timeline dense={smAndDown}>
-            {content.map((el, i) =>
+            {content.value.map((el, i) =>
               el
                 .map((el, j) => (
                   <v-timeline-item
@@ -123,7 +131,7 @@ export default createComponent({
     })
 
     const timeline = computed(() =>
-      root.$vuetify.breakpoint.xsOnly ? mobile : desktop.value,
+      root.$vuetify.breakpoint.xsOnly ? mobile.value : desktop.value,
     )
 
     return () => (

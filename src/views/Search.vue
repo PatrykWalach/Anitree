@@ -1,110 +1,145 @@
 <template>
-  <BaseQuery
-    :apollo="{
-      Viewer,
-      Page: ({ Viewer }) => ({
-        query: require('@/graphql/queries/Page.gql'),
-        tag: null,
-        'fetch-policy': 'cache-and-network',
-        variables: {
-          isAdult:
-            Viewer && Viewer.options.displayAdultContent ? undefined : false,
-          ...query,
-        },
-      }),
-    }"
-    v-slot="{ Viewer, Page, isLoading, errors }"
-  >
-    <TheSearchNavigation v-if="!isSearched" :user="Viewer" />
-
+  <keep-alive>
+    <TheSearchNavigation v-if="!isSearched" :user="viewer" />
     <v-container v-else>
-      <v-row
-        justify="center"
-        align="center"
-        v-if="errors.Page || (Page && !Page.media.length)"
-      >
-        <template v-if="Page && !Page.media.length">
-          No results found
+      <keep-alive>
+        <TheMediaTimelineLoading v-if="loading" />
+        <!-- <template v-else-if="error">
+      There was an error
+    </template> -->
+        <template v-else-if="page">
+          <v-row justify="center" align="center" v-if="!media.length">
+            No results found
+          </v-row>
+          <TheMediaTimeline v-else :media-list="media" />
+          <v-btn
+            v-if="hasNextPage"
+            @click="loadMore"
+            :disabled="loading"
+            block
+            color="accent"
+            >show more</v-btn
+          >
         </template>
-        <template v-else>
-          There was an error
-        </template>
-      </v-row>
-      <the-media-timeline
-        v-else
-        :loading="!!isLoading.Page"
-        :media-list="Page && Page.media"
-      >
-        <v-pagination
-          v-model="page"
-          :length="(Page && Page.pageInfo.lastPage) || 0"
-        ></v-pagination>
-      </the-media-timeline>
+      </keep-alive>
     </v-container>
-  </BaseQuery>
+  </keep-alive>
 </template>
 <script lang="ts">
+import {
+  AsyncComponentFactory,
+  AsyncComponentPromise,
+  Component,
+  EsModuleComponent,
+} from 'vue/types/options'
+import { PAGE, useViewer } from '@/graphql'
+import { Page, Variables } from '@/graphql/schema/page'
 import { computed, createComponent } from '@vue/composition-api'
-import BaseQuery from '@/components/BaseQuery.vue'
-import TheMediaTimeline from '@/components/TheMediaTimeline.vue'
+import { useQuery, useQueryLoading, useResult } from '@vue/apollo-composable'
+import TheMediaTimelineLoading from '@/components/TheMediaTimelineLoading.vue'
 import TheSearchNavigation from '@/components/TheSearchNavigation.vue'
-import { useViewer } from '@/graphql'
+import { usePagination } from './MediaTimeline.vue'
+import { useRoutes } from '@/components/TheAppBar.vue'
+
+export const asyncComponent = (
+  component: Promise<any>,
+  loading?: Component | EsModuleComponent,
+): ReturnType<AsyncComponentFactory> => ({
+  component: (component as unknown) as AsyncComponentPromise,
+  delay: 0,
+  loading,
+})
+
+const TheMediaTimeline = () =>
+  asyncComponent(
+    import(
+      /* webpackChunkName: "TheMediaTimeline" */ '@/components/TheMediaTimeline.vue'
+    ),
+    TheMediaTimelineLoading,
+  )
 
 export default createComponent({
   components: {
-    BaseQuery,
     TheMediaTimeline,
+    TheMediaTimelineLoading,
     TheSearchNavigation,
   },
   setup(_, { root }) {
-    const query = computed({
-      get: () =>
-        Object.fromEntries(
-          Object.entries(root.$route.query).map(([key, value]) => {
-            switch (value) {
-              case 'true':
-                return [key, true]
-              case 'false':
-                return [key, false]
-              default:
-                return [key, value]
-            }
-          }),
-        ),
-      set: query =>
-        root.$router.replace({
-          query,
+    const query = computed(() =>
+      Object.fromEntries(
+        Object.entries(root.$route.query).map(([key, value]) => {
+          switch (value) {
+            case 'true':
+              return [key, true]
+            case 'false':
+              return [key, false]
+            default:
+              return [key, value]
+          }
         }),
-    })
+      ),
+    )
 
     const isSearched = computed(() => !!Object.values(query.value).length)
 
-    const page = computed({
-      get: () => {
-        const { page } = query.value
+    const { Viewer: viewer, result: viewerResult } = useViewer()
 
-        switch (typeof page) {
-          case 'string':
-            return parseInt(page)
-          case 'number':
-            return page
-          default:
-            return 1
-        }
-      },
-      set: page => {
-        query.value = {
-          ...query.value,
-          page,
-        }
-      },
-    })
+    const isAdult = useResult(
+      viewerResult,
+      false,
+      data => data.Viewer.options.displayAdultContent && undefined,
+    )
+
+    const { routeSearch } = useRoutes(root)
+
+    const variables = computed(() => ({
+      isAdult: isAdult.value,
+      perPage: 10,
+      ...query.value,
+    }))
+
+    const { result, fetchMore } = useQuery<{ Page: Page }, Variables>(
+      PAGE,
+      variables,
+      () => ({
+        enabled: routeSearch.value,
+        fetchPolicy: 'cache-and-network',
+      }),
+    )
+
+    const { loadNextPage } = usePagination()
+
+    const page = useResult(result, null, data => data.Page)
+    const media = useResult(result, null, data => data.Page.media)
+
+    const currentPage = useResult(
+      result,
+      0,
+      data => data.Page.pageInfo.currentPage,
+    )
+
+    const hasNextPage = useResult(
+      result,
+      null,
+      data => data.Page.pageInfo.hasNextPage,
+    )
+
+    const loading = useQueryLoading()
+
+    const loadMore = () =>
+      loadNextPage(fetchMore, {
+        ...variables,
+        page: 1 + currentPage.value,
+      })
 
     return {
+      hasNextPage,
       isSearched,
+      loadMore,
+      loading,
+      media,
       page,
-      query,
-      ...useViewer(),
+      viewer,
     }
   },
 })

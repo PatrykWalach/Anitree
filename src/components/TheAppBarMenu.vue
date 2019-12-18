@@ -56,11 +56,39 @@
 import { VBottomSheet, VMenu } from 'vuetify/lib'
 import { computed, createComponent } from '@vue/composition-api'
 import { Media } from '../graphql/schema/media'
+import MediaCardLoadingItemAvatar from './MediaCardLoadingItemAvatar.vue'
+import MediaCardLoadingItemOverline from './MediaCardLoadingItemOverline.vue'
+import MediaCardLoadingItemSubtitle from './MediaCardLoadingItemSubtitle.vue'
+import MediaCardLoadingItemTitle from './MediaCardLoadingItemTitle.vue'
 import { NavigationElement } from '../types'
-const MediaCardItemAvatar = () => import('./MediaCardItemAvatar.vue')
-const MediaCardItemOverline = () => import('./MediaCardItemOverline.vue')
-const MediaCardItemTitle = () => import('./MediaCardItemTitle.vue')
-const MediaCardItemSubtitle = () => import('./MediaCardItemSubtitle.vue')
+import { asyncComponent } from '@/views/Search.vue'
+
+const MediaCardItemAvatar = () =>
+  asyncComponent(
+    import(/* webpackChunkName: "BaseLazyImg" */ './MediaCardItemAvatar.vue'),
+    MediaCardLoadingItemAvatar,
+  )
+const MediaCardItemOverline = () =>
+  asyncComponent(
+    import(
+      /* webpackChunkName: "MediaCardItemOverline" */ './MediaCardItemOverline.vue'
+    ),
+    MediaCardLoadingItemOverline,
+  )
+const MediaCardItemSubtitle = () =>
+  asyncComponent(
+    import(
+      /* webpackChunkName: "MediaCardItemSubtitle" */ './MediaCardItemSubtitle.vue'
+    ),
+    MediaCardLoadingItemSubtitle,
+  )
+const MediaCardItemTitle = () =>
+  asyncComponent(
+    import(
+      /* webpackChunkName: "MediaCardItemTitle" */ './MediaCardItemTitle.vue'
+    ),
+    MediaCardLoadingItemTitle,
+  )
 
 export interface Props {
   actions: NavigationElement[]

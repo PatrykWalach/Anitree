@@ -1,7 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ChangeCard matches snapshot 1`] = `
-<basequery-stub
-  apollo="[object Object]"
-/>
-`;
+exports[`ChangeCard matches snapshot 1`] = `<!---->`;
+
+exports[`ChangeCard matches snapshot 2`] = `<!---->`;

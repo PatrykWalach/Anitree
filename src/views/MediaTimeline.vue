@@ -1,84 +1,92 @@
 <template>
   <v-container>
-    <TheMediaTimeline :loading="loading" :media-list="mediaSorted" />
+    <TheMediaTimelineLoading v-if="loading" />
+    <TheMediaTimeline v-else-if="mediaSorted" :media-list="mediaSorted" />
+    <v-btn
+      v-if="hasNextPage"
+      @click="loadAll"
+      :disabled="loading"
+      block
+      color="accent"
+      >show all</v-btn
+    >
   </v-container>
 </template>
 <script lang="ts">
 import {
   ApolloQueryResult,
-  ObservableQuery,
-  OperationVariables,
-  WatchQueryOptions,
+  FetchMoreOptions,
+  FetchMoreQueryOptions,
 } from 'apollo-client'
-
 import { Page, Variables as PageVariables } from '@/graphql/schema/page'
-import {
-  Ref,
-  SetupContext,
-  computed,
-  createComponent,
-  ref,
-  watch,
-} from '@vue/composition-api'
+import { Ref, computed, createComponent } from '@vue/composition-api'
+import { useQuery, useQueryLoading, useResult } from '@vue/apollo-composable'
 
-import { ClientOptions } from 'vue-apollo/types/vue-apollo'
-import { DocumentNode } from 'graphql'
-
+import { Media } from '../graphql/schema/media'
 import { PAGE } from '@/graphql'
 import { State } from '@/store'
-import TheMediaTimeline from '../components/TheMediaTimeline.vue'
+import TheMediaTimelineLoading from '../components/TheMediaTimelineLoading.vue'
+
+import { asyncComponent } from '@/views/Search.vue'
 
 import { sorters } from '@/store/modules/timeline'
 import { useRouteParams } from '../App.vue'
+import { useRoutes } from '@/components/TheAppBar.vue'
 import { useSelector } from 'vue-redux-hooks'
+const TheMediaTimeline = () =>
+  asyncComponent(
+    import(
+      /* webpackChunkName: "TheMediaTimelineLoading" */ '@/components/TheMediaTimeline.vue'
+    ),
+    TheMediaTimelineLoading,
+  )
 
-export const useQuery = <R, TVariables = OperationVariables>(
-  root: SetupContext['root'],
-  queryDocument: DocumentNode,
-  {
-    skip,
-    variables,
-    ...options
-  }: {
-    variables?: Ref<TVariables>
-    skip?: Ref<boolean>
-  } & Omit<WatchQueryOptions<TVariables>, 'variables' | 'query'> &
-    ClientOptions,
-): [Ref<ApolloQueryResult<R>>, ObservableQuery<R, TVariables>] => {
-  const result: Ref<ApolloQueryResult<R>> = ref({ data: null })
+type FetchMore<Data, Variables> = <K extends keyof Variables>(
+  options: FetchMoreQueryOptions<Variables, K> &
+    FetchMoreOptions<Data, Variables>,
+) => Promise<ApolloQueryResult<Data>>
 
-  const query = root.$apollo.watchQuery<R, TVariables>({
-    query: queryDocument,
-    ...options,
-    variables: variables && variables.value,
-  })
+export const usePagination = () => {
+  const loadNextPage = (
+    fetchMore: FetchMore<{ Page: Page }, PageVariables>,
+    variables: PageVariables,
+  ) =>
+    fetchMore({
+      updateQuery: (previousResult, { fetchMoreResult }) => {
+        if (!fetchMoreResult) {
+          return previousResult
+        }
 
-  if (variables) {
-    watch(variables, () => {
-      if (!(skip && skip.value)) {
-        query.setVariables(variables.value)
-      }
+        return {
+          Page: {
+            ...fetchMoreResult.Page,
+            media: previousResult.Page.media.concat(fetchMoreResult.Page.media),
+          },
+        }
+      },
+      variables,
     })
+  return {
+    loadNextPage,
   }
-
-  query.subscribe({
-    error(_error) {
-      result.value.errors = _error
-    },
-    next(_result) {
-      result.value = _result
-    },
-  })
-
-  return [result, query]
 }
-
 export default createComponent({
   components: {
     TheMediaTimeline,
+    TheMediaTimelineLoading,
   },
   setup(_, { root }) {
-    const loading = ref(false)
+    const findRelativeMedia = (
+      someMedia: readonly Media[],
+      filter: readonly Media[],
+    ) =>
+      someMedia
+        .flatMap(({ relations }) => relations.edges)
+        .map(({ node }) => node.id)
+        .filter((id, i, arr) => arr.indexOf(id) === i)
+        .filter(mediaId => !filter.find(({ id }) => id === mediaId))
+
+    const loading = useQueryLoading()
 
     const { currentId } = useRouteParams(root)
 
@@ -86,55 +94,41 @@ export default createComponent({
       idIn: currentId.value,
     }))
 
-    const skip = computed(() => !variables.value.idIn)
+    const { routeTimeline } = useRoutes(root)
 
-    const [result, query] = useQuery<{ Page: Page }, PageVariables>(
-      root,
+    const { result, fetchMore } = useQuery<{ Page: Page }, PageVariables>(
       PAGE,
-      { skip, variables },
+      variables,
+      () => ({
+        enabled: routeTimeline.value,
+        notifyOnNetworkStatusChange: true,
+      }),
     )
 
-    const page = computed(() => result.value.data && result.value.data.Page)
+    const media: Readonly<Ref<readonly Media[]>> = useResult(
+      result,
+      [],
+      data => data.Page.media,
+    )
 
-    watch(page, page => {
-      loading.value = true
-      if (page) {
-        const idIn = page.media
-          .flatMap(({ relations }) => relations.edges)
-          .map(({ node }) => node.id)
-          .filter((id, i, arr) => arr.indexOf(id) === i)
-          .filter(id => !page.media.find(media => media.id === id))
+    const nextIds = computed(() => findRelativeMedia(media.value, media.value))
 
-        if (idIn.length) {
-          query.fetchMore({
-            updateQuery: (previousResult, { fetchMoreResult }) => {
-              if (!fetchMoreResult) {
-                return previousResult
-              }
+    const hasNextPage = computed(() => !!nextIds.value.length)
 
-              return {
-                Page: {
-                  ...fetchMoreResult.Page,
-                  media: previousResult.Page.media.concat(
-                    fetchMoreResult.Page.media,
-                  ),
-                },
-              }
-            },
-            variables: { idIn },
-          })
-        } else {
-          loading.value = false
+    const { loadNextPage } = usePagination()
+
+    const loadAll = () => {
+      loadNextPage(fetchMore, { idIn: nextIds.value }).then(({ data }) => {
+        const ids = findRelativeMedia(data.Page.media, media.value)
+        console.log('TCL: ids', ids)
+
+        if (ids.length) {
+          loadNextPage(fetchMore, { idIn: ids })
         }
-      }
-    })
+      })
+    }
 
     const order = useSelector((state: State) => state.timeline.order)
-
-    const media = computed(() => {
-      const pageValue = page.value
-      return (pageValue && pageValue.media) || []
-    })
 
     const mediaSorted = computed(() => {
       const orderValue = order.value
@@ -152,6 +146,8 @@ export default createComponent({
     })
 
     return {
+      hasNextPage,
+      loadAll,
       loading,
       mediaSorted,
     }

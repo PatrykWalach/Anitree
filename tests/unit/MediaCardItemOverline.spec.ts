@@ -6,12 +6,6 @@ import { mockedMedia } from './mocks/media'
 describe('MediaCardItemOverline', () => {
   matchSnapshot(MediaCardItemOverline, {
     propsData: {
-      media: null,
-    },
-  })
-
-  matchSnapshot(MediaCardItemOverline, {
-    propsData: {
       media: mockedMedia,
     },
   })

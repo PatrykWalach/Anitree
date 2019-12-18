@@ -1,7 +1,6 @@
 <template>
   <v-list-item selectable :[lines]="true">
     <MediaCardItemAvatar :media="media" />
-    <slot></slot>
     <v-list-item-content>
       <MediaCardItemOverline :media="media" />
       <MediaCardItemTitle :media="media" />
@@ -21,7 +20,7 @@ import MediaCardItemSubtitle from './MediaCardItemSubtitle.vue'
 import MediaCardItemTitle from './MediaCardItemTitle.vue'
 
 export interface Props {
-  media: Media | null
+  media: Media
 }
 
 export default createComponent<Readonly<Props>>({
@@ -33,13 +32,15 @@ export default createComponent<Readonly<Props>>({
     MediaCardItemTitle,
   },
   props: {
-    media: { default: null, required: true, type: null },
+    media: {
+      default: null,
+      required: true,
+      type: Object,
+    },
   },
   setup(props) {
     const lines = computed(() => {
-      const { media } = props
-
-      return !media || media.description ? 'three-line' : 'two-line'
+      return props.media.description ? 'three-line' : 'two-line'
     })
 
     return { lines }

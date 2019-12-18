@@ -25,7 +25,7 @@ describe('TheDrawer', () => {
   }).forEach(settings =>
     matchSnapshot(TheDrawer, {
       ...settings,
-      ...useMockedStore(),
+      provide: { ...useMockedStore() },
     }),
   )
 })

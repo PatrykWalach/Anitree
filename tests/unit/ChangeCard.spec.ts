@@ -1,21 +1,17 @@
+import { createVariations, matchSnapshot } from './utils'
+import { mockedDeletePending, mockedSavePending } from './mocks/actions'
 import ChangeCard from '@/components/ChangeCard.vue'
-
-import { SaveCommand } from '@/store/modules/commands/SaveCommand'
-
-import { matchSnapshot } from './utils'
-import { mockedDollarApollo } from './mocks/apollo'
-import { useMockedStore } from './mocks/store'
+import { useMockedApollo } from './mocks/apollo'
 
 describe('ChangeCard', () => {
-  matchSnapshot(ChangeCard, {
+  createVariations({
     propsData: {
-      command: new SaveCommand({
-        apollo: mockedDollarApollo,
-        variables: {
-          mediaId: 1,
-        },
-      }),
+      request: () => [mockedDeletePending, mockedSavePending],
     },
-    ...useMockedStore(),
-  })
+  }).forEach(settings =>
+    matchSnapshot(ChangeCard, {
+      ...settings,
+      provide: { ...useMockedApollo() },
+    }),
+  )
 })

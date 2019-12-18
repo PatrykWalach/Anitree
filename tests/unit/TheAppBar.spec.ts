@@ -2,7 +2,6 @@ import { createVariations, matchSnapshot } from './utils'
 import TheAppBar from '@/components/TheAppBar.vue'
 import { useMockedStore } from './mocks/store'
 
-
 describe('TheAppBar', () => {
   createVariations({
     mocks: {
@@ -21,7 +20,7 @@ describe('TheAppBar', () => {
     matchSnapshot(TheAppBar, {
       propsData: { media: null },
       ...settings,
-      ...useMockedStore(),
+      provide: useMockedStore(),
     }),
   )
 
@@ -40,7 +39,7 @@ describe('TheAppBar', () => {
   //       },
   //     },
   //     propsData: { media: mockedMedia },
-  //     ...useMockedStore(),
+  //     provide: {...useMockedStore()},
   //   },
   //   'hides media tabs',
   // )
@@ -60,7 +59,7 @@ describe('TheAppBar', () => {
   //       },
   //     },
   //     propsData: { media: mockedMedia },
-  //     ...useMockedStore(),
+  //     provide: {...useMockedStore()},
   //   },
   //   'shows media tabs',
   // )

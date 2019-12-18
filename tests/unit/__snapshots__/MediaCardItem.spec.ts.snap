@@ -8,33 +8,10 @@ exports[`MediaCardItem matches snapshot 1`] = `
   threeline="true"
 >
   <mediacarditemavatar-stub
-    size="80"
-  />
-    
-  <v-list-item-content-stub>
-    <mediacarditemoverline-stub />
-     
-    <mediacarditemtitle-stub />
-     
-    <mediacarditemsubtitle-stub />
-     
-    <mediacarditemdescription-stub />
-  </v-list-item-content-stub>
-</v-list-item-stub>
-`;
-
-exports[`MediaCardItem matches snapshot 2`] = `
-<v-list-item-stub
-  activeclass=""
-  selectable="true"
-  tag="div"
-  threeline="true"
->
-  <mediacarditemavatar-stub
     media="[object Object]"
     size="80"
   />
-    
+   
   <v-list-item-content-stub>
     <mediacarditemoverline-stub
       media="[object Object]"

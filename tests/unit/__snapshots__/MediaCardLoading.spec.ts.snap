@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MediaCardLoading matches snapshot 1`] = `
+<v-card-stub
+  loaderheight="4"
+  tag="div"
+>
+  <mediacardloadingbanner-stub />
+   
+  <mediacardloadingitem-stub />
+   
+  <v-divider-stub
+    class="mx-4"
+  />
+   
+  <v-card-actions-stub>
+    <v-btn-stub
+      activeclass=""
+      color="primary"
+      disabled="true"
+      tag="button"
+      text="true"
+      type="button"
+    >
+      
+      Explore
+    
+    </v-btn-stub>
+     
+    <v-spacer-stub />
+  </v-card-actions-stub>
+</v-card-stub>
+`;

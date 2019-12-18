@@ -1,25 +1,31 @@
 <template>
-  <MediaCardItemTitleReady v-if="media" :media="media" />
-  <v-list-item-title v-else class="headline">
-    <v-skeleton-loader type="text" width="420px" max-width="100%" />
+  <v-list-item-title :title="title" class="headline">
+    {{ title }}
   </v-list-item-title>
 </template>
 
 <script lang="ts">
+import { computed, createComponent } from '@vue/composition-api'
 import { Media } from '@/graphql/schema/media'
-import MediaCardItemTitleReady from './MediaCardItemTitleReady.vue'
-
-import { createComponent } from '@vue/composition-api'
 
 export interface Props {
-  media: Media | null
+  media: Media
 }
+
+import { useTitle } from '@/store'
+
 export default createComponent<Readonly<Props>>({
-  components: {
-    MediaCardItemTitleReady,
-  },
   props: {
-    media: { default: null, required: true, type: null },
+    media: { default: null, required: true, type: Object },
+  },
+  setup(props) {
+    const { getTitle } = useTitle()
+
+    const title = computed(() => getTitle.value(props.media.title))
+
+    return {
+      title,
+    }
   },
 })
 </script>

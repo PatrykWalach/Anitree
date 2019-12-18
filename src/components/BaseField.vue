@@ -5,10 +5,12 @@
 </template>
 
 <script lang="ts">
-const BaseDateField = () => import('./BaseDateField.vue')
 import { VChipGroup, VSelect, VTextField, VTextarea } from 'vuetify/lib'
 import { computed, createComponent, ref, watch } from '@vue/composition-api'
 import { Props } from './FormBuilder'
+
+const BaseDateField = () =>
+  import(/* webpackChunkName: "BaseDateField" */ './BaseDateField.vue')
 
 export default createComponent<Readonly<Props>>({
   components: {

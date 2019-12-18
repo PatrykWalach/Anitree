@@ -2,17 +2,18 @@ import { Media, MediaType } from './media'
 import { ScoreFormat } from './viewer'
 
 export interface Variables {
-  idIn?: number[] | number
+  idIn?: readonly number[] | number
   page?: number
   format?: ScoreFormat
   isAdult?: boolean
   onList?: boolean
   search?: string
-  includedTags?: string[]
+  includedTags?: string[] | string
   year?: number
   type?: MediaType
   season?: MediaSeason
-  sort?: MediaSort[]
+  sort?: MediaSort[] | MediaSort
+  perPage?: number
 }
 
 export type MediaSeason = 'WINTER' | 'SPRING' | 'SUMMER' | 'FALL'

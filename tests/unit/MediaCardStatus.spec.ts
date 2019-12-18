@@ -1,18 +1,29 @@
+import { createVariations, matchSnapshot } from './utils'
+import { mockedMedia, mockedMediaAndListEntry } from './mocks/media'
 import MediaCardStatus from '@/components/MediaCardStatus.vue'
-
-import { matchSnapshot } from './utils'
-import { mockedMedia } from './mocks/media'
+import { mockedMediaListEntry } from './mocks/mediaListEntry'
 
 describe('MediaCardStatus', () => {
-  matchSnapshot(MediaCardStatus, {
+  createVariations({
     propsData: {
-      media: null,
+      media: () => [
+        mockedMedia,
+        mockedMediaAndListEntry,
+        ...createVariations({
+          ...mockedMedia,
+          mediaListEntry: {
+            ...mockedMediaListEntry,
+            status: () => [
+              'CURRENT',
+              'PLANNING',
+              'COMPLETED',
+              'DROPPED',
+              'PAUSED',
+              'REPEATING',
+            ],
+          },
+        }),
+      ],
     },
-  })
-
-  matchSnapshot(MediaCardStatus, {
-    propsData: {
-      media: mockedMedia,
-    },
-  })
+  }).forEach(settings => matchSnapshot(MediaCardStatus, settings))
 })

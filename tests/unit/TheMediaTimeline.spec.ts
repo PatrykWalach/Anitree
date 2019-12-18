@@ -1,15 +1,11 @@
-// mediaList: Media[] | null
-// loading: boolean
-
-import { createVariations, matchSnapshot } from './utils'
 import TheMediaTimeline from '@/components/TheMediaTimeline.vue'
+import { matchSnapshot } from './utils'
 import { mockedMedia } from './mocks/media'
 
 describe('TheMediaTimeline', () => {
-  createVariations({
+  matchSnapshot(TheMediaTimeline, {
     propsData: {
-      loading: () => [true, false],
-      mediaList: () => [[], [mockedMedia], null],
+      mediaList: [mockedMedia],
     },
-  }).forEach(settings => matchSnapshot(TheMediaTimeline, settings))
+  })
 })

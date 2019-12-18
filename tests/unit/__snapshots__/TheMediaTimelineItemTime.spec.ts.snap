@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TheMediaTimelineItemTime matches snapshot 1`] = `
+<v-chip-stub
+  active="true"
+  activeclass=""
+  closeicon="$delete"
+  filtericon="$complete"
+  label="true"
+  outlined="true"
+  tag="span"
+>
+  <v-icon-stub
+    left=""
+    small=""
+  >
+    date_range
+  </v-icon-stub>
+   
+  <basetime-stub
+    enddate="[object Object]"
+    startdate="[object Object]"
+  />
+</v-chip-stub>
+`;

@@ -10,8 +10,6 @@ export const mockStore = () =>
 export const useMockedStore = () => {
   const store = mockStore()
   return {
-    provide: {
-      [key]: store,
-    },
+    [key]: store,
   }
 }

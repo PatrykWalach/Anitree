@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MediaCardLoadingItemDescription matches snapshot 1`] = `
+<v-list-item-subtitle-stub
+  class="text-capitalize"
+>
+  <v-skeleton-loader-stub
+    type="text@2"
+    types="[object Object]"
+  />
+</v-list-item-subtitle-stub>
+`;

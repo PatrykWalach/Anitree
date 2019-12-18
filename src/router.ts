@@ -3,6 +3,7 @@ import { MEDIA } from '@/graphql'
 import Router from 'vue-router'
 import Vue from 'vue'
 import { apollo } from '@/apollo'
+import { setItem } from '@/store/utils/localStorage'
 import { settingsActions } from './store/modules/settings'
 import { store } from './store'
 
@@ -157,7 +158,7 @@ router.afterEach(to => {
         firstLetter.toUpperCase() + otherLetters.join('') + ' - Anitree'
     }
 
-    localStorage.setItem('LAST_ROUTE', JSON.stringify({ name, params, query }))
+    setItem('LAST_ROUTE', JSON.stringify({ name, params, query }))
   }
 })
 

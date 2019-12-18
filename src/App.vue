@@ -1,37 +1,26 @@
 <template>
-  <BaseQuery
-    :apollo="{
-      Viewer,
-      Media: {
-        ...Media,
-        tag: null,
-      },
-    }"
-    v-slot="{ Media, Viewer }"
-  >
-    <v-app>
-      <TheAppBar :media="Media" @toggle:drawer="toggleDrawer" />
+  <v-app>
+    <TheAppBar :media="Media" @toggle:drawer="toggleDrawer" />
 
-      <v-content>
-        <keep-alive>
-          <router-view />
-        </keep-alive>
-        <TheSearchFilters />
-        <MediaEdit :id="mediaId" :viewer="Viewer" />
-        <BaseShare :options="options" />
-      </v-content>
+    <v-content>
+      <keep-alive>
+        <router-view />
+      </keep-alive>
+      <TheSearchFilters />
+      <MediaEdit :id="mediaId" :viewer="Viewer" />
+      <BaseShare :options="options" />
+    </v-content>
 
-      <TheBottomAppBar
-        :media="Media"
-        :drawer.sync="drawer"
-        v-if="$vuetify.breakpoint.xsOnly"
-      />
+    <TheBottomAppBar
+      :media="Media"
+      :drawer.sync="drawer"
+      v-if="$vuetify.breakpoint.xsOnly"
+    />
 
-      <TheDrawer :viewer="Viewer" :value.sync="drawer" />
+    <TheDrawer :viewer="Viewer" :value.sync="drawer" />
 
-      <TheFooter />
-    </v-app>
-  </BaseQuery>
+    <TheFooter />
+  </v-app>
 </template>
 <script lang="ts">
 import {
@@ -40,23 +29,21 @@ import {
   createComponent,
   ref,
 } from '@vue/composition-api'
-
 import { useMedia, useViewer } from '@/graphql'
-import BaseQuery from '@/components/BaseQuery.vue'
+
 import BaseShare from './components/BaseShare.vue'
 import MediaEdit from './components/MediaEdit.vue'
 import { State } from '@/store'
-
-import TheAppBar from './components/TheAppBar.vue'
+import TheAppBar from './components/TheAppBar.vue' // , { useRoutes }
+import TheDrawer from './components/TheDrawer.vue'
+import TheFooter from './components/TheFooter.vue'
+import TheSearchFilters from './components/TheSearchFilters.vue'
+import { useSelector } from 'vue-redux-hooks'
 
 const TheBottomAppBar = () =>
   import(
     /* webpackChunkName: "TheBottomAppBar" */ /* webpackPrefetch: true */ './components/TheBottomAppBar.vue'
   )
-import TheDrawer from './components/TheDrawer.vue'
-import TheFooter from './components/TheFooter.vue'
-import TheSearchFilters from './components/TheSearchFilters.vue'
-import { useSelector } from 'vue-redux-hooks'
 
 export const useTheme = (root: SetupContext['root']) => {
   const dark = computed({
@@ -79,7 +66,6 @@ export const useRouteParams = (root: SetupContext['root']) => {
 
 export default createComponent({
   components: {
-    BaseQuery,
     BaseShare,
     MediaEdit,
     TheAppBar,
@@ -113,11 +99,17 @@ export default createComponent({
     }
 
     const { currentId } = useRouteParams(root)
+    // const { routeTitle } = useRoutes(root)
 
     return {
       drawer,
       ...useViewer(),
-      ...useMedia(() => ({ id: currentId.value })),
+      ...useMedia(
+        computed(() => ({ id: currentId.value })),
+        // {
+        //   enabled: routeTitle.value,
+        // },
+      ),
       mediaId,
       options,
       toggleDrawer,

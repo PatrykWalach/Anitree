@@ -1,13 +1,82 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`MediaCardActions matches snapshot 1`] = `
-<basequery-stub
-  apollo="[object Object]"
-/>
-`;
-
-exports[`MediaCardActions matches snapshot 2`] = `
-<basequery-stub
-  apollo="[object Object]"
-/>
+<v-card-actions-stub>
+  <v-btn-stub
+    activeclass=""
+    color="primary"
+    exact="true"
+    tag="button"
+    text="true"
+    to="[object Object]"
+    type="button"
+  >
+    
+    Explore
+  
+  </v-btn-stub>
+   
+  <v-spacer-stub />
+   
+  <v-tooltip-stub
+    closedelay="0"
+    contentclass=""
+    fixed="true"
+    maxwidth="auto"
+    nudgebottom="0"
+    nudgeleft="0"
+    nudgeright="0"
+    nudgetop="0"
+    nudgewidth="0"
+    opendelay="0"
+    openonhover="true"
+    tag="span"
+    top="true"
+  >
+     
+    <span>
+      Edit
+    </span>
+  </v-tooltip-stub>
+  <v-tooltip-stub
+    closedelay="0"
+    contentclass=""
+    fixed="true"
+    maxwidth="auto"
+    nudgebottom="0"
+    nudgeleft="0"
+    nudgeright="0"
+    nudgetop="0"
+    nudgewidth="0"
+    opendelay="0"
+    openonhover="true"
+    tag="span"
+    top="true"
+  >
+     
+    <span>
+      Share
+    </span>
+  </v-tooltip-stub>
+  <v-tooltip-stub
+    closedelay="0"
+    contentclass=""
+    fixed="true"
+    maxwidth="auto"
+    nudgebottom="0"
+    nudgeleft="0"
+    nudgeright="0"
+    nudgetop="0"
+    nudgewidth="0"
+    opendelay="0"
+    openonhover="true"
+    tag="span"
+    top="true"
+  >
+     
+    <span>
+      Anilist
+    </span>
+  </v-tooltip-stub>
+</v-card-actions-stub>
 `;

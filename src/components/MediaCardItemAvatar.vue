@@ -1,9 +1,5 @@
 <template>
-  <v-list-item-avatar
-    v-bind="$attrs"
-    :size="size"
-    :style="{ 'align-self': 'center' }"
-  >
+  <v-list-item-avatar v-bind="$attrs" :size="size">
     <base-lazy-img :srcset="srcset" :src="src">
       <template v-slot:placeholder>
         <v-skeleton-loader type="image"></v-skeleton-loader>
@@ -18,7 +14,7 @@ import BaseLazyImg from './BaseLazyImg.vue'
 import { Media } from '@/graphql/schema/media'
 
 export interface Props {
-  media: Media | null
+  media: Media
   size: number | string
 }
 
@@ -28,7 +24,11 @@ export default createComponent<Readonly<Props>>({
   },
   inheritAttrs: false,
   props: {
-    media: { default: null, required: true, type: null },
+    media: {
+      default: null,
+      required: true,
+      type: Object,
+    },
     size: {
       default: 80,
       required: false,
@@ -37,20 +37,15 @@ export default createComponent<Readonly<Props>>({
   },
   setup(props) {
     const srcset = computed(() => {
-      const { media } = props
+      const { medium, large, extraLarge } = props.media.coverImage
 
-      return (
-        (media &&
-          `${media.coverImage.medium} 1x, 
-            ${media.coverImage.large} 2x, 
-            ${media.coverImage.extraLarge} 3x`) ||
-        ''
-      )
+      return `${medium} 1x, 
+            ${large} 2x, 
+            ${extraLarge} 3x`
     })
 
     const src = computed(() => {
-      const { media } = props
-      return (media && media.coverImage.extraLarge) || ''
+      return props.media.coverImage.extraLarge || ''
     })
 
     return { src, srcset }

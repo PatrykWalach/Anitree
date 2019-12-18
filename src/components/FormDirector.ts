@@ -2,15 +2,14 @@ import { FuzzyDate, Media } from '@/graphql/schema/media'
 import { Form } from '@/types'
 import { FormBuilder } from './FormBuilder'
 import { SaveVariables } from '@/graphql/schema/listEntry'
-import { SetupContext } from '@vue/composition-api'
 import { User } from '@/graphql/schema/viewer'
-import { useEdit } from '@/store'
 
 export interface Props {
   method: keyof FormDirector
   user: User
   media: Media
   form: Form
+  changeForm({ form }: { form: Partial<SaveVariables> }): void
   scoreFormat: {
     round: number
     max: number
@@ -78,10 +77,8 @@ export interface ScoreFormat {
 export class FormDirector {
   public edit1(
     builder: FormBuilder,
-    { scoreFormat, manga, media, form }: Readonly<Props>,
-    { root }: SetupContext,
+    { scoreFormat, manga, media, form, changeForm }: Readonly<Props>,
   ) {
-    const { changeForm } = useEdit()
     builder.setSelects([
       {
         attrs: {
@@ -102,7 +99,6 @@ export class FormDirector {
           afterTransform: [
             (status: Partial<SaveVariables>['status']) =>
               changeForm({
-                apollo: root.$apollo,
                 form: { status },
               }),
           ],
@@ -122,7 +118,6 @@ export class FormDirector {
               parseFloat,
               (score: Partial<SaveVariables>['score']) =>
                 changeForm({
-                  apollo: root.$apollo,
                   form: { score },
                 }),
             ],
@@ -148,7 +143,6 @@ export class FormDirector {
 
               (progress: Partial<SaveVariables>['progress']) =>
                 changeForm({
-                  apollo: root.$apollo,
                   form: { progress },
                 }),
             ],
@@ -174,7 +168,6 @@ export class FormDirector {
               parseFloat,
               (progressVolumes: Partial<SaveVariables>['progressVolumes']) =>
                 changeForm({
-                  apollo: root.$apollo,
                   form: { progressVolumes },
                 }),
             ],
@@ -194,10 +187,8 @@ export class FormDirector {
 
   public edit2(
     builder: FormBuilder,
-    { manga, form }: Readonly<Props>,
-    { root }: SetupContext,
+    { manga, form, changeForm }: Readonly<Props>,
   ) {
-    const { changeForm } = useEdit()
     builder.setDateFields([
       {
         attrs: {
@@ -209,7 +200,6 @@ export class FormDirector {
             stringToDate,
             (startedAt: Partial<SaveVariables>['startedAt']) =>
               changeForm({
-                apollo: root.$apollo,
                 form: { startedAt },
               }),
           ],
@@ -227,7 +217,6 @@ export class FormDirector {
             stringToDate,
             (completedAt: Partial<SaveVariables>['completedAt']) =>
               changeForm({
-                apollo: root.$apollo,
                 form: { completedAt },
               }),
           ],
@@ -247,7 +236,6 @@ export class FormDirector {
 
             (repeat: Partial<SaveVariables>['repeat']) =>
               changeForm({
-                apollo: root.$apollo,
                 form: { repeat },
               }),
           ],
@@ -260,13 +248,7 @@ export class FormDirector {
       },
     ])
   }
-  public edit3(
-    builder: FormBuilder,
-    data: Readonly<Props>,
-    { root }: SetupContext,
-  ) {
-    const { form } = data
-    const { changeForm } = useEdit()
+  public edit3(builder: FormBuilder, { form, changeForm }: Readonly<Props>) {
     builder.setTextareas([
       {
         attrs: {
@@ -277,7 +259,6 @@ export class FormDirector {
           afterTransform: [
             (notes: Partial<SaveVariables>['notes']) =>
               changeForm({
-                apollo: root.$apollo,
                 form: { notes },
               }),
           ],
@@ -289,11 +270,8 @@ export class FormDirector {
 
   public edit4(
     builder: FormBuilder,
-    data: Readonly<Props>,
-    { root }: SetupContext,
+    { scoreFormat, advancedScoring, form, changeForm }: Readonly<Props>,
   ) {
-    const { scoreFormat, advancedScoring, form } = data
-    const { changeForm } = useEdit()
     builder.setFields(
       advancedScoring.map((label, i) => ({
         attrs: {
@@ -327,7 +305,6 @@ export class FormDirector {
             },
             (form: Partial<SaveVariables>) =>
               changeForm({
-                apollo: root.$apollo,
                 form,
               }),
           ],

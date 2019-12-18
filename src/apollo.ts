@@ -6,8 +6,8 @@ import { ApolloClient } from 'apollo-client'
 import { HttpLink } from 'apollo-link-http'
 
 import { Variables } from '@/graphql/schema/media'
-import Vue from 'vue'
-import VueApollo from 'vue-apollo'
+// import Vue from 'vue'
+// import VueApollo from 'vue-apollo'
 import { persistCache } from 'apollo-cache-persist'
 
 import { store } from '@/store'
@@ -55,8 +55,8 @@ export const apollo = new ApolloClient({
   link: concat(middle, link),
 })
 
-Vue.use(VueApollo)
+// Vue.use(VueApollo)
 
-export const apolloProvider = new VueApollo({
-  defaultClient: apollo,
-})
+// export const apolloProvider = new VueApollo({
+//   defaultClient: apollo,
+// })

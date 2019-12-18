@@ -1,49 +1,54 @@
 <template>
-  <BaseQuery
-    :apollo="{
-      Viewer,
-      Page: ({ Viewer }) => ({
-        skip: !$route.query.search,
-        query: require('@/graphql/queries/Page.gql'),
-        tag: null,
-        variables: {
-          isAdult:
-            Viewer && Viewer.options.displayAdultContent ? undefined : false,
-          search: $route.query.search,
-        },
-      }),
+  <TheAppBarExtensionChipsSearchReady v-if="page" :page="page" />
+  <v-chip-group
+    v-else
+    :style="{
+      'max-width': '100%',
     }"
-    v-slot="{ Page, isLoading }"
   >
-    <TheAppBarExtensionChipsSearchReady v-if="!isLoading.Page" :page="Page" />
-    <v-chip-group
-      v-else
-      :style="{
-        'max-width': '100%',
-      }"
-    >
-      <v-skeleton-loader
-        class="my-1 mr-2"
-        v-for="i in 12"
-        :key="i"
-        type="chip"
-      />
-    </v-chip-group>
-  </BaseQuery>
+    <v-skeleton-loader class="my-1 mr-2" v-for="i in 12" :key="i" type="chip" />
+  </v-chip-group>
 </template>
 <script lang="ts">
-import BaseQuery from './BaseQuery.vue'
+import { PAGE, useViewer } from '@/graphql'
+import { Page, Variables } from '@/graphql/schema/page'
+import { computed, createComponent } from '@vue/composition-api'
+import { useQuery, useResult } from '@vue/apollo-composable'
 import TheAppBarExtensionChipsSearchReady from './TheAppBarExtensionChipsSearchReady.vue'
-import { createComponent } from '@vue/composition-api'
-import { useViewer } from '@/graphql'
 
 export default createComponent({
   components: {
-    BaseQuery,
     TheAppBarExtensionChipsSearchReady,
   },
-  setup() {
-    return useViewer()
+  setup(_, { root }) {
+    const { Viewer } = useViewer()
+
+    const search = computed(() => {
+      const search = root.$route.query.search
+      return search instanceof Array ? search.shift() || undefined : search
+    })
+
+    const variables = computed(() => ({
+      isAdult:
+        Viewer.value && Viewer.value.options.displayAdultContent
+          ? undefined
+          : false,
+      search: search.value,
+    }))
+
+    const { result } = useQuery<{ Page: Page }, Readonly<Variables>>(
+      PAGE,
+      variables,
+      () => ({
+        enabled: !!search.value,
+      }),
+    )
+
+    const page = useResult(result, null, data => data.Page)
+
+    return {
+      page,
+    }
   },
 })
 </script>

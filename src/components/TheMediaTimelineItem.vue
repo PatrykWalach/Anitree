@@ -5,54 +5,45 @@
     :color="color"
   >
     <template v-slot:opposite>
-      <v-skeleton-loader
-        tile
-        :style="{ display: 'inline-block' }"
-        :loading="!media"
-        type="chip"
-      >
-        <MediaCardTime :media="media" />
-      </v-skeleton-loader>
+      <TheMediaTimelineItemTime :media="media" />
     </template>
 
-    <MediaCard :id="(media && media.id) || 0" />
+    <MediaCard :media="media" />
   </v-timeline-item>
 </template>
 <script lang="ts">
 import { SetupContext, computed, createComponent } from '@vue/composition-api'
 import { Media } from '@/graphql/schema/media'
 import MediaCard from './MediaCard.vue'
-import MediaCardTime from './MediaCardTime.vue'
+import TheMediaTimelineItemTime from './TheMediaTimelineItemTime.vue'
 import { useRouteParams } from '@/App.vue'
+import { useTimelineItemColor } from './TheMediaTimelineLoadingItem.vue'
 
 export interface Props {
-  media: Media | null
+  media: Media
 }
 
 export default createComponent<Readonly<Props>>({
   components: {
     MediaCard,
-    MediaCardTime,
+    TheMediaTimelineItemTime,
   },
   props: {
-    media: { default: null, required: true, type: null },
+    media: { default: null, required: true, type: Object },
   },
   setup(props, { root }: SetupContext) {
+    const { color: themeColor } = useTimelineItemColor(root)
+
     const color = computed(() => {
-      const { media } = props
-      return (
-        (media && media.coverImage.color) ||
-        (root.$vuetify.theme.dark ? '#555' : '#e0e0e0')
-      )
+      const coverImageColor = props.media.coverImage.color
+      return coverImageColor || themeColor.value
     })
 
     const { currentId } = useRouteParams(root)
 
     const large = computed(() => {
-      const { media } = props
-      const _currentId = currentId.value
-
-      return !!_currentId && media && media.id === _currentId
+      const currentIdValue = currentId.value
+      return !!currentIdValue && props.media.id === currentIdValue
     })
 
     return { color, currentId, large }

@@ -8,6 +8,6 @@ describe('BaseShare', () => {
     propsData: {
       options: null,
     },
-    ...useMockedStore(),
+    provide: { ...useMockedStore() },
   })
 })

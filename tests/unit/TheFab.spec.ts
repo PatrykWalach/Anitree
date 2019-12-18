@@ -20,7 +20,7 @@ describe('TheFab', () => {
   }).forEach(settings =>
     matchSnapshot(TheFab, {
       ...settings,
-      ...useMockedStore(),
+      provide: { ...useMockedStore() },
     }),
   )
 })

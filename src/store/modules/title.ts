@@ -1,16 +1,19 @@
+import { getItem, setItem } from '@/store/utils/localStorage'
 import { createSlice } from '@reduxjs/toolkit'
 
-const stored: string | null = localStorage.getItem('TITLE')
+const key = 'TITLE'
+
+const initialState = getItem(key, {
+  prefered: 0,
+})
 
 export const { reducer: title, actions: titleActions } = createSlice({
-  initialState: {
-    prefered: (stored && parseInt(stored)) || 0,
-  },
+  initialState,
   name: 'title',
   reducers: {
     CHANGE_PREFERED: (state, { payload }: { payload: number }) => {
-      localStorage.setItem('TITLE', payload.toString())
       state.prefered = payload
+      setItem(key, JSON.stringify(state))
     },
   },
 })

@@ -11,7 +11,7 @@ describe('TheDrawerViewer', () => {
   }).forEach(settings =>
     matchSnapshot(TheDrawerViewer, {
       ...settings,
-      ...useMockedStore(),
+      provide: { ...useMockedStore() },
     }),
   )
 })

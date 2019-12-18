@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MediaCardLoadingItemOverline matches snapshot 1`] = `
+<div
+  class="overline"
+>
+  <v-skeleton-loader-stub
+    maxwidth="100%"
+    type="text"
+    types="[object Object]"
+    width="100px"
+  />
+</div>
+`;

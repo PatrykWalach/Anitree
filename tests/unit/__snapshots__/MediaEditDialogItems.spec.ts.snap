@@ -1,0 +1,265 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MediaEditDialogItems matches snapshot 1`] = `
+<v-tabs-items-stub
+  activeclass="v-window-item--active"
+  nexticon="$next"
+  previcon="$prev"
+  value="edit1"
+>
+  <v-tab-item-stub
+    value="edit1"
+  >
+    <v-card-text-stub>
+      <mediaeditdialogitemstab-stub
+        advancedscoring="Story,Characters,Visuals,Audio"
+        form="[object Object]"
+        media="[object Object]"
+        method="edit1"
+        scoreformat="[object Object]"
+        user="[object Object]"
+      />
+    </v-card-text-stub>
+  </v-tab-item-stub>
+  <v-tab-item-stub
+    value="edit2"
+  >
+    <v-card-text-stub>
+      <mediaeditdialogitemstab-stub
+        advancedscoring="Story,Characters,Visuals,Audio"
+        form="[object Object]"
+        media="[object Object]"
+        method="edit2"
+        scoreformat="[object Object]"
+        user="[object Object]"
+      />
+    </v-card-text-stub>
+  </v-tab-item-stub>
+  <v-tab-item-stub
+    value="edit3"
+  >
+    <v-card-text-stub>
+      <mediaeditdialogitemstab-stub
+        advancedscoring="Story,Characters,Visuals,Audio"
+        form="[object Object]"
+        media="[object Object]"
+        method="edit3"
+        scoreformat="[object Object]"
+        user="[object Object]"
+      />
+    </v-card-text-stub>
+  </v-tab-item-stub>
+  <v-tab-item-stub
+    value="edit4"
+  >
+    <v-card-text-stub>
+      <mediaeditdialogitemstab-stub
+        advancedscoring="Story,Characters,Visuals,Audio"
+        form="[object Object]"
+        media="[object Object]"
+        method="edit4"
+        scoreformat="[object Object]"
+        user="[object Object]"
+      />
+    </v-card-text-stub>
+  </v-tab-item-stub>
+</v-tabs-items-stub>
+`;
+
+exports[`MediaEditDialogItems matches snapshot 2`] = `
+<v-tabs-items-stub
+  activeclass="v-window-item--active"
+  nexticon="$next"
+  previcon="$prev"
+  value="edit2"
+>
+  <v-tab-item-stub
+    value="edit1"
+  >
+    <v-card-text-stub>
+      <mediaeditdialogitemstab-stub
+        advancedscoring="Story,Characters,Visuals,Audio"
+        form="[object Object]"
+        media="[object Object]"
+        method="edit1"
+        scoreformat="[object Object]"
+        user="[object Object]"
+      />
+    </v-card-text-stub>
+  </v-tab-item-stub>
+  <v-tab-item-stub
+    value="edit2"
+  >
+    <v-card-text-stub>
+      <mediaeditdialogitemstab-stub
+        advancedscoring="Story,Characters,Visuals,Audio"
+        form="[object Object]"
+        media="[object Object]"
+        method="edit2"
+        scoreformat="[object Object]"
+        user="[object Object]"
+      />
+    </v-card-text-stub>
+  </v-tab-item-stub>
+  <v-tab-item-stub
+    value="edit3"
+  >
+    <v-card-text-stub>
+      <mediaeditdialogitemstab-stub
+        advancedscoring="Story,Characters,Visuals,Audio"
+        form="[object Object]"
+        media="[object Object]"
+        method="edit3"
+        scoreformat="[object Object]"
+        user="[object Object]"
+      />
+    </v-card-text-stub>
+  </v-tab-item-stub>
+  <v-tab-item-stub
+    value="edit4"
+  >
+    <v-card-text-stub>
+      <mediaeditdialogitemstab-stub
+        advancedscoring="Story,Characters,Visuals,Audio"
+        form="[object Object]"
+        media="[object Object]"
+        method="edit4"
+        scoreformat="[object Object]"
+        user="[object Object]"
+      />
+    </v-card-text-stub>
+  </v-tab-item-stub>
+</v-tabs-items-stub>
+`;
+
+exports[`MediaEditDialogItems matches snapshot 3`] = `
+<v-tabs-items-stub
+  activeclass="v-window-item--active"
+  nexticon="$next"
+  previcon="$prev"
+  value="edit3"
+>
+  <v-tab-item-stub
+    value="edit1"
+  >
+    <v-card-text-stub>
+      <mediaeditdialogitemstab-stub
+        advancedscoring="Story,Characters,Visuals,Audio"
+        form="[object Object]"
+        media="[object Object]"
+        method="edit1"
+        scoreformat="[object Object]"
+        user="[object Object]"
+      />
+    </v-card-text-stub>
+  </v-tab-item-stub>
+  <v-tab-item-stub
+    value="edit2"
+  >
+    <v-card-text-stub>
+      <mediaeditdialogitemstab-stub
+        advancedscoring="Story,Characters,Visuals,Audio"
+        form="[object Object]"
+        media="[object Object]"
+        method="edit2"
+        scoreformat="[object Object]"
+        user="[object Object]"
+      />
+    </v-card-text-stub>
+  </v-tab-item-stub>
+  <v-tab-item-stub
+    value="edit3"
+  >
+    <v-card-text-stub>
+      <mediaeditdialogitemstab-stub
+        advancedscoring="Story,Characters,Visuals,Audio"
+        form="[object Object]"
+        media="[object Object]"
+        method="edit3"
+        scoreformat="[object Object]"
+        user="[object Object]"
+      />
+    </v-card-text-stub>
+  </v-tab-item-stub>
+  <v-tab-item-stub
+    value="edit4"
+  >
+    <v-card-text-stub>
+      <mediaeditdialogitemstab-stub
+        advancedscoring="Story,Characters,Visuals,Audio"
+        form="[object Object]"
+        media="[object Object]"
+        method="edit4"
+        scoreformat="[object Object]"
+        user="[object Object]"
+      />
+    </v-card-text-stub>
+  </v-tab-item-stub>
+</v-tabs-items-stub>
+`;
+
+exports[`MediaEditDialogItems matches snapshot 4`] = `
+<v-tabs-items-stub
+  activeclass="v-window-item--active"
+  nexticon="$next"
+  previcon="$prev"
+  value="edit4"
+>
+  <v-tab-item-stub
+    value="edit1"
+  >
+    <v-card-text-stub>
+      <mediaeditdialogitemstab-stub
+        advancedscoring="Story,Characters,Visuals,Audio"
+        form="[object Object]"
+        media="[object Object]"
+        method="edit1"
+        scoreformat="[object Object]"
+        user="[object Object]"
+      />
+    </v-card-text-stub>
+  </v-tab-item-stub>
+  <v-tab-item-stub
+    value="edit2"
+  >
+    <v-card-text-stub>
+      <mediaeditdialogitemstab-stub
+        advancedscoring="Story,Characters,Visuals,Audio"
+        form="[object Object]"
+        media="[object Object]"
+        method="edit2"
+        scoreformat="[object Object]"
+        user="[object Object]"
+      />
+    </v-card-text-stub>
+  </v-tab-item-stub>
+  <v-tab-item-stub
+    value="edit3"
+  >
+    <v-card-text-stub>
+      <mediaeditdialogitemstab-stub
+        advancedscoring="Story,Characters,Visuals,Audio"
+        form="[object Object]"
+        media="[object Object]"
+        method="edit3"
+        scoreformat="[object Object]"
+        user="[object Object]"
+      />
+    </v-card-text-stub>
+  </v-tab-item-stub>
+  <v-tab-item-stub
+    value="edit4"
+  >
+    <v-card-text-stub>
+      <mediaeditdialogitemstab-stub
+        advancedscoring="Story,Characters,Visuals,Audio"
+        form="[object Object]"
+        media="[object Object]"
+        method="edit4"
+        scoreformat="[object Object]"
+        user="[object Object]"
+      />
+    </v-card-text-stub>
+  </v-tab-item-stub>
+</v-tabs-items-stub>
+`;

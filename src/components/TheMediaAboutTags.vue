@@ -23,7 +23,7 @@
       v-for="{ id, rank, name } in media.tags
         .slice()
         .sort(({ rank: a }, { rank: b }) => b - a)"
-      :key="`tag-${id}`"
+      :key="id"
       link
       label
       :style="{ margin: '4px 8px 4px 0' }"

@@ -58,6 +58,11 @@
 import { SetupContext, computed, createComponent } from '@vue/composition-api'
 import { Media } from '../graphql/schema/media'
 import TheAppBarSearch from './TheAppBarSearch.vue'
+import { useAppBarActions } from './TheBottomAppBar.vue'
+import { useFab } from './TheFab.vue'
+import { useNavigation } from './TheDrawer.vue'
+import { useTitle } from '../store'
+
 const TheAppBarExtensionChips = () =>
   import(
     /* webpackChunkName: "TheAppBarExtensionChips" */ /* webpackPrefetch: true */ './TheAppBarExtensionChips.vue'
@@ -70,18 +75,10 @@ const TheAppBarMenu = () =>
   import(
     /* webpackChunkName: "TheAppBarMenu" */ /* webpackPrefetch: true */ './TheAppBarMenu.vue'
   )
-
-import { useAppBarActions } from './TheBottomAppBar.vue'
-import { useFab } from './TheFab.vue'
-
-import { useNavigation } from './TheDrawer.vue'
-import { useTitle } from '../store'
-
 export const useRoutes = (root: SetupContext['root']) => {
-  const routeTitle = computed(() => {
-    const { name } = root.$route
-    return name === 'media-about' || name === 'media-timeline'
-  })
+  const routeTimeline = computed(() => root.$route.name === 'media-timeline')
+  const routeAbout = computed(() => root.$route.name === 'media-about')
+  const routeTitle = computed(() => routeAbout.value || routeTimeline.value)
   const routeHome = computed(() => root.$route.name === 'home')
   const routeSearch = computed(() => root.$route.name === 'search')
 
@@ -94,9 +91,11 @@ export const useRoutes = (root: SetupContext['root']) => {
   })
 
   return {
+    routeAbout,
     routeHome,
     routeMain,
     routeSearch,
+    routeTimeline,
     routeTitle,
   }
 }

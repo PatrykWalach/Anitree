@@ -13,7 +13,7 @@ describe('TheBottomAppBar', () => {
   }).forEach(props =>
     matchSnapshot(TheBottomAppBar, {
       ...props,
-      ...useMockedStore(),
+      provide: { ...useMockedStore() },
     }),
   )
 })

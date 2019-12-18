@@ -9,7 +9,7 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/repo
-      - run: npm run test
+      - run: npm run jestTest
   codecov:
     <<: *defaults
     steps:
@@ -21,7 +21,7 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/repo
-      - run: npm run coverage
+      - run: npm run jestCoverage
       - persist_to_workspace:
           root: ~/repo
           paths: .
@@ -94,5 +94,5 @@ workflows:
             - test
             - build
           filters:
-            tags:
-              only: /.*/
+            branches:
+              only: -master

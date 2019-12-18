@@ -1,117 +1,44 @@
 <template>
-  <BaseQuery
-    :apollo="{
-      Media: {
-        ...Media,
-        variables: {
-          ...variables,
-          format: (viewer && viewer.mediaListOptions.scoreFormat) || undefined,
-        },
-        tag: null,
-      },
-    }"
-    v-slot="{ Media, isLoading }"
+  <v-dialog
+    v-model="isEdited"
+    scrollable
+    :fullscreen="$vuetify.breakpoint.xsOnly"
+    max-width="720px"
   >
-    <v-dialog
-      v-model="isEdited"
-      scrollable
-      :fullscreen="$vuetify.breakpoint.xsOnly"
-      max-width="720px"
-    >
-      <v-card :loading="loading">
-        <v-card-text class="pa-0">
-          <media-card-banner :media="Media">
-            <v-overlay absolute></v-overlay>
-          </media-card-banner>
-
-          <MediaCardItem :media="Media" />
-          <v-divider></v-divider>
-          <MediaEditTabs
-            :tab.sync="tab"
-            :style="{ position: 'sticky', top: 0, 'z-index': 2 }"
-            :loading="!token || !Media || !viewer"
-          />
-          <v-container v-if="isLoading.viewer || isLoading.Media">
-            <v-row justify="center" align="center">
-              <v-progress-circular indeterminate></v-progress-circular>
-            </v-row>
-          </v-container>
-          <template v-else-if="!token">
-            <v-card-title>
-              You are not logged in
-            </v-card-title>
-            <v-card-actions>
-              <v-btn
-                block
-                color="primary"
-                rel="noopener"
-                :href="
-                  `https://anilist.co/api/v2/oauth/authorize?client_id=${appId}&response_type=token`
-                "
-              >
-                Login with Anilist
-              </v-btn>
-            </v-card-actions>
-          </template>
-          <MediaEditItems
-            v-else-if="Media && viewer"
-            :tab.sync="tab"
-            :media="Media"
-            :user="viewer"
-          />
-          <template v-else>
-            <v-card-title>
-              Connect to the internet
-            </v-card-title>
-            <v-card-text>
-              You're offline. Check your connection.
-            </v-card-text>
-            <v-card-actions>
-              <v-btn @click.stop="queries.Media.refetch()" text color="primary"
-                >retry</v-btn
-              >
-            </v-card-actions>
-          </template>
-        </v-card-text>
-        <v-divider></v-divider>
-        <MediaEditActions :media="Media" :user="viewer" />
-      </v-card>
-    </v-dialog>
-  </BaseQuery>
+    <MediaEditLoadingDialog v-if="queryLoading" />
+    <MediaEditDialog
+      v-else-if="media && viewer"
+      :viewer="viewer"
+      :media="media"
+    />
+  </v-dialog>
 </template>
 <script lang="ts">
-import { computed, createComponent, ref } from '@vue/composition-api'
-
-import { useActions, useEdit } from '../store'
+import { computed, createComponent } from '@vue/composition-api'
 import { useDispatch, useSelector } from 'vue-redux-hooks'
-import BaseQuery from './BaseQuery.vue'
-import MediaCardBanner from './MediaCardBanner.vue'
-import MediaCardItem from './MediaCardItem.vue'
-import MediaEditActions from './MediaEditActions.vue'
-const MediaEditItems = () =>
-  import(
-    /* webpackChunkName: "MediaEditItems" */ /* webpackPrefetch: true */ './MediaEditItems.vue'
-  )
-
-import MediaEditTabs from './MediaEditTabs.vue'
+import { useMedia, useViewer } from '@/graphql'
+import { useQueryLoading, useResult } from '@vue/apollo-composable'
+import MediaEditLoadingDialog from './MediaEditLoadingDialog.vue'
 import { State } from '@/store'
 import { User } from '../graphql/schema/viewer'
-import { useAccount } from './TheSettings.vue'
-import { useMedia } from '@/graphql'
-import { useViewer } from '@/graphql'
+import { asyncComponent } from '@/views/Search.vue'
+import { useActions } from '../store'
+
+const MediaEditDialog = () =>
+  asyncComponent(
+    import(/* webpackChunkName: "MediaEditDialog" */ './MediaEditDialog.vue'),
+    MediaEditLoadingDialog,
+  )
 
 export interface Props {
   id: number | null
   viewer: User | null
 }
+
 export default createComponent<Readonly<Props>>({
   components: {
-    BaseQuery,
-    MediaCardBanner,
-    MediaCardItem,
-    MediaEditActions,
-    MediaEditItems,
-    MediaEditTabs,
+    MediaEditDialog,
+    MediaEditLoadingDialog,
   },
   props: {
     id: { default: null, required: true, type: null },
@@ -119,11 +46,11 @@ export default createComponent<Readonly<Props>>({
   },
   setup(props) {
     const dispatch = useDispatch()
+
     const {
       edit: { CHANGE_IS_EDITED },
     } = useActions()
 
-    const loading = useSelector((state: State) => state.edit.loading)
     const isEditedState = useSelector((state: State) => state.edit.isEdited)
 
     const isEdited = computed({
@@ -137,20 +64,27 @@ export default createComponent<Readonly<Props>>({
       },
     })
 
-    const { close } = useEdit()
+    const { result } = useViewer()
 
-    const { id: appId } = useAccount()
+    const format = useResult(
+      result,
+      undefined,
+      data => data.Viewer.mediaListOptions.scoreFormat,
+    )
 
-    const tab = ref('edit1')
+    const variables = computed(() => ({
+      format: format.value,
+      id: props.id || 0,
+    }))
+
+    const queryLoading = useQueryLoading()
+
+    const { Media: media } = useMedia(variables)
 
     return {
-      appId,
-      close,
       isEdited,
-      loading,
-      tab,
-      ...useViewer(),
-      ...useMedia(() => ({ id: props.id || 0 })),
+      media,
+      queryLoading,
     }
   },
 })

@@ -9,6 +9,6 @@ describe('TheAppBarExtensionChipsSearchReady', () => {
     propsData: {
       page: mockedPageAndMedia,
     },
-    ...useMockedStore(),
+    provide: { ...useMockedStore() },
   })
 })

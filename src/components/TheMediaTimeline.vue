@@ -1,19 +1,22 @@
 <template>
-  <the-media-timeline-ready v-if="!loading" :media-list="mediaList">
-    <slot></slot>
-  </the-media-timeline-ready>
-  <v-row v-else justify="center" align="center">
+  <v-row justify="center" align="center">
     <v-col v-if="!$vuetify.breakpoint.xsOnly" cols="12">
       <v-timeline :dense="$vuetify.breakpoint.smAndDown">
-        <TheMediaTimelineItem v-for="i in 3" :key="i" :media="null" />
+        <TheMediaTimelineItem
+          v-for="media in mediaList"
+          :key="media.id"
+          :media="media"
+        />
       </v-timeline>
     </v-col>
 
     <template v-else>
-      <v-col v-for="i in 3" :key="i" cols="12">
-        <MediaCard />
+      <v-col v-for="media in mediaList" :key="media.id" cols="12">
+        <MediaCard :media="media" />
       </v-col>
     </template>
+
+    <slot></slot>
   </v-row>
 </template>
 
@@ -21,23 +24,18 @@
 import { Media } from '@/graphql/schema/media'
 import MediaCard from './MediaCard.vue'
 import TheMediaTimelineItem from './TheMediaTimelineItem.vue'
-import TheMediaTimelineReady from './TheMediaTimelineReady.vue'
-import { createComponent } from '@vue/composition-api'
 
 export interface Props {
-  mediaList: Media[] | null
-  loading: boolean
+  mediaList: Media[]
 }
 
-export default createComponent<Readonly<Props>>({
+export default {
   components: {
     MediaCard,
     TheMediaTimelineItem,
-    TheMediaTimelineReady,
   },
   props: {
-    loading: { default: false, required: true, type: Boolean },
-    mediaList: { default: () => [], required: true, type: null },
+    mediaList: { default: () => [], required: true, type: Array },
   },
-})
+}
 </script>

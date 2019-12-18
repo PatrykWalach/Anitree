@@ -1,13 +1,7 @@
 <template>
-  <BaseQuery
-    :apollo="{
-      Viewer,
-      Media: { ...Media, 'fetch-policy': 'cache-and-network' },
-    }"
-    v-slot="{ Viewer, Media }"
-  >
-    <MediaCardBanner :media="Media" />
-
+  <div>
+    <MediaCardLoadingBanner v-if="loading" />
+    <MediaCardBanner v-else-if="Media" :media="Media" />
     <v-sheet
       class="elevation-2"
       :style="
@@ -24,12 +18,22 @@
         <v-row no-gutters>
           <v-col cols="12">
             <v-list-item two-line selectable>
-              <MediaCardItemAvatar :media="Media" />
-              <v-list-item-content>
-                <MediaCardItemOverline :media="Media" />
-                <MediaCardItemTitle :media="Media" />
-                <MediaCardItemSubtitle :media="Media" />
-              </v-list-item-content>
+              <template v-if="!Media">
+                <MediaCardLoadingItemAvatar />
+                <v-list-item-content>
+                  <MediaCardLoadingItemOverline />
+                  <MediaCardLoadingItemTitle />
+                  <MediaCardLoadingItemSubtitle />
+                </v-list-item-content>
+              </template>
+              <template v-else>
+                <MediaCardItemAvatar :media="Media" />
+                <v-list-item-content>
+                  <MediaCardItemOverline :media="Media" />
+                  <MediaCardItemTitle :media="Media" />
+                  <MediaCardItemSubtitle :media="Media" />
+                </v-list-item-content>
+              </template>
             </v-list-item>
           </v-col>
         </v-row>
@@ -40,47 +44,92 @@
     <keep-alive>
       <router-view />
     </keep-alive>
-  </BaseQuery>
+  </div>
 </template>
 <script lang="ts">
-import { VBottomSheet, VMenu } from 'vuetify/lib'
+import { computed, createComponent } from '@vue/composition-api'
 import { useMedia, useViewer } from '@/graphql'
-import BaseQuery from '@/components/BaseQuery.vue'
-
-import MediaCardBanner from '@/components/MediaCardBanner.vue'
-import MediaCardItemAvatar from '@/components/MediaCardItemAvatar.vue'
-import MediaCardItemOverline from '@/components/MediaCardItemOverline.vue'
-import MediaCardItemSubtitle from '@/components/MediaCardItemSubtitle.vue'
-import MediaCardItemTitle from '@/components/MediaCardItemTitle.vue'
+import MediaCardLoadingBanner from '@/components/MediaCardLoadingBanner.vue'
+import MediaCardLoadingItemAvatar from '@/components/MediaCardLoadingItemAvatar.vue'
+import MediaCardLoadingItemOverline from '@/components/MediaCardLoadingItemOverline.vue'
+import MediaCardLoadingItemSubtitle from '@/components/MediaCardLoadingItemSubtitle.vue'
+import MediaCardLoadingItemTitle from '@/components/MediaCardLoadingItemTitle.vue'
 import TheAppBarExtensionTabs from '@/components/TheAppBarExtensionTabs.vue'
-
-import { createComponent } from '@vue/composition-api'
+import { asyncComponent } from '@/views/Search.vue'
 import { useEdit } from '@/store'
+import { useQueryLoading } from '@vue/apollo-composable'
 import { useRouteParams } from '../App.vue'
 import { useShare } from '@/components/MediaCardActions.vue'
+// import { useRoutes } from '../components/TheAppBar.vue'
+const MediaCardBanner = () =>
+  asyncComponent(
+    import(
+      /* webpackChunkName: "MediaCardBanner" */ '@/components/MediaCardBanner.vue'
+    ),
+    MediaCardLoadingBanner,
+  )
+const MediaCardItemAvatar = () =>
+  asyncComponent(
+    import(
+      /* webpackChunkName: "MediaCardItemAvatar" */ '@/components/MediaCardItemAvatar.vue'
+    ),
+    MediaCardLoadingItemAvatar,
+  )
+const MediaCardItemOverline = () =>
+  asyncComponent(
+    import(
+      /* webpackChunkName: "MediaCardItemOverline" */ '@/components/MediaCardItemOverline.vue'
+    ),
+    MediaCardLoadingItemOverline,
+  )
+const MediaCardItemSubtitle = () =>
+  asyncComponent(
+    import(
+      /* webpackChunkName: "MediaCardItemSubtitle" */ '@/components/MediaCardItemSubtitle.vue'
+    ),
+    MediaCardLoadingItemSubtitle,
+  )
+const MediaCardItemTitle = () =>
+  asyncComponent(
+    import(
+      /* webpackChunkName: "MediaCardItemTitle" */ '@/components/MediaCardItemTitle.vue'
+    ),
+    MediaCardLoadingItemTitle,
+  )
 
 export default createComponent({
   components: {
-    BaseQuery,
     MediaCardBanner,
     MediaCardItemAvatar,
     MediaCardItemOverline,
     MediaCardItemSubtitle,
     MediaCardItemTitle,
+    MediaCardLoadingBanner,
+    MediaCardLoadingItemAvatar,
+    MediaCardLoadingItemOverline,
+    MediaCardLoadingItemSubtitle,
+    MediaCardLoadingItemTitle,
     TheAppBarExtensionTabs,
-    VBottomSheet,
-    VMenu,
   },
   setup(_, { root }) {
     const { currentId } = useRouteParams(root)
 
     const { open } = useEdit()
+    const loading = useQueryLoading()
+    // const { routeTitle } = useRoutes(root)
 
     return {
       open,
       ...useShare(),
-      ...useMedia(() => ({ id: currentId.value })),
+      ...useMedia(
+        computed(() => ({ id: currentId.value })),
+        {
+          // enabled: routeTitle.value,
+          fetchPolicy: 'cache-and-network',
+        },
+      ),
       ...useViewer(),
+      loading,
     }
   },
 })

@@ -1,7 +1,7 @@
 <template>
   <base-lazy-img
-    v-if="!media || media.bannerImage"
-    :src="(media && media.bannerImage) || ''"
+    v-if="media.bannerImage"
+    :src="media.bannerImage"
     v-bind="$attrs"
     min-width="100%"
     :aspect-ratio="500 / 150"
@@ -17,16 +17,23 @@
 import { Media } from '@/graphql/schema/media'
 import { createComponent } from '@vue/composition-api'
 
-const BaseLazyImg = () => import('./BaseLazyImg.vue')
+const BaseLazyImg = () =>
+  import(/* webpackChunkName: "BaseLazyImg" */ './BaseLazyImg.vue')
+
 export interface Props {
-  media: Media | null
+  media: Media
 }
+
 export default createComponent<Readonly<Props>>({
   components: {
     BaseLazyImg,
   },
   props: {
-    media: { default: null, required: true, type: null },
+    media: {
+      default: null,
+      required: true,
+      type: Object,
+    },
   },
 })
 </script>

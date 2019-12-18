@@ -1,56 +1,44 @@
 <template>
-  <BaseQuery
-    :apollo="{
-      Viewer,
-    }"
-    v-slot="{ Viewer }"
-  >
-    <v-card-actions>
-      <v-btn
-        color="primary"
-        text
-        :disabled="!media"
-        exact
-        :to="
-          (media && {
-            name: 'media',
-            params: {
-              mediaId: media.id,
-              mediaType: media.type.toLowerCase(),
-            },
-          }) ||
-            undefined
-        "
-      >
-        Explore
-      </v-btn>
+  <v-card-actions>
+    <v-btn
+      color="primary"
+      text
+      :disabled="!media"
+      exact
+      :to="
+        (media && {
+          name: 'media',
+          params: {
+            mediaId: media.id,
+            mediaType: media.type.toLowerCase(),
+          },
+        }) ||
+          undefined
+      "
+    >
+      Explore
+    </v-btn>
 
-      <v-spacer></v-spacer>
-      <v-tooltip
-        top
-        :key="title"
-        v-for="{ bind, icon, title, on: action } in actions"
-      >
-        <template v-slot:activator="{ attrs, on }">
-          <v-btn
-            v-bind="{ ...bind, ...attrs }"
-            icon
-            v-on="{ ...action, ...on }"
-          >
-            <v-icon>{{ icon }}</v-icon>
-          </v-btn>
-        </template>
-        <span>{{ title }}</span>
-      </v-tooltip>
-    </v-card-actions>
-  </BaseQuery>
+    <v-spacer></v-spacer>
+    <v-tooltip
+      top
+      :key="title"
+      v-for="{ bind, icon, title, on: action } in actions"
+    >
+      <template v-slot:activator="{ attrs, on }">
+        <v-btn v-bind="{ ...bind, ...attrs }" icon v-on="{ ...action, ...on }">
+          <v-icon>{{ icon }}</v-icon>
+        </v-btn>
+      </template>
+      <span>{{ title }}</span>
+    </v-tooltip>
+  </v-card-actions>
 </template>
 
 <script lang="ts">
 import { NavigationElement, ShareData } from '../types'
 import { computed, createComponent } from '@vue/composition-api'
 import { useActions, useEdit as useEditActions } from '@/store'
-import BaseQuery from './BaseQuery.vue'
 
 import { Media } from '@/graphql/schema/media'
 
@@ -59,7 +47,7 @@ import { useTitle } from '../store'
 import { useViewer } from '@/graphql'
 
 export interface Props {
-  media: Media | null
+  media: Media
 }
 
 export const useMediaCardActions = () => {
@@ -155,11 +143,9 @@ export const useAnilist = () => {
 }
 
 export default createComponent<Readonly<Props>>({
-  components: {
-    BaseQuery,
-  },
+  components: {},
   props: {
-    media: { default: null, required: true, type: null },
+    media: { default: null, required: true, type: Object },
   },
   setup(props) {
     const { actions: _actions } = useMediaCardActions()

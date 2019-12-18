@@ -3,20 +3,6 @@
 exports[`MediaCardItemAvatar matches snapshot 1`] = `
 <v-list-item-avatar-stub
   size="80"
-  style="align-self: center;"
->
-  <base-lazy-img-stub
-    lazysrc=""
-    src=""
-    srcset=""
-  />
-</v-list-item-avatar-stub>
-`;
-
-exports[`MediaCardItemAvatar matches snapshot 2`] = `
-<v-list-item-avatar-stub
-  size="80"
-  style="align-self: center;"
 >
   <base-lazy-img-stub
     lazysrc=""

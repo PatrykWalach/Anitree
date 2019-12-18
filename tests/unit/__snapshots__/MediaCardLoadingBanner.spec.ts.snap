@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MediaCardLoadingBanner matches snapshot 1`] = `
+<v-responsive-stub
+  aspectratio="3.3333333333333335"
+  minwidth="100%"
+>
+  <v-skeleton-loader-stub
+    class="loader"
+    tile="true"
+    type="image"
+    types="[object Object]"
+  />
+</v-responsive-stub>
+`;

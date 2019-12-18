@@ -1,7 +1,28 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`MediaCard matches snapshot 1`] = `
-<basequery-stub
-  apollo="[object Object]"
-/>
+<v-card-stub
+  loaderheight="4"
+  tag="div"
+>
+  <mediacardbanner-stub
+    media="[object Object]"
+  />
+   
+  <mediacarditem-stub
+    media="[object Object]"
+  />
+   
+  <v-divider-stub
+    class="mx-4"
+  />
+   
+  <mediacardactions-stub
+    media="[object Object]"
+  />
+   
+  <mediacardstatus-stub
+    media="[object Object]"
+  />
+</v-card-stub>
 `;

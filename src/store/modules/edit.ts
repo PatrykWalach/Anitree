@@ -18,7 +18,7 @@ export const { reducer: edit, actions: editActions } = createSlice({
   initialState: {
     form: {} as Partial<Form>,
     isEdited: false,
-    loading: false,
+    // loading: false,
     mediaId: null as number | null,
   },
   name: 'edit',
@@ -29,9 +29,9 @@ export const { reducer: edit, actions: editActions } = createSlice({
     CHANGE_IS_EDITED: (state, { payload }: { payload: boolean }) => {
       state.isEdited = payload
     },
-    CHANGE_LOADING: (state, { payload }: { payload: boolean }) => {
-      state.loading = payload
-    },
+    // CHANGE_LOADING: (state, { payload }: { payload: boolean }) => {
+    //   state.loading = payload
+    // },
     CHANGE_MEDIA_ID: (state, { payload }: { payload: number }) => {
       state.mediaId = payload
     },

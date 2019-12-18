@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TheMediaTimelineloading matches snapshot 1`] = `
+<v-row-stub
+  align="center"
+  justify="center"
+  tag="div"
+>
+  <v-col-stub
+    cols="12"
+    tag="div"
+  >
+    <v-timeline-stub>
+      <themediatimelineloadingitem-stub />
+      <themediatimelineloadingitem-stub />
+      <themediatimelineloadingitem-stub />
+    </v-timeline-stub>
+  </v-col-stub>
+</v-row-stub>
+`;

@@ -13,8 +13,9 @@ query Page(
   $season: MediaSeason
   $sort: [MediaSort]
   $format: ScoreFormat
+  $perPage: Int = 50
 ) {
-  Page(page: $page, perPage: 50) {
+  Page(page: $page, perPage: $perPage) {
     pageInfo {
       total
       hasNextPage
