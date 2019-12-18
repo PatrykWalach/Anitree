@@ -120,7 +120,7 @@ export default createComponent({
     const loadAll = () => {
       loadNextPage(fetchMore, { idIn: nextIds.value }).then(({ data }) => {
         const ids = findRelativeMedia(data.Page.media, media.value)
-        console.log('TCL: ids', ids)
+        // console.log('TCL: ids', ids)
 
         if (ids.length) {
           loadNextPage(fetchMore, { idIn: ids })
