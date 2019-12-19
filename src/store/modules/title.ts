@@ -13,7 +13,7 @@ export const { reducer: title, actions: titleActions } = createSlice({
   reducers: {
     CHANGE_PREFERED: (state, { payload }: { payload: number }) => {
       state.prefered = payload
-      setItem(key, JSON.stringify(state))
+      setItem(key, state)
     },
   },
 })

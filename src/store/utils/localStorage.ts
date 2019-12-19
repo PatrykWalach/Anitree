@@ -1,4 +1,4 @@
-export const getItem = <T>(key: string, defaultValue?: T) => {
+export const getItem = <T extends Object>(key: string, defaultValue?: T) => {
   const cache = localStorage.getItem(key)
   const stored = cache && JSON.parse(cache)
 
@@ -7,5 +7,5 @@ export const getItem = <T>(key: string, defaultValue?: T) => {
     ...stored,
   } as T
 }
-export const setItem = <T>(key: string, value: T) =>
+export const setItem = <T extends Object>(key: string, value: T) =>
   localStorage.setItem(key, JSON.stringify({ ...value }))

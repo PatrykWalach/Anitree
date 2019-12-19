@@ -158,7 +158,7 @@ router.afterEach(to => {
         firstLetter.toUpperCase() + otherLetters.join('') + ' - Anitree'
     }
 
-    setItem('LAST_ROUTE', JSON.stringify({ name, params, query }))
+    setItem('LAST_ROUTE', { name, params, query })
   }
 })
 

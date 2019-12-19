@@ -29,7 +29,7 @@ export const { reducer: changes, actions: changesActions } = createSlice({
   reducers: {
     SPLICE_PENDING: (state, { payload }: { payload: number }) => {
       state.pending.splice(payload, 1)
-      setItem(key, JSON.stringify({ ...state }))
+      setItem(key, { ...state })
     },
     UNSHIFT_PENDING: (
       state,
@@ -41,7 +41,7 @@ export const { reducer: changes, actions: changesActions } = createSlice({
         id: state.id++,
         ...payload,
       })
-      setItem(key, JSON.stringify(state))
+      setItem(key, state)
     },
   },
 })

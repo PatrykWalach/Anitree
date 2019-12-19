@@ -15,19 +15,19 @@ export const { reducer: settings, actions: settingsActions } = createSlice({
   reducers: {
     CHANGE_CACHE_APOLLO: (state, { payload }: { payload: boolean }) => {
       state.cacheApollo = payload
-      setItem(key, JSON.stringify(state))
+      setItem(key, state)
     },
     CHANGE_CACHE_CHANGES: (state, { payload }: { payload: boolean }) => {
       state.cacheChanges = payload
-      setItem(key, JSON.stringify(state))
+      setItem(key, state)
     },
     CHANGE_SYNC_CHANGES: (state, { payload }: { payload: boolean }) => {
       state.syncChanges = payload
-      setItem(key, JSON.stringify(state))
+      setItem(key, state)
     },
     CHANGE_TOKEN: (state, { payload }: { payload: string | null }) => {
       state.token = payload
-      setItem(key, JSON.stringify(state))
+      setItem(key, state)
     },
   },
 })
