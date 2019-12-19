@@ -4,24 +4,21 @@
     <v-container v-else>
       <keep-alive>
         <TheMediaTimelineLoading v-if="loading" />
-        <!-- <template v-else-if="error">
-      There was an error
-    </template> -->
         <template v-else-if="page">
           <v-row justify="center" align="center" v-if="!media.length">
             No results found
           </v-row>
           <TheMediaTimeline v-else :media-list="media" />
-          <v-btn
-            v-if="hasNextPage"
-            @click="loadMore"
-            :disabled="loading"
-            block
-            color="accent"
-            >show more</v-btn
-          >
         </template>
       </keep-alive>
+      <v-btn
+        v-if="hasNextPage"
+        @click="loadMore"
+        :disabled="loading"
+        block
+        color="accent"
+        >show more</v-btn
+      >
     </v-container>
   </keep-alive>
 </template>
