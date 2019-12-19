@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-list subheader flat :three-line="$vuetify.breakpoint.xsOnly">
-      <template v-if="!token && id">
+      <!-- <template v-if="!token && id">
         <v-subheader>Account</v-subheader>
         <TheSettingsSetting
           :action="false"
@@ -13,7 +13,7 @@
           subtitle="Login with AniList"
         />
         <v-divider></v-divider>
-      </template>
+      </template> -->
 
       <v-subheader>Site</v-subheader>
       <TheSettingsTitle />
@@ -63,14 +63,6 @@ import TheSettingsSetting from '@/components/TheSettingsSetting.vue'
 import TheSettingsTitle from '@/components/TheSettingsTitle.vue'
 
 import { useTheme } from '@/App.vue'
-
-export const useAccount = () => {
-  const id = ref(process.env.VUE_APP_ANILIST_ID || false)
-
-  const token = useSelector((state: State) => state.settings.token)
-
-  return { id, token }
-}
 
 const useCache = () => {
   const dispatch = useDispatch()
@@ -130,8 +122,8 @@ export default createComponent({
     TheSettingsTitle,
   },
   setup: (_, { root }) => ({
-    ...useAccount(),
-    ...useCache(),
+    // ...useAccount(),
+    // ...useCache(),
     ...useSite(root),
   }),
 })

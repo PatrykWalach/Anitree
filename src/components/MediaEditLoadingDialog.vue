@@ -40,7 +40,7 @@ import MediaCardLoadingItem from './MediaCardLoadingItem.vue'
 import MediaEditLoadingDialogActions from './MediaEditLoadingDialogActions.vue'
 import MediaEditLoadingDialogTabs from './MediaEditLoadingDialogTabs.vue'
 import { createComponent } from '@vue/composition-api'
-import { useAccount } from './TheSettings.vue'
+import { useLogin } from './TheDrawerViewerLogin.vue'
 import { useViewer } from '@/graphql'
 
 export default createComponent({
@@ -51,7 +51,7 @@ export default createComponent({
     MediaEditLoadingDialogTabs,
   },
   setup() {
-    const { id: appId } = useAccount()
+    const { id: appId } = useLogin()
 
     return {
       appId,

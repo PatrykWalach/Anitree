@@ -17,10 +17,11 @@
     </template>
 
     <v-list nav>
-      <TheDrawerViewerLogin v-if="loading" :disabled="!!token || loading" />
+      <TheDrawerLoadingViewer v-if="loading" />
       <TheDrawerViewer v-else-if="viewer" :viewer="viewer" />
+      <TheDrawerViewerLogin v-else :disabled="!!token" />
+      <v-divider></v-divider>
     </v-list>
-
     <v-list v-if="!$vuetify.breakpoint.xsOnly" rounded>
       <v-fab-transition>
         <v-list-item
@@ -68,15 +69,19 @@ import { computed, createComponent } from '@vue/composition-api'
 
 import { Location } from 'vue-router'
 import { NavigationElement } from '../types'
-import TheDrawerViewer from './TheDrawerViewer.vue'
+import TheDrawerLoadingViewer from './TheDrawerLoadingViewer.vue'
 import TheDrawerViewerLogin from './TheDrawerViewerLogin.vue'
-import { User } from '../graphql/schema/viewer'
-// import { useCommands } from '../store'
+import { asyncComponent } from '../views/Search.vue'
 import { useFab } from './TheFab.vue'
-
+import { useQueryLoading } from '@vue/apollo-composable'
 import { useTheme } from './TheMediaAboutStats.vue'
 import { useViewer } from '../graphql'
-import { useQueryLoading } from '@vue/apollo-composable'
+
+const TheDrawerViewer = () =>
+  asyncComponent(
+    import(/* webpackChunkName: "TheDrawerViewer" */ './TheDrawerViewer.vue'),
+    TheDrawerLoadingViewer,
+  )
 
 export interface Props {
   value: boolean
@@ -114,6 +119,7 @@ export const useNavigation = () => {
 
 export default createComponent<Readonly<Props>>({
   components: {
+    TheDrawerLoadingViewer,
     TheDrawerViewer,
     TheDrawerViewerLogin,
   },
