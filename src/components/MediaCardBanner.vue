@@ -1,6 +1,5 @@
 <template>
   <base-lazy-img
-    v-if="media.bannerImage"
     :src="media.bannerImage"
     v-bind="$attrs"
     min-width="100%"
@@ -14,11 +13,9 @@
 </template>
 
 <script lang="ts">
+import BaseLazyImg from './BaseLazyImg.vue'
 import { Media } from '@/graphql/schema/media'
 import { createComponent } from '@vue/composition-api'
-
-const BaseLazyImg = () =>
-  import(/* webpackChunkName: "BaseLazyImg" */ './BaseLazyImg.vue')
 
 export interface Props {
   media: Media

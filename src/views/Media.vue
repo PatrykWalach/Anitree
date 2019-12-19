@@ -1,7 +1,7 @@
 <template>
   <div>
     <MediaCardLoadingBanner v-if="loading" />
-    <MediaCardBanner v-else-if="Media" :media="Media" />
+    <MediaCardBanner v-else-if="bannerImage" :media="Media" />
     <v-sheet
       class="elevation-2"
       :style="
@@ -49,6 +49,7 @@
 <script lang="ts">
 import { computed, createComponent } from '@vue/composition-api'
 import { useMedia, useViewer } from '@/graphql'
+import { useQueryLoading, useResult } from '@vue/apollo-composable'
 import MediaCardLoadingBanner from '@/components/MediaCardLoadingBanner.vue'
 import MediaCardLoadingItemAvatar from '@/components/MediaCardLoadingItemAvatar.vue'
 import MediaCardLoadingItemOverline from '@/components/MediaCardLoadingItemOverline.vue'
@@ -57,7 +58,7 @@ import MediaCardLoadingItemTitle from '@/components/MediaCardLoadingItemTitle.vu
 import TheAppBarExtensionTabs from '@/components/TheAppBarExtensionTabs.vue'
 import { asyncComponent } from '@/views/Search.vue'
 import { useEdit } from '@/store'
-import { useQueryLoading } from '@vue/apollo-composable'
+
 import { useRouteParams } from '../App.vue'
 import { useShare } from '@/components/MediaCardActions.vue'
 // import { useRoutes } from '../components/TheAppBar.vue'
@@ -117,19 +118,23 @@ export default createComponent({
     const { open } = useEdit()
     const loading = useQueryLoading()
     // const { routeTitle } = useRoutes(root)
+    const { Media, result } = useMedia(
+      computed(() => ({ id: currentId.value })),
+      {
+        // enabled: routeTitle.value,
+        fetchPolicy: 'cache-and-network',
+      },
+    )
+
+    const bannerImage = useResult(result, null, data => data.Media.bannerImage)
 
     return {
-      open,
       ...useShare(),
-      ...useMedia(
-        computed(() => ({ id: currentId.value })),
-        {
-          // enabled: routeTitle.value,
-          fetchPolicy: 'cache-and-network',
-        },
-      ),
       ...useViewer(),
+      Media,
+      bannerImage,
       loading,
+      open,
     }
   },
 })

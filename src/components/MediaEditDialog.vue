@@ -1,7 +1,7 @@
 <template>
   <v-card :loading="loading">
     <v-card-text class="pa-0">
-      <media-card-banner :media="media">
+      <media-card-banner v-if="media.bannerImage" :media="media">
         <v-overlay absolute></v-overlay>
       </media-card-banner>
 
@@ -25,13 +25,20 @@
 <script lang="ts">
 import { createComponent, ref } from '@vue/composition-api'
 import { Media } from '../graphql/schema/media'
-import MediaCardBanner from './MediaCardBanner.vue'
 import MediaCardItem from './MediaCardItem.vue'
+import MediaCardLoadingBanner from './MediaCardLoadingBanner.vue'
 import MediaEditDialogActions from './MediaEditDialogActions.vue'
 import MediaEditDialogItems from './MediaEditDialogItems.vue'
 import MediaEditDialogTabs from './MediaEditDialogTabs.vue'
 import { User } from '../graphql/schema/viewer'
+import { asyncComponent } from '../views/Search.vue'
 import { useEdit } from '@/store'
+
+const MediaCardBanner = () =>
+  asyncComponent(
+    import(/* webpackChunkName: "MediaCardBanner" */ './MediaCardBanner.vue'),
+    MediaCardLoadingBanner,
+  )
 
 export interface Props {
   media: Media

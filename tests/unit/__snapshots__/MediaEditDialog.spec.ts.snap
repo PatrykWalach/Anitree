@@ -8,18 +8,18 @@ exports[`MediaEditDialog matches snapshot 1`] = `
   <v-card-text-stub
     class="pa-0"
   >
-    <media-card-banner-stub
+    <v-responsive-stub
+      aspectratio="3.3333333333333335"
       media="[object Object]"
+      minwidth="100%"
     >
-      <v-overlay-stub
-        absolute="true"
-        color="#212121"
-        dark="true"
-        opacity="0.46"
-        value="true"
-        zindex="5"
+      <v-skeleton-loader-stub
+        class="loader"
+        tile="true"
+        type="image"
+        types="[object Object]"
       />
-    </media-card-banner-stub>
+    </v-responsive-stub>
      
     <mediacarditem-stub
       media="[object Object]"

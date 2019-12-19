@@ -15,7 +15,10 @@
 import { SetupContext, computed, createComponent } from '@vue/composition-api'
 import { Media } from '@/graphql/schema/media'
 import MediaCard from './MediaCard.vue'
-import TheMediaTimelineItemTime from './TheMediaTimelineItemTime.vue'
+const TheMediaTimelineItemTime = () =>
+  import(
+    /* webpackChunkName: "TheMediaTimelineItemTime" */ './TheMediaTimelineItemTime.vue'
+  )
 import { useRouteParams } from '@/App.vue'
 import { useTimelineItemColor } from './TheMediaTimelineLoadingItem.vue'
 

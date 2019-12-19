@@ -5,9 +5,18 @@ exports[`MediaCard matches snapshot 1`] = `
   loaderheight="4"
   tag="div"
 >
-  <mediacardbanner-stub
+  <v-responsive-stub
+    aspectratio="3.3333333333333335"
     media="[object Object]"
-  />
+    minwidth="100%"
+  >
+    <v-skeleton-loader-stub
+      class="loader"
+      tile="true"
+      type="image"
+      types="[object Object]"
+    />
+  </v-responsive-stub>
    
   <mediacarditem-stub
     media="[object Object]"

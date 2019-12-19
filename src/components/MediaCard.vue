@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <MediaCardBanner :media="media" />
+    <MediaCardBanner v-if="media.bannerImage" :media="media" />
     <MediaCardItem :media="media" />
     <v-divider class="mx-4"></v-divider>
     <MediaCardActions :media="media" />
@@ -10,10 +10,17 @@
 <script lang="ts">
 import { Media } from '../graphql/schema/media'
 import MediaCardActions from './MediaCardActions.vue'
-import MediaCardBanner from './MediaCardBanner.vue'
 import MediaCardItem from './MediaCardItem.vue'
+import MediaCardLoadingBanner from './MediaCardLoadingBanner.vue'
 import MediaCardStatus from './MediaCardStatus.vue'
+import { asyncComponent } from '../views/Search.vue'
 import { createComponent } from '@vue/composition-api'
+
+const MediaCardBanner = () =>
+  asyncComponent(
+    import(/* webpackChunkName: "MediaCardBanner" */ './MediaCardBanner.vue'),
+    MediaCardLoadingBanner,
+  )
 
 export default createComponent<Readonly<Props>>({
   components: {
