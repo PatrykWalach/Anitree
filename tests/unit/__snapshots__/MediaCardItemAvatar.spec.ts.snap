@@ -4,12 +4,14 @@ exports[`MediaCardItemAvatar matches snapshot 1`] = `
 <v-list-item-avatar-stub
   size="80"
 >
-  <base-lazy-img-stub
-    lazysrc=""
+  <v-img-stub
+    options="[object Object]"
+    position="center center"
     src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx1-90fRJRDmt2f2.png"
     srcset="https://s4.anilist.co/file/anilistcdn/media/anime/cover/small/bx1-90fRJRDmt2f2.png 1x, 
             https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx1-90fRJRDmt2f2.png 2x, 
             https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx1-90fRJRDmt2f2.png 3x"
+    transition="fade-transition"
   />
 </v-list-item-avatar-stub>
 `;

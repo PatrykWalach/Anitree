@@ -2,18 +2,17 @@
   <v-list-item-avatar
     v-bind="$attrs"
     :size="size"
-    :style="{ 'align-self': 'center' }"
+    :style="{ 'align-self': 'center', overflow: 'hidden' }"
   >
-    <base-lazy-img src="">
-      <template v-slot:placeholder>
-        <v-skeleton-loader type="image"></v-skeleton-loader>
-      </template>
-    </base-lazy-img>
+    <v-skeleton-loader
+      width="100%"
+      height="100%"
+      type="image"
+    ></v-skeleton-loader>
   </v-list-item-avatar>
 </template>
 
 <script lang="ts">
-import BaseLazyImg from './BaseLazyImg.vue'
 import { createComponent } from '@vue/composition-api'
 
 export interface Props {
@@ -21,9 +20,6 @@ export interface Props {
 }
 
 export default createComponent<Readonly<Props>>({
-  components: {
-    BaseLazyImg,
-  },
   inheritAttrs: false,
   props: {
     size: {

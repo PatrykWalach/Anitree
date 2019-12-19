@@ -1,16 +1,16 @@
 <template>
   <v-list-item-avatar v-bind="$attrs" :size="size">
-    <base-lazy-img :srcset="srcset" :src="src">
+    <v-img :srcset="srcset" :src="src">
       <template v-slot:placeholder>
         <v-skeleton-loader type="image"></v-skeleton-loader>
       </template>
-    </base-lazy-img>
+    </v-img>
   </v-list-item-avatar>
 </template>
 
 <script lang="ts">
 import { computed, createComponent } from '@vue/composition-api'
-import BaseLazyImg from './BaseLazyImg.vue'
+// import BaseLazyImg from './BaseLazyImg.vue'
 import { Media } from '@/graphql/schema/media'
 
 export interface Props {
@@ -19,9 +19,9 @@ export interface Props {
 }
 
 export default createComponent<Readonly<Props>>({
-  components: {
-    BaseLazyImg,
-  },
+  // components: {
+  //   BaseLazyImg,
+  // },
   inheritAttrs: false,
   props: {
     media: {

@@ -1,5 +1,5 @@
 <template>
-  <base-lazy-img
+  <v-img
     :src="media.bannerImage"
     v-bind="$attrs"
     min-width="100%"
@@ -9,11 +9,10 @@
       <v-skeleton-loader tile type="image" class="loader" />
     </template>
     <slot></slot>
-  </base-lazy-img>
+  </v-img>
 </template>
 
 <script lang="ts">
-import BaseLazyImg from './BaseLazyImg.vue'
 import { Media } from '@/graphql/schema/media'
 import { createComponent } from '@vue/composition-api'
 
@@ -22,9 +21,6 @@ export interface Props {
 }
 
 export default createComponent<Readonly<Props>>({
-  components: {
-    BaseLazyImg,
-  },
   props: {
     media: {
       default: null,

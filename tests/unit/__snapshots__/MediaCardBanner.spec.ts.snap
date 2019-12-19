@@ -1,13 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`MediaCardBanner matches snapshot 1`] = `
-<base-lazy-img-stub
-  aspect-ratio="3.3333333333333335"
-  lazysrc=""
-  min-width="100%"
+<v-img-stub
+  aspectratio="3.3333333333333335"
+  minwidth="100%"
+  options="[object Object]"
+  position="center center"
   src="https://s4.anilist.co/file/anilistcdn/media/anime/banner/1-yBEAaZkGrrlO.jpg"
-  srcset=""
+  transition="fade-transition"
 >
    
-</base-lazy-img-stub>
+</v-img-stub>
 `;
