@@ -1,5 +1,39 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TheDrawerViewer matches snapshot 1`] = `<!---->`;
-
-exports[`TheDrawerViewer matches snapshot 2`] = `<!---->`;
+exports[`TheDrawerViewer matches snapshot 1`] = `
+<v-menu
+  offset-x="true"
+>
+   
+  <v-card-stub
+    loaderheight="4"
+    tag="div"
+  >
+    <!---->
+     
+    <v-list-stub
+      tag="div"
+      tile="true"
+    >
+      <v-list-item-stub
+        activeclass=""
+        tag="div"
+      >
+        <v-list-item-icon-stub>
+          <v-icon-stub>
+            exit_to_app
+          </v-icon-stub>
+        </v-list-item-icon-stub>
+         
+        <v-list-item-content-stub>
+          <v-list-item-title-stub>
+            
+            Logout
+          
+          </v-list-item-title-stub>
+        </v-list-item-content-stub>
+      </v-list-item-stub>
+    </v-list-stub>
+  </v-card-stub>
+</v-menu>
+`;

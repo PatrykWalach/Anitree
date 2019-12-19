@@ -1,6 +1,6 @@
 import { createVariations, matchSnapshot } from './utils'
 import TheDrawer from '@/components/TheDrawer.vue'
-import { mockedViewer } from './mocks/viewer'
+import { useMockedApollo } from './mocks/apollo'
 import { useMockedStore } from './mocks/store'
 
 describe('TheDrawer', () => {
@@ -20,12 +20,11 @@ describe('TheDrawer', () => {
     },
     propsData: {
       value: () => [true, false],
-      viewer: () => [mockedViewer, null],
     },
   }).forEach(settings =>
     matchSnapshot(TheDrawer, {
       ...settings,
-      provide: { ...useMockedStore() },
+      provide: { ...useMockedStore(), ...useMockedApollo() },
     }),
   )
 })

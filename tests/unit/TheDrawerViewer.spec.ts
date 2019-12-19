@@ -4,14 +4,10 @@ import { mockedViewer } from './mocks/viewer'
 import { useMockedStore } from './mocks/store'
 
 describe('TheDrawerViewer', () => {
-  createVariations({
+  matchSnapshot(TheDrawerViewer, {
     propsData: {
-      viewer: () => [mockedViewer, null],
+      viewer: mockedViewer,
     },
-  }).forEach(settings =>
-    matchSnapshot(TheDrawerViewer, {
-      ...settings,
-      provide: { ...useMockedStore() },
-    }),
-  )
+    provide: { ...useMockedStore() },
+  })
 })
