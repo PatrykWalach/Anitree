@@ -89,10 +89,3 @@ workflows:
               only: /.*/
           requires:
             - coverage
-      - deploy:
-          requires:
-            - test
-            - build
-          filters:
-            tags:
-              only: /.*/
