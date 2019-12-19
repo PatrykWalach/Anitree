@@ -14,7 +14,7 @@
       <v-btn
         v-if="hasNextPage"
         @click="loadMore"
-        :disabled="loading"
+        :disabled="loadingMore"
         block
         color="accent"
         >show more</v-btn
@@ -31,7 +31,7 @@ import {
 } from 'vue/types/options'
 import { PAGE, useViewer } from '@/graphql'
 import { Page, Variables } from '@/graphql/schema/page'
-import { computed, createComponent } from '@vue/composition-api'
+import { computed, createComponent, ref } from '@vue/composition-api'
 import { useQuery, useQueryLoading, useResult } from '@vue/apollo-composable'
 import TheMediaTimelineLoading from '@/components/TheMediaTimelineLoading.vue'
 import TheSearchNavigation from '@/components/TheSearchNavigation.vue'
@@ -100,7 +100,8 @@ export default createComponent({
       variables,
       () => ({
         enabled: routeSearch.value,
-        fetchPolicy: 'cache-and-network',
+        // fetchPolicy: 'cache-and-network',
+        notifyOnNetworkStatusChange: false,
       }),
     )
 
@@ -123,17 +124,23 @@ export default createComponent({
 
     const loading = useQueryLoading()
 
-    const loadMore = () =>
-      loadNextPage(fetchMore, {
+    const loadingMore = ref(false)
+
+    const loadMore = async () => {
+      loadingMore.value = true
+      await loadNextPage(fetchMore, {
         ...variables,
         page: 1 + currentPage.value,
       })
+      loadingMore.value = false
+    }
 
     return {
       hasNextPage,
       isSearched,
       loadMore,
       loading,
+      loadingMore,
       media,
       page,
       viewer,
