@@ -16,7 +16,10 @@
       </v-list>
     </template>
 
-    <TheDrawerViewer :viewer="viewer" />
+    <v-list nav>
+      <TheDrawerViewerLogin v-if="loading" :disabled="!!token || loading" />
+      <TheDrawerViewer v-else-if="viewer" :viewer="viewer" />
+    </v-list>
 
     <v-list v-if="!$vuetify.breakpoint.xsOnly" rounded>
       <v-fab-transition>
@@ -40,7 +43,7 @@
       </v-fab-transition>
     </v-list>
 
-    <v-list :nav="!$vuetify.breakpoint.xsOnly">
+    <v-list nav>
       <v-list-item
         v-for="{ bind, title, icon } in main"
         :key="title"
@@ -66,15 +69,17 @@ import { computed, createComponent } from '@vue/composition-api'
 import { Location } from 'vue-router'
 import { NavigationElement } from '../types'
 import TheDrawerViewer from './TheDrawerViewer.vue'
+import TheDrawerViewerLogin from './TheDrawerViewerLogin.vue'
 import { User } from '../graphql/schema/viewer'
 // import { useCommands } from '../store'
 import { useFab } from './TheFab.vue'
 
 import { useTheme } from './TheMediaAboutStats.vue'
+import { useViewer } from '../graphql'
+import { useQueryLoading } from '@vue/apollo-composable'
 
 export interface Props {
   value: boolean
-  viewer: User | null
 }
 
 export const useNavigation = () => {
@@ -110,17 +115,13 @@ export const useNavigation = () => {
 export default createComponent<Readonly<Props>>({
   components: {
     TheDrawerViewer,
+    TheDrawerViewerLogin,
   },
   props: {
     value: {
       default: false,
       required: true,
       type: Boolean,
-    },
-    viewer: {
-      default: null,
-      required: true,
-      type: null,
     },
   },
   setup(props, { emit, root }) {
@@ -129,8 +130,13 @@ export default createComponent<Readonly<Props>>({
       set: value => emit('update:value', value),
     })
 
+    const { Viewer: viewer, token } = useViewer()
+    const loading = useQueryLoading()
     return {
+      loading,
       syncedValue,
+      token,
+      viewer,
       ...useNavigation(),
       ...useTheme(),
       ...useFab(root),

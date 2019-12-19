@@ -26,15 +26,15 @@
         improve night viewing`
           "
         />
-        <v-divider v-if="$vuetify.breakpoint.xsOnly"></v-divider>
+        <!-- <v-divider v-if="$vuetify.breakpoint.xsOnly"></v-divider>
         <TheSettingsSetting
           title="Autosave"
           subtitle="Make changes without confirmation"
-        />
+        /> -->
       </v-list-item-group>
-      <v-divider></v-divider>
+      <!-- <v-divider></v-divider> -->
 
-      <v-subheader>Cache</v-subheader>
+      <!-- <v-subheader>Cache</v-subheader>
       <v-list-item-group v-model="cache" multiple>
         <TheSettingsSetting
           title="Store data"
@@ -45,7 +45,7 @@
           title="Store changes"
           subtitle="Save changes between sessions. Sync changes made offline."
         />
-      </v-list-item-group>
+      </v-list-item-group> -->
     </v-list>
   </v-card>
 </template>

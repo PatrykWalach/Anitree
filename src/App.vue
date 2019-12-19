@@ -17,7 +17,7 @@
       v-if="$vuetify.breakpoint.xsOnly"
     />
 
-    <TheDrawer :viewer="Viewer" :value.sync="drawer" />
+    <TheDrawer :value.sync="drawer" />
 
     <TheFooter />
   </v-app>
