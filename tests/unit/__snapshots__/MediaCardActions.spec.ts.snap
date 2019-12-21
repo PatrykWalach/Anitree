@@ -78,5 +78,26 @@ exports[`MediaCardActions matches snapshot 1`] = `
       Anilist
     </span>
   </v-tooltip-stub>
+   
+  <v-tooltip-stub
+    closedelay="0"
+    contentclass=""
+    fixed="true"
+    maxwidth="auto"
+    nudgebottom="0"
+    nudgeleft="0"
+    nudgeright="0"
+    nudgetop="0"
+    nudgewidth="0"
+    opendelay="0"
+    openonhover="true"
+    tag="span"
+    top="true"
+  >
+     
+    <span>
+      Favourite
+    </span>
+  </v-tooltip-stub>
 </v-card-actions-stub>
 `;

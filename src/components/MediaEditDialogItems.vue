@@ -22,11 +22,11 @@
 import { computed, createComponent } from '@vue/composition-api'
 import { Media } from '@/graphql/schema/media'
 import MediaEditDialogItemsTab from './MediaEditDialogItemsTab.vue'
+import { SaveVariables } from '../graphql/schema/listEntry'
 import { State } from '@/store'
 import { User } from '@/graphql/schema/viewer'
 import { mediaListToForm } from '../graphql'
 import { useSelector } from 'vue-redux-hooks'
-import { SaveVariables } from '../graphql/schema/listEntry'
 
 export interface Props {
   user: User

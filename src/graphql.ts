@@ -1,6 +1,7 @@
 import { UseQueryOptions, useQuery, useResult } from '@vue/apollo-composable'
-
+import { Form } from './types'
 import MEDIA from '@/graphql/queries/Media.gql'
+import { MediaList } from './graphql/schema/mediaListCollection'
 import { Media as MediaSchema } from '@/graphql/schema/media'
 import { Ref } from '@vue/composition-api'
 import { State } from '@/store'
@@ -8,8 +9,6 @@ import { User } from './graphql/schema/viewer'
 import VIEWER from '@/graphql/queries/Viewer.gql'
 import { Variables } from '@/graphql/schema/media'
 import { useSelector } from 'vue-redux-hooks'
-import { Form } from './types'
-import { MediaList } from './graphql/schema/mediaListCollection'
 
 export { default as MEDIA } from '@/graphql/queries/Media.gql'
 
@@ -18,6 +17,7 @@ export { default as PAGE } from '@/graphql/queries/Page.gql'
 export { default as VIEWER } from '@/graphql/queries/Viewer.gql'
 
 export { default as SAVE_MEDIA_LIST_ENTRY } from '@/graphql/mutations/SaveMediaListEntry.gql'
+export { default as TOGGLE_FAVOURITE } from '@/graphql/mutations/ToggleFavourite.gql'
 export { default as DELETE_MEDIA_LIST_ENTRY } from '@/graphql/mutations/DeleteMediaListEntry.gql'
 
 export const useMedia = (

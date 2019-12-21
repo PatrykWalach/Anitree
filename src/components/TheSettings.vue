@@ -55,7 +55,7 @@ import {
   SetupContext,
   computed,
   createComponent,
-  ref,
+  // ref,
 } from '@vue/composition-api'
 import { State, useActions } from '@/store'
 import { useDispatch, useSelector } from 'vue-redux-hooks'
@@ -64,31 +64,31 @@ import TheSettingsTitle from '@/components/TheSettingsTitle.vue'
 
 import { useTheme } from '@/App.vue'
 
-const useCache = () => {
-  const dispatch = useDispatch()
-  const {
-    settings: { CHANGE_CACHE_APOLLO, CHANGE_CACHE_CHANGES },
-  } = useActions()
+// const useCache = () => {
+//   const dispatch = useDispatch()
+//   const {
+//     settings: { CHANGE_CACHE_APOLLO, CHANGE_CACHE_CHANGES },
+//   } = useActions()
 
-  const cacheApollo = useSelector((state: State) => state.settings.cacheApollo)
-  const cacheChanges = useSelector(
-    (state: State) => state.settings.cacheChanges,
-  )
+//   const cacheApollo = useSelector((state: State) => state.settings.cacheApollo)
+//   const cacheChanges = useSelector(
+//     (state: State) => state.settings.cacheChanges,
+//   )
 
-  const cache = computed({
-    get: () =>
-      ([] as number[]).concat(
-        cacheApollo.value ? [0] : [],
-        cacheChanges.value ? [1] : [],
-      ),
-    set: a => {
-      dispatch(CHANGE_CACHE_APOLLO(!!a.includes(0)))
-      dispatch(CHANGE_CACHE_CHANGES(!!a.includes(1)))
-    },
-  })
+//   const cache = computed({
+//     get: () =>
+//       ([] as number[]).concat(
+//         cacheApollo.value ? [0] : [],
+//         cacheChanges.value ? [1] : [],
+//       ),
+//     set: a => {
+//       dispatch(CHANGE_CACHE_APOLLO(!!a.includes(0)))
+//       dispatch(CHANGE_CACHE_CHANGES(!!a.includes(1)))
+//     },
+//   })
 
-  return { cache }
-}
+//   return { cache }
+// }
 
 const useSite = (root: SetupContext['root']) => {
   const dispatch = useDispatch()

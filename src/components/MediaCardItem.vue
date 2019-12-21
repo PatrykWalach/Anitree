@@ -1,12 +1,13 @@
 <template>
   <v-list-item selectable :[lines]="true">
-    <MediaCardItemAvatar :media="media" />
     <v-list-item-content>
       <MediaCardItemOverline :media="media" />
       <MediaCardItemTitle :media="media" />
+      <MediaCardItemRatings :media="media" />
       <MediaCardItemSubtitle :media="media" />
       <MediaCardItemDescription :media="media" />
     </v-list-item-content>
+    <MediaCardItemAvatar :media="media" />
   </v-list-item>
 </template>
 
@@ -16,6 +17,7 @@ import { Media } from '@/graphql/schema/media'
 import MediaCardItemAvatar from './MediaCardItemAvatar.vue'
 import MediaCardItemDescription from './MediaCardItemDescription.vue'
 import MediaCardItemOverline from './MediaCardItemOverline.vue'
+import MediaCardItemRatings from './MediaCardItemRatings.vue'
 import MediaCardItemSubtitle from './MediaCardItemSubtitle.vue'
 import MediaCardItemTitle from './MediaCardItemTitle.vue'
 
@@ -28,6 +30,7 @@ export default createComponent<Readonly<Props>>({
     MediaCardItemAvatar,
     MediaCardItemDescription,
     MediaCardItemOverline,
+    MediaCardItemRatings,
     MediaCardItemSubtitle,
     MediaCardItemTitle,
   },

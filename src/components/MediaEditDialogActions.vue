@@ -103,8 +103,8 @@ const useActions = (props: Readonly<Props>) => {
 export default createComponent<Readonly<Props>>({
   props: {
     media: { default: null, required: true, type: Object },
-    user: { default: null, required: true, type: Object },
     submit: { default: null, required: true, type: Function },
+    user: { default: null, required: true, type: Object },
   },
   setup(props) {
     return useActions(props)

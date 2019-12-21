@@ -15,6 +15,7 @@ import { DataProxy } from 'apollo-cache'
 import { Media } from '@/graphql/schema/media'
 import { MediaList } from '@/graphql/schema/mediaListCollection'
 import { MutationUpdaterFn } from 'apollo-client'
+import { Variables } from '@/graphql/schema/media'
 import { useActions } from '..'
 import { useDispatch } from 'vue-redux-hooks'
 import { useMutation } from '@vue/apollo-composable'
@@ -117,7 +118,6 @@ export const useChanges = () => {
 
   return { deleteEntry, isSavePending, saveEntry }
 }
-import { Variables } from '@/graphql/schema/media'
 
 export const updateSaveMediaListEntry: MutationUpdaterFn<{
   SaveMediaListEntry: MediaList

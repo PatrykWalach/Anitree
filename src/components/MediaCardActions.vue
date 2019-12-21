@@ -32,19 +32,48 @@
       </template>
       <span>{{ title }}</span>
     </v-tooltip>
+    <v-tooltip top>
+      <template v-slot:activator="{ attrs, on }">
+        <v-btn
+          @click="toggleFavorite"
+          :disabled="loading"
+          text
+          color="red"
+          v-on="on"
+          v-bind="attrs"
+        >
+          <v-icon small left>{{
+            isFavourite ? 'favorite' : 'favorite_border'
+          }}</v-icon>
+          {{ favourites }}
+        </v-btn>
+      </template>
+      <span>Favourite</span>
+    </v-tooltip>
   </v-card-actions>
 </template>
 
 <script lang="ts">
+import {
+  Favourites,
+  Variables as ToggleFavouriteVariables,
+} from '../graphql/schema/favourites'
+import { MEDIA, TOGGLE_FAVOURITE, useViewer } from '@/graphql'
 import { NavigationElement, ShareData } from '../types'
 import { computed, createComponent } from '@vue/composition-api'
 import { useActions, useEdit as useEditActions } from '@/store'
-
+import {
+  useMutation,
+  useMutationLoading,
+  useQueryLoading,
+} from '@vue/apollo-composable'
+import { DataProxy } from 'apollo-cache'
+import { DocumentNode } from 'graphql'
 import { Media } from '@/graphql/schema/media'
-
+import { Variables } from '../graphql/schema/media'
 import { useDispatch } from 'vue-redux-hooks'
+import { useIntl } from '../utils/useIntl'
 import { useTitle } from '../store'
-import { useViewer } from '@/graphql'
 
 export interface Props {
   media: Media
@@ -141,7 +170,76 @@ export const useAnilist = () => {
 
   return { anilistBtn }
 }
+const useFavourites = (props: Readonly<Props>) => {
+  const { formatNumber } = useIntl()
 
+  const favourites = computed(() => formatNumber(props.media.favourites))
+
+  const isFavourite = computed(() => props.media.isFavourite)
+  const id = computed(() => props.media.id)
+
+  const { mutate } = useMutation<
+    {
+      ToggleFavourite: Favourites
+    },
+    ToggleFavouriteVariables
+  >(TOGGLE_FAVOURITE)
+
+  // onError(console.log)
+
+  const variables = computed(() => {
+    if (props.media.type === 'MANGA') {
+      return {
+        mangaId: id.value,
+      }
+    }
+    return {
+      animeId: id.value,
+    }
+  })
+
+  const { Viewer } = useViewer()
+
+  const toggleFavorite = () => {
+    if (Viewer.value) {
+      mutate(variables.value, {
+        update: cache => updateToggleFavourite(cache, id.value),
+      })
+    }
+  }
+
+  const queryLoading = useQueryLoading()
+  const mutationLoading = useMutationLoading()
+
+  const loading = computed(() => queryLoading.value || mutationLoading.value)
+
+  return { favourites, isFavourite, loading, toggleFavorite }
+}
+const updateToggleFavourite = (cache: DataProxy, mediaId: number) => {
+  const query: {
+    variables: Variables
+    query: DocumentNode
+  } = {
+    query: MEDIA,
+    variables: { id: mediaId },
+  }
+
+  const data: { Media: Media } | null = cache.readQuery(query)
+
+  if (data) {
+    data.Media.isFavourite = !data.Media.isFavourite
+    if (data.Media.isFavourite) {
+      data.Media.favourites++
+    } else {
+      data.Media.favourites--
+    }
+
+    cache.writeQuery({
+      ...query,
+      data,
+    })
+  }
+}
 export default createComponent<Readonly<Props>>({
   components: {},
   props: {
@@ -154,6 +252,7 @@ export default createComponent<Readonly<Props>>({
 
     return {
       actions,
+      ...useFavourites(props),
       ...useViewer(),
     }
   },

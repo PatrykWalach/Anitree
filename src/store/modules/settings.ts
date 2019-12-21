@@ -1,10 +1,10 @@
+import { getItem, setItem } from '@/utils/localStorage'
 import { createSlice } from '@reduxjs/toolkit'
-import { getItem, setItem } from '@/store/utils/localStorage'
 
 const key = 'SETTINGS'
 const initialState = getItem(key, {
-  cacheApollo: false,
-  cacheChanges: false,
+  cacheApollo: true,
+  cacheChanges: true,
   syncChanges: false,
   token: null as string | null,
 })

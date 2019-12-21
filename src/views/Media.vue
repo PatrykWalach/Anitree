@@ -60,8 +60,9 @@ import { asyncComponent } from '@/views/Search.vue'
 import { useEdit } from '@/store'
 
 import { useRouteParams } from '../App.vue'
+import { useRoutes } from '../components/TheAppBar.vue'
 import { useShare } from '@/components/MediaCardActions.vue'
-// import { useRoutes } from '../components/TheAppBar.vue'
+
 const MediaCardBanner = () =>
   asyncComponent(
     import(
@@ -117,11 +118,13 @@ export default createComponent({
 
     const { open } = useEdit()
     const loading = useQueryLoading()
-    // const { routeTitle } = useRoutes(root)
+
+    const { routeTitle } = useRoutes(root)
+
     const { Media, result } = useMedia(
       computed(() => ({ id: currentId.value })),
       {
-        // enabled: routeTitle.value,
+        enabled: routeTitle.value,
         fetchPolicy: 'cache-and-network',
       },
     )

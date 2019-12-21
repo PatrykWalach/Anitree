@@ -90,6 +90,10 @@ fragment MediaFields on Media {
       amount
     }
   }
+  trending
+  favourites
+  popularity
+  genres
   mediaListEntry {
     ...MediaListFields
   }

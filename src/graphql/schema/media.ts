@@ -56,6 +56,11 @@ export interface Media extends Node {
   duration: number | null
   hashtag: string | null
   meanScore: number
+
+  trending: number
+  favourites: number
+  popularity: number
+  genres: string[]
 }
 export interface AiringSchedule {
   id: number

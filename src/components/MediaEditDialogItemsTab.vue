@@ -3,7 +3,7 @@ import { FormDirector, Props } from './FormDirector'
 import { VContainer, VRow } from 'vuetify/lib'
 import { createComponent, createElement as h } from '@vue/composition-api'
 import { FormBuilder } from './FormBuilder'
-import { useEdit } from '../store'
+// import { useEdit } from '../store'
 
 export default createComponent<Readonly<Props>>({
   inheritAttrs: false,

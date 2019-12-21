@@ -24,12 +24,12 @@
 <script lang="ts">
 import { DeletePending, SavePending } from '../store/modules/changes'
 import { computed, createComponent, ref } from '@vue/composition-api'
-import { useChanges, useTitle } from '../store'
 import ChangeCardBannerActions from './ChangeCardBannerActions.vue'
 import { Media } from '../graphql/schema/media'
 import MediaCardItemAvatar from './MediaCardItemAvatar.vue'
 import MediaCardItemSubtitle from './MediaCardItemSubtitle.vue'
 import MediaCardItemTitle from './MediaCardItemTitle.vue'
+import { useTitle } from '../store'
 
 interface Props {
   media: Media
@@ -70,7 +70,7 @@ export default createComponent<Readonly<Props>>({
 
     const icon = computed(() => (deleteType.value ? 'delete' : 'edit'))
 
-    return { icon, deleteType, extension, title }
+    return { deleteType, extension, icon, title }
   },
 })
 </script>

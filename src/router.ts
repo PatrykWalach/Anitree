@@ -3,7 +3,7 @@ import { MEDIA } from '@/graphql'
 import Router from 'vue-router'
 import Vue from 'vue'
 import { apollo } from '@/apollo'
-import { setItem } from '@/store/utils/localStorage'
+import { setItem } from '@/utils/localStorage'
 import { settingsActions } from './store/modules/settings'
 import { store } from './store'
 

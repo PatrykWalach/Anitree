@@ -117,15 +117,16 @@ export default createComponent({
 
     const { loadNextPage } = usePagination()
 
-    const loadAll = () => {
-      loadNextPage(fetchMore, { idIn: nextIds.value }).then(({ data }) => {
-        const ids = findRelativeMedia(data.Page.media, media.value)
-        // console.log('TCL: ids', ids)
+    const loadAll = async () => {
+      const { data } = await loadNextPage(fetchMore, { idIn: nextIds.value })
+      //  .then(({ data }) => {
+      const ids = findRelativeMedia(data.Page.media, media.value)
+      // console.log('TCL: ids', ids)
 
-        if (ids.length) {
-          loadNextPage(fetchMore, { idIn: ids })
-        }
-      })
+      if (ids.length) {
+        loadNextPage(fetchMore, { idIn: ids })
+      }
+      // })
     }
 
     const order = useSelector((state: State) => state.timeline.order)

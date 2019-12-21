@@ -1,5 +1,5 @@
 import { DeleteVariables, SaveVariables } from '@/graphql/schema/listEntry'
-import { getItem, setItem } from '@/store/utils/localStorage'
+import { getItem, setItem } from '@/utils/localStorage'
 import { createSlice } from '@reduxjs/toolkit'
 
 interface Pending {

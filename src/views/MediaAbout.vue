@@ -12,6 +12,7 @@
           <v-skeleton-loader type="image" :loading="!Media">
             <v-responsive :aspect-ratio="16 / 9">
               <iframe
+                loading="lazy"
                 v-if="Media && Media.trailer.site === 'youtube'"
                 height="100%"
                 width="100%"
