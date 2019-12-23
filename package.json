@@ -60,7 +60,7 @@
         "sass": "^1.23.7",
         "sass-loader": "^8.0.0",
         "ts-jest": "^24.2.0",
-        "typescript": "^3.7.3",
+        "typescript": "^3.7.4",
         "vue-template-compiler": "^2.6.11",
         "vuetify-loader": "^1.4.3"
     }
