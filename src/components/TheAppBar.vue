@@ -15,7 +15,7 @@
 
     <template v-if="extension" v-slot:extension>
       <TheAppBarExtensionTabs v-if="tabs" />
-      <TheAppBarExtensionChips v-else />
+      <TheAppBarExtensionChips v-else-if="chips" />
     </template>
 
     <template v-if="!routeSearch">
@@ -127,15 +127,16 @@ export default createComponent<Readonly<Props>>({
       () => routeTitle.value && root.$vuetify.breakpoint.xsOnly,
     )
 
-    const extension = computed(
-      () =>
-        tabs.value ||
-        (routeSearch.value && !!Object.keys(root.$route.query).length),
+    const chips = computed(
+      () => routeSearch.value && !!Object.keys(root.$route.query).length,
     )
+
+    const extension = computed(() => tabs.value || chips.value)
 
     return {
       ...useFab(root),
       ...useAppBarActions(props, root),
+      chips,
       extension,
       routeHome,
       routeSearch,

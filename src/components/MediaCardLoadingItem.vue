@@ -1,12 +1,12 @@
 <template>
   <v-list-item three-line>
-    <MediaCardLoadingItemAvatar />
     <v-list-item-content>
       <MediaCardLoadingItemOverline />
       <MediaCardLoadingItemTitle />
       <MediaCardLoadingItemSubtitle />
       <MediaCardLoadingItemDescription />
     </v-list-item-content>
+    <MediaCardLoadingItemAvatar />
   </v-list-item>
 </template>
 <script lang="ts">

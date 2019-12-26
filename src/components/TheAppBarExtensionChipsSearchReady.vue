@@ -18,8 +18,7 @@
 <script lang="ts">
 import { computed, createComponent } from '@vue/composition-api'
 import { Page } from '../graphql/schema/page'
-
-import { useTheme } from './TheMediaAboutStats.vue'
+import { useInjectedTheme } from './TheMediaAboutStats.vue'
 import { useTitle } from '../store'
 
 export interface Props {
@@ -27,7 +26,7 @@ export interface Props {
 }
 
 export const useExtensionChip = () => {
-  const { theme } = useTheme()
+  const { theme } = useInjectedTheme()
 
   const activeClass = computed(() =>
     theme.isDark ? 'white black--text ' : 'grey darken-2 white--text',

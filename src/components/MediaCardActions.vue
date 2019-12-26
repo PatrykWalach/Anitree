@@ -3,40 +3,25 @@
     <v-btn
       color="primary"
       text
-      :disabled="!media"
       exact
-      :to="
-        (media && {
-          name: 'media',
-          params: {
-            mediaId: media.id,
-            mediaType: media.type.toLowerCase(),
-          },
-        }) ||
-          undefined
-      "
+      :to="{
+        name: 'media',
+        params: {
+          mediaId: media.id,
+          mediaType: media.type.toLowerCase(),
+        },
+      }"
     >
       Explore
     </v-btn>
 
     <v-spacer></v-spacer>
-    <v-tooltip
-      top
-      :key="title"
-      v-for="{ bind, icon, title, on: action } in actions"
-    >
-      <template v-slot:activator="{ attrs, on }">
-        <v-btn v-bind="{ ...bind, ...attrs }" icon v-on="{ ...action, ...on }">
-          <v-icon>{{ icon }}</v-icon>
-        </v-btn>
-      </template>
-      <span>{{ title }}</span>
-    </v-tooltip>
     <v-tooltip top>
       <template v-slot:activator="{ attrs, on }">
         <v-btn
           @click="toggleFavorite"
-          :disabled="loading"
+          :disabled="queryLoading"
+          :loading="mutationLoading"
           text
           color="red"
           v-on="on"
@@ -48,7 +33,19 @@
           {{ favourites }}
         </v-btn>
       </template>
-      <span>Favourite</span>
+      <span>{{ isFavourite ? 'Unfavourite' : 'Favourite' }}</span>
+    </v-tooltip>
+    <v-tooltip
+      top
+      :key="title"
+      v-for="{ bind, icon, title, on: action } in actions"
+    >
+      <template v-slot:activator="{ attrs, on }">
+        <v-btn v-bind="{ ...bind, ...attrs }" icon v-on="{ ...action, ...on }">
+          <v-icon>{{ icon }}</v-icon>
+        </v-btn>
+      </template>
+      <span>{{ title }}</span>
     </v-tooltip>
   </v-card-actions>
 </template>
@@ -211,9 +208,15 @@ const useFavourites = (props: Readonly<Props>) => {
   const queryLoading = useQueryLoading()
   const mutationLoading = useMutationLoading()
 
-  const loading = computed(() => queryLoading.value || mutationLoading.value)
+  // const loading = computed(() => queryLoading.value || mutationLoading.value)
 
-  return { favourites, isFavourite, loading, toggleFavorite }
+  return {
+    favourites,
+    isFavourite,
+    mutationLoading,
+    queryLoading,
+    toggleFavorite,
+  }
 }
 const updateToggleFavourite = (cache: DataProxy, mediaId: number) => {
   const query: {
@@ -252,8 +255,8 @@ export default createComponent<Readonly<Props>>({
 
     return {
       actions,
-      ...useFavourites(props),
       ...useViewer(),
+      ...useFavourites(props),
     }
   },
 })

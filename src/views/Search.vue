@@ -14,7 +14,8 @@
       <v-btn
         v-if="hasNextPage"
         @click="loadMore"
-        :disabled="loading || loadingMore"
+        :disabled="loading"
+        :loading="loadingMore"
         block
         color="accent"
         >show more</v-btn

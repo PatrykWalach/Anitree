@@ -3,12 +3,7 @@
     <MediaCardLoadingBanner />
     <MediaCardLoadingItem />
     <v-divider class="mx-4"></v-divider>
-    <v-card-actions>
-      <v-btn color="primary" text disabled>
-        Explore
-      </v-btn>
-      <v-spacer></v-spacer>
-    </v-card-actions>
+    <v-skeleton-loader type="actions"></v-skeleton-loader>
   </v-card>
 </template>
 <script lang="ts">

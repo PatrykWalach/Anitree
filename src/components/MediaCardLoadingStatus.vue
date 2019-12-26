@@ -5,11 +5,11 @@
 <script lang="ts">
 import { createComponent } from '@vue/composition-api'
 
-import { useTheme } from './TheMediaAboutStats.vue'
+import { useInjectedTheme } from './TheMediaAboutStats.vue'
 
 export default createComponent({
   setup() {
-    return useTheme()
+    return useInjectedTheme()
   },
 })
 </script>

@@ -29,7 +29,7 @@
 <script lang="ts">
 import { computed, createComponent, inject, ref } from '@vue/composition-api'
 
-export const useTheme = () => {
+export const useInjectedTheme = () => {
   const theme = inject('theme', { isDark: false })
 
   const color = computed(() =>

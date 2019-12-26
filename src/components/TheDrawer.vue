@@ -18,10 +18,21 @@
 
     <v-list nav>
       <TheDrawerLoadingViewer v-if="loading" />
-      <TheDrawerViewer v-else-if="viewer" :viewer="viewer" />
-      <TheDrawerViewerLogin v-else :disabled="!!token" />
+      <TheDrawerViewer
+        :extended.sync="extended"
+        v-else-if="viewer"
+        :viewer="viewer"
+      />
+      <TheDrawerLogin v-else :disabled="!!token" />
       <v-divider></v-divider>
     </v-list>
+
+    <v-expand-transition>
+      <keep-alive>
+        <TheDrawerList v-if="extended && viewer" :viewer="viewer" />
+      </keep-alive>
+    </v-expand-transition>
+
     <v-list v-if="!$vuetify.breakpoint.xsOnly" rounded>
       <v-fab-transition>
         <v-list-item
@@ -61,16 +72,40 @@
         </v-list-item-content>
       </v-list-item>
     </v-list>
+    <!-- <template v-slot:append>
+      <v-list>
+        <v-list-item @click.stop>
+          <v-list-item-icon>
+            <v-icon>title</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>
+              Change Title
+            </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item @click.stop>
+          <v-list-item-icon>
+            <v-icon>invert_colors</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>
+              Change Theme
+            </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </template> -->
   </v-navigation-drawer>
 </template>
 
 <script lang="ts">
-import { computed, createComponent } from '@vue/composition-api'
+import { computed, createComponent, ref } from '@vue/composition-api'
 
 import { Location } from 'vue-router'
 import { NavigationElement } from '../types'
 import TheDrawerLoadingViewer from './TheDrawerLoadingViewer.vue'
-import TheDrawerViewerLogin from './TheDrawerViewerLogin.vue'
+import TheDrawerLogin from './TheDrawerLogin.vue'
 import { asyncComponent } from '../views/Search.vue'
 import { useFab } from './TheFab.vue'
 import { useQueryLoading } from '@vue/apollo-composable'
@@ -82,6 +117,8 @@ const TheDrawerViewer = () =>
     import(/* webpackChunkName: "TheDrawerViewer" */ './TheDrawerViewer.vue'),
     TheDrawerLoadingViewer,
   )
+const TheDrawerList = () =>
+  import(/* webpackChunkName: "TheDrawerList" */ './TheDrawerList.vue')
 
 export interface Props {
   value: boolean
@@ -119,9 +156,10 @@ export const useNavigation = () => {
 
 export default createComponent<Readonly<Props>>({
   components: {
+    TheDrawerList,
     TheDrawerLoadingViewer,
     TheDrawerViewer,
-    TheDrawerViewerLogin,
+    TheDrawerLogin,
   },
   props: {
     value: {
@@ -138,7 +176,10 @@ export default createComponent<Readonly<Props>>({
 
     const { Viewer: viewer, token } = useViewer()
     const loading = useQueryLoading()
+    const extended = ref(false)
+
     return {
+      extended,
       loading,
       syncedValue,
       token,

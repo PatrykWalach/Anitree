@@ -14,7 +14,7 @@
       size="18"
     ></v-rating>
     <span class="grey--text text--lighten-2">
-      {{ media.meanScore }}% ({{ reviews }})
+      {{ meanScore }}% ({{ reviews }})
     </span>
   </v-list-item-subtitle>
 </template>
@@ -34,13 +34,15 @@ export default createComponent<Readonly<Props>>({
     },
   },
   setup(props) {
-    const rating = computed(() => Math.round(props.media.meanScore / 10) / 2)
+    const meanScore = computed(() => props.media.meanScore || 0)
+
+    const rating = computed(() => Math.round(meanScore.value / 10) / 2)
 
     const { formatNumber } = useIntl()
 
     const reviews = computed(() => formatNumber(props.media.popularity))
 
-    return { rating, reviews }
+    return { rating, reviews, meanScore }
   },
 })
 
