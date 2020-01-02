@@ -1,0 +1,13 @@
+#import './MediaCardActions.gql'
+#import './MediaCardBanner.gql'
+#import './MediaCardItem.gql'
+#import './MediaCardStatus.gql'
+
+fragment MediaCard_media on Media {
+  id
+  bannerImage
+  ...MediaCardItem_media
+  ...MediaCardActions_media
+  ...MediaCardBanner_media
+  ...MediaCardStatus_media
+}

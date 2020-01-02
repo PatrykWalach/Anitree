@@ -1,8 +1,5 @@
 <template>
-  <div
-    v-if="media.studios.nodes.length"
-    class="overline primary--text text-truncate"
-  >
+  <div class="overline text-truncate">
     <span v-for="{ id, name } in media.studios.nodes" :key="id" class="mr-2"
       >{{ name }}
     </span>
@@ -10,11 +7,12 @@
 </template>
 
 <script lang="ts">
-import { Media } from '@/graphql/schema/media'
+
 import { createComponent } from '@vue/composition-api'
+import { MediaCardItemOverline_media } from './__generated__/MediaCardItemOverline_media'
 
 export interface Props {
-  media: Media
+  media: MediaCardItemOverline_media
 }
 export default createComponent<Readonly<Props>>({
   props: {

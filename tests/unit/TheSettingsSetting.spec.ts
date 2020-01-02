@@ -1,7 +1,3 @@
-// action: { default: true, required: false, type: Boolean },
-// subtitle: { default: '', required: false, type: String },
-// title: { default: '', required: false, type: String },
-
 import { createVariations, matchSnapshot } from './utils'
 import TheSettingsSetting from '@/components/TheSettingsSetting.vue'
 

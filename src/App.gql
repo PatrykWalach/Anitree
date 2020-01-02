@@ -1,0 +1,7 @@
+#import './components/MediaEdit.gql'
+query AppQuery {
+  Viewer {
+    id
+    ...MediaEdit_viewer
+  }
+}

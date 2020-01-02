@@ -1,7 +1,7 @@
 <template>
   <v-list-item selectable :[lines]="true">
     <v-list-item-content>
-      <MediaCardItemOverline :media="media" />
+      <MediaCardItemOverline :media="media" v-if="media.studios.nodes.length" />
       <MediaCardItemTitle :media="media" />
       <MediaCardItemRatings :media="media" />
       <MediaCardItemSubtitle :media="media" />
@@ -12,17 +12,28 @@
 </template>
 
 <script lang="ts">
-import { computed, createComponent } from '@vue/composition-api'
-import { Media } from '@/graphql/schema/media'
 import MediaCardItemAvatar from './MediaCardItemAvatar.vue'
 import MediaCardItemDescription from './MediaCardItemDescription.vue'
-import MediaCardItemOverline from './MediaCardItemOverline.vue'
 import MediaCardItemRatings from './MediaCardItemRatings.vue'
 import MediaCardItemSubtitle from './MediaCardItemSubtitle.vue'
 import MediaCardItemTitle from './MediaCardItemTitle.vue'
+import { computed, createComponent } from '@vue/composition-api'
+
+
+import MediaCardLoadingItemOverline from './MediaCardLoadingItemOverline.vue'
+import { asyncComponent } from '@/router'
+import { MediaCardItem_media } from './__generated__/MediaCardItem_media'
+
+const MediaCardItemOverline = () =>
+  asyncComponent(
+    import(
+      /* webpackChunkName: "MediaCardItemOverline" */ './MediaCardItemOverline.vue'
+    ),
+    MediaCardLoadingItemOverline,
+  )
 
 export interface Props {
-  media: Media
+  media: MediaCardItem_media
 }
 
 export default createComponent<Readonly<Props>>({
@@ -42,11 +53,13 @@ export default createComponent<Readonly<Props>>({
     },
   },
   setup(props) {
+
+
     const lines = computed(() => {
       return props.media.description ? 'three-line' : 'two-line'
     })
 
-    return { lines }
+    return {  lines }
   },
 })
 </script>

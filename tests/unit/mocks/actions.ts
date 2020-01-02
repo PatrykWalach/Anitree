@@ -1,4 +1,4 @@
-import { DeletePending, SavePending } from '@/store/modules/changes'
+import { DeletePending, SavePending } from '@/store/reducers/changes'
 import { mediaListToForm } from '@/graphql'
 import { mockedMediaListEntry } from './mediaListEntry'
 

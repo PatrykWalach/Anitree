@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`MediaEditDialogTabs matches snapshot 1`] = `
+exports[`MediaEditTabs matches snapshot 1`] = `
 <v-tabs-stub
   activeclass=""
   grow="true"
@@ -65,7 +65,7 @@ exports[`MediaEditDialogTabs matches snapshot 1`] = `
 </v-tabs-stub>
 `;
 
-exports[`MediaEditDialogTabs matches snapshot 2`] = `
+exports[`MediaEditTabs matches snapshot 2`] = `
 <v-tabs-stub
   activeclass=""
   grow="true"
@@ -130,7 +130,7 @@ exports[`MediaEditDialogTabs matches snapshot 2`] = `
 </v-tabs-stub>
 `;
 
-exports[`MediaEditDialogTabs matches snapshot 3`] = `
+exports[`MediaEditTabs matches snapshot 3`] = `
 <v-tabs-stub
   activeclass=""
   grow="true"
@@ -195,7 +195,7 @@ exports[`MediaEditDialogTabs matches snapshot 3`] = `
 </v-tabs-stub>
 `;
 
-exports[`MediaEditDialogTabs matches snapshot 4`] = `
+exports[`MediaEditTabs matches snapshot 4`] = `
 <v-tabs-stub
   activeclass=""
   grow="true"

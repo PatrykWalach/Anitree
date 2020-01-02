@@ -6,22 +6,20 @@
 
 <script lang="ts">
 import { computed, createComponent } from '@vue/composition-api'
-import { Media } from '@/graphql/schema/media'
+
+import { MediaCardItemTitle_media } from './__generated__/MediaCardItemTitle_media'
+import { useTitle } from '@/hooks/results'
 
 export interface Props {
-  media: Media
+  media: MediaCardItemTitle_media
 }
-
-import { useTitle } from '@/store'
 
 export default createComponent<Readonly<Props>>({
   props: {
     media: { default: null, required: true, type: Object },
   },
   setup(props) {
-    const { getTitle } = useTitle()
-
-    const title = computed(() => getTitle.value(props.media.title))
+    const title = useTitle(() => props.media)
 
     return {
       title,

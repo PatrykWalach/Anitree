@@ -1,0 +1,18 @@
+#import '../components/TheTimeline.gql'
+
+query TimelineQuery($idIn: [Int], $page: Int = 0, $perPage: Int = 50) {
+  Page(page: $page, perPage: $perPage) {
+    media(id_in: $idIn) {
+      ...TheTimeline_media
+      relations {
+        edges {
+          id
+          node {
+            id
+            type
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,16 +1,16 @@
 import { createVariations, matchSnapshot } from './utils'
-import MediaEditDialogItems from '@/components/MediaEditDialogItems.vue'
+import MediaEditItems from '@/components/MediaEditItems.vue'
 import { mockedMediaAndListEntry } from './mocks/media'
 import { mockedViewer } from './mocks/viewer'
 import { useMockedStore } from './mocks/store'
 
-describe('MediaEditDialogItems', () => {
+describe('MediaEditItems', () => {
   createVariations({
     propsData: {
       tab: () => Array.from({ length: 4 }, (v, k) => 'edit' + (k + 1)),
     },
   }).forEach(settings =>
-    matchSnapshot(MediaEditDialogItems, {
+    matchSnapshot(MediaEditItems, {
       propsData: {
         ...settings.propsData,
         media: mockedMediaAndListEntry,

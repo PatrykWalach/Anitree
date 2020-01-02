@@ -5,14 +5,19 @@
 </template>
 
 <script lang="ts">
-import { Media } from '@/graphql/schema/media'
 import { createComponent } from '@vue/composition-api'
+
+import { MediaCardItemDescription_media } from './__generated__/MediaCardItemDescription_media'
+
 export interface Props {
-  media: Media
+  media: MediaCardItemDescription_media
 }
+
+
 export default createComponent<Readonly<Props>>({
   props: {
     media: { default: null, required: true, type: Object },
   },
+
 })
 </script>

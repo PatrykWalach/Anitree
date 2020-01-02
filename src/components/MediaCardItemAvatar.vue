@@ -10,18 +10,15 @@
 
 <script lang="ts">
 import { computed, createComponent } from '@vue/composition-api'
-// import BaseLazyImg from './BaseLazyImg.vue'
-import { Media } from '@/graphql/schema/media'
+import { MediaCardItemAvatar_media } from './__generated__/MediaCardItemAvatar_media'
+
 
 export interface Props {
-  media: Media
+  media: MediaCardItemAvatar_media
   size: number | string
 }
 
 export default createComponent<Readonly<Props>>({
-  // components: {
-  //   BaseLazyImg,
-  // },
   inheritAttrs: false,
   props: {
     media: {
@@ -36,16 +33,22 @@ export default createComponent<Readonly<Props>>({
     },
   },
   setup(props) {
-    const srcset = computed(() => {
-      const { medium, large, extraLarge } = props.media.coverImage
 
-      return `${medium} 1x, 
-            ${large} 2x, 
+
+    const srcset = computed(() => {
+      const { coverImage } = props.media
+      if (coverImage) {
+        const { medium, large, extraLarge } = coverImage
+        return `${medium} 1x,
+            ${large} 2x,
             ${extraLarge} 3x`
+      }
+      return ''
     })
 
     const src = computed(() => {
-      return props.media.coverImage.extraLarge || ''
+      const { coverImage } = props.media
+      return (coverImage && coverImage.extraLarge) || ''
     })
 
     return { src, srcset }

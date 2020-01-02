@@ -1,0 +1,42 @@
+#import './MediaEditItemsTab.gql'
+
+fragment MediaEditItems_media on Media {
+  id
+  type
+  mediaListEntry {
+    id
+    advancedScores
+    startedAt {
+      year
+      month
+      day
+    }
+    completedAt {
+      year
+      month
+      day
+    }
+    private
+    mediaId
+    status
+    score
+    progress
+    progressVolumes
+    repeat
+    notes
+  }
+  ...MediaEditItemsTab_media
+}
+
+fragment MediaEditItems_viewer on User {
+  id
+  mediaListOptions {
+    scoreFormat
+    mangaList {
+      advancedScoring
+    }
+    animeList {
+      advancedScoring
+    }
+  }
+}

@@ -1,5 +1,12 @@
 <template>
-  <v-card flat :href="href" target="_blank" rel="noopener">
+  <v-card
+    color="transparent"
+    tile
+    flat
+    :href="href"
+    target="_blank"
+    rel="noopener"
+  >
     <v-card-title :style="{ 'justify-content': 'center' }">
       <v-avatar :color="color" class="white--text">
         <slot></slot>

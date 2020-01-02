@@ -5,7 +5,7 @@
 <script lang="ts">
 import { createComponent } from '@vue/composition-api'
 
-import { useInjectedTheme } from './TheMediaAboutStats.vue'
+import { useInjectedTheme } from '@/hooks/theme'
 
 export default createComponent({
   setup() {

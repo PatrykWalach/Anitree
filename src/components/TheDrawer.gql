@@ -1,0 +1,8 @@
+#import './TheDrawerViewer.gql'
+
+query TheDrawerQuery {
+  Viewer {
+    id
+    ...TheDrawerViewer_viewer
+  }
+}

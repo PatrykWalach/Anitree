@@ -1,5 +1,11 @@
 <template>
-  <component :is="tag" v-model="input" v-bind="$attrs" @change="changeInput">
+  <component
+    :is="tag"
+    v-model="input"
+    v-bind="$attrs"
+    @change="changeInput"
+    color="accent"
+  >
     <slot></slot>
   </component>
 </template>

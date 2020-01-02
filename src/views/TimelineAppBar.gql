@@ -1,0 +1,11 @@
+#import '../components/MediaEdit.gql'
+#import '../hooks/ToggleFavourite.gql'
+#import '../hooks/Share.gql'
+
+fragment TimelineAppBar_media on Media {
+  id
+  siteUrl
+  ...ToggleFavourite_media
+  ...Share_media
+  ...MediaEdit_media
+}

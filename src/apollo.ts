@@ -1,17 +1,10 @@
 import { ApolloLink, concat } from 'apollo-link'
 import { InMemoryCache, NormalizedCacheObject } from 'apollo-cache-inmemory'
 import { PersistedData, PersistentStorage } from 'apollo-cache-persist/types'
-
 import { ApolloClient } from 'apollo-client'
 import { HttpLink } from 'apollo-link-http'
-
-import { Variables } from '@/graphql/schema/media'
-// import Vue from 'vue'
-// import VueApollo from 'vue-apollo'
 import { persistCache } from 'apollo-cache-persist'
-
 import { store } from '@/store'
-
 const link = new HttpLink({
   uri: 'https://graphql.anilist.co',
 })
@@ -36,27 +29,27 @@ const cache = new InMemoryCache({
   cacheRedirects: {
     Query: {
       Media: (_, args, { getCacheKey }) =>
-        getCacheKey({ __typename: 'Media', id: (args as Variables).id }),
+        getCacheKey({ __typename: 'Media', id: args.id }),
+      Page: (_, args, { getCacheKey }) => {
+        const idIn = args.idIn
+        if (idIn instanceof Array) {
+          return idIn.map(id => getCacheKey({ __typename: 'Media', id }))
+        } else if (idIn) {
+          return getCacheKey({ __typename: 'Media', id: idIn })
+        }
+      },
     },
   },
 })
 
-// if (store.getState()settings..cacheApollo) {
 persistCache({
   cache,
   storage: window.localStorage as PersistentStorage<
     PersistedData<NormalizedCacheObject>
   >,
 })
-// }
 
 export const apollo = new ApolloClient({
   cache,
   link: concat(middle, link),
 })
-
-// Vue.use(VueApollo)
-
-// export const apolloProvider = new VueApollo({
-//   defaultClient: apollo,
-// })

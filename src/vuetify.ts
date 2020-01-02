@@ -1,7 +1,3 @@
-// import(
-//   // @ts-ignore
-//   /* webpackChunkName: "MaterialDesignIcons" */ /* webpackPreload: true */ 'material-design-icons-iconfont/dist/material-design-icons.css'
-// )
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import Vue from 'vue'
 import Vuetify from 'vuetify/lib'
@@ -23,15 +19,11 @@ export const vuetify = new Vuetify({
   },
   theme: {
     themes: {
-      dark: {
-        accent: '#2DD881',
-        primary: '#8980F5',
-      },
       light: {
-        accent: '#574AE2',
-        primary: '#C95D63',
-        // primary: '#654597',
-        // primary: '#222A68',
+        accent: '#EC407A',
+        error: '#EB9928',
+        primary: '#2F4858',
+        secondary: '#365278',
       },
     },
   },

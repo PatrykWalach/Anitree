@@ -13,11 +13,13 @@
 </template>
 
 <script lang="ts">
-import { Media } from '@/graphql/schema/media'
 import { createComponent } from '@vue/composition-api'
+import { MediaCardBanner_media } from './__generated__/MediaCardBanner_media'
+
+
 
 export interface Props {
-  media: Media
+  media: MediaCardBanner_media
 }
 
 export default createComponent<Readonly<Props>>({
@@ -28,6 +30,7 @@ export default createComponent<Readonly<Props>>({
       type: Object,
     },
   },
+
 })
 </script>
 <style lang="scss">

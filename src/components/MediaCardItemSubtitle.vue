@@ -1,16 +1,19 @@
 <template>
-  <v-list-item-subtitle class="text-capitalize">
-    <span class="text--primary">
-      {{ subheading }}
-    </span>
+  <v-list-item-subtitle
+    class="text-capitalize body-1"
+    :style="{ alignItems: 'center' }"
+  >
+    {{ subheading }}
   </v-list-item-subtitle>
 </template>
 
 <script lang="ts">
 import { computed, createComponent } from '@vue/composition-api'
-import { Media } from '@/graphql/schema/media'
+
+import { MediaCardItemSubtitle_media } from './__generated__/MediaCardItemSubtitle_media'
+
 export interface Props {
-  media: Media
+  media: MediaCardItemSubtitle_media
 }
 
 export const useString = () => ({
@@ -64,8 +67,7 @@ export default createComponent<Readonly<Props>>({
 
       const { format, status } = media
 
-      return [format, status]
-        .concat([chapters.value])
+      return [format, status, chapters.value]
         .map(clean)
         .filter(str => str)
         .join(' · ')

@@ -1,0 +1,13 @@
+fragment TheTimelineItemTime_media on Media {
+  id
+  startDate {
+    day
+    year
+    month
+  }
+  endDate {
+    day
+    year
+    month
+  }
+}

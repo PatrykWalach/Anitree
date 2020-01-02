@@ -1,0 +1,10 @@
+
+  fragment MediaCardItemAvatar_media on Media {
+    id
+    coverImage {
+      medium
+      large
+      extraLarge
+    }
+  }
+

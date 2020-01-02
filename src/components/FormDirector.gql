@@ -1,0 +1,6 @@
+fragment FormDirector_media on Media {
+  id
+  volumes
+  chapters
+  episodes
+}

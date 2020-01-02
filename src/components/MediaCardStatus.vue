@@ -15,10 +15,11 @@
 
 <script lang="ts">
 import { computed, createComponent } from '@vue/composition-api'
-import { Media } from '@/graphql/schema/media'
+
+import { MediaCardStatus_media } from './__generated__/MediaCardStatus_media'
 
 export interface Props {
-  media: Media
+  media: MediaCardStatus_media
 }
 
 export default createComponent<Readonly<Props>>({

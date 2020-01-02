@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`MediaEditDialogItems matches snapshot 1`] = `
+exports[`MediaEditItems matches snapshot 1`] = `
 <v-tabs-items-stub
   activeclass="v-window-item--active"
   nexticon="$next"
@@ -66,7 +66,7 @@ exports[`MediaEditDialogItems matches snapshot 1`] = `
 </v-tabs-items-stub>
 `;
 
-exports[`MediaEditDialogItems matches snapshot 2`] = `
+exports[`MediaEditItems matches snapshot 2`] = `
 <v-tabs-items-stub
   activeclass="v-window-item--active"
   nexticon="$next"
@@ -132,7 +132,7 @@ exports[`MediaEditDialogItems matches snapshot 2`] = `
 </v-tabs-items-stub>
 `;
 
-exports[`MediaEditDialogItems matches snapshot 3`] = `
+exports[`MediaEditItems matches snapshot 3`] = `
 <v-tabs-items-stub
   activeclass="v-window-item--active"
   nexticon="$next"
@@ -198,7 +198,7 @@ exports[`MediaEditDialogItems matches snapshot 3`] = `
 </v-tabs-items-stub>
 `;
 
-exports[`MediaEditDialogItems matches snapshot 4`] = `
+exports[`MediaEditItems matches snapshot 4`] = `
 <v-tabs-items-stub
   activeclass="v-window-item--active"
   nexticon="$next"

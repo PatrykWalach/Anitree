@@ -1,0 +1,18 @@
+#import './MediaCardBanner.gql'
+#import './MediaCardItem.gql'
+#import './MediaEditActions.gql'
+#import './MediaEditItems.gql'
+
+fragment MediaEdit_media on Media {
+  id
+  bannerImage
+  ...MediaEditItems_media
+  ...MediaEditActions_media
+  ...MediaCardBanner_media
+  ...MediaCardItem_media
+}
+
+fragment MediaEdit_viewer on User {
+  id
+  ...MediaEditItems_viewer
+}

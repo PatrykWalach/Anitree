@@ -1,5 +1,9 @@
-<script lang="tsx">
-import { Page, Variables } from '@/graphql/schema/page'
+<script lang="ts">
+import {
+  HomeQuery as HomeQueryResult,
+  HomeQueryVariables,
+  HomeQuery_Page_media,
+} from './__generated__/HomeQuery'
 import {
   VCol,
   VContainer,
@@ -8,137 +12,193 @@ import {
   VTimeline,
   VTimelineItem,
 } from 'vuetify/lib'
-import { computed, createComponent, createElement } from '@vue/composition-api'
+import {
+  computed,
+  createComponent,
+  createElement as h,
+} from '@vue/composition-api'
 import { useQuery, useResult } from '@vue/apollo-composable'
 import HomeItem from '@/components/HomeItem.vue'
-import MediaCard from '../components/MediaCard.vue'
-// import MediaCardError from '../components/MediaCardError.vue'
 import MediaCardLoading from '@/components/MediaCardLoading.vue'
-import { PAGE } from '@/graphql'
-import TheSettings from '@/components/TheSettings.vue'
+import { HomeQuery } from './Home.gql'
+import { asyncComponent } from '../router'
+import { RecursiveNonNullable } from '../types'
+import { VNode } from 'vue'
+
+const MediaCard = () =>
+  asyncComponent(
+  import(/* 'ebpackChunkName: "MediaCard"'*/ '@/components/MediaCard.vue'),
+    MediaCardLoading,
+  )
+
+const PER_PAGE = 50
+
+interface TrendingMediaProps {
+  media: HomeQuery_Page_media
+  loading: boolean
+}
+
+interface DesktopProps extends TrendingMediaProps {
+  smAndDown: boolean
+  content: (props: Readonly<TrendingMediaProps>) => (VNode | undefined)[][]
+}
+
+interface TimelineProps extends DesktopProps {
+  xsOnly: boolean
+}
+
+const Mobile = ({ content, ...props }: Readonly<DesktopProps>) =>
+  content(props)
+    .flat()
+    .map(el =>
+      h(
+        VCol,
+        {
+          props: {
+            cols: '12',
+          },
+        },
+        [el],
+      ),
+    )
+
+const Desktop = ({ content, smAndDown, ...props }: Readonly<DesktopProps>) => {
+  return h(VCol, [
+    h(
+      VTimeline,
+      { props: { dense: smAndDown } },
+
+      [
+        content(props).map((el, i) =>
+          el
+            .map((el, j) =>
+              h(
+                VTimelineItem,
+                {
+                  props: {
+                    large: !smAndDown && j === 0,
+                    left: !!(i % 2),
+                    right: !!((i + 1) % 2),
+                    small: smAndDown && j !== 0,
+                  },
+                },
+                [el],
+              ),
+            )
+            .flat(),
+        ),
+      ],
+    ),
+  ])
+}
+const Timeline = ({ xsOnly, ...props }: Readonly<TimelineProps>) => {
+  return xsOnly ? Mobile(props) : Desktop(props)
+}
 
 export default createComponent({
-  components: {
-    HomeItem,
-    MediaCard,
-    TheSettings,
-    VCol,
-    VContainer,
-    VIcon,
-    VRow,
-    VTimeline,
-    VTimelineItem,
-  },
   setup: (_, { root }) => {
-    const h = createElement
-    const random = Math.floor(Math.random() * 49)
-    const { result } = useQuery<{ Page: Page }, Variables>(
-      PAGE,
+    const random = Math.floor(Math.random() * (PER_PAGE - 1))
+
+    const { result, loading } = useQuery<HomeQueryResult, HomeQueryVariables>(
+      HomeQuery,
       {
-        sort: 'TRENDING_DESC',
+        perPage: PER_PAGE,
       },
       {
         fetchPolicy: 'cache-and-network',
       },
     )
 
-    const media = useResult(result, [], data => data.Page.media)
+    const media = useResult<
+      readonly HomeQuery_Page_media[],
+      readonly HomeQuery_Page_media[]
+    >(result, [], (data: RecursiveNonNullable<HomeQueryResult>) => data.Page.media)
 
     const randomMedia = computed(() => media.value[random])
 
-    const trendingMedia = computed(() => {
-      if (randomMedia.value) {
-        return <MediaCard media={randomMedia.value}></MediaCard>
+    const TrendingMedia = ({ media, loading }: TrendingMediaProps) => {
+      if (loading) {
+        return h(MediaCardLoading)
       }
-      return <MediaCardLoading />
-    })
+      if (media) {
+        return h(MediaCard, {
+          props: {
+            media,
+          },
+        })
+      }
+    }
 
-    const content = computed(() => [
-      [
-        <home-item
-          scopedSlots={{
-            title: () => 'This app is under construction',
-          }}
-        >
-          <p>
-            The site doesn't store any information about the user. All features
-            are subjects to change.
-          </p>
-          <p>
-            If you encounter any problems you may have to clean your cache:
-            <br />
-            <code>F12</code>
-            <v-icon>arrow_right_alt</v-icon>
-            <code>Application</code>
-            <v-icon>arrow_right_alt</v-icon>
-            <code>
-              <v-icon small color="#BD4147">
-                delete
-              </v-icon>
-              Clear storage
-            </code>
-            <v-icon>arrow_right_alt</v-icon>
-            <code>Clear site data</code>
-          </p>
-        </home-item>,
-      ],
-      [
-        <home-item
-          scopedSlots={{
-            title: () => 'Media Cards',
-          }}
-        >
-          Media cards display various informations about the media.
-          <br />
-          Their layout and amount of information may change in future.
-        </home-item>,
-        trendingMedia.value,
-      ],
-      [
-        <home-item scopedSlots={{ title: () => 'Settings' }}>
-          The settings are cached.
-        </home-item>,
-        <the-settings />,
-      ],
-    ])
+    const content = (props: Readonly<TrendingMediaProps>) => {
+      return [
+        [
+          h(
+            HomeItem,
+            {
+              scopedSlots: {
+                title: () => 'This app is under construction',
+              },
+            },
+            [
+              h('p', [
+                `The site doesn't store any information about the user. All
+              features are subjects to change.`,
+              ]),
+              h('p', [
+                '  If you encounter any problems you may have to clean your cache:',
+                h('br'),
+                h('code', ['F12']),
+                h(VIcon, ['arrow_right_alt']),
+                h('code', ['Application']),
+                h(VIcon, ['arrow_right_alt']),
+                h('code', [
+                  h(
+                    VIcon,
+                    {
+                      props: { small: true, color: '#BD4147' },
+                    },
+                    ['delete'],
+                  ),
+                  'Clear storage',
+                ]),
+                h(VIcon, ['arrow_right_alt']),
+                h('code', ['Clear site data']),
+              ]),
+            ],
+          ),
+        ],
+        [
+          h(
+            HomeItem,
 
-    const mobile = computed(() =>
-      content.value.flat().map(el => <v-col cols="12">{el}</v-col>),
-    )
-    const desktop = computed(() => {
-      const { smAndDown } = root.$vuetify.breakpoint
+            {
+              scopedSlots: {
+                title: () => 'Media Cards',
+              },
+            },
+            [
+              'Media cards display various informations about the media.',
+              h('br'),
+              'Their layout and amount of information may change in future.',
+            ],
+          ),
+          TrendingMedia(props),
+        ],
+      ]
+    }
 
-      return (
-        <v-col>
-          <v-timeline dense={smAndDown}>
-            {content.value.map((el, i) =>
-              el
-                .map((el, j) => (
-                  <v-timeline-item
-                    large={!smAndDown && j === 0}
-                    small={smAndDown && j !== 0}
-                    left={!!(i % 2)}
-                    right={!!((i + 1) % 2)}
-                  >
-                    {el}
-                  </v-timeline-item>
-                ))
-                .flat(),
-            )}
-          </v-timeline>
-        </v-col>
-      )
-    })
-
-    const timeline = computed(() =>
-      root.$vuetify.breakpoint.xsOnly ? mobile.value : desktop.value,
-    )
-
-    return () => (
-      <v-container>
-        <v-row>{timeline.value}</v-row>
-      </v-container>
-    )
+    return () =>
+      h(VContainer, [
+        h(VRow, [
+          Timeline({
+            content,
+            loading: loading.value,
+            media: randomMedia.value,
+            smAndDown: root.$vuetify.breakpoint.smAndDown,
+            xsOnly: root.$vuetify.breakpoint.xsOnly,
+          }),
+        ]),
+      ])
   },
 })
 </script>

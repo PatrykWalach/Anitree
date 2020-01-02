@@ -13,17 +13,18 @@
       class="mr-2"
       size="18"
     ></v-rating>
-    <span class="grey--text text--lighten-2">
-      {{ meanScore }}% ({{ reviews }})
-    </span>
+    <span> {{ meanScore }}% ({{ reviews }}) </span>
   </v-list-item-subtitle>
 </template>
 
 <script lang="ts">
 import { computed, createComponent } from '@vue/composition-api'
-import { Media } from '../graphql/schema/media'
+import { MediaCardItemRatings_media } from './__generated__/MediaCardItemRatings_media'
+import { useNumber } from '@/hooks/intl'
 
-import { useIntl } from '../utils/useIntl'
+export interface Props {
+  media: MediaCardItemRatings_media
+}
 
 export default createComponent<Readonly<Props>>({
   props: {
@@ -38,15 +39,9 @@ export default createComponent<Readonly<Props>>({
 
     const rating = computed(() => Math.round(meanScore.value / 10) / 2)
 
-    const { formatNumber } = useIntl()
+    const reviews = useNumber(() => props.media.popularity || 0)
 
-    const reviews = computed(() => formatNumber(props.media.popularity))
-
-    return { rating, reviews, meanScore }
+    return { meanScore, rating, reviews }
   },
 })
-
-export interface Props {
-  media: Media
-}
 </script>

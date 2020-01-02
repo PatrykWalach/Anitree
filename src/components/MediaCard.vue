@@ -8,19 +8,25 @@
   </v-card>
 </template>
 <script lang="ts">
-import { Media } from '../graphql/schema/media'
 import MediaCardActions from './MediaCardActions.vue'
+
 import MediaCardItem from './MediaCardItem.vue'
 import MediaCardLoadingBanner from './MediaCardLoadingBanner.vue'
 import MediaCardStatus from './MediaCardStatus.vue'
-import { asyncComponent } from '../views/Search.vue'
+import { MediaCard_media } from './__generated__/MediaCard_media'
+import { asyncComponent } from '@/router'
 import { createComponent } from '@vue/composition-api'
+
 
 const MediaCardBanner = () =>
   asyncComponent(
     import(/* webpackChunkName: "MediaCardBanner" */ './MediaCardBanner.vue'),
     MediaCardLoadingBanner,
   )
+
+export interface Props {
+  media: MediaCard_media
+}
 
 export default createComponent<Readonly<Props>>({
   components: {
@@ -36,9 +42,6 @@ export default createComponent<Readonly<Props>>({
       type: Object,
     },
   },
-})
 
-export interface Props {
-  media: Media
-}
+})
 </script>

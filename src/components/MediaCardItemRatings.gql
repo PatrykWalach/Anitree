@@ -1,0 +1,8 @@
+
+
+  fragment MediaCardItemRatings_media on Media {
+    id
+    meanScore
+    popularity
+  }
+

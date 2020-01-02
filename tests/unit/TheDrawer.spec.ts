@@ -11,7 +11,7 @@ describe('TheDrawer', () => {
           name: () => ['search', 'home'],
         }),
         ...createVariations({
-          name: () => ['media-timeline', 'media-about'],
+          name: () => ['timeline', 'timeline'],
           params: {
             mediaId: 1,
           },

@@ -18,9 +18,9 @@
 </template>
 
 <script lang="ts">
-import { DeletePending, SavePending } from '../store/modules/changes'
+import { DeletePending, SavePending } from '../store/reducers/changes'
 import { computed, createComponent } from '@vue/composition-api'
-import { useChanges } from '../store'
+import { useChanges } from '@/hooks/changes'
 
 interface Props {
   pending: SavePending | DeletePending

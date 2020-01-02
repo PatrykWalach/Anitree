@@ -1,0 +1,19 @@
+#import './MediaCardItemAvatar.gql'
+#import './MediaCardItemDescription.gql'
+#import './MediaCardItemOverline.gql'
+#import './MediaCardItemRatings.gql'
+#import './MediaCardItemSubtitle.gql'
+#import './MediaCardItemTitle.gql'
+
+
+  fragment MediaCardItem_media on Media {
+    id
+    description
+    ...MediaCardItemAvatar_media
+    ...MediaCardItemDescription_media
+    ...MediaCardItemOverline_media
+    ...MediaCardItemRatings_media
+    ...MediaCardItemSubtitle_media
+    ...MediaCardItemTitle_media
+  }
+

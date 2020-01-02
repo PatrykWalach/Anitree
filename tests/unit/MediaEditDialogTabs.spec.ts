@@ -1,10 +1,10 @@
 import { createVariations, matchSnapshot } from './utils'
-import MediaEditDialogTabs from '@/components/MediaEditDialogTabs.vue'
+import MediaEditTabs from '@/components/MediaEditTabs.vue'
 
-describe('MediaEditDialogTabs', () => {
+describe('MediaEditTabs', () => {
   createVariations({
     propsData: {
       tab: () => Array.from({ length: 4 }, (v, k) => 'edit' + (k + 1)),
     },
-  }).forEach(settings => matchSnapshot(MediaEditDialogTabs, settings))
+  }).forEach(settings => matchSnapshot(MediaEditTabs, settings))
 })

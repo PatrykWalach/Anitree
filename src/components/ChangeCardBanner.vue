@@ -22,23 +22,25 @@
   </v-card>
 </template>
 <script lang="ts">
-import { DeletePending, SavePending } from '../store/modules/changes'
+import { DeletePending, SavePending } from '../store/reducers/changes'
 import { computed, createComponent, ref } from '@vue/composition-api'
 import ChangeCardBannerActions from './ChangeCardBannerActions.vue'
-import { Media } from '../graphql/schema/media'
+import { ChangeCardBanner_media } from './__generated__/ChangeCardBanner_media'
 import MediaCardItemAvatar from './MediaCardItemAvatar.vue'
 import MediaCardItemSubtitle from './MediaCardItemSubtitle.vue'
 import MediaCardItemTitle from './MediaCardItemTitle.vue'
-import { useTitle } from '../store'
+import { useTitle } from '../hooks/results'
 
 interface Props {
-  media: Media
+  media: ChangeCardBanner_media
   pending: SavePending | DeletePending
 }
+
 const ChangeCardBannerList = () =>
   import(
     /*webpackChunkName: "ChangeCardBannerList" */ './ChangeCardBannerList.vue'
   )
+
 export default createComponent<Readonly<Props>>({
   components: {
     ChangeCardBannerActions,
@@ -60,9 +62,7 @@ export default createComponent<Readonly<Props>>({
     },
   },
   setup(props) {
-    const { getTitle } = useTitle()
-
-    const title = computed(() => getTitle.value(props.media.title))
+    const title = useTitle((() => props.media))
 
     const extension = ref(false)
 

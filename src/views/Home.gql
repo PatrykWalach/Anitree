@@ -1,0 +1,10 @@
+#import '../components/MediaCard.gql'
+
+query HomeQuery($perPage: Int = 50) {
+  Page(perPage: $perPage) {
+    media(sort: TRENDING_DESC) {
+      id
+      ...MediaCard_media
+    }
+  }
+}

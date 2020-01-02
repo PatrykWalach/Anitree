@@ -1,6 +1,6 @@
 <template>
   <v-list-item>
-    <MediaCardLoadingItemAvatar tile size="40" />
+    <MediaCardLoadingItemAvatar size="40" />
     <v-list-item-content>
       <v-list-item-title>
         <v-skeleton-loader type="text"></v-skeleton-loader>

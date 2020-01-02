@@ -28,14 +28,10 @@ import { useSelector } from 'vue-redux-hooks'
 export default createComponent({
   components: { ChangeCard },
   setup() {
-    // const { undo } = useCommands()
-
     const pending = useSelector((state: State) => state.changes.pending)
 
     return {
       pending,
-      // history,
-      // undo,
     }
   },
 })

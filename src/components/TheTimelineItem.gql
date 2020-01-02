@@ -1,0 +1,6 @@
+#import './TheTimelineItemTime.gql'
+
+fragment TheTimelineItem_media on Media {
+  id
+  ...TheTimelineItemTime_media
+}

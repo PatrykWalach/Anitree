@@ -1,0 +1,8 @@
+#import './ChangeCardBanner'
+
+query ChangeCardQuery($id: Int) {
+  Media(id: $id) {
+    id
+    ...ChangeCardBanner_media
+  }
+}
