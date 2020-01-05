@@ -1,6 +1,0 @@
-
-  fragment MediaCardItemDescription_media on Media {
-    id
-    description
-  }
-

@@ -13,11 +13,9 @@ export interface Props {
   media: MediaCardItemDescription_media
 }
 
-
 export default createComponent<Readonly<Props>>({
   props: {
     media: { default: null, required: true, type: Object },
   },
-
 })
 </script>

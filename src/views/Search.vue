@@ -16,9 +16,8 @@
             No results found
           </v-row>
           <the-timeline v-else :media-list="media">
-            <v-col>
+            <v-col v-if="hasNextPage">
               <v-btn
-                v-if="hasNextPage"
                 @click.stop="loadMore"
                 :disabled="loading"
                 :loading="loadingMore"
@@ -38,29 +37,23 @@
 </template>
 <script lang="ts">
 import {
-  SearchQuery,
+  SearchQuery as SearchQueryResult,
   SearchQueryVariables,
   SearchQuery_Page,
   SearchQuery_Page_media,
 } from './__generated__/SearchQuery'
-import {
-  SearchPageQuery as SearchPageQueryResult,
-  SearchPageQueryVariables,
-} from './__generated__/SearchPageQuery'
-import { SearchViewerQuery as SearchViewerQueryResult } from './__generated__/SearchViewerQuery'
 import { beforeRouteLeave, createBeforeRouteEnter, useFab } from '@/hooks/fab'
 import { computed, createComponent, ref } from '@vue/composition-api'
-import { useQuery, useQueryLoading, useResult } from '@vue/apollo-composable'
+import { useResult } from '@vue/apollo-composable'
 import { Dictionary } from 'vue-router/types/router'
-import { SearchPageQuery, SearchViewerQuery } from './Search.gql'
+import { SearchQuery } from './Search.js'
 import { RecursiveNonNullable } from '../types'
 import TheTimelineLoading from '@/components/TheTimelineLoading.vue'
 import ViewSearchField from '@/components/ViewSearchField.vue'
 import { asyncComponent } from '@/router'
-import { updatePageQuery } from './Timeline.vue'
 import { useRoutes } from '@/hooks/route'
-import { useToken } from '@/hooks/token'
 import { useViewer } from '@/hooks/viewer'
+import { usePage } from '@/hooks/page'
 
 const TheTimeline = () =>
   asyncComponent(
@@ -83,7 +76,7 @@ export interface Props {
 const useVariables = (props: Readonly<Props>) => {
   const viewerQuery = useViewer()
 
-  const isAdult = useResult(
+  const isAdult = useResult<false | undefined, false>(
     viewerQuery.result,
     false,
     data => data.Viewer.options.displayAdultContent && undefined,
@@ -126,58 +119,70 @@ export default createComponent({
       () => !!Object.values(props.queryWithBoolean).length,
     )
 
-    const loadingMore = ref(false)
+    // const loadingMore = ref(false)
 
     const { routeSearch } = useRoutes(root)
 
-    const { result, fetchMore, onError } = useQuery<
-      SearchPageQueryResult,
-      SearchPageQueryVariables
-    >(SearchPageQuery, variables, () => ({
+    // const { result, fetchMore, onError } = useQuery<
+    //   SearchQueryResult,
+    //   SearchQueryVariables
+    // >(SearchQuery, variables, () => ({
+    //   enabled: routeSearch.value,
+    //   notifyOnNetworkStatusChange: false,
+    // }))
+
+    const { result, loadMore, loadingMore, loading, hasNextPage } = usePage<
+      SearchQueryResult,
+      SearchQueryVariables
+    >(SearchQuery, variables, () => ({
       enabled: routeSearch.value,
       notifyOnNetworkStatusChange: false,
     }))
 
-    onError((...e) => console.log(e))
+    // onError((...e) => console.log(e))
 
-    const currentPage = useResult<number, number>(
-      result,
-      0,
-      (data: RecursiveNonNullable<SearchPageQueryResult>) =>
-        data.Page.pageInfo.currentPage,
-    )
+    // const currentPage = useResult<number, number>(
+    //   result,
+    //   0,
+    //   (data: RecursiveNonNullable<SearchQueryResult>) =>
+    //     data.Page.pageInfo.currentPage,
+    // )
 
-    const hasNextPage = useResult<boolean, boolean>(
-      result,
-      true,
-      (data: RecursiveNonNullable<SearchQuery>) =>
-        data.Page.pageInfo.hasNextPage,
-    )
+    // const hasNextPage = useResult<boolean, boolean>(
+    //   result,
+    //   true,
+    //   (data: RecursiveNonNullable<SearchQueryResult>) =>
+    //     data.Page.pageInfo.hasNextPage,
+    // )
 
-    const loading = useQueryLoading()
+    // const loading = useQueryLoading()
 
-    const loadMore = async () => {
-      loadingMore.value = true
-      await fetchMore({
-        updateQuery: updatePageQuery,
-        variables: {
-          ...variables,
-          page: 1 + currentPage.value,
-        },
-      })
-      loadingMore.value = false
-    }
+    // const loadMore = async () => {
+    //   loadingMore.value = true
+    //   await fetchMore({
+    //     updateQuery: updatePageQuery,
+    //     variables: {
+    //       ...variables,
+    //       page: 1 + currentPage.value,
+    //     },
+    //   })
+    //   loadingMore.value = false
+    // }
 
     const page = useResult<SearchQuery_Page, null>(
       result,
       null,
-      (data: RecursiveNonNullable<SearchQuery>) => data.Page,
+      (data: RecursiveNonNullable<SearchQueryResult>) => data.Page,
     )
 
     const media = useResult<
       readonly SearchQuery_Page_media[],
       readonly SearchQuery_Page_media[]
-    >(result, [], (data: RecursiveNonNullable<SearchQuery>) => data.Page.media)
+    >(
+      result,
+      [],
+      (data: RecursiveNonNullable<SearchQueryResult>) => data.Page.media,
+    )
 
     const fab = useFab()
     const showFilters = ref(false)

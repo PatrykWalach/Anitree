@@ -34,12 +34,14 @@ import MediaEditActions from './MediaEditActions.vue'
 import MediaEditItems from './MediaEditItems.vue'
 import { Ref, createComponent, ref } from '@vue/composition-api'
 import { Form } from '../types'
-
+import { useDispatch } from 'vue-redux-hooks'
 import MediaCardLoadingBanner from './MediaCardLoadingBanner.vue'
+import { changesActions } from '@/store/reducers/changes'
 import MediaEditTabs from './MediaEditTabs.vue'
 import { asyncComponent } from '@/router'
 import { mergeDeep } from 'apollo-utilities'
-import { useSaveWithChanges } from '@/hooks/changes'
+import { useSaveMediaListEntry } from '@/hooks/saveMediaListEntry'
+import { useHandleError } from '@/hooks/changes'
 import { MediaEdit_media } from './__generated__/MediaEdit_media'
 import { MediaEdit_viewer } from './__generated__/MediaEdit_viewer'
 
@@ -69,7 +71,22 @@ export default createComponent<Readonly<Props>>({
   setup(props, { emit }) {
     const form: Ref<Partial<Form>> = ref({})
 
-    const { mutate: saveEntry, loading } = useSaveWithChanges()
+    const mutation = useSaveMediaListEntry<
+      Partial<Form> & {
+        mediaId: number
+      }
+    >()
+    const dispatch = useDispatch()
+
+    const saveEntry = useHandleError(mutation, variables => {
+      dispatch(
+        changesActions.UNSHIFT_PENDING({
+          type: 'SAVE',
+          variables,
+          mediaId: variables.mediaId,
+        }),
+      )
+    })
 
     const submit = () => {
       saveEntry({
@@ -88,11 +105,12 @@ export default createComponent<Readonly<Props>>({
       form.value = {}
       emit('close')
     }
+
     return {
       changeForm,
       close,
       form,
-      loading,
+      loading: mutation.loading,
       submit,
       tab,
     }

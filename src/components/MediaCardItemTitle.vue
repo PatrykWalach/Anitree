@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-import { computed, createComponent } from '@vue/composition-api'
+import { createComponent } from '@vue/composition-api'
 
 import { MediaCardItemTitle_media } from './__generated__/MediaCardItemTitle_media'
 import { useTitle } from '@/hooks/results'

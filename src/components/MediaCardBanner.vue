@@ -16,8 +16,6 @@
 import { createComponent } from '@vue/composition-api'
 import { MediaCardBanner_media } from './__generated__/MediaCardBanner_media'
 
-
-
 export interface Props {
   media: MediaCardBanner_media
 }
@@ -30,7 +28,6 @@ export default createComponent<Readonly<Props>>({
       type: Object,
     },
   },
-
 })
 </script>
 <style lang="scss">

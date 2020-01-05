@@ -62,7 +62,7 @@ export default createComponent<Readonly<Props>>({
     },
   },
   setup(props) {
-    const title = useTitle((() => props.media))
+    const title = useTitle(() => props.media)
 
     const extension = ref(false)
 

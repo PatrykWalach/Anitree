@@ -17,7 +17,6 @@ import { MediaCard_media } from './__generated__/MediaCard_media'
 import { asyncComponent } from '@/router'
 import { createComponent } from '@vue/composition-api'
 
-
 const MediaCardBanner = () =>
   asyncComponent(
     import(/* webpackChunkName: "MediaCardBanner" */ './MediaCardBanner.vue'),
@@ -42,6 +41,5 @@ export default createComponent<Readonly<Props>>({
       type: Object,
     },
   },
-
 })
 </script>

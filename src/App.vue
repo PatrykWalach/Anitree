@@ -27,7 +27,7 @@ import { createComponent, ref, provide } from '@vue/composition-api'
 
 import TheDrawer from './components/TheDrawer.vue'
 import TheFooter from './components/TheFooter.vue'
-import { useQuery, useResult } from '@vue/apollo-composable'
+import { useQuery } from '@vue/apollo-composable'
 import { useToken } from '@/hooks/token'
 
 const TheRightDrawer = () =>
@@ -41,7 +41,7 @@ const TheBottomAppBar = () =>
   )
 
 import { DefaultViewer } from './hooks/viewer'
-import AppQuery from './App.gql'
+import { AppQuery } from './App.js'
 import { AppQuery as AppQueryResult } from './__generated__/AppQuery'
 
 export default createComponent({
@@ -60,11 +60,16 @@ export default createComponent({
 
     const token = useToken()
 
-    const viewerQuery = useQuery<AppQueryResult>(AppQuery, {}, () => ({
-      enabled: !!token.value,
-    }))
+    const { result, loading, error, onError } = useQuery<AppQueryResult>(
+      AppQuery,
+      {},
+      () => ({
+        enabled: !!token.value,
+      }),
+    )
+    onError((...e) => console.log(e))
 
-    provide(DefaultViewer, viewerQuery)
+    provide(DefaultViewer, { result, loading, error })
 
     return {
       drawer,

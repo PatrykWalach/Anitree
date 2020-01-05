@@ -4,13 +4,13 @@
 </template>
 <script lang="ts">
 import {
-  ChangeCardQuery,
+  ChangeCardQuery as ChangeCardQueryResult,
   ChangeCardQueryVariables,
 } from './__generated__/ChangeCardQuery'
 import { computed, createComponent } from '@vue/composition-api'
 import { useQuery, useResult, useQueryLoading } from '@vue/apollo-composable'
 import ChangeCardLoadingBanner from './ChangeCardLoadingBanner.vue'
-import MEDIA from './ChangeCard.gql'
+import { ChangeCardQuery } from './ChangeCard.js'
 import { asyncComponent } from '@/router'
 import { NonNullableValues } from '../types'
 
@@ -30,10 +30,10 @@ export default createComponent({
   },
   setup(props) {
     const mediaQuery = useQuery<
-      NonNullableValues<ChangeCardQuery>,
+      NonNullableValues<ChangeCardQueryResult>,
       ChangeCardQueryVariables
     >(
-      MEDIA,
+      ChangeCardQuery,
       computed(() => ({ id: props.request.mediaId })),
     )
     const media = useResult(mediaQuery.result)

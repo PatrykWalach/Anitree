@@ -27,7 +27,29 @@ import {
   RouterTimelineQuery,
   RouterTimelineAppBarQuery,
   RouterTimelineDrawerQuery,
-} from './Router.gql'
+} from './Router.js'
+
+const useQueryProps = (
+  { query: fullQuery }: Route,
+  filterQuery: (query: Route['query']) => Route['query'],
+) => {
+  const query = filterQuery(fullQuery)
+
+  const queryWithBoolean = Object.fromEntries(
+    Object.entries(query).map(([key, value]) => {
+      switch (value) {
+        case 'true':
+          return [key, true]
+        case 'false':
+          return [key, false]
+        default:
+          return [key, value]
+      }
+    }),
+  )
+
+  return { query, queryWithBoolean }
+}
 
 export const asyncComponent = (
   component: Promise<any>,
@@ -127,7 +149,7 @@ const createTimelineWrapper = <M>(
     },
   })
 
-const propsCurrentId = (route: Route) => {
+const usePropsCurrentId = (route: Route) => {
   const currentId = parseInt(route.params.mediaId, 10)
   return { currentId }
 }
@@ -197,9 +219,20 @@ const router = new Router({
       name: 'timeline',
       path: '/:mediaType/:mediaId/:title',
       props: {
-        appBar: propsCurrentId,
-        default: propsCurrentId,
-        drawer: propsCurrentId,
+        appBar: usePropsCurrentId,
+        default: (route: Route) => ({
+          ...useQueryProps(route, query => ({
+            isAdult: query.isAdult,
+            page: query.page,
+            onList: query.onList,
+            type: query.type,
+            status: query.status,
+            sort: query.sort,
+            perPage: query.perPage,
+          })),
+          ...usePropsCurrentId(route),
+        }),
+        drawer: usePropsCurrentId,
       },
     },
     {
@@ -216,22 +249,21 @@ const router = new Router({
       name: 'search',
       path: '/search',
       props: {
-        default({ query }: Route) {
-          const queryWithBoolean = Object.fromEntries(
-            Object.entries(query).map(([key, value]) => {
-              switch (value) {
-                case 'true':
-                  return [key, true]
-                case 'false':
-                  return [key, false]
-                default:
-                  return [key, value]
-              }
-            }),
-          )
-
-          return { query, queryWithBoolean }
-        },
+        default: (route: Route) => ({
+          ...useQueryProps(route, query => ({
+            isAdult: query.isAdult,
+            search: query.search,
+            page: query.page,
+            includedTags: query.includedTags,
+            onList: query.onList,
+            year: query.year,
+            type: query.type,
+            status: query.status,
+            season: query.season,
+            sort: query.sort,
+            perPage: query.perPage,
+          })),
+        }),
       },
     },
 

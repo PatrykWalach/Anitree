@@ -19,7 +19,6 @@ import MediaCardItemSubtitle from './MediaCardItemSubtitle.vue'
 import MediaCardItemTitle from './MediaCardItemTitle.vue'
 import { computed, createComponent } from '@vue/composition-api'
 
-
 import MediaCardLoadingItemOverline from './MediaCardLoadingItemOverline.vue'
 import { asyncComponent } from '@/router'
 import { MediaCardItem_media } from './__generated__/MediaCardItem_media'
@@ -53,13 +52,11 @@ export default createComponent<Readonly<Props>>({
     },
   },
   setup(props) {
-
-
     const lines = computed(() => {
       return props.media.description ? 'three-line' : 'two-line'
     })
 
-    return {  lines }
+    return { lines }
   },
 })
 </script>

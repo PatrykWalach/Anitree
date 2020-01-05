@@ -7,7 +7,6 @@
 </template>
 
 <script lang="ts">
-
 import { createComponent } from '@vue/composition-api'
 import { MediaCardItemOverline_media } from './__generated__/MediaCardItemOverline_media'
 

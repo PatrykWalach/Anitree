@@ -1,20 +1,25 @@
 <template>
-  <v-container>
-    <TheTimelineLoading v-if="loading" />
+  <div>
+    <v-container>
+      <TheTimelineLoading v-if="loading" />
 
-    <the-timeline v-else-if="mediaSorted" :media-list="mediaSorted">
-      <v-col>
-        <v-btn
-          v-if="hasNextPage"
-          @click.stop="loadAll"
-          :disabled="loading"
-          block
-          color="accent"
-          >show all</v-btn
-        >
-      </v-col>
-    </the-timeline>
-  </v-container>
+      <the-timeline v-else-if="media" :media-list="media">
+        <v-col v-if="hasNextPage">
+          <v-btn
+            @click.stop="loadMore"
+            :disabled="loading"
+            :loading="loadingMore"
+            block
+            color="accent"
+            >show more</v-btn
+          >
+        </v-col>
+      </the-timeline>
+    </v-container>
+    <v-dialog v-model="showFilters" max-width="360px" scrollable>
+      <ViewSearchFilters :query="query" @close="showFilters = false" />
+    </v-dialog>
+  </div>
 </template>
 <script lang="ts">
 import {
@@ -24,22 +29,39 @@ import {
 } from 'apollo-client'
 
 import {
-  TimelineQuery,
+  TimelinePrefetchQuery as TimelinePrefetchQueryResult,
+  TimelinePrefetchQueryVariables,
+  TimelinePrefetchQuery_Page_media,
+  TimelinePrefetchQuery_Page_media_relations_edges,
+} from './__generated__/TimelinePrefetchQuery'
+import {
+  TimelineQuery as TimelineQueryResult,
   TimelineQueryVariables,
   TimelineQuery_Page_media,
 } from './__generated__/TimelineQuery'
 import { beforeRouteLeave, createBeforeRouteEnter } from '../hooks/fab'
 
-import { computed, createComponent, ref } from '@vue/composition-api'
+import {
+  computed,
+  SetupContext,
+  createComponent,
+  ref,
+  watch,
+} from '@vue/composition-api'
 import { useQuery, useQueryLoading, useResult } from '@vue/apollo-composable'
-import PAGE from './Timeline.gql'
+import { TimelinePrefetchQuery, TimelineQuery } from './Timeline.js'
 import { RecursiveNonNullable } from '../types'
 import TheTimelineLoading from '@/components/TheTimelineLoading.vue'
 import { asyncComponent } from '@/router'
-import { sorters } from '@/store/reducers/timeline'
-
+import { usePage, updatePageQuery } from '@/hooks/page'
+import { useFab } from '@/hooks/fab'
 import { useRoutes } from '@/hooks/route'
+import { MediaSort } from '__generated__/globalTypes'
 
+const ViewSearchFilters = () =>
+  import(
+    /* webpackChunkName: "ViewSearchFilters" */ '@/components/ViewSearchFilters.vue'
+  )
 const TheTimeline = () =>
   asyncComponent(
     import(
@@ -53,146 +75,149 @@ export type FetchMore<Data, Variables> = <K extends keyof Variables>(
     FetchMoreOptions<Data, Variables>,
 ) => Promise<ApolloQueryResult<Data>>
 
-export const updatePageQuery = <Q extends TimelineQuery>(
-  previousResult: Q,
-  {
-    fetchMoreResult,
-  }: {
-    fetchMoreResult?: Q
-  },
-): Q => {
-  if (!fetchMoreResult) {
-    return previousResult
-  }
+const find = <R, D>(
+  mapFn: (el: D, i: number, arr: readonly D[]) => R,
+  data: readonly D[],
+) => filterNull(data.map(mapFn) as readonly R[])
 
-  const getPageAndMedia = (result: Q) => {
-    const resultPage = result.Page
-    const resultMedia = (resultPage && resultPage.media) || []
-    return [resultPage, resultMedia] as const
-  }
+function filterNull<D>(data: readonly D[]) {
+  return data.filter(data => data !== null) as NonNullable<D>[]
+}
 
-  const [previousPage, previousMedia] = getPageAndMedia(previousResult)
-  const [morePage, moreMedia] = getPageAndMedia(fetchMoreResult)
+const findRelativeMedia = (
+  someMedia: readonly (TimelinePrefetchQuery_Page_media | null)[],
+) => {
+  const filteredMedia = filterNull(someMedia)
+  const relations = find(({ relations }) => relations, filteredMedia)
 
-  return {
-    ...previousResult,
-    ...fetchMoreResult,
-    Page: {
-      __typename: 'Page',
-      ...previousPage,
-      ...morePage,
-      media: previousMedia.concat(moreMedia),
-    },
-  }
+  const edges: TimelinePrefetchQuery_Page_media_relations_edges[] = find(
+    ({ edges }) => edges,
+    relations,
+  ).flat()
+  const nodes = find(({ node }) => node, edges)
+  const ids = new Set(nodes.map(({ id }) => id))
+
+  return filteredMedia.reduce((acc, { id }) => {
+    acc.delete(id)
+    return acc
+  }, ids)
+}
+
+const usePrefetchMedia = (
+  props: Readonly<Props>,
+  root: SetupContext['root'],
+) => {
+  const variables = computed(() => ({
+    idIn: [props.currentId],
+  }))
+
+  const { routeTimeline } = useRoutes(root)
+
+  const prefetchQuery = useQuery<
+    TimelinePrefetchQueryResult,
+    TimelinePrefetchQueryVariables
+  >(TimelinePrefetchQuery, variables, () => ({
+    enabled: routeTimeline.value,
+    notifyOnNetworkStatusChange: true,
+  }))
+
+  const prefetchedMedia = useResult<
+    readonly TimelinePrefetchQuery_Page_media[],
+    readonly TimelinePrefetchQuery_Page_media[]
+  >(
+    prefetchQuery.result,
+    [],
+    (data: RecursiveNonNullable<TimelinePrefetchQueryResult>) =>
+      data.Page.media,
+  )
+
+  watch(prefetchQuery.result, async data => {
+    if (data && data.Page) {
+      const media = data.Page.media
+      if (media) {
+        const ids = findRelativeMedia(media)
+
+        if (ids.size) {
+          await prefetchQuery.fetchMore({
+            updateQuery: updatePageQuery,
+            variables: { idIn: [...ids] },
+          })
+        }
+      }
+    }
+  })
+
+  return prefetchedMedia
+}
+
+interface Props {
+  currentId: number
+  query: TimelineQueryVariables
+  queryWithBoolean: TimelineQueryVariables
 }
 
 export default createComponent({
   beforeRouteEnter: createBeforeRouteEnter(vm => ({
     icon: 'sort',
     on: () => {
-      vm.order *= -1
+      vm.showFilters = true
     },
     title: 'sort',
   })),
   beforeRouteLeave,
   components: {
+    ViewSearchFilters,
     TheTimeline,
     TheTimelineLoading,
   },
-  props: { currentId: { default: null, required: true, type: Number } },
+  props: {
+    currentId: { default: null, required: true, type: Number },
+    query: { default: null, required: true, type: Object },
+    queryWithBoolean: { default: null, required: true, type: Object },
+  },
+
   setup(props, { root }) {
-    const find = <R, D>(
-      mapFn: (el: D, i: number, arr: readonly D[]) => R,
-      data: readonly D[],
-    ) => data.map(mapFn).filter(data => !!data) as NonNullable<R>[]
-
-    const findRelativeMedia = (
-      someMedia: readonly (TimelineQuery_Page_media | null)[],
-      filter: readonly TimelineQuery_Page_media[],
-    ) => {
-      const filteredMedia = find(media => media, someMedia)
-      const relations = find(({ relations }) => relations, filteredMedia)
-
-      const edges = find(({ edges }) => edges, relations).flat()
-      const nodes = find(({ node }) => node, edges)
-
-      return nodes
-        .map(({ id }) => id)
-        .filter((id, i, arr) => arr.indexOf(id) === i)
-        .filter(mediaId => !filter.find(({ id }) => id === mediaId))
-    }
-
-    const loading = useQueryLoading()
-
-    const variables = computed(() => ({
-      idIn: [props.currentId],
-    }))
+    const prefetchedMedia = usePrefetchMedia(props, root)
 
     const { routeTimeline } = useRoutes(root)
 
-    const { result, fetchMore } = useQuery<
-      TimelineQuery,
+    const order = ref(1)
+
+    const queryVariables = computed(() => ({
+      sort: ['START_DATE'] as MediaSort[],
+      ...props.queryWithBoolean,
+      idIn: prefetchedMedia.value.map(({ id }) => id),
+    }))
+
+    const { result: queryResult, loadMore, loadingMore, hasNextPage } = usePage<
+      TimelineQueryResult,
       TimelineQueryVariables
-    >(PAGE, variables, () => ({
+    >(TimelineQuery, queryVariables, () => ({
       enabled: routeTimeline.value,
-      notifyOnNetworkStatusChange: true,
     }))
 
     const media = useResult<
       readonly TimelineQuery_Page_media[],
       readonly TimelineQuery_Page_media[]
     >(
-      result,
+      queryResult,
       [],
-      (data: RecursiveNonNullable<TimelineQuery>) => data.Page.media,
+      (data: RecursiveNonNullable<TimelineQueryResult>) => data.Page.media,
     )
 
-    const nextIds = computed(() => findRelativeMedia(media.value, media.value))
+    const fab = useFab()
 
-    const hasNextPage = computed(() => !!nextIds.value.length)
-
-    const loadNextPage = (variables: TimelineQueryVariables) =>
-      fetchMore({
-        updateQuery: updatePageQuery,
-        variables,
-      })
-
-    const loadAll = async () => {
-      const { data } = await loadNextPage({
-        idIn: nextIds.value,
-      })
-
-      if (data.Page && data.Page.media) {
-        const ids = findRelativeMedia(data.Page.media, media.value)
-
-        if (ids.length) {
-          loadNextPage({ idIn: ids })
-        }
-      }
-    }
-
-    const order = ref(1)
-
-    const mediaSorted = computed(() => {
-      const orderValue = order.value
-      return media.value.slice().sort((a, b) => {
-        for (const sort of sorters) {
-          const result = sort(a, b) * orderValue
-
-          if (result) {
-            return result
-          }
-        }
-        return 0
-      })
-    })
+    const loading = useQueryLoading()
 
     return {
+      loadMore,
+      loadingMore,
       hasNextPage,
-      loadAll,
       loading,
-      mediaSorted,
+      media,
       order,
+      showFilters: ref(false),
+      fab,
     }
   },
 })

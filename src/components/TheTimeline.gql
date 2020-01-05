@@ -1,8 +1,0 @@
-#import './MediaCard.gql'
-#import './TheTimelineItem.gql'
-
-fragment TheTimeline_media on Media {
-  id
-  ...TheTimelineItem_media
-  ...MediaCard_media
-}

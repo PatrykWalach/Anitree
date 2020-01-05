@@ -1,27 +1,28 @@
-declare module '*/Home.gql' {
+declare module '*TheDrawer.js' {
+  import { DocumentNode } from 'graphql'
+  export const TheDrawerQuery: DocumentNode
+}
+declare module '*ChangeCard.js' {
+  import { DocumentNode } from 'graphql'
+  export const ChangeCardQuery: DocumentNode
+}
+
+declare module '*Home.js' {
   import { DocumentNode } from 'graphql'
   export const HomeQuery: DocumentNode
   export const ToggleFavouriteQuery: DocumentNode
   export const ToggleFavouriteMutation: DocumentNode
 }
-
-declare module '*/Search.gql' {
+declare module '*Timeline.js' {
   import { DocumentNode } from 'graphql'
-  export const SearchPageQuery: DocumentNode
-  export const SearchViewerQuery: DocumentNode
+  export const TimelineQuery: DocumentNode
+  export const TimelinePrefetchQuery: DocumentNode
 }
 
-declare module '*/Router.gql' {
+declare module '*Search.js' {
   import { DocumentNode } from 'graphql'
-  export const RouterTimelineQuery: DocumentNode
-  export const RouterTimelineAppBarQuery: DocumentNode
-  export const RouterTimelineDrawerQuery: DocumentNode
-}
-
-declare module '*/ToggleFavourite.gql' {
-  import { DocumentNode } from 'graphql'
-  export const ToggleFavouriteQuery: DocumentNode
-  export const ToggleFavouriteMutation: DocumentNode
+  export const SearchQuery: DocumentNode
+  export const Search_viewer: DocumentNode
 }
 
 declare module '*.gql' {

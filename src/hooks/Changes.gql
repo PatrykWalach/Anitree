@@ -1,8 +1,0 @@
-query ChangesQuery($id: Int) {
-  Media(id: $id) {
-    id
-    mediaListEntry {
-      id
-    }
-  }
-}

@@ -42,12 +42,14 @@ const cache = new InMemoryCache({
   },
 })
 
-persistCache({
-  cache,
-  storage: window.localStorage as PersistentStorage<
-    PersistedData<NormalizedCacheObject>
-  >,
-})
+if (process.env.NODE_ENV === 'production') {
+  persistCache({
+    cache,
+    storage: window.localStorage as PersistentStorage<
+      PersistedData<NormalizedCacheObject>
+    >,
+  })
+}
 
 export const apollo = new ApolloClient({
   cache,

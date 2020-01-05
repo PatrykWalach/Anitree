@@ -1,8 +1,0 @@
-fragment Share_media on Media {
-  id
-  siteUrl
-  title {
-    userPreferred
-  }
-  rawDescription: description(asHtml: false)
-}

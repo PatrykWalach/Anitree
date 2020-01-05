@@ -20,11 +20,16 @@
 <script lang="ts">
 import MediaEditItemsTab from './MediaEditItemsTab.vue'
 import { computed, createComponent } from '@vue/composition-api'
-import { Form, RecursiveMutable } from '../types'
+import { Form, RecursiveMutable, RecursiveNonNullable } from '../types'
 import { MediaEditItems_viewer } from './__generated__/MediaEditItems_viewer'
 import { useInjectedTheme } from '@/hooks/theme'
-import { MediaEditItems_media } from './__generated__/MediaEditItems_media'
+import {
+  MediaEditItems_media,
+  MediaEditItems_media_mediaListEntry,
+} from './__generated__/MediaEditItems_media'
+import { ScoreFormat } from '__generated__/globalTypes'
 import { useResult } from '@vue/apollo-composable'
+import { useSync } from '@/hooks/sync'
 
 export interface Props {
   user: MediaEditItems_viewer
@@ -46,22 +51,25 @@ export default createComponent<Readonly<Props>>({
     user: { default: null, required: true, type: Object },
   },
   setup(props, { emit }) {
-    const syncedTab = computed({
-      get: () => props.tab,
-      set: e => emit('update:tab', e),
-    })
+    const syncedTab = useSync(props, 'tab', emit)
     const manga = computed(() => props.media.type === 'MANGA')
 
-    const advancedScoring = useResult(
+    const advancedScoring = useResult<readonly string[], readonly string[]>(
       computed(() => props.user),
-      null,
-      user =>
+      [],
+      (user: RecursiveNonNullable<MediaEditItems_viewer>) =>
         user.mediaListOptions[manga.value ? 'mangaList' : 'animeList']
           .advancedScoring,
     )
+    const rawScoreFormat = useResult<ScoreFormat, ''>(
+      computed(() => props.user),
+      '',
+      (user: RecursiveNonNullable<MediaEditItems_viewer>) =>
+        user.mediaListOptions.scoreFormat,
+    )
 
     const scoreFormat = computed(() => {
-      const [, max, round] = props.user.mediaListOptions.scoreFormat.split('_')
+      const [, max, round] = rawScoreFormat.value.split('_')
 
       return {
         max: parseInt(max),
@@ -87,14 +95,21 @@ export default createComponent<Readonly<Props>>({
   },
 })
 
-export const mediaListToForm = (
+const createAdvancedScores = (
   mediaListEntry: RecursiveMutable<MediaEditItems_media_mediaListEntry>,
+  advancedScoring: string[],
+) =>
+  (advancedScoring.map(
+    key => mediaListEntry.advancedScores[key] || 0,
+  ) as unknown) as number[]
+// .map(value => value || 0) as number[]
+
+export const mediaListToForm = (
+  mediaListEntry: RecursiveMutable<MediaEditItems_media_mediaListEntry> | null,
   advancedScoring: string[],
 ): Form => {
   if (mediaListEntry) {
-    const advancedScores = advancedScoring
-      .map(key => mediaListEntry.advancedScores[key])
-      .map(value => value || 0)
+    const advancedScores = createAdvancedScores(mediaListEntry, advancedScoring)
 
     delete mediaListEntry.__typename
     if (mediaListEntry.startedAt) delete mediaListEntry.startedAt.__typename
@@ -105,6 +120,7 @@ export const mediaListToForm = (
 
     return {
       ...mediaListEntry,
+      score: mediaListEntry.score || 0,
       advancedScores,
     }
   }
@@ -112,12 +128,12 @@ export const mediaListToForm = (
   const advancedScores = advancedScoring.map(() => 0)
   return {
     advancedScores,
-    completedAt: { day: null, month: null, year: null },
     notes: '',
     progress: 0,
-    progressVolumes: 0,
     repeat: 0,
     score: 0,
+    progressVolumes: 0,
+    completedAt: { day: null, month: null, year: null },
     startedAt: { day: null, month: null, year: null },
     status: null,
   }

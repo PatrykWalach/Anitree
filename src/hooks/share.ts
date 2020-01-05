@@ -1,11 +1,11 @@
 import { Ref, computed, ref } from '@vue/composition-api'
 import { Share_media } from './__generated__/Share_media'
-import {useComputedOrCallback} from './reducer'
+import { useComputedOrCallback } from './reducer'
 
 import { useTitle } from './results'
 
 export const useShare = (value: Ref<Share_media> | (() => Share_media)) => {
-  const media = useComputedOrCallback( value)
+  const media = useComputedOrCallback(value)
 
   const title = useTitle(media)
   const siteUrl = computed(() => media.value.siteUrl)

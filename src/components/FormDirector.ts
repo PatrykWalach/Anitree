@@ -95,8 +95,7 @@ export class FormDirector {
         },
         props: {
           afterTransform: [
-            (status: Partial<Form>['status']) =>
-              changeForm({ status }),
+            (status: Partial<Form>['status']) => changeForm({ status }),
           ],
           value: form.status,
         },
@@ -134,8 +133,7 @@ export class FormDirector {
             afterTransform: [
               parseFloat,
 
-              (progress: Partial<Form>['progress']) =>
-                changeForm({ progress }),
+              (progress: Partial<Form>['progress']) => changeForm({ progress }),
             ],
             beforeTransform: [(e: string) => e.toString()],
             transformations: [
@@ -219,8 +217,7 @@ export class FormDirector {
           afterTransform: [
             parseFloat,
 
-            (repeat: Partial<Form>['repeat']) =>
-              changeForm({ repeat }),
+            (repeat: Partial<Form>['repeat']) => changeForm({ repeat }),
           ],
           beforeTransform: [(e: string) => e.toString()],
           transformations: [formatToNumber, numberRound.bind(null, 0)],

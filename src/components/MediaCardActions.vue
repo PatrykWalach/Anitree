@@ -119,14 +119,17 @@ import { createComponent, computed, ref } from '@vue/composition-api'
 import BaseAction from './BaseAction.vue'
 import { MediaCardActions_media } from './__generated__/MediaCardActions_media'
 import MediaEditLoading from './MediaEditLoading.vue'
-import { MediaListStatus } from '../../__generated__/globalTypes'
+import { MediaListStatus } from '__generated__/globalTypes'
 import { useShare } from '@/hooks/share'
 import { VBottomSheet } from 'vuetify/lib'
 import { asyncComponent } from '@/router'
-import { useSaveWithChanges } from '@/hooks/changes'
+import { useSaveMediaListEntry } from '@/hooks/saveMediaListEntry'
+import { useHandleError } from '@/hooks/changes'
 import { useFavourites } from '@/hooks/toggleFavourite'
 import { useViewer } from '@/hooks/viewer'
 import { useResult } from '@vue/apollo-composable'
+import { useDispatch } from 'vue-redux-hooks'
+import { changesActions } from '@/store/reducers/changes'
 
 const BaseShare = () =>
   import(/* webpackChunkName: "BaseShare" */ './BaseShare.vue')
@@ -160,7 +163,22 @@ export default createComponent<Readonly<Props>>({
   },
   setup(props, { root }) {
     const isEdited = ref(false)
-    const { mutate: saveEntry, loading: editLoading } = useSaveWithChanges()
+    const save = useSaveMediaListEntry<{
+      mediaId: number
+      status: MediaListStatus
+    }>()
+
+    const dispatch = useDispatch()
+
+    const saveEntry = useHandleError(save, variables => {
+      dispatch(
+        changesActions.UNSHIFT_PENDING({
+          type: 'SAVE',
+          variables,
+          mediaId: variables.mediaId,
+        }),
+      )
+    })
 
     const changeStatus = (status: MediaListStatus) => {
       saveEntry({
@@ -168,6 +186,7 @@ export default createComponent<Readonly<Props>>({
         status,
       })
     }
+
     const compact = computed(() => root.$vuetify.breakpoint.mdAndDown)
 
     const { isShared, share, shareData } = useShare(() => props.media)
@@ -177,11 +196,11 @@ export default createComponent<Readonly<Props>>({
     const viewer = useResult(viewerQuery.result)
 
     return {
-      viewer,
       ...useFavourites(() => props.media),
+      viewer,
       changeStatus,
       compact,
-      editLoading,
+      editLoading: save.loading,
       isEdited,
       isShared,
       share,

@@ -24,8 +24,9 @@
 </template>
 
 <script lang="ts">
-import { computed, createComponent } from '@vue/composition-api'
+import { createComponent } from '@vue/composition-api'
 import { useFab } from '@/hooks/fab'
+import { useSync } from '@/hooks/sync'
 
 export interface Props {
   drawer: boolean
@@ -36,10 +37,7 @@ export default createComponent<Readonly<Props>>({
     drawer: { default: false, required: true, type: Boolean },
   },
   setup(props, { emit }) {
-    const syncedDrawer = computed({
-      get: () => props.drawer,
-      set: e => emit('update:drawer', e),
-    })
+    const syncedDrawer = useSync(props, 'drawer', emit)
 
     const fab = useFab()
 

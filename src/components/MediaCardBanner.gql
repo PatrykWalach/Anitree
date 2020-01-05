@@ -1,7 +1,0 @@
-
-
-  fragment MediaCardBanner_media on Media {
-    id
-    bannerImage
-  }
-

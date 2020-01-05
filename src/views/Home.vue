@@ -20,14 +20,14 @@ import {
 import { useQuery, useResult } from '@vue/apollo-composable'
 import HomeItem from '@/components/HomeItem.vue'
 import MediaCardLoading from '@/components/MediaCardLoading.vue'
-import { HomeQuery } from './Home.gql'
+import { HomeQuery } from './Home.js'
 import { asyncComponent } from '../router'
 import { RecursiveNonNullable } from '../types'
 import { VNode } from 'vue'
 
 const MediaCard = () =>
   asyncComponent(
-  import(/* 'ebpackChunkName: "MediaCard"'*/ '@/components/MediaCard.vue'),
+    import(/* 'ebpackChunkName: "MediaCard"'*/ '@/components/MediaCard.vue'),
     MediaCardLoading,
   )
 
@@ -112,7 +112,11 @@ export default createComponent({
     const media = useResult<
       readonly HomeQuery_Page_media[],
       readonly HomeQuery_Page_media[]
-    >(result, [], (data: RecursiveNonNullable<HomeQueryResult>) => data.Page.media)
+    >(
+      result,
+      [],
+      (data: RecursiveNonNullable<HomeQueryResult>) => data.Page.media,
+    )
 
     const randomMedia = computed(() => media.value[random])
 
@@ -129,63 +133,66 @@ export default createComponent({
       }
     }
 
-    const content = (props: Readonly<TrendingMediaProps>) => {
-      return [
-        [
-          h(
-            HomeItem,
-            {
-              scopedSlots: {
-                title: () => 'This app is under construction',
-              },
-            },
-            [
-              h('p', [
-                `The site doesn't store any information about the user. All
-              features are subjects to change.`,
-              ]),
-              h('p', [
-                '  If you encounter any problems you may have to clean your cache:',
-                h('br'),
-                h('code', ['F12']),
-                h(VIcon, ['arrow_right_alt']),
-                h('code', ['Application']),
-                h(VIcon, ['arrow_right_alt']),
-                h('code', [
-                  h(
-                    VIcon,
-                    {
-                      props: { small: true, color: '#BD4147' },
-                    },
-                    ['delete'],
-                  ),
-                  'Clear storage',
-                ]),
-                h(VIcon, ['arrow_right_alt']),
-                h('code', ['Clear site data']),
-              ]),
-            ],
-          ),
-        ],
-        [
-          h(
-            HomeItem,
+    const static1 = [
+      h('p', [
+        "The site doesn't store any information about the user. All features are subjects to change.",
+      ]),
+      'If you encounter any problems you may have to clean your cache:',
+      h('br'),
+      h('code', ['F12']),
+    ]
+    const static2 = h('code', ['Application'])
+    const static3 = h('code', ['Clear site data'])
 
-            {
-              scopedSlots: {
-                title: () => 'Media Cards',
-              },
+    const content = (props: TrendingMediaProps) => [
+      [
+        h(
+          HomeItem,
+          {
+            scopedSlots: {
+              title: () => 'This app is under construction',
             },
-            [
-              'Media cards display various informations about the media.',
-              h('br'),
-              'Their layout and amount of information may change in future.',
-            ],
-          ),
-          TrendingMedia(props),
-        ],
-      ]
-    }
+          },
+          [
+            ...static1,
+            h('p', [
+              h(VIcon, ['arrow_right_alt']),
+              static2,
+              h(VIcon, ['arrow_right_alt']),
+              h('code', [
+                h(
+                  VIcon,
+                  {
+                    props: { small: true, color: '#BD4147' },
+                  },
+                  ['delete'],
+                ),
+                'Clear storage',
+              ]),
+              h(VIcon, ['arrow_right_alt']),
+              static3,
+            ]),
+          ],
+        ),
+      ],
+      [
+        h(
+          HomeItem,
+
+          {
+            scopedSlots: {
+              title: () => 'Media Cards',
+            },
+          },
+          [
+            'Media cards display various informations about the media.',
+            h('br'),
+            'Their layout and amount of information may change in future.',
+          ],
+        ),
+        TrendingMedia(props),
+      ],
+    ]
 
     return () =>
       h(VContainer, [

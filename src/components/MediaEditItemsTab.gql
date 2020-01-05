@@ -1,9 +1,0 @@
-#import './FormDirector.gql'
-
-
-  fragment MediaEditItemsTab_media on Media {
-    id
-    ...FormDirector_media
-  }
-
-

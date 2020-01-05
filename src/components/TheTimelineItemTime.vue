@@ -9,7 +9,7 @@
   </v-chip>
 </template>
 <script lang="ts">
-import { FuzzyDate } from '@/graphql/schema/media'
+import { FuzzyDateInput } from '__generated__/globalTypes'
 import { computed, createComponent } from '@vue/composition-api'
 import BaseTime from './BaseTime.vue'
 
@@ -29,7 +29,7 @@ export default createComponent<Readonly<Props>>({
   },
   setup(props) {
     const isValidDate = (
-      date: Omit<FuzzyDate, '__typename'> | null,
+      date: Omit<FuzzyDateInput, '__typename'> | null,
     ): date is ValidDate => {
       return !!date && date.year !== null && date.month !== null
     }

@@ -12,7 +12,6 @@
 import { computed, createComponent } from '@vue/composition-api'
 import { MediaCardItemAvatar_media } from './__generated__/MediaCardItemAvatar_media'
 
-
 export interface Props {
   media: MediaCardItemAvatar_media
   size: number | string
@@ -33,8 +32,6 @@ export default createComponent<Readonly<Props>>({
     },
   },
   setup(props) {
-
-
     const srcset = computed(() => {
       const { coverImage } = props.media
       if (coverImage) {

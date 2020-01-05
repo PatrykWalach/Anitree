@@ -54,11 +54,14 @@ import {
   changesActions,
 } from '../store/reducers/changes'
 import { computed, createComponent, ref } from '@vue/composition-api'
-import { useChanges, useDelete, useSave } from '@/hooks/changes'
+
 import { useSync } from '@/hooks/sync'
 import { useDispatch, useSelector } from 'vue-redux-hooks'
 import { State } from '../store'
 import { useMutationLoading } from '@vue/apollo-composable'
+import { isSavePending } from '@/store/reducers/changes'
+import { useSaveMediaListEntry } from '@/hooks/saveMediaListEntry'
+import { useDeleteMediaListEntry } from '@/hooks/deleteMediaListEntry'
 
 interface Props {
   pending: SavePending | DeletePending
@@ -80,10 +83,6 @@ export default createComponent<Readonly<Props>>({
   },
   setup(props, { emit }) {
     const syncedExtension = useSync(props, 'extension', emit)
-    // computed({
-    //   get: () => props.extension,
-    //   set: value => emit('update:extension', value),
-    // })
 
     const dispatch = useDispatch()
 
@@ -99,10 +98,11 @@ export default createComponent<Readonly<Props>>({
 
     const loading = useMutationLoading()
 
-    const { mutate: saveEntry, onDone: onDoneSave } = useSave()
-    const { mutate: deleteEntry, onDone: onDoneDelete } = useDelete()
-
-    const { isSavePending } = useChanges()
+    const { mutate: saveEntry, onDone: onDoneSave } = useSaveMediaListEntry()
+    const {
+      mutate: deleteEntry,
+      onDone: onDoneDelete,
+    } = useDeleteMediaListEntry()
 
     onDoneSave(discard)
     onDoneDelete(discard)
@@ -110,9 +110,9 @@ export default createComponent<Readonly<Props>>({
     const submit = () => {
       const pending = props.pending
       if (isSavePending(pending)) {
-        saveEntry(pending.variables, pending.mediaId)
+        saveEntry(pending)
       } else {
-        deleteEntry(pending.variables, pending.mediaId)
+        deleteEntry(pending)
       }
     }
 

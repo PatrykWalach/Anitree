@@ -1,8 +1,0 @@
-fragment TheDrawerViewer_viewer on User {
-  id
-  name
-  avatar {
-    large
-  }
-  siteUrl
-}

@@ -69,7 +69,7 @@ import MediaEditLoading from '@/components/MediaEditLoading.vue'
 import { TimelineDrawer_media } from './__generated__/TimelineDrawer_media'
 import { VBottomSheet } from 'vuetify/lib'
 import { asyncComponent } from '@/router'
-
+import { useViewer } from '../hooks/viewer'
 
 const BaseShare = () =>
   import(/* webpackChunkName: "BaseShare" */ '@/components/BaseShare.vue')
@@ -96,13 +96,15 @@ export default createComponent<Readonly<Props>>({
     media: { default: null, required: true, type: Object },
   },
   setup(props) {
-
     const isEdited = ref(false)
 
-    const { isShared, share, shareData } = useShare(()=>props.media)
+    const { isShared, share, shareData } = useShare(() => props.media)
+
+    const viewer = useViewer()
 
     return {
-      ...useFavourites(()=>props.media),
+      ...useFavourites(() => props.media),
+      viewer,
       isEdited,
       isShared,
       open,

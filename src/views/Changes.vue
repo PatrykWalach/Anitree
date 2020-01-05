@@ -6,9 +6,6 @@
       </template>
       <template v-else>
         Pending changes:
-        <!--   <v-spacer></v-spacer>
-        <v-btn @click.stop="undo()">Undo</v-btn>
-     -->
       </template>
     </v-subheader>
 

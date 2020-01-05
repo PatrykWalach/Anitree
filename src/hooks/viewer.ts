@@ -1,6 +1,12 @@
-import { inject } from '@vue/composition-api'
-import { useQuery } from '@vue/apollo-composable'
+import { Ref, inject } from '@vue/composition-api'
+import { AppQuery } from '../__generated__/AppQuery'
+
 export const DefaultViewer = Symbol('Viewer')
 
-export const useViewer = <V = ReturnType<typeof useQuery>>() =>
-  inject(DefaultViewer) as V
+export const useViewer = <
+  V = {
+    result: Ref<AppQuery>
+    loading: Ref<boolean>
+    error: Ref<Error>
+  }
+>() => inject(DefaultViewer) as V

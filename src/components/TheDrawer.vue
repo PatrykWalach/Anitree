@@ -61,10 +61,9 @@ import TheDrawerLogin from './TheDrawerLogin.vue'
 import { asyncComponent } from '@/router'
 import { useFab } from '@/hooks/fab'
 import { useSync } from '@/hooks/sync'
-
 import { useToken } from '@/hooks/token'
-import VIEWER from './TheDrawer.gql'
-import { TheDrawerQuery } from './__generated__/TheDrawerQuery'
+import { TheDrawerQuery } from './TheDrawer.js'
+import { TheDrawerQuery as TheDrawerQueryResult } from './__generated__/TheDrawerQuery'
 
 const TheDrawerViewer = () =>
   asyncComponent(
@@ -142,9 +141,13 @@ export default createComponent<Readonly<Props>>({
   setup(props, { emit }) {
     const syncedValue = useSync(props, 'value', emit)
     const token = useToken()
-    const viewerQuery = useQuery<TheDrawerQuery>(VIEWER, {}, () => ({
-      enabled: !!token.value,
-    }))
+    const viewerQuery = useQuery<TheDrawerQueryResult>(
+      TheDrawerQuery,
+      {},
+      () => ({
+        enabled: !!token.value,
+      }),
+    )
     const viewer = useResult(viewerQuery.result)
     const loading = useQueryLoading()
     const navigationElements = useTheDrawerNavigation()

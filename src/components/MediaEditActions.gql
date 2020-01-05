@@ -1,8 +1,0 @@
-
-  fragment MediaEditActions_media on Media {
-    id
-    mediaListEntry {
-      id
-    }
-  }
-

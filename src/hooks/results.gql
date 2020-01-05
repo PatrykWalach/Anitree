@@ -1,6 +1,0 @@
-fragment useTitle_media on Media {
-  id
-  title {
-    userPreferred
-  }
-}

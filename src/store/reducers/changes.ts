@@ -1,5 +1,8 @@
 import { getItem, setItem } from '@/localStorage'
 import { createSlice } from '@reduxjs/toolkit'
+import { SaveMediaListEntryMutationVariables } from '@/hooks/__generated__/SaveMediaListEntryMutation'
+import { DeleteMediaListEntryMutationVariables } from '@/hooks/__generated__/DeleteMediaListEntryMutation'
+import { RecursiveMutable } from '@/types'
 
 interface Pending {
   id: number
@@ -7,12 +10,12 @@ interface Pending {
 }
 export interface SavePending extends Pending {
   type: 'SAVE'
-  variables: SaveMediaListEntryVariables
+  variables: RecursiveMutable<SaveMediaListEntryMutationVariables>
 }
 
 export interface DeletePending extends Pending {
   type: 'DELETE'
-  variables: DeleteMediaListEntryVariables
+  variables: RecursiveMutable<DeleteMediaListEntryMutationVariables>
 }
 
 const key = 'CHANGES'
@@ -44,3 +47,7 @@ export const { reducer: changes, actions: changesActions } = createSlice({
     },
   },
 })
+
+export const isSavePending = (
+  pending: SavePending | DeletePending,
+): pending is SavePending => pending.type === 'SAVE'

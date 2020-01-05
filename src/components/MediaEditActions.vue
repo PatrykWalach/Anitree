@@ -48,9 +48,12 @@ import {
 } from '@vue/composition-api'
 import { Form } from '../types'
 
-import { useDeleteWithChanges } from '@/hooks/changes'
+import { useDeleteMediaListEntry } from '@/hooks/deleteMediaListEntry'
+import { useHandleError } from '@/hooks/changes'
+import { changesActions } from '@/store/reducers/changes'
 import { useSubmitRequired } from '@/hooks/submitRequired'
 import { MediaEditActions_media } from './__generated__/MediaEditActions_media'
+import { useDispatch } from 'vue-redux-hooks'
 
 export interface Props {
   media: MediaEditActions_media
@@ -76,7 +79,17 @@ const useActions = (props: Readonly<Props>, emit: SetupContext['emit']) => {
     close()
   }
 
-  const { mutate: deleteEntry } = useDeleteWithChanges()
+  const mutation = useDeleteMediaListEntry()
+  const dispatch = useDispatch()
+
+  const deleteEntry = useHandleError(mutation, variables => {
+    dispatch(
+      changesActions.UNSHIFT_PENDING({
+        type: 'DELETE',
+        ...variables,
+      }),
+    )
+  })
 
   const remove = () => {
     const mediaValue = media.value
@@ -84,12 +97,10 @@ const useActions = (props: Readonly<Props>, emit: SetupContext['emit']) => {
     if (mediaValue.mediaListEntry) {
       confirmation.value = false
 
-      deleteEntry(
-        {
-          id: mediaValue.mediaListEntry.id,
-        },
-        mediaValue.id,
-      )
+      deleteEntry({
+        variables: { id: mediaValue.mediaListEntry.id },
+        mediaId: mediaValue.id,
+      })
 
       close()
     }
@@ -103,7 +114,6 @@ export default createComponent<Readonly<Props>>({
     form: { default: null, required: true, type: Object },
     media: { default: null, required: true, type: Object },
     submit: { default: null, required: true, type: Function },
-
   },
   setup(props, { emit }) {
     return useActions(props, emit)

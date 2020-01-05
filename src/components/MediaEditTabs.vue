@@ -17,8 +17,9 @@
   </v-tabs>
 </template>
 <script lang="ts">
-import { computed, createComponent } from '@vue/composition-api'
+import { createComponent } from '@vue/composition-api'
 import { NavigationElement } from '../types'
+import { useSync } from '@/hooks/sync'
 
 export interface Props {
   tab: string
@@ -51,10 +52,7 @@ export default createComponent<Readonly<Props>>({
     tab: { default: 'edit1', required: true, type: String },
   },
   setup(props, { emit }) {
-    const syncedTab = computed({
-      get: () => props.tab,
-      set: e => emit('update:tab', e),
-    })
+    const syncedTab = useSync(props, 'tab', emit)
 
     const tabs = useMediaEditTabs()
 
