@@ -4,7 +4,7 @@
       <v-list-item-avatar min-width="32" width="32" height="40">
         <v-img :src="viewer.avatar.large">
           <template v-slot:placeholder>
-            <v-skeleton-loader type="image"> </v-skeleton-loader>
+            <v-skeleton-loader type="image" />
           </template>
         </v-img>
       </v-list-item-avatar>

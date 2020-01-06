@@ -1,6 +1,6 @@
-import { MediaCardItemAvatar_media } from './MediaCardItemAvatar'
-import { MediaCardItemSubtitle_media } from './MediaCardItemSubtitle'
-import { MediaCardItemTitle_media } from './MediaCardItemTitle'
+import { MediaItemAvatar_media } from './MediaItemAvatar'
+import { MediaItemSubtitle_media } from './MediaItemSubtitle'
+import { MediaItemTitle_media } from './MediaItemTitle'
 
 import gql from 'graphql-tag'
 
@@ -10,11 +10,11 @@ export const ChangeCardBanner_media = gql`
     title {
       userPreferred
     }
-    ...MediaCardItemAvatar_media
-    ...MediaCardItemSubtitle_media
-    ...MediaCardItemTitle_media
+    ...MediaItemAvatar_media
+    ...MediaItemSubtitle_media
+    ...MediaItemTitle_media
   }
-  ${MediaCardItemAvatar_media}
-  ${MediaCardItemSubtitle_media}
-  ${MediaCardItemTitle_media}
+  ${MediaItemAvatar_media}
+  ${MediaItemSubtitle_media}
+  ${MediaItemTitle_media}
 `

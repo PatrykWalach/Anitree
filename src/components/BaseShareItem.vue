@@ -9,7 +9,7 @@
   >
     <v-card-title :style="{ 'justify-content': 'center' }">
       <v-avatar :color="color" class="white--text">
-        <slot></slot>
+        <slot />
       </v-avatar>
     </v-card-title>
     <v-card-text class="text-center">

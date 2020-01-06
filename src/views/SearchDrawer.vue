@@ -1,10 +1,10 @@
 <template>
   <v-list rounded>
     <BaseActionItem
+      v-for="{ attrs, props, on } in navigationElements"
       :key="props.icon"
       v-bind="{ ...attrs, ...props }"
       v-on="on"
-      v-for="{ attrs, props, on } in navigationElements"
     />
   </v-list>
 </template>

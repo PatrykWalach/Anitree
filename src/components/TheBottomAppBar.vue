@@ -1,23 +1,30 @@
 <template>
   <v-app-bar app bottom color="primary" dark>
-    <v-app-bar-nav-icon @click.stop="syncedDrawer = !syncedDrawer" />
-
-    <slot></slot>
+    <BaseAction
+      v-for="{ attrs, props: { title, ...props }, on } in navigationElements"
+      :key="props.icon"
+      color="accent"
+      v-bind="{ ...attrs, ...props }"
+      :tooltip="title"
+      v-on="on"
+    />
 
     <v-fab-transition>
       <v-btn
         v-if="fab"
+        :key="fab.icon"
         top
         absolute
-        :key="fab.icon"
         class="accent"
-        @click.stop="fab.on"
         color="accent"
         fab
         large
         right
+        @click.stop="fab.on"
       >
-        <v-icon color="black">{{ fab.icon }}</v-icon>
+        <v-icon color="black">
+          {{ fab.icon }}
+        </v-icon>
       </v-btn>
     </v-fab-transition>
   </v-app-bar>
@@ -27,12 +34,15 @@
 import { createComponent } from '@vue/composition-api'
 import { useFab } from '@/hooks/fab'
 import { useSync } from '@/hooks/sync'
+import BaseAction from './BaseAction.vue'
+import { useTheDrawerNavigation } from './TheDrawer.vue'
 
 export interface Props {
   drawer: boolean
 }
 
 export default createComponent<Readonly<Props>>({
+  components: { BaseAction },
   props: {
     drawer: { default: false, required: true, type: Boolean },
   },
@@ -41,10 +51,9 @@ export default createComponent<Readonly<Props>>({
 
     const fab = useFab()
 
-    return {
-      fab,
-      syncedDrawer,
-    }
+    const navigationElements = useTheDrawerNavigation()
+
+    return { navigationElements, fab, syncedDrawer }
   },
 })
 </script>

@@ -1,6 +1,6 @@
 <template>
   <v-list-item-subtitle
-    class="text-capitalize body-1"
+    :class="{ 'text-capitalize': true, 'body-1': body1 }"
     :style="{ alignItems: 'center' }"
   >
     {{ subheading }}
@@ -10,10 +10,10 @@
 <script lang="ts">
 import { computed, createComponent } from '@vue/composition-api'
 
-import { MediaCardItemSubtitle_media } from './__generated__/MediaCardItemSubtitle_media'
+import { MediaItemSubtitle_media } from './__generated__/MediaItemSubtitle_media'
 
 export interface Props {
-  media: MediaCardItemSubtitle_media
+  media: MediaItemSubtitle_media
 }
 
 export const useString = () => ({
@@ -33,6 +33,7 @@ export const useString = () => ({
 export default createComponent<Readonly<Props>>({
   props: {
     media: { default: null, required: true, type: Object },
+    body1: { default: false, required: false, type: Boolean },
   },
   setup(props) {
     const { clean } = useString()

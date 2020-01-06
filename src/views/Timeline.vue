@@ -3,16 +3,22 @@
     <v-container>
       <TheTimelineLoading v-if="loading" />
 
-      <the-timeline v-else-if="media" :media-list="media">
-        <v-col v-if="hasNextPage">
+      <the-timeline
+        v-else-if="media"
+        :media="media"
+        v-slot="{ showingEverything, increaseShowing }"
+      >
+        <v-col cols="12" v-if="!showingEverything || hasNextPage">
           <v-btn
-            @click.stop="loadMore"
+            v-intersect.quiet="() => showMore(increaseShowing)"
             :disabled="loading"
             :loading="loadingMore"
             block
             color="accent"
-            >show more</v-btn
+            @click.stop="() => showMore(increaseShowing)"
           >
+            show more
+          </v-btn>
         </v-col>
       </the-timeline>
     </v-container>
@@ -49,7 +55,7 @@ import {
   watch,
 } from '@vue/composition-api'
 import { useQuery, useQueryLoading, useResult } from '@vue/apollo-composable'
-import { TimelinePrefetchQuery, TimelineQuery } from './Timeline.js'
+import { TimelinePrefetchQuery, TimelineQuery } from './Timeline.gql.js'
 import { RecursiveNonNullable } from '../types'
 import TheTimelineLoading from '@/components/TheTimelineLoading.vue'
 import { asyncComponent } from '@/router'
@@ -57,15 +63,16 @@ import { usePage, updatePageQuery } from '@/hooks/page'
 import { useFab } from '@/hooks/fab'
 import { useRoutes } from '@/hooks/route'
 import { MediaSort } from '__generated__/globalTypes'
+import { useShowMore } from './Search.vue'
 
 const ViewSearchFilters = () =>
   import(
-    /* webpackChunkName: "ViewSearchFilters" */ '@/components/ViewSearchFilters.vue'
+    /* webpackChunkName: "ViewSearchFilters" */ /* webpackPrefetch: true */ '@/components/ViewSearchFilters.vue'
   )
 const TheTimeline = () =>
   asyncComponent(
     import(
-      /* webpackChunkName: "TheTimeline" */ '@/components/TheTimeline.vue'
+      /* webpackChunkName: "TheTimeline" */ /* webpackPrefetch: true */ '@/components/TheTimeline.vue'
     ),
     TheTimelineLoading,
   )
@@ -209,10 +216,18 @@ export default createComponent({
 
     const loading = useQueryLoading()
 
+    const showMore = useShowMore(
+      media,
+      hasNextPage,
+      computed(() => loading.value || loadingMore.value),
+      loadMore,
+    )
+
     return {
       loadMore,
       loadingMore,
       hasNextPage,
+      showMore,
       loading,
       media,
       order,

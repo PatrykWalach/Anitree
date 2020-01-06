@@ -20,8 +20,10 @@ export const TimelinePrefetchQuery = gql`
           }
         }
       }
+      ...Page_page
     }
   }
+  ${Page_page}
 `
 
 export const TimelineQuery = gql`
@@ -29,7 +31,7 @@ export const TimelineQuery = gql`
     $sort: [MediaSort]
     $idIn: [Int]
     $page: Int = 0
-    $perPage: Int = 10
+    $perPage: Int = 6
     $isAdult: Boolean
     $onList: Boolean
     $type: MediaType

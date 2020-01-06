@@ -8,35 +8,41 @@
           text
           v-bind="attrs"
           v-on="on"
-          >Delete</v-btn
         >
+          Delete
+        </v-btn>
       </template>
       <v-card color="primary darken-1" dark>
         <v-card-title>Warning</v-card-title>
-        <v-card-text
-          >Are you sure you want to delete this list entry?</v-card-text
-        >
+        <v-card-text>
+          Are you sure you want to delete this list entry?
+        </v-card-text>
         <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn text color="error" @click.stop="confirmation = false"
-            >Cancel</v-btn
-          >
+          <v-spacer />
+          <v-btn text color="error" @click.stop="confirmation = false">
+            Cancel
+          </v-btn>
 
-          <v-btn text color="accent" @click.stop="remove">Ok</v-btn>
+          <v-btn text color="accent" @click.stop="remove">
+            Ok
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-spacer></v-spacer>
+    <v-spacer />
 
-    <v-btn text outlined color="accent" @click.stop="close">Cancel</v-btn>
+    <v-btn text outlined color="accent" @click.stop="close">
+      Cancel
+    </v-btn>
 
     <v-btn
       :disabled="!submitRequired"
       depressed
       color="accent"
       @click.stop="submitAndClose"
-      >Save</v-btn
     >
+      Save
+    </v-btn>
   </v-card-actions>
 </template>
 <script lang="ts">

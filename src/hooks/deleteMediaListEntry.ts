@@ -10,7 +10,7 @@ import {
 import {
   DeleteMediaListEntryMutation,
   DeleteMediaListEntryQuery,
-} from './DeleteMediaListEntry.js'
+} from './DeleteMediaListEntry.gql.js'
 import { MutationUpdaterFn } from 'apollo-client'
 
 import { createMediaQuery, produceData } from './changes'
@@ -47,8 +47,9 @@ export const updateDeleteMediaListEntry: (
     !result ||
     !result.DeleteMediaListEntry ||
     !result.DeleteMediaListEntry.deleted
-  )
+  ) {
     return
+  }
 
   const query = createMediaQuery<DeleteMediaListEntryQueryVariables>(
     DeleteMediaListEntryQuery,

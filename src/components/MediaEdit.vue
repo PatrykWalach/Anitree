@@ -2,11 +2,11 @@
   <v-card :loading="loading" color="primary darken-1" dark>
     <v-card-text class="pa-0">
       <media-card-banner v-if="media.bannerImage" :media="media">
-        <v-overlay absolute></v-overlay>
+        <v-overlay absolute />
       </media-card-banner>
 
-      <MediaCardItem :media="media" />
-      <v-divider></v-divider>
+      <MediaItem :media="media" />
+      <v-divider />
       <MediaEditTabs
         :tab.sync="tab"
         :style="{ position: 'sticky', top: 0, 'z-index': 2 }"
@@ -19,7 +19,7 @@
         :form="form"
       />
     </v-card-text>
-    <v-divider></v-divider>
+    <v-divider />
     <MediaEditActions
       :submit="submit"
       :media="media"
@@ -29,7 +29,7 @@
   </v-card>
 </template>
 <script lang="ts">
-import MediaCardItem from './MediaCardItem.vue'
+import MediaItem from './MediaItem.vue'
 import MediaEditActions from './MediaEditActions.vue'
 import MediaEditItems from './MediaEditItems.vue'
 import { Ref, createComponent, ref } from '@vue/composition-api'
@@ -47,7 +47,9 @@ import { MediaEdit_viewer } from './__generated__/MediaEdit_viewer'
 
 const MediaCardBanner = () =>
   asyncComponent(
-    import(/* webpackChunkName: "MediaCardBanner" */ './MediaCardBanner.vue'),
+    import(
+      /* webpackChunkName: "MediaCardBanner" */ /* webpackPrefetch: true */ './MediaCardBanner.vue'
+    ),
     MediaCardLoadingBanner,
   )
 
@@ -59,7 +61,7 @@ export interface Props {
 export default createComponent<Readonly<Props>>({
   components: {
     MediaCardBanner,
-    MediaCardItem,
+    MediaItem,
     MediaEditActions,
     MediaEditItems,
     MediaEditTabs,

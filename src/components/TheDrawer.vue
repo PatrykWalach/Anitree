@@ -30,9 +30,9 @@
           <BaseActionItem
             icon-color="black"
             class="accent"
-            @click.stop="fab.on"
             :icon="fab.icon"
             :title="fab.title"
+            @click.stop="fab.on"
           />
         </v-list>
       </div>
@@ -40,11 +40,11 @@
 
     <v-list v-bind="$attrs">
       <BaseActionItem
-        color="accent"
         v-for="{ attrs, props, on } in navigationElements"
         :key="props.icon"
-        v-on="on"
+        color="accent"
         v-bind="{ ...attrs, ...props }"
+        v-on="on"
       />
     </v-list>
   </v-navigation-drawer>
@@ -62,12 +62,14 @@ import { asyncComponent } from '@/router'
 import { useFab } from '@/hooks/fab'
 import { useSync } from '@/hooks/sync'
 import { useToken } from '@/hooks/token'
-import { TheDrawerQuery } from './TheDrawer.js'
+import { TheDrawerQuery } from './TheDrawer.gql.js'
 import { TheDrawerQuery as TheDrawerQueryResult } from './__generated__/TheDrawerQuery'
 
 const TheDrawerViewer = () =>
   asyncComponent(
-    import(/* webpackChunkName: "TheDrawerViewer" */ './TheDrawerViewer.vue'),
+    import(
+      /* webpackChunkName: "TheDrawerViewer" */ /* webpackPrefetch: true */ './TheDrawerViewer.vue'
+    ),
     TheDrawerLoadingViewer,
   )
 

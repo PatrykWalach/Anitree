@@ -12,18 +12,18 @@
       :value="rating"
       class="mr-2"
       size="18"
-    ></v-rating>
+    />
     <span> {{ meanScore }}% ({{ reviews }}) </span>
   </v-list-item-subtitle>
 </template>
 
 <script lang="ts">
 import { computed, createComponent } from '@vue/composition-api'
-import { MediaCardItemRatings_media } from './__generated__/MediaCardItemRatings_media'
+import { MediaItemRatings_media } from './__generated__/MediaItemRatings_media'
 import { useNumber } from '@/hooks/intl'
 
 export interface Props {
-  media: MediaCardItemRatings_media
+  media: MediaItemRatings_media
 }
 
 export default createComponent<Readonly<Props>>({

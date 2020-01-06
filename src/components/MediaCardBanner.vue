@@ -8,7 +8,7 @@
     <template v-slot:placeholder>
       <v-skeleton-loader tile type="image" class="loader" />
     </template>
-    <slot></slot>
+    <slot />
   </v-img>
 </template>
 

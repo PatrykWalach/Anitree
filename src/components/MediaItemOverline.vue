@@ -8,10 +8,10 @@
 
 <script lang="ts">
 import { createComponent } from '@vue/composition-api'
-import { MediaCardItemOverline_media } from './__generated__/MediaCardItemOverline_media'
+import { MediaItemOverline_media } from './__generated__/MediaItemOverline_media'
 
 export interface Props {
-  media: MediaCardItemOverline_media
+  media: MediaItemOverline_media
 }
 export default createComponent<Readonly<Props>>({
   props: {

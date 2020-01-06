@@ -8,3 +8,8 @@ export const Page_page = gql`
     }
   }
 `
+export const Page_media = gql`
+  fragment Page_media on Media {
+    id
+  }
+`

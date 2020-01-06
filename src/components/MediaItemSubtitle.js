@@ -1,7 +1,7 @@
 import gql from 'graphql-tag'
 
-export const MediaCardItemSubtitle_media = gql`
-  fragment MediaCardItemSubtitle_media on Media {
+export const MediaItemSubtitle_media = gql`
+  fragment MediaItemSubtitle_media on Media {
     id
     type
     chapters

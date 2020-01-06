@@ -1,20 +1,19 @@
 <template>
-  <v-list-item-avatar v-bind="$attrs" :size="size">
-    <v-img :srcset="srcset" :src="src">
-      <template v-slot:placeholder>
-        <v-skeleton-loader type="image"></v-skeleton-loader>
-      </template>
-    </v-img>
-  </v-list-item-avatar>
+  <v-img v-bind="$attrs" :srcset="srcset" :src="src">
+    <template v-slot:placeholder>
+      <v-skeleton-loader type="image" />
+    </template>
+    <slot></slot>
+  </v-img>
 </template>
 
 <script lang="ts">
 import { computed, createComponent } from '@vue/composition-api'
-import { MediaCardItemAvatar_media } from './__generated__/MediaCardItemAvatar_media'
+import { MediaCardCover_media } from './__generated__/MediaCardCover_media'
 
 export interface Props {
-  media: MediaCardItemAvatar_media
-  size: number | string
+  media: MediaCardCover_media
+  x: number
 }
 
 export default createComponent<Readonly<Props>>({
@@ -25,20 +24,22 @@ export default createComponent<Readonly<Props>>({
       required: true,
       type: Object,
     },
-    size: {
-      default: 80,
+    x: {
+      default: 2,
       required: false,
-      type: [Number, String],
+      type: Number,
     },
   },
   setup(props) {
     const srcset = computed(() => {
       const { coverImage } = props.media
       if (coverImage) {
+        const x = props.x
         const { medium, large, extraLarge } = coverImage
-        return `${medium} 1x,
-            ${large} 2x,
-            ${extraLarge} 3x`
+
+        return `${medium} ${x * 0.5}x,
+            ${large} ${x}x,
+            ${extraLarge} ${x * 1.5}x`
       }
       return ''
     })

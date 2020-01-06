@@ -1,11 +1,11 @@
-import MediaCardItemTitle from '@/components/MediaCardItemTitle.vue'
+import MediaItemTitle from '@/components/MediaItemTitle.vue'
 
 import { matchSnapshot } from './utils'
 import { mockedMedia } from './mocks/media'
 import { useMockedStore } from './mocks/store'
 
-describe('MediaCardItemTitle', () => {
-  matchSnapshot(MediaCardItemTitle, {
+describe('MediaItemTitle', () => {
+  matchSnapshot(MediaItemTitle, {
     propsData: {
       media: mockedMedia,
     },

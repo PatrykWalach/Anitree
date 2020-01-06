@@ -3,10 +3,10 @@
     :is="tag"
     v-model="input"
     v-bind="$attrs"
-    @change="changeInput"
     color="accent"
+    @change="changeInput"
   >
-    <slot></slot>
+    <slot />
   </component>
 </template>
 
@@ -16,7 +16,9 @@ import { computed, createComponent, ref, watch } from '@vue/composition-api'
 import { Props } from './FormBuilder'
 
 const BaseDateField = () =>
-  import(/* webpackChunkName: "BaseDateField" */ './BaseDateField.vue')
+  import(
+    /* webpackChunkName: "BaseDateField" */ /* webpackPrefetch: true */ './BaseDateField.vue'
+  )
 
 export default createComponent<Readonly<Props>>({
   components: {

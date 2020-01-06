@@ -7,7 +7,7 @@
         :value="progressValue"
         v-bind="attrs"
         v-on="on"
-      ></v-progress-linear>
+      />
     </template>
     <span>{{ tip }}</span>
   </v-tooltip>

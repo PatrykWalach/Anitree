@@ -15,13 +15,13 @@
 import { SetupContext, computed, createComponent } from '@vue/composition-api'
 
 import MediaCard from './MediaCard.vue'
-const TheTimelineItemTime = () =>
-  import(
-    /* webpackChunkName: "TheTimelineItemTime" */ './TheTimelineItemTime.vue'
-  )
 
 import { useRouteParams } from '@/hooks/route'
 import { TheTimelineItem_media } from './__generated__/TheTimelineItem_media'
+const TheTimelineItemTime = () =>
+  import(
+    /* webpackChunkName: "TheTimelineItemTime" */ /* webpackPrefetch: true */ './TheTimelineItemTime.vue'
+  )
 
 export interface Props {
   media: TheTimelineItem_media

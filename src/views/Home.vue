@@ -20,14 +20,14 @@ import {
 import { useQuery, useResult } from '@vue/apollo-composable'
 import HomeItem from '@/components/HomeItem.vue'
 import MediaCardLoading from '@/components/MediaCardLoading.vue'
-import { HomeQuery } from './Home.js'
+import { HomeQuery } from './Home.gql.js'
 import { asyncComponent } from '../router'
 import { RecursiveNonNullable } from '../types'
 import { VNode } from 'vue'
 
 const MediaCard = () =>
   asyncComponent(
-    import(/* 'ebpackChunkName: "MediaCard"'*/ '@/components/MediaCard.vue'),
+    import(/* 'ebpackChunkName: "MediaCard"' */ '@/components/MediaCard.vue'),
     MediaCardLoading,
   )
 

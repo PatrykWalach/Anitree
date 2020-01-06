@@ -2,15 +2,14 @@
   <v-list rounded>
     <BaseActionItem
       icon="keyboard_arrow_down"
-      @click.stop="$router.back()"
       tooltip="Back"
+      @click.stop="$router.back()"
     />
-    <BaseActionItem icon="share" @click.stop="share" tooltip="Share" />
 
     <BaseActionItem
       icon="edit"
-      @click.stop="isEdited = !isEdited"
       tooltip="Edit"
+      @click.stop="isEdited = !isEdited"
     />
 
     <BaseActionItem
@@ -24,11 +23,11 @@
     <BaseActionItem
       :disabled="queryLoading"
       :loading="mutationLoading"
-      @click.stop="toggleFavorite"
       :icon="isFavourite ? 'favorite' : 'favorite_border'"
-      iconColor="red"
+      icon-color="red"
       :title="favourites"
       :tooltip="isFavourite ? 'unfavourite' : 'favourite'"
+      @click.stop="toggleFavourite"
     />
 
     <component
@@ -69,14 +68,19 @@ import MediaEditLoading from '@/components/MediaEditLoading.vue'
 import { TimelineDrawer_media } from './__generated__/TimelineDrawer_media'
 import { VBottomSheet } from 'vuetify/lib'
 import { asyncComponent } from '@/router'
+
 import { useViewer } from '../hooks/viewer'
 
 const BaseShare = () =>
-  import(/* webpackChunkName: "BaseShare" */ '@/components/BaseShare.vue')
+  import(
+    /* webpackChunkName: "BaseShare" */ /* webpackPrefetch: true */ '@/components/BaseShare.vue'
+  )
 
 const MediaEdit = () =>
   asyncComponent(
-    import(/* webpackChunkName: "MediaEdit" */ '@/components/MediaEdit.vue'),
+    import(
+      /* webpackChunkName: "MediaEdit" */ /* webpackPrefetch: true */ '@/components/MediaEdit.vue'
+    ),
     MediaEditLoading,
   )
 

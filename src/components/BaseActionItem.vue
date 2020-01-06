@@ -1,9 +1,11 @@
 <template>
   <v-list-item v-bind="$attrs" v-on="$listeners">
-    <v-tooltip :[right]="true" v-if="tooltip">
+    <v-tooltip v-if="tooltip" :[right]="true">
       <template v-slot:activator="{ on, attrs }">
-        <v-list-item-icon v-on="on" v-bind="attrs">
-          <v-icon :color="iconColor">{{ icon }}</v-icon>
+        <v-list-item-icon v-bind="attrs" v-on="on">
+          <v-icon :color="iconColor">
+            {{ icon }}
+          </v-icon>
         </v-list-item-icon>
       </template>
       <span class="text-capitalize">
@@ -11,7 +13,9 @@
       </span>
     </v-tooltip>
     <v-list-item-icon v-else>
-      <v-icon :color="iconColor">{{ icon }}</v-icon>
+      <v-icon :color="iconColor">
+        {{ icon }}
+      </v-icon>
     </v-list-item-icon>
 
     <v-list-item-content>

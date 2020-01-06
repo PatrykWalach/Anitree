@@ -7,18 +7,17 @@
         <router-view />
       </keep-alive>
     </v-content>
-
-    <the-bottom-app-bar :drawer.sync="drawer" v-if="$vuetify.breakpoint.xsOnly">
+    <template v-if="$vuetify.breakpoint.xsOnly">
       <keep-alive>
         <router-view name="appBar" />
       </keep-alive>
-    </the-bottom-app-bar>
+      <TheBottomAppBar :drawer.sync="drawer" />
+    </template>
     <the-right-drawer v-else>
       <keep-alive>
         <router-view name="drawer" />
       </keep-alive>
     </the-right-drawer>
-
     <TheFooter />
   </v-app>
 </template>
@@ -30,19 +29,19 @@ import TheFooter from './components/TheFooter.vue'
 import { useQuery } from '@vue/apollo-composable'
 import { useToken } from '@/hooks/token'
 
+import { DefaultViewer } from './hooks/viewer'
+import { AppQuery } from './App.gql.js'
+import { AppQuery as AppQueryResult } from './__generated__/AppQuery'
+
 const TheRightDrawer = () =>
   import(
-    /* webpackChunkName: "TheRightDrawer" */ './components/TheRightDrawer.vue'
+    /* webpackChunkName: "TheRightDrawer" */ /* webpackPrefetch: true */ './components/TheRightDrawer.vue'
   )
 
 const TheBottomAppBar = () =>
   import(
-    /* webpackChunkName: "TheBottomAppBar" */ './components/TheBottomAppBar.vue'
+    /* webpackChunkName: "TheBottomAppBar" */ /* webpackPrefetch: true */ './components/TheBottomAppBar.vue'
   )
-
-import { DefaultViewer } from './hooks/viewer'
-import { AppQuery } from './App.js'
-import { AppQuery as AppQueryResult } from './__generated__/AppQuery'
 
 export default createComponent({
   components: {
@@ -60,14 +59,13 @@ export default createComponent({
 
     const token = useToken()
 
-    const { result, loading, error, onError } = useQuery<AppQueryResult>(
+    const { result, loading, error } = useQuery<AppQueryResult>(
       AppQuery,
       {},
       () => ({
         enabled: !!token.value,
       }),
     )
-    onError((...e) => console.log(e))
 
     provide(DefaultViewer, { result, loading, error })
 

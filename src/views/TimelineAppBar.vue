@@ -1,61 +1,22 @@
 <template>
-  <div>
+  <!-- <v-app-bar app elevate-on-scroll hide-on-scroll> -->
+  <media-card-actions
+    :media="media"
+    :tag="VAppBar"
+    app
+    elevate-on-scroll
+    hide-on-scroll
+    bottom
+  >
     <BaseAction
-      icon="keyboard_arrow_down"
-      @click.stop="$router.back()"
+      bottom
+      icon-color="secondary"
+      icon="keyboard_arrow_left"
       tooltip="Back"
+      @click.stop="$router.back()"
     />
-
-    <BaseAction icon="edit" @click.stop="isEdited = !isEdited" tooltip="Edit" />
-
-    <BaseAction
-      :disabled="queryLoading"
-      :loading="mutationLoading"
-      @click.stop="toggleFavorite"
-      :icon="isFavourite ? 'favorite' : 'favorite_border'"
-      iconColor="red"
-      :title="favourites"
-      :tooltip="isFavourite ? 'unfavourite' : 'favourite'"
-    />
-
-    <base-action-dropdown type-icon icon="more_vert">
-      <BaseActionItem icon="share" @click.stop="share" tooltip="Share" />
-
-      <BaseActionItem
-        :href="media.siteUrl"
-        rel="noopener"
-        target="_blank"
-        icon="open_in_new"
-        tooltip="Anilist"
-      />
-    </base-action-dropdown>
-
-    <component
-      :is="$vuetify.breakpoint.xsOnly ? 'v-bottom-sheet' : 'v-dialog'"
-      v-model="isShared"
-      scrollable
-      max-width="440px"
-    >
-      <BaseShare :options="shareData" />
-    </component>
-    <v-dialog
-      v-model="isEdited"
-      scrollable
-      :fullscreen="$vuetify.breakpoint.xsOnly"
-      :transition="
-        $vuetify.breakpoint.xsOnly ? 'dialog-bottom-transition' : undefined
-      "
-      max-width="720px"
-    >
-      <MediaEditLoading v-if="queryLoading" @close="isEdited = false" />
-      <MediaEdit
-        v-else-if="media && viewer"
-        :viewer="viewer"
-        :media="media"
-        @close="isEdited = false"
-      />
-    </v-dialog>
-  </div>
+  </media-card-actions>
+  <!-- </v-app-bar> -->
 </template>
 
 <script lang="ts">
@@ -64,34 +25,39 @@ import { useFavourites } from '@/hooks/toggleFavourite'
 import { useShare } from '@/hooks/share'
 
 import BaseAction from '@/components/BaseAction.vue'
-import BaseActionDropdown from '@/components/BaseActionDropdown.vue'
+
 import MediaEditLoading from '@/components/MediaEditLoading.vue'
-import { TimelineAppBar_media } from './__generated__/TimelineAppBar_media'
+import { TimelineBottomAppBar_media } from './__generated__/TimelineBottomAppBar_media'
 import { VBottomSheet } from 'vuetify/lib'
 import { asyncComponent } from '@/router'
 import { useViewer } from '../hooks/viewer'
+import MediaCardActions from '../components/MediaCardActions.vue'
 
 const BaseShare = () =>
-  import(/* webpackChunkName: "BaseShare" */ '@/components/BaseShare.vue')
+  import(
+    /* webpackChunkName: "BaseShare" */ /* webpackPrefetch: true */ '@/components/BaseShare.vue'
+  )
 const BaseActionItem = () =>
   import(
-    /* webpackChunkName: "BaseActionItem" */ '@/components/BaseActionItem.vue'
+    /* webpackChunkName: "BaseActionItem" */ /* webpackPrefetch: true */ '@/components/BaseActionItem.vue'
   )
 
 const MediaEdit = () =>
   asyncComponent(
-    import(/* webpackChunkName: "MediaEdit" */ '@/components/MediaEdit.vue'),
+    import(
+      /* webpackChunkName: "MediaEdit" */ /* webpackPrefetch: true */ '@/components/MediaEdit.vue'
+    ),
     MediaEditLoading,
   )
 
 export interface Props {
-  media: TimelineAppBar_media
+  media: TimelineBottomAppBar_media
 }
-
+import { VAppBar } from 'vuetify/lib'
 export default createComponent<Readonly<Props>>({
   components: {
     BaseAction,
-    BaseActionDropdown,
+    MediaCardActions,
     BaseActionItem,
     BaseShare,
     MediaEdit,
@@ -114,6 +80,7 @@ export default createComponent<Readonly<Props>>({
       open,
       share,
       shareData,
+      VAppBar,
     }
   },
 })

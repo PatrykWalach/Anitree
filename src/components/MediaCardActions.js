@@ -1,5 +1,5 @@
 import { MediaEdit_media } from './MediaEdit.js'
-import { ToggleFavourite_media } from '../hooks/ToggleFavourite.js'
+import { ToggleFavourite_media } from '../hooks/ToggleFavourite.gql.js'
 import { Share_media } from '../hooks/Share.js'
 
 import gql from 'graphql-tag'

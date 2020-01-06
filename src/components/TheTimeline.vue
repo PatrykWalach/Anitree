@@ -2,7 +2,7 @@
   <v-row justify="center" align="center" dense>
     <v-col v-if="!$vuetify.breakpoint.xsOnly" cols="12">
       <v-timeline :dense="$vuetify.breakpoint.smAndDown">
-        <TheTimelineItem
+        <the-timeline-item
           v-for="media in mediaList"
           :key="media.id"
           :media="media"
@@ -12,11 +12,11 @@
 
     <template v-else>
       <v-col v-for="media in mediaList" :key="media.id" cols="12">
-        <MediaCard :media="media" />
+        <media-card :media="media" />
       </v-col>
     </template>
 
-    <slot></slot>
+    <slot v-bind="{ showingEverything, increaseShowing }" />
   </v-row>
 </template>
 
@@ -25,18 +25,25 @@ import MediaCard from './MediaCard.vue'
 import TheTimelineItem from './TheTimelineItem.vue'
 
 import { TheTimeline_media } from './__generated__/TheTimeline_media'
+import { useShow } from './TheGrid.vue'
+import { createComponent } from '@vue/composition-api'
 
 export interface Props {
-  mediaList: TheTimeline_media[]
+  media: TheTimeline_media[]
+  show: number
 }
 
-export default {
+export default createComponent<Readonly<Props>>({
   components: {
     MediaCard,
     TheTimelineItem,
   },
   props: {
-    mediaList: { default: () => [], required: true, type: Array },
+    media: { default: null, required: true, type: Array },
+    show: { default: 6, required: false, type: Number },
   },
-}
+  setup(props) {
+    return useShow(props)
+  },
+})
 </script>

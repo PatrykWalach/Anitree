@@ -4,33 +4,36 @@
       v-if="!deleteType"
       icon
       @click.stop="syncedExtension = !syncedExtension"
-      ><v-icon>{{
-        syncedExtension ? 'keyboard_arrow_up' : 'keyboard_arrow_down'
-      }}</v-icon></v-btn
     >
-    <v-spacer></v-spacer>
+      <v-icon>
+        {{ syncedExtension ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}
+      </v-icon>
+    </v-btn>
+    <v-spacer />
     <!-- <v-btn text color="error" :disabled="loading" @click.stop="discard">
       Discard
     </v-btn> -->
 
     <v-dialog v-model="showConfirmation" max-width="360">
       <template v-slot:activator="{ on, attrs }">
-        <v-btn :disabled="loading" color="error" text v-bind="attrs" v-on="on"
-          >Discard</v-btn
-        >
+        <v-btn :disabled="loading" color="error" text v-bind="attrs" v-on="on">
+          Discard
+        </v-btn>
       </template>
       <v-card color="primary darken-1" dark>
         <v-card-title>Warning</v-card-title>
-        <v-card-text
-          >Are you sure you want to discard this changes?</v-card-text
-        >
+        <v-card-text>
+          Are you sure you want to discard this changes?
+        </v-card-text>
         <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn text color="error" @click.stop="showConfirmation = false"
-            >Cancel</v-btn
-          >
+          <v-spacer />
+          <v-btn text color="error" @click.stop="showConfirmation = false">
+            Cancel
+          </v-btn>
 
-          <v-btn text color="accent" @click.stop="discard">Ok</v-btn>
+          <v-btn text color="accent" @click.stop="discard">
+            Ok
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>

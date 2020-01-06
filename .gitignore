@@ -24,3 +24,6 @@ yarn-error.log*
 # Gitpod directories and files
 .theia
 .gitpod.yml
+
+# Apollo types
+*__generated__

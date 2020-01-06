@@ -27,7 +27,7 @@ import {
   RouterTimelineQuery,
   RouterTimelineAppBarQuery,
   RouterTimelineDrawerQuery,
-} from './Router.js'
+} from './Router.gql.js'
 
 const useQueryProps = (
   { query: fullQuery }: Route,
@@ -206,10 +206,10 @@ const router = new Router({
         })
       },
       components: {
+        default: Timeline,
         appBar: createTimelineWrapper(RouterTimelineAppBarQuery, ({ media }) =>
           h(TimelineAppBar, { props: { media } }),
         ),
-        default: Timeline,
         drawer: createTimelineWrapper(
           RouterTimelineDrawerQuery,
           ({ media }) => h(TimelineDrawer, { props: { media } }),

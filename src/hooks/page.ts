@@ -3,13 +3,13 @@ import { useComputedOrCallback } from './reducer'
 import { Ref, ref } from '@vue/composition-api'
 import { DocumentNode } from 'graphql'
 import { Page_page } from './__generated__/Page_page'
+import { Page_media } from './__generated__/Page_media'
 
-export const usePage = <
-  R extends {
-    Page: Page_page | null
-  },
-  V
->(
+interface Page extends Page_page {
+  media: readonly (Page_media | null)[] | null
+}
+
+export const usePage = <R extends { Page: Page | null }, V>(
   queryDocument: DocumentNode,
   value: Ref<V> | (() => V),
   options:
@@ -35,7 +35,7 @@ export const usePage = <
   const loadingMore = ref(false)
 
   const loadMore = async () => {
-    if (!query.loading.value && hasNextPage.value) {
+    if (!query.loading.value && !loadingMore.value && hasNextPage.value) {
       loadingMore.value = true
       await query.fetchMore({
         updateQuery: updatePageQuery,
@@ -57,25 +57,19 @@ export const usePage = <
   }
 }
 
-export const updatePageQuery = <
-  Q extends {
-    Page: {
-      media: readonly any[] | null
-    } | null
-  }
->(
-  previousResult: Q,
+export const updatePageQuery = <P extends { Page: Page | null }>(
+  previousResult: P,
   {
     fetchMoreResult,
   }: {
-    fetchMoreResult?: Q
+    fetchMoreResult?: P
   },
-): Q => {
+): P => {
   if (!fetchMoreResult) {
     return previousResult
   }
 
-  const getPageAndMedia = (result: Q) => {
+  const getPageAndMedia = (result: P) => {
     const resultPage = result.Page
     const resultMedia = (resultPage && resultPage.media) || []
     return [resultPage, resultMedia] as const

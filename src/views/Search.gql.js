@@ -1,5 +1,5 @@
 import gql from 'graphql-tag'
-import { TheTimeline_media } from '../components/TheTimeline.js'
+import { TheGrid_media } from '../components/TheGrid.js'
 import { Page_page } from '../hooks/Page.js'
 
 export const SearchQuery = gql`
@@ -14,7 +14,7 @@ export const SearchQuery = gql`
     $status: [MediaStatus]
     $season: MediaSeason
     $sort: [MediaSort]
-    $perPage: Int = 10
+    $perPage: Int = 12
   ) {
     Page(page: $page, perPage: $perPage) {
       media(
@@ -42,12 +42,13 @@ export const SearchQuery = gql`
             "status_in"
           ]
         ) {
-        ...TheTimeline_media
+        id
+        ...TheGrid_media
       }
       ...Page_page
     }
   }
-  ${TheTimeline_media}
+  ${TheGrid_media}
   ${Page_page}
 `
 

@@ -35,7 +35,6 @@
               active-class="accent--text"
             >
               <v-chip
-                color="primary"
                 v-for="{ value, text } in [
                   {
                     value: 'ID_DESC',
@@ -67,6 +66,7 @@
                   },
                 ]"
                 :key="value"
+                color="primary"
                 :value="value"
                 class="text-capitalize"
               >
@@ -89,7 +89,6 @@
               active-class="accent--text"
             >
               <v-chip
-                color="primary"
                 v-for="status in [
                   'CANCELLED',
                   'FINISHED',
@@ -97,6 +96,7 @@
                   'RELEASING',
                 ]"
                 :key="status"
+                color="primary"
                 filter
                 :value="status"
                 class="text-capitalize"
@@ -126,7 +126,7 @@
                 color="accent"
                 :input-value="active"
                 @click.stop="toggle"
-              ></v-checkbox>
+              />
             </v-list-item-action>
           </v-list-item>
           <v-list-item v-slot="{ active, toggle }" value="true">
@@ -140,7 +140,7 @@
                 color="accent"
                 :input-value="active"
                 @click.stop="toggle"
-              ></v-checkbox>
+              />
             </v-list-item-action>
           </v-list-item>
         </v-list-item-group>
@@ -157,24 +157,27 @@
                 color="accent"
                 :input-value="active"
                 @click.stop="toggle"
-              ></v-checkbox>
+              />
             </v-list-item-action>
           </v-list-item>
         </v-list-item-group>
       </v-list>
     </v-card-text>
-    <v-divider></v-divider>
+    <v-divider />
     <v-card-actions>
-      <v-spacer></v-spacer>
-      <v-btn text color="error" @click.stop="close">cancel</v-btn>
+      <v-spacer />
+      <v-btn text color="error" @click.stop="close">
+        cancel
+      </v-btn>
       <v-btn
         :disabled="!submitRequired"
         text
         outlined
         color="accent"
         @click.stop="submit"
-        >submit</v-btn
       >
+        submit
+      </v-btn>
     </v-card-actions>
   </v-card>
 </template>

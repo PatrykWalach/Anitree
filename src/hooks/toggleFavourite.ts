@@ -13,7 +13,7 @@ import { DocumentNode } from 'graphql'
 import {
   ToggleFavouriteQuery,
   ToggleFavouriteMutation,
-} from './ToggleFavourite.js'
+} from './ToggleFavourite.gql.js'
 import { ToggleFavourite_media } from './__generated__/ToggleFavourite_media'
 import produce from 'immer'
 import { useNumber } from './intl'

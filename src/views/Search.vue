@@ -10,27 +10,48 @@
 
     <v-container>
       <keep-alive>
-        <TheTimelineLoading v-if="loading" />
+        <TheGridLoading v-if="loading" />
         <template v-else-if="page">
           <v-row justify="center" align="center" v-if="!media.length">
             No results found
           </v-row>
-          <the-timeline v-else :media-list="media">
-            <v-col v-if="hasNextPage">
+          <the-grid
+            v-else
+            :media="media"
+            v-slot="{ showingEverything, increaseShowing }"
+          >
+            <v-col cols="12" v-if="!showingEverything || hasNextPage">
               <v-btn
-                @click.stop="loadMore"
+                v-intersect.quiet="() => showMore(increaseShowing)"
                 :disabled="loading"
                 :loading="loadingMore"
                 block
                 color="accent"
-                >show more</v-btn
+                @click.stop="() => showMore(increaseShowing)"
               >
+                show more
+              </v-btn>
             </v-col>
-          </the-timeline>
+          </the-grid>
+          <!-- <MediaList
+            v-else
+            v-bind="{
+              hasNextPage,
+              loading,
+              loadingMore,
+              loadMore,
+              media,
+            }"
+          /> -->
         </template>
       </keep-alive>
     </v-container>
-    <v-dialog v-model="showFilters" max-width="360px" scrollable>
+    <v-dialog
+      v-model="showFilters"
+      max-width="360px"
+      scrollable
+      :fullscreen="$vuetify.breakpoint.xsOnly"
+    >
       <ViewSearchFilters :query="query" @close="showFilters = false" />
     </v-dialog>
   </div>
@@ -43,29 +64,29 @@ import {
   SearchQuery_Page_media,
 } from './__generated__/SearchQuery'
 import { beforeRouteLeave, createBeforeRouteEnter, useFab } from '@/hooks/fab'
-import { computed, createComponent, ref } from '@vue/composition-api'
+import { computed, createComponent, Ref, ref } from '@vue/composition-api'
 import { useResult } from '@vue/apollo-composable'
 import { Dictionary } from 'vue-router/types/router'
-import { SearchQuery } from './Search.js'
+import { SearchQuery } from './Search.gql.js'
 import { RecursiveNonNullable } from '../types'
-import TheTimelineLoading from '@/components/TheTimelineLoading.vue'
-import ViewSearchField from '@/components/ViewSearchField.vue'
 import { asyncComponent } from '@/router'
 import { useRoutes } from '@/hooks/route'
 import { useViewer } from '@/hooks/viewer'
 import { usePage } from '@/hooks/page'
+import TheGridLoading from '@/components/TheGridLoading.vue'
+import ViewSearchField from '@/components/ViewSearchField.vue'
 
-const TheTimeline = () =>
+const TheGrid = () =>
   asyncComponent(
     import(
-      /* webpackChunkName: "TheTimeline" */ '@/components/TheTimeline.vue'
+      /* webpackChunkName: "TheGrid" */ /* webpackPrefetch: true */ '@/components/TheGrid.vue'
     ),
-    TheTimelineLoading,
+    TheGridLoading,
   )
 
 const ViewSearchFilters = () =>
   import(
-    /* webpackChunkName: "ViewSearchFilters" */ '@/components/ViewSearchFilters.vue'
+    /* webpackChunkName: "ViewSearchFilters" */ /* webpackPrefetch: true */ '@/components/ViewSearchFilters.vue'
   )
 
 export interface Props {
@@ -84,7 +105,6 @@ const useVariables = (props: Readonly<Props>) => {
 
   const variables = computed(() => ({
     isAdult: isAdult.value,
-    perPage: 10,
     ...props.queryWithBoolean,
   }))
 
@@ -93,6 +113,25 @@ const useVariables = (props: Readonly<Props>) => {
   }
 }
 
+export const useShowMore = (
+  media: Ref<readonly any[]>,
+  hasNextPage: Ref<boolean>,
+  loading: Ref<boolean>,
+  loadMore: () => Promise<void>,
+) => {
+  const showMore = async (changeShow: () => number) => {
+    if (!loading.value) {
+      const show = changeShow()
+      if (show > media.value.length) {
+        if (hasNextPage.value) {
+          await loadMore()
+        }
+      }
+    }
+  }
+
+  return showMore
+}
 export default createComponent({
   beforeRouteEnter: createBeforeRouteEnter(vm => ({
     icon: 'tune',
@@ -103,8 +142,8 @@ export default createComponent({
   })),
   beforeRouteLeave,
   components: {
-    TheTimeline,
-    TheTimelineLoading,
+    TheGrid,
+    TheGridLoading,
     ViewSearchField,
     ViewSearchFilters,
   },
@@ -119,17 +158,7 @@ export default createComponent({
       () => !!Object.values(props.queryWithBoolean).length,
     )
 
-    // const loadingMore = ref(false)
-
     const { routeSearch } = useRoutes(root)
-
-    // const { result, fetchMore, onError } = useQuery<
-    //   SearchQueryResult,
-    //   SearchQueryVariables
-    // >(SearchQuery, variables, () => ({
-    //   enabled: routeSearch.value,
-    //   notifyOnNetworkStatusChange: false,
-    // }))
 
     const { result, loadMore, loadingMore, loading, hasNextPage } = usePage<
       SearchQueryResult,
@@ -138,36 +167,6 @@ export default createComponent({
       enabled: routeSearch.value,
       notifyOnNetworkStatusChange: false,
     }))
-
-    // onError((...e) => console.log(e))
-
-    // const currentPage = useResult<number, number>(
-    //   result,
-    //   0,
-    //   (data: RecursiveNonNullable<SearchQueryResult>) =>
-    //     data.Page.pageInfo.currentPage,
-    // )
-
-    // const hasNextPage = useResult<boolean, boolean>(
-    //   result,
-    //   true,
-    //   (data: RecursiveNonNullable<SearchQueryResult>) =>
-    //     data.Page.pageInfo.hasNextPage,
-    // )
-
-    // const loading = useQueryLoading()
-
-    // const loadMore = async () => {
-    //   loadingMore.value = true
-    //   await fetchMore({
-    //     updateQuery: updatePageQuery,
-    //     variables: {
-    //       ...variables,
-    //       page: 1 + currentPage.value,
-    //     },
-    //   })
-    //   loadingMore.value = false
-    // }
 
     const page = useResult<SearchQuery_Page, null>(
       result,
@@ -187,8 +186,16 @@ export default createComponent({
     const fab = useFab()
     const showFilters = ref(false)
 
+    const showMore = useShowMore(
+      media,
+      hasNextPage,
+      computed(() => loading.value || loadingMore.value),
+      loadMore,
+    )
+
     return {
       fab,
+      showMore,
       hasNextPage,
       isSearched,
       loadMore,

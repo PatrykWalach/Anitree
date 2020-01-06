@@ -1,7 +1,7 @@
-import MediaCardLoadingItemTitle from '@/components/MediaCardLoadingItemTitle.vue'
+import MediaItemLoadingTitle from '@/components/MediaItemLoadingTitle.vue'
 
 import { matchSnapshot } from './utils'
 
-describe('MediaCardLoadingItemTitle', () => {
-  matchSnapshot(MediaCardLoadingItemTitle)
+describe('MediaItemLoadingTitle', () => {
+  matchSnapshot(MediaItemLoadingTitle)
 })

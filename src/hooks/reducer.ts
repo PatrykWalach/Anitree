@@ -21,6 +21,7 @@ export const useReducer: UseReducer = <S, A>(
 
   const dispatch = (action?: A) => {
     state.value = reducer(immutableState.value, action)
+    return state.value
   }
 
   return [immutableState, dispatch]

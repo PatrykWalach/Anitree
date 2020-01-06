@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`MediaCardItem matches snapshot 1`] = `
+exports[`MediaItem matches snapshot 1`] = `
 <v-list-item-stub
   activeclass=""
   selectable="true"

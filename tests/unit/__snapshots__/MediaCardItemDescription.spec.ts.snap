@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`MediaCardItemDescription matches snapshot 1`] = `
+exports[`MediaItemDescription matches snapshot 1`] = `
 <v-list-item-subtitle-stub
   class="text-capitalize"
 >

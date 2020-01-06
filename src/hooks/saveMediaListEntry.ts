@@ -10,7 +10,7 @@ import {
 import {
   SaveMediaListEntryMutation,
   SaveMediaListEntryQuery,
-} from './SaveMediaListEntry.js'
+} from './SaveMediaListEntry.gql.js'
 import { MutationUpdaterFn } from 'apollo-client'
 
 import { createMediaQuery, produceData } from './changes'

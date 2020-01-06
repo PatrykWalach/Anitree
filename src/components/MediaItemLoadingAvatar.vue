@@ -4,11 +4,7 @@
     :size="size"
     :style="{ 'align-self': 'center', overflow: 'hidden' }"
   >
-    <v-skeleton-loader
-      width="100%"
-      height="100%"
-      type="image"
-    ></v-skeleton-loader>
+    <v-skeleton-loader width="100%" height="100%" type="image" />
   </v-list-item-avatar>
 </template>
 

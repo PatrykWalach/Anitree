@@ -20,15 +20,14 @@
               hide-details
               readonly
               :value="url"
-            >
-            </v-text-field>
+            />
           </v-list-item-subtitle>
         </v-list-item-content>
         <v-list-item-action>
           <v-btn
+            v-clipboard="url"
             color="accent"
             outlined
-            v-clipboard="url"
             @success="snackbar = true"
           >
             copy

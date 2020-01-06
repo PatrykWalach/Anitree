@@ -8,6 +8,6 @@
     mini-variant-width="72"
     color="transparent"
   >
-    <slot></slot>
+    <slot />
   </v-navigation-drawer>
 </template>

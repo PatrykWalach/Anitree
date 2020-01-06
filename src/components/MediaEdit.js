@@ -1,6 +1,6 @@
 import gql from 'graphql-tag'
 import { MediaCardBanner_media } from './MediaCardBanner.js'
-import { MediaCardItem_media } from './MediaCardItem.js'
+import { MediaItem_media } from './MediaItem.js'
 import { MediaEditActions_media } from './MediaEditActions.js'
 import {
   MediaEditItems_media,
@@ -14,10 +14,10 @@ export const MediaEdit_media = gql`
     ...MediaEditItems_media
     ...MediaEditActions_media
     ...MediaCardBanner_media
-    ...MediaCardItem_media
+    ...MediaItem_media
   }
   ${MediaCardBanner_media}
-  ${MediaCardItem_media}
+  ${MediaItem_media}
   ${MediaEditActions_media}
   ${MediaEditItems_media}
 `

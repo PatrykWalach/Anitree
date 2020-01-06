@@ -120,7 +120,18 @@ export const mediaListToForm = (
 
     return {
       ...mediaListEntry,
+      repeat: mediaListEntry.repeat || 0,
       score: mediaListEntry.score || 0,
+      completedAt: mediaListEntry.completedAt || {
+        day: null,
+        month: null,
+        year: null,
+      },
+      startedAt: mediaListEntry.startedAt || {
+        day: null,
+        month: null,
+        year: null,
+      },
       advancedScores,
     }
   }

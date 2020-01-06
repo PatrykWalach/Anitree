@@ -6,6 +6,7 @@
     filled
     rounded
     clearable
+    autofocus
     hide-details
     name="search"
     label="Search"

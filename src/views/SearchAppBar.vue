@@ -1,14 +1,24 @@
 <template>
-  <div>
+  <v-app-bar app elevate-on-scroll hide-on-scroll>
     <BaseAction
+      icon-color="secondary"
+      icon="keyboard_arrow_left"
+      tooltip="Back"
+      @click.stop="$router.back()"
+      bottom
+    />
+    <v-spacer></v-spacer>
+    <BaseAction
+      icon-color="secondary"
+      bottom
+      v-for="{ attrs, props, on } in navigationElements"
       :key="props.icon"
       v-bind="{ ...attrs, ...props }"
-      v-on="on"
-      v-for="{ attrs, props, on } in navigationElements"
       :title="null"
       :tooltip="props.title"
+      v-on="on"
     />
-  </div>
+  </v-app-bar>
 </template>
 <script lang="ts">
 import BaseAction from '@/components/BaseAction.vue'
