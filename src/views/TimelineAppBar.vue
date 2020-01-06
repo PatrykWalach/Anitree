@@ -27,7 +27,7 @@ import { useShare } from '@/hooks/share'
 import BaseAction from '@/components/BaseAction.vue'
 
 import MediaEditLoading from '@/components/MediaEditLoading.vue'
-import { TimelineBottomAppBar_media } from './__generated__/TimelineBottomAppBar_media'
+import { TimelineAppBar_media } from './__generated__/TimelineAppBar_media'
 import { VBottomSheet } from 'vuetify/lib'
 import { asyncComponent } from '@/router'
 import { useViewer } from '../hooks/viewer'
@@ -51,7 +51,7 @@ const MediaEdit = () =>
   )
 
 export interface Props {
-  media: TimelineBottomAppBar_media
+  media: TimelineAppBar_media
 }
 import { VAppBar } from 'vuetify/lib'
 export default createComponent<Readonly<Props>>({
