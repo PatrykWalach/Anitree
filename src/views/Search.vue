@@ -1,141 +1,201 @@
 <template>
-  <keep-alive>
-    <TheSearchNavigation v-if="!isSearched" :user="viewer" />
-    <v-container v-else>
+  <div>
+    <v-container>
+      <v-row justify="center" dense>
+        <v-col cols="12" md="6">
+          <ViewSearchField :query="query" />
+        </v-col>
+      </v-row>
+    </v-container>
+
+    <v-container>
       <keep-alive>
-        <TheMediaTimelineLoading v-if="loading" />
+        <TheGridLoading v-if="loading" />
         <template v-else-if="page">
           <v-row justify="center" align="center" v-if="!media.length">
             No results found
           </v-row>
-          <TheMediaTimeline v-else :media-list="media" />
+          <the-grid
+            v-else
+            :media="media"
+            v-slot="{ showingEverything, increaseShowing }"
+          >
+            <v-col cols="12" v-if="!showingEverything || hasNextPage">
+              <v-btn
+                v-intersect.quiet="() => showMore(increaseShowing)"
+                :disabled="loading"
+                :loading="loadingMore"
+                block
+                color="accent"
+                @click.stop="() => showMore(increaseShowing)"
+              >
+                show more
+              </v-btn>
+            </v-col>
+          </the-grid>
+          <!-- <MediaList
+            v-else
+            v-bind="{
+              hasNextPage,
+              loading,
+              loadingMore,
+              loadMore,
+              media,
+            }"
+          /> -->
         </template>
       </keep-alive>
-      <v-btn
-        v-if="hasNextPage"
-        @click="loadMore"
-        :disabled="loading || loadingMore"
-        block
-        color="accent"
-        >show more</v-btn
-      >
     </v-container>
-  </keep-alive>
+    <v-dialog
+      v-model="showFilters"
+      max-width="360px"
+      scrollable
+      :fullscreen="$vuetify.breakpoint.xsOnly"
+    >
+      <ViewSearchFilters :query="query" @close="showFilters = false" />
+    </v-dialog>
+  </div>
 </template>
 <script lang="ts">
 import {
-  AsyncComponentFactory,
-  AsyncComponentPromise,
-  Component,
-  EsModuleComponent,
-} from 'vue/types/options'
-import { PAGE, useViewer } from '@/graphql'
-import { Page, Variables } from '@/graphql/schema/page'
-import { computed, createComponent, ref } from '@vue/composition-api'
-import { useQuery, useQueryLoading, useResult } from '@vue/apollo-composable'
-import TheMediaTimelineLoading from '@/components/TheMediaTimelineLoading.vue'
-import TheSearchNavigation from '@/components/TheSearchNavigation.vue'
-import { usePagination } from './MediaTimeline.vue'
-import { useRoutes } from '@/components/TheAppBar.vue'
+  SearchQuery as SearchQueryResult,
+  SearchQueryVariables,
+  SearchQuery_Page,
+  SearchQuery_Page_media,
+} from './__generated__/SearchQuery'
+import { beforeRouteLeave, createBeforeRouteEnter, useFab } from '@/hooks/fab'
+import { computed, createComponent, Ref, ref } from '@vue/composition-api'
+import { useResult } from '@vue/apollo-composable'
+import { Dictionary } from 'vue-router/types/router'
+import { SearchQuery } from './Search.gql.js'
+import { RecursiveNonNullable } from '../types'
+import { asyncComponent } from '@/router'
+import { useRoutes } from '@/hooks/route'
+import { useViewer } from '@/hooks/viewer'
+import { usePage } from '@/hooks/page'
+import TheGridLoading from '@/components/TheGridLoading.vue'
+import ViewSearchField from '@/components/ViewSearchField.vue'
 
-export const asyncComponent = (
-  component: Promise<any>,
-  loading?: Component | EsModuleComponent,
-): ReturnType<AsyncComponentFactory> => ({
-  component: (component as unknown) as AsyncComponentPromise,
-  delay: 0,
-  loading,
-})
-
-const TheMediaTimeline = () =>
+const TheGrid = () =>
   asyncComponent(
     import(
-      /* webpackChunkName: "TheMediaTimeline" */ '@/components/TheMediaTimeline.vue'
+      /* webpackChunkName: "TheGrid" */ /* webpackPrefetch: true */ '@/components/TheGrid.vue'
     ),
-    TheMediaTimelineLoading,
+    TheGridLoading,
   )
 
+const ViewSearchFilters = () =>
+  import(
+    /* webpackChunkName: "ViewSearchFilters" */ /* webpackPrefetch: true */ '@/components/ViewSearchFilters.vue'
+  )
+
+export interface Props {
+  queryWithBoolean: Partial<SearchQueryVariables>
+  query: Dictionary<string | (string | null)[]>
+}
+
+const useVariables = (props: Readonly<Props>) => {
+  const viewerQuery = useViewer()
+
+  const isAdult = useResult<false | undefined, false>(
+    viewerQuery.result,
+    false,
+    data => data.Viewer.options.displayAdultContent && undefined,
+  )
+
+  const variables = computed(() => ({
+    isAdult: isAdult.value,
+    ...props.queryWithBoolean,
+  }))
+
+  return {
+    variables,
+  }
+}
+
+export const useShowMore = (
+  media: Ref<readonly any[]>,
+  hasNextPage: Ref<boolean>,
+  loading: Ref<boolean>,
+  loadMore: () => Promise<void>,
+) => {
+  const showMore = async (changeShow: () => number) => {
+    if (!loading.value) {
+      const show = changeShow()
+      if (show > media.value.length) {
+        if (hasNextPage.value) {
+          await loadMore()
+        }
+      }
+    }
+  }
+
+  return showMore
+}
 export default createComponent({
+  beforeRouteEnter: createBeforeRouteEnter(vm => ({
+    icon: 'tune',
+    on: () => {
+      vm.showFilters = true
+    },
+    title: 'Filter',
+  })),
+  beforeRouteLeave,
   components: {
-    TheMediaTimeline,
-    TheMediaTimelineLoading,
-    TheSearchNavigation,
+    TheGrid,
+    TheGridLoading,
+    ViewSearchField,
+    ViewSearchFilters,
   },
-  setup(_, { root }) {
-    const query = computed(() =>
-      Object.fromEntries(
-        Object.entries(root.$route.query).map(([key, value]) => {
-          switch (value) {
-            case 'true':
-              return [key, true]
-            case 'false':
-              return [key, false]
-            default:
-              return [key, value]
-          }
-        }),
-      ),
-    )
+  props: {
+    query: { default: null, required: true, type: Object },
+    queryWithBoolean: { default: null, required: true, type: Object },
+  },
+  setup(props, { root }) {
+    const { variables } = useVariables(props)
 
-    const isSearched = computed(() => !!Object.values(query.value).length)
-
-    const { Viewer: viewer, result: viewerResult } = useViewer()
-
-    const isAdult = useResult(
-      viewerResult,
-      false,
-      data => data.Viewer.options.displayAdultContent && undefined,
+    const isSearched = computed(
+      () => !!Object.values(props.queryWithBoolean).length,
     )
 
     const { routeSearch } = useRoutes(root)
 
-    const variables = computed(() => ({
-      isAdult: isAdult.value,
-      perPage: 10,
-      ...query.value,
+    const { result, loadMore, loadingMore, loading, hasNextPage } = usePage<
+      SearchQueryResult,
+      SearchQueryVariables
+    >(SearchQuery, variables, () => ({
+      enabled: routeSearch.value,
+      notifyOnNetworkStatusChange: false,
     }))
 
-    const { result, fetchMore } = useQuery<{ Page: Page }, Variables>(
-      PAGE,
-      variables,
-      () => ({
-        enabled: routeSearch.value,
-        // fetchPolicy: 'cache-and-network',
-        notifyOnNetworkStatusChange: false,
-      }),
-    )
-
-    const { loadNextPage } = usePagination()
-
-    const page = useResult(result, null, data => data.Page)
-    const media = useResult(result, null, data => data.Page.media)
-
-    const currentPage = useResult(
-      result,
-      0,
-      data => data.Page.pageInfo.currentPage,
-    )
-
-    const hasNextPage = useResult(
+    const page = useResult<SearchQuery_Page, null>(
       result,
       null,
-      data => data.Page.pageInfo.hasNextPage,
+      (data: RecursiveNonNullable<SearchQueryResult>) => data.Page,
     )
 
-    const loading = useQueryLoading()
+    const media = useResult<
+      readonly SearchQuery_Page_media[],
+      readonly SearchQuery_Page_media[]
+    >(
+      result,
+      [],
+      (data: RecursiveNonNullable<SearchQueryResult>) => data.Page.media,
+    )
 
-    const loadingMore = ref(false)
+    const fab = useFab()
+    const showFilters = ref(false)
 
-    const loadMore = async () => {
-      loadingMore.value = true
-      await loadNextPage(fetchMore, {
-        ...variables,
-        page: 1 + currentPage.value,
-      })
-      loadingMore.value = false
-    }
+    const showMore = useShowMore(
+      media,
+      hasNextPage,
+      computed(() => loading.value || loadingMore.value),
+      loadMore,
+    )
 
     return {
+      fab,
+      showMore,
       hasNextPage,
       isSearched,
       loadMore,
@@ -143,7 +203,7 @@ export default createComponent({
       loadingMore,
       media,
       page,
-      viewer,
+      showFilters,
     }
   },
 })

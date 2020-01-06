@@ -1,26 +1,33 @@
-import { FuzzyDate } from '@/graphql/schema/media'
+import { FuzzyDateInput, MediaListStatus } from '../__generated__/globalTypes'
 import { Location } from 'vue-router'
-import { MediaListStatus } from './graphql/schema/mediaListCollection'
-import Vue from 'vue'
+
+import { VuetifyThemeVariant } from 'vuetify/types/services/theme'
 
 export interface ShareData {
   url?: string
   title?: string
   text?: string
 }
+export type Theme = {
+  dark: boolean
+  themes: {
+    dark: Partial<VuetifyThemeVariant>
+    light: Partial<VuetifyThemeVariant>
+  }
+}
+export type NonNullableValues<T> = {
+  [K in keyof T]: NonNullable<T[K]>
+}
 
-export type To = string | false | void | Location
-export type Next = (to?: To) => void
-
-export type NextBefore<V extends Vue = Vue> = (
-  to?: To | ((vm: V) => any),
-) => void
+export type RecursiveNonNullable<T> = {
+  [K in keyof T]: RecursiveNonNullable<NonNullable<T[K]>>
+}
 
 export interface Data<T = any> {
   [index: string]: T
 }
 export interface NavigationElement<
-  Bind = Partial<{
+  A = Partial<{
     to: Location
     exact: boolean
     disabled: boolean
@@ -29,26 +36,37 @@ export interface NavigationElement<
     target: string
   }>
 > {
-  title: string
-  icon: string
-  bind: Bind
+  props: {
+    tooltip?: string
+    icon: string
+    title?: string
+    iconColor?: string
+  }
+  attrs: A
   on?: Record<string, (e: any) => any>
 }
+
 export type RecursivePartial<T> = {
   [P in keyof T]?: T[P] extends (infer U)[]
     ? RecursivePartial<U>[]
-    : T[P] extends object
+    : T[P] extends Object
     ? RecursivePartial<T[P]>
     : T[P]
 }
+export type Mutable<T> = {
+  -readonly [P in keyof T]: T[P]
+}
+export type RecursiveMutable<T> = {
+  -readonly [P in keyof T]: RecursiveMutable<T[P]>
+}
 
 export interface Form {
-  status: MediaListStatus | null
+  status: Mutable<MediaListStatus> | null
   score: number
   progress: number | null
   progressVolumes: number | null
-  startedAt: Omit<FuzzyDate, '__typename'>
-  completedAt: Omit<FuzzyDate, '__typename'>
+  startedAt: Omit<Mutable<FuzzyDateInput>, '__typename'>
+  completedAt: Omit<Mutable<FuzzyDateInput>, '__typename'>
   repeat: number
   notes: string | null
   advancedScores: number[]

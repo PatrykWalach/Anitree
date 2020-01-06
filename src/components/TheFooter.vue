@@ -1,21 +1,23 @@
 <template>
-  <v-footer class="caption" absolute app inset>
+  <v-footer class="primary darken-1 caption" dark absolute app inset>
     <div v-if="!$vuetify.breakpoint.xsOnly">
       Powered by
     </div>
     <v-btn href="https://anilist.co" target="_blank" text rel="noopener">
       Anilist
     </v-btn>
-    <v-spacer v-if="$vuetify.breakpoint.xsOnly"></v-spacer>
+    <v-spacer v-if="$vuetify.breakpoint.xsOnly" />
 
-    <div v-if="!$vuetify.breakpoint.xsOnly">Made by</div>
+    <div v-if="!$vuetify.breakpoint.xsOnly">
+      Made by
+    </div>
     <v-btn
       href="https://github.com/PatrykWalach/Anitree"
       target="_blank"
       text
       rel="noopener"
     >
-      <FontAwesomeIcon :icon="['fab', 'github']" />PatrykWałach
+      <font-awesome-icon :icon="['fab', 'github']" />PatrykWałach
     </v-btn>
   </v-footer>
 </template>

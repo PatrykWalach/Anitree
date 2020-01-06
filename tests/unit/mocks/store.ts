@@ -1,14 +1,9 @@
-import * as reducers from '@/store/reducers'
+import { createStore } from '@/store'
 
-import { combineReducers } from 'redux'
-import { configureStore } from '@reduxjs/toolkit'
 import { key } from 'vue-redux-hooks'
 
-export const mockStore = () =>
-  configureStore({ reducer: combineReducers(reducers) })
-
 export const useMockedStore = () => {
-  const store = mockStore()
+  const store = createStore()
   return {
     [key]: store,
   }

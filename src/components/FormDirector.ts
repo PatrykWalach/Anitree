@@ -1,19 +1,15 @@
-import { FuzzyDate, Media } from '@/graphql/schema/media'
+import { FuzzyDateInput } from '../../__generated__/globalTypes'
 import { Form } from '@/types'
 import { FormBuilder } from './FormBuilder'
-import { SaveVariables } from '@/graphql/schema/listEntry'
-import { User } from '@/graphql/schema/viewer'
+
+import { FormDirector_media } from './__generated__/FormDirector_media'
 
 export interface Props {
   method: keyof FormDirector
-  user: User
-  media: Media
+  media: FormDirector_media
   form: Form
-  changeForm({ form }: { form: Partial<SaveVariables> }): void
-  scoreFormat: {
-    round: number
-    max: number
-  }
+  changeForm(payload: Partial<Form>): void
+  scoreFormat: ScoreFormat
   advancedScoring: string[]
   manga: boolean
 }
@@ -32,7 +28,7 @@ export const validScore = (max: number, input: string) => {
 export const formatToNumber = (input: string): string =>
   parseFloat(input).toString()
 
-export const dateToString = (date: FuzzyDate): string => {
+export const dateToString = (date: FuzzyDateInput): string => {
   if (date.year && date.month && date.day) {
     return Object.entries(date)
       .filter(([key]) => key !== '__typename')
@@ -47,7 +43,9 @@ export const dateToString = (date: FuzzyDate): string => {
   return ''
 }
 
-export const stringToDate = (date: string): Omit<FuzzyDate, '__typename'> => {
+export const stringToDate = (
+  date: string,
+): Omit<FuzzyDateInput, '__typename'> => {
   const [_day = null, _month = null, _year = null] = date.split('-')
 
   return {
@@ -97,10 +95,7 @@ export class FormDirector {
         },
         props: {
           afterTransform: [
-            (status: Partial<SaveVariables>['status']) =>
-              changeForm({
-                form: { status },
-              }),
+            (status: Partial<Form>['status']) => changeForm({ status }),
           ],
           value: form.status,
         },
@@ -116,10 +111,7 @@ export class FormDirector {
           props: {
             afterTransform: [
               parseFloat,
-              (score: Partial<SaveVariables>['score']) =>
-                changeForm({
-                  form: { score },
-                }),
+              (score: Partial<Form>['score']) => changeForm({ score }),
             ],
             beforeTransform: [(e: string) => e.toString()],
             transformations: [
@@ -141,10 +133,7 @@ export class FormDirector {
             afterTransform: [
               parseFloat,
 
-              (progress: Partial<SaveVariables>['progress']) =>
-                changeForm({
-                  form: { progress },
-                }),
+              (progress: Partial<Form>['progress']) => changeForm({ progress }),
             ],
             beforeTransform: [(e: string) => e.toString()],
             transformations: [
@@ -166,10 +155,8 @@ export class FormDirector {
           props: {
             afterTransform: [
               parseFloat,
-              (progressVolumes: Partial<SaveVariables>['progressVolumes']) =>
-                changeForm({
-                  form: { progressVolumes },
-                }),
+              (progressVolumes: Partial<Form>['progressVolumes']) =>
+                changeForm({ progressVolumes }),
             ],
             beforeTransform: [(e: string) => e.toString()],
             transformations: [
@@ -198,10 +185,8 @@ export class FormDirector {
         props: {
           afterTransform: [
             stringToDate,
-            (startedAt: Partial<SaveVariables>['startedAt']) =>
-              changeForm({
-                form: { startedAt },
-              }),
+            (startedAt: Partial<Form>['startedAt']) =>
+              changeForm({ startedAt }),
           ],
           beforeTransform: [dateToString],
           value: form.startedAt,
@@ -215,10 +200,8 @@ export class FormDirector {
         props: {
           afterTransform: [
             stringToDate,
-            (completedAt: Partial<SaveVariables>['completedAt']) =>
-              changeForm({
-                form: { completedAt },
-              }),
+            (completedAt: Partial<Form>['completedAt']) =>
+              changeForm({ completedAt }),
           ],
           beforeTransform: [dateToString],
           value: form.completedAt,
@@ -234,10 +217,7 @@ export class FormDirector {
           afterTransform: [
             parseFloat,
 
-            (repeat: Partial<SaveVariables>['repeat']) =>
-              changeForm({
-                form: { repeat },
-              }),
+            (repeat: Partial<Form>['repeat']) => changeForm({ repeat }),
           ],
           beforeTransform: [(e: string) => e.toString()],
           transformations: [formatToNumber, numberRound.bind(null, 0)],
@@ -248,6 +228,7 @@ export class FormDirector {
       },
     ])
   }
+
   public edit3(builder: FormBuilder, { form, changeForm }: Readonly<Props>) {
     builder.setTextareas([
       {
@@ -257,10 +238,7 @@ export class FormDirector {
         },
         props: {
           afterTransform: [
-            (notes: Partial<SaveVariables>['notes']) =>
-              changeForm({
-                form: { notes },
-              }),
+            (notes: Partial<Form>['notes']) => changeForm({ notes }),
           ],
           value: form.notes || '',
         },
@@ -290,23 +268,11 @@ export class FormDirector {
               return {
                 advancedScores,
                 score: length
-                  ? [
-                      formatToNumber,
-                      numberRound.bind(null, scoreFormat.round),
-                      parseFloat,
-                    ].reduce(
-                      (score, mutation: (score: any) => any) => mutation(score),
-                      (
-                        advancedScores.reduce((acc, v) => acc + v, 0) / length
-                      ).toString(),
-                    )
+                  ? calculateAverage(scoreFormat, advancedScores)
                   : undefined,
               }
             },
-            (form: Partial<SaveVariables>) =>
-              changeForm({
-                form,
-              }),
+            (form: Partial<Form>) => changeForm(form),
           ],
           beforeTransform: [(e: any) => e.toString()],
           transformations: [formatToNumber],
@@ -317,3 +283,13 @@ export class FormDirector {
     )
   }
 }
+
+const calculateAverage = (scoreFormat: ScoreFormat, advancedScores: number[]) =>
+  [
+    formatToNumber,
+    numberRound.bind(null, scoreFormat.round),
+    parseFloat,
+  ].reduce(
+    (score, mutation: (score: any) => any) => mutation(score),
+    (advancedScores.reduce((acc, v) => acc + v, 0) / length).toString(),
+  )

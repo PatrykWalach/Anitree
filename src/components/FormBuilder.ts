@@ -1,5 +1,9 @@
 import BaseField from './BaseField.vue'
 
+import { VCol } from 'vuetify/lib'
+import { VNode } from 'vue'
+import { createElement } from '@vue/composition-api'
+
 export interface Props {
   validators: ((v: string) => boolean)[] | Set<(v: string) => boolean>
   transformations: ((v: string) => string)[]
@@ -8,10 +12,6 @@ export interface Props {
   afterTransform: ((v: any) => any)[]
   value: any
 }
-
-import { VCol } from 'vuetify/lib'
-import { VNode } from 'vue'
-import { createElement } from '@vue/composition-api'
 const h = createElement
 
 interface Field {

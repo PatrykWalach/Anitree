@@ -1,15 +1,15 @@
 <template>
-  <v-progress-linear :color="color" :value="50"></v-progress-linear>
+  <v-progress-linear :color="color" :value="50" />
 </template>
 
 <script lang="ts">
 import { createComponent } from '@vue/composition-api'
 
-import { useTheme } from './TheMediaAboutStats.vue'
+import { useInjectedTheme } from '@/hooks/theme'
 
 export default createComponent({
   setup() {
-    return useTheme()
+    return useInjectedTheme()
   },
 })
 </script>

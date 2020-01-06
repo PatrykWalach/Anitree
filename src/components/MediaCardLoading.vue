@@ -1,25 +1,23 @@
 <template>
   <v-card>
     <MediaCardLoadingBanner />
-    <MediaCardLoadingItem />
-    <v-divider class="mx-4"></v-divider>
-    <v-card-actions>
-      <v-btn color="primary" text disabled>
-        Explore
-      </v-btn>
-      <v-spacer></v-spacer>
-    </v-card-actions>
+    <MediaItemLoading />
+    <v-divider class="mx-4" />
+    <v-skeleton-loader type="actions" />
+    <MediaCardLoadingStatus />
   </v-card>
 </template>
 <script lang="ts">
 import MediaCardLoadingBanner from '@/components/MediaCardLoadingBanner.vue'
-import MediaCardLoadingItem from '@/components/MediaCardLoadingItem.vue'
+import MediaCardLoadingStatus from '@/components/MediaCardLoadingStatus.vue'
+import MediaItemLoading from '@/components/MediaItemLoading.vue'
 import { createComponent } from '@vue/composition-api'
 
 export default createComponent({
   components: {
     MediaCardLoadingBanner,
-    MediaCardLoadingItem,
+    MediaCardLoadingStatus,
+    MediaItemLoading,
   },
 })
 </script>

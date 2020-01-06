@@ -1,0 +1,55 @@
+<template>
+  <v-img v-bind="$attrs" :srcset="srcset" :src="src">
+    <template v-slot:placeholder>
+      <v-skeleton-loader type="image" />
+    </template>
+    <slot></slot>
+  </v-img>
+</template>
+
+<script lang="ts">
+import { computed, createComponent } from '@vue/composition-api'
+import { MediaCardCover_media } from './__generated__/MediaCardCover_media'
+
+export interface Props {
+  media: MediaCardCover_media
+  x: number
+}
+
+export default createComponent<Readonly<Props>>({
+  inheritAttrs: false,
+  props: {
+    media: {
+      default: null,
+      required: true,
+      type: Object,
+    },
+    x: {
+      default: 2,
+      required: false,
+      type: Number,
+    },
+  },
+  setup(props) {
+    const srcset = computed(() => {
+      const { coverImage } = props.media
+      if (coverImage) {
+        const x = props.x
+        const { medium, large, extraLarge } = coverImage
+
+        return `${medium} ${x * 0.5}x,
+            ${large} ${x}x,
+            ${extraLarge} ${x * 1.5}x`
+      }
+      return ''
+    })
+
+    const src = computed(() => {
+      const { coverImage } = props.media
+      return (coverImage && coverImage.extraLarge) || ''
+    })
+
+    return { src, srcset }
+  },
+})
+</script>

@@ -8,16 +8,16 @@
     <template v-slot:placeholder>
       <v-skeleton-loader tile type="image" class="loader" />
     </template>
-    <slot></slot>
+    <slot />
   </v-img>
 </template>
 
 <script lang="ts">
-import { Media } from '@/graphql/schema/media'
 import { createComponent } from '@vue/composition-api'
+import { MediaCardBanner_media } from './__generated__/MediaCardBanner_media'
 
 export interface Props {
-  media: Media
+  media: MediaCardBanner_media
 }
 
 export default createComponent<Readonly<Props>>({

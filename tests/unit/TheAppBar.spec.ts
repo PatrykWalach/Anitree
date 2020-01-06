@@ -23,44 +23,4 @@ describe('TheAppBar', () => {
       provide: useMockedStore(),
     }),
   )
-
-  // matchSnapshot(
-  //   TheAppBar,
-  //   {
-  //     mocks: {
-  //       $route: {
-  //         name: 'media-about',
-  //         query: {},
-  //       },
-  //       $vuetify: {
-  //         breakpoint: {
-  //           xsOnly: false,
-  //         },
-  //       },
-  //     },
-  //     propsData: { media: mockedMedia },
-  //     provide: {...useMockedStore()},
-  //   },
-  //   'hides media tabs',
-  // )
-
-  // matchSnapshot(
-  //   TheAppBar,
-  //   {
-  //     mocks: {
-  //       $route: {
-  //         name: 'media-about',
-  //         query: {},
-  //       },
-  //       $vuetify: {
-  //         breakpoint: {
-  //           xsOnly: true,
-  //         },
-  //       },
-  //     },
-  //     propsData: { media: mockedMedia },
-  //     provide: {...useMockedStore()},
-  //   },
-  //   'shows media tabs',
-  // )
 })

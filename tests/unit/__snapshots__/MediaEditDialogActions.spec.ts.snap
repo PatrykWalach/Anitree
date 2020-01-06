@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`MediaEditDialogActions matches snapshot 1`] = `
+exports[`MediaEditActions matches snapshot 1`] = `
 <v-card-actions-stub
   viewer="[object Object]"
 >

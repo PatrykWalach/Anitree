@@ -1,13 +1,6 @@
-// user: null | User
+import TheRightSearch from '@/components/TheRightSearch.vue'
+import { matchSnapshot } from './utils'
 
-import { createVariations, matchSnapshot } from './utils'
-import TheSearchNavigation from '@/components/TheSearchNavigation.vue'
-import { mockedViewer } from './mocks/viewer'
-
-describe('TheSearchNavigation', () => {
-  createVariations({
-    propsData: {
-      user: () => [null, mockedViewer],
-    },
-  }).forEach(settings => matchSnapshot(TheSearchNavigation, settings))
+describe('TheRightSearch', () => {
+  matchSnapshot(TheRightSearch)
 })

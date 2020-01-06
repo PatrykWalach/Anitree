@@ -18,9 +18,12 @@
 </template>
 
 <script lang="ts">
-import { DeletePending, SavePending } from '../store/modules/changes'
+import {
+  DeletePending,
+  SavePending,
+  isSavePending,
+} from '../store/reducers/changes'
 import { computed, createComponent } from '@vue/composition-api'
-import { useChanges } from '../store'
 
 interface Props {
   pending: SavePending | DeletePending
@@ -35,8 +38,6 @@ export default createComponent<Readonly<Props>>({
     },
   },
   setup(props) {
-    const { isSavePending } = useChanges()
-
     const changes = computed(() => {
       const pending = props.pending
 

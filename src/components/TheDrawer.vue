@@ -5,124 +5,134 @@
     :mini-variant="!$vuetify.breakpoint.xsOnly"
     :permanent="!$vuetify.breakpoint.xsOnly"
     mini-variant-width="72"
+    color="primary"
+    dark
   >
     <template v-if="$vuetify.breakpoint.xsOnly">
-      <v-list rounded>
+      <v-list v-bind="$attrs">
         <v-list-item selectable>
-          <v-list-item-title>
-            Anitree <sup class="overline">alpha</sup>
+          <v-list-item-title class="headline">
+            <template> Anitree <sup class="overline">alpha</sup> </template>
           </v-list-item-title>
         </v-list-item>
       </v-list>
     </template>
 
-    <v-list nav>
+    <v-list v-bind="$attrs">
       <TheDrawerLoadingViewer v-if="loading" />
       <TheDrawerViewer v-else-if="viewer" :viewer="viewer" />
-      <TheDrawerViewerLogin v-else :disabled="!!token" />
-      <v-divider></v-divider>
-    </v-list>
-    <v-list v-if="!$vuetify.breakpoint.xsOnly" rounded>
-      <v-fab-transition>
-        <v-list-item
-          :key="active.icon"
-          v-on="active.on"
-          class="accent"
-          v-bind="active.bind"
-        >
-          <v-list-item-icon>
-            <v-icon color="white">
-              {{ active.icon }}
-            </v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>
-              {{ active.title }}
-            </v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-fab-transition>
+      <TheDrawerLogin v-else :disabled="!!token" />
     </v-list>
 
-    <v-list nav>
-      <v-list-item
-        v-for="{ bind, title, icon } in main"
-        :key="title"
-        :color="theme.isDark ? undefined : 'primary'"
-        v-bind="bind"
-      >
-        <v-list-item-icon>
-          <v-icon>{{ icon }}</v-icon>
-        </v-list-item-icon>
-        <v-list-item-content>
-          <v-list-item-title>
-            {{ title }}
-          </v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
+    <v-fab-transition v-if="!$vuetify.breakpoint.xsOnly">
+      <div v-if="fab" :key="fab.icon">
+        <v-list rounded>
+          <BaseActionItem
+            icon-color="black"
+            class="accent"
+            :icon="fab.icon"
+            :title="fab.title"
+            @click.stop="fab.on"
+          />
+        </v-list>
+      </div>
+    </v-fab-transition>
+
+    <v-list v-bind="$attrs">
+      <BaseActionItem
+        v-for="{ attrs, props, on } in navigationElements"
+        :key="props.icon"
+        color="accent"
+        v-bind="{ ...attrs, ...props }"
+        v-on="on"
+      />
     </v-list>
   </v-navigation-drawer>
 </template>
 
 <script lang="ts">
-import { computed, createComponent } from '@vue/composition-api'
-
+import { createComponent } from '@vue/composition-api'
+import { useQueryLoading, useQuery, useResult } from '@vue/apollo-composable'
+import BaseActionItem from './BaseActionItem.vue'
 import { Location } from 'vue-router'
 import { NavigationElement } from '../types'
 import TheDrawerLoadingViewer from './TheDrawerLoadingViewer.vue'
-import TheDrawerViewerLogin from './TheDrawerViewerLogin.vue'
-import { asyncComponent } from '../views/Search.vue'
-import { useFab } from './TheFab.vue'
-import { useQueryLoading } from '@vue/apollo-composable'
-import { useTheme } from './TheMediaAboutStats.vue'
-import { useViewer } from '../graphql'
+import TheDrawerLogin from './TheDrawerLogin.vue'
+import { asyncComponent } from '@/router'
+import { useFab } from '@/hooks/fab'
+import { useSync } from '@/hooks/sync'
+import { useToken } from '@/hooks/token'
+import { TheDrawerQuery } from './TheDrawer.gql.js'
+import { TheDrawerQuery as TheDrawerQueryResult } from './__generated__/TheDrawerQuery'
 
 const TheDrawerViewer = () =>
   asyncComponent(
-    import(/* webpackChunkName: "TheDrawerViewer" */ './TheDrawerViewer.vue'),
+    import(
+      /* webpackChunkName: "TheDrawerViewer" */ /* webpackPrefetch: true */ './TheDrawerViewer.vue'
+    ),
     TheDrawerLoadingViewer,
   )
 
-export interface Props {
+interface Props {
   value: boolean
 }
 
-export const useNavigation = () => {
-  // const { getPending } = useCommands()
-
-  const main: NavigationElement<{
+const useSearch = () => {
+  const searchBtn: NavigationElement<{
     to: Location
-    exact: boolean
+  }> = {
+    attrs: {
+      to: {
+        name: 'search',
+        query: {
+          sort: 'TRENDING_DESC',
+        },
+      },
+    },
+    props: {
+      icon: 'search',
+      title: 'Search',
+    },
+  }
+
+  return { searchBtn }
+}
+
+export const useTheDrawerNavigation = () => {
+  const { searchBtn } = useSearch()
+
+  const elements: NavigationElement<{
+    to: Location
+    exact?: boolean
   }>[] = [
     {
-      bind: { exact: true, to: { name: 'home' } },
-      icon: 'home',
-      title: 'Home',
+      attrs: { exact: true, to: { name: 'home' } },
+      props: {
+        icon: 'home',
+        title: 'Home',
+      },
     },
+    searchBtn,
     {
-      // badge: {
-      //   value: getPending.value.length,
-      // },
-      bind: { exact: true, to: { name: 'changes' } },
-      icon: 'change_history',
-      title: 'Changes',
-    },
-    {
-      bind: { exact: true, to: { name: 'settings' } },
-      icon: 'settings',
-      title: 'Settings',
+      attrs: { exact: true, to: { name: 'changes' } },
+      props: {
+        icon: 'change_history',
+        title: 'Changes',
+      },
     },
   ]
 
-  return { main }
+  return elements
 }
 
 export default createComponent<Readonly<Props>>({
   components: {
+    BaseActionItem,
     TheDrawerLoadingViewer,
+    TheDrawerLogin,
     TheDrawerViewer,
-    TheDrawerViewerLogin,
   },
+  inheritAttrs: false,
   props: {
     value: {
       default: false,
@@ -130,22 +140,28 @@ export default createComponent<Readonly<Props>>({
       type: Boolean,
     },
   },
-  setup(props, { emit, root }) {
-    const syncedValue = computed({
-      get: () => props.value,
-      set: value => emit('update:value', value),
-    })
-
-    const { Viewer: viewer, token } = useViewer()
+  setup(props, { emit }) {
+    const syncedValue = useSync(props, 'value', emit)
+    const token = useToken()
+    const viewerQuery = useQuery<TheDrawerQueryResult>(
+      TheDrawerQuery,
+      {},
+      () => ({
+        enabled: !!token.value,
+      }),
+    )
+    const viewer = useResult(viewerQuery.result)
     const loading = useQueryLoading()
+    const navigationElements = useTheDrawerNavigation()
+    const fab = useFab()
+
     return {
+      fab,
       loading,
+      navigationElements,
       syncedValue,
       token,
       viewer,
-      ...useNavigation(),
-      ...useTheme(),
-      ...useFab(root),
     }
   },
 })

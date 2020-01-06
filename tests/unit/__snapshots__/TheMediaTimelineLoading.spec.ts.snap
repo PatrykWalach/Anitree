@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TheMediaTimelineLoading matches snapshot 1`] = `
+exports[`TheTimelineLoading matches snapshot 1`] = `
 <v-row-stub
   align="center"
   justify="center"

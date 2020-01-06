@@ -1,6 +1,0 @@
-fragment AiringScheduleFields on AiringSchedule {
-  id
-  airingAt
-  timeUntilAiring
-  episode
-}

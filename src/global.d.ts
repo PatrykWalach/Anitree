@@ -2,7 +2,7 @@ import { ShareData } from './types'
 
 declare global {
   interface Navigator {
-    share?: (data: ShareData) => Promise<void>
+    share?(this: Navigator, data: ShareData): Promise<void>
   }
 
   namespace Intl {

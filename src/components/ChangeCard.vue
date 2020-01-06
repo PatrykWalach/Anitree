@@ -3,22 +3,23 @@
   <ChangeCardBanner v-else-if="media" :media="media" :pending="request" />
 </template>
 <script lang="ts">
-import { DeletePending, SavePending } from '../store/modules/changes'
+import {
+  ChangeCardQuery as ChangeCardQueryResult,
+  ChangeCardQueryVariables,
+} from './__generated__/ChangeCardQuery'
 import { computed, createComponent } from '@vue/composition-api'
+import { useQuery, useResult, useQueryLoading } from '@vue/apollo-composable'
 import ChangeCardLoadingBanner from './ChangeCardLoadingBanner.vue'
-import { asyncComponent } from '../views/Search.vue'
-import { useMedia } from '@/graphql'
-import { useQueryLoading } from '@vue/apollo-composable'
+import { ChangeCardQuery } from './ChangeCard.gql.js'
+import { asyncComponent } from '@/router'
+import { NonNullableValues } from '../types'
 
 const ChangeCardBanner = () =>
   asyncComponent(
-    import(/* webpackChunkName: "ChangeCardBanner" */ './ChangeCardBanner.vue'),
-    ChangeCardLoadingBanner,
+    import(
+      /* webpackChunkName: "ChangeCardBanner" */ /* webpackPrefetch: true */ './ChangeCardBanner.vue'
+    ),
   )
-
-interface Props {
-  request: SavePending | DeletePending
-}
 
 export default createComponent({
   components: { ChangeCardBanner, ChangeCardLoadingBanner },
@@ -30,9 +31,15 @@ export default createComponent({
     },
   },
   setup(props) {
-    const { Media: media } = useMedia(
+    const mediaQuery = useQuery<
+      NonNullableValues<ChangeCardQueryResult>,
+      ChangeCardQueryVariables
+    >(
+      ChangeCardQuery,
       computed(() => ({ id: props.request.mediaId })),
     )
+    const media = useResult(mediaQuery.result)
+
     const loading = useQueryLoading()
 
     return {

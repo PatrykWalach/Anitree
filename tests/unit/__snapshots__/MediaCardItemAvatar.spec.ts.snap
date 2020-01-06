@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`MediaCardItemAvatar matches snapshot 1`] = `
+exports[`MediaItemAvatar matches snapshot 1`] = `
 <v-list-item-avatar-stub
   size="80"
 >

@@ -93,19 +93,4 @@ export const createVariations = <O extends Chunk<any, any>>(
   }))
 }
 
-// console.log(
-//   createVariations({
-//     a: false,
-//     x: () => [1, 2],
-//     y: () => [
-//       ...createVariations({
-//         b: 'string',
-//         z1: () => [3, 4, 5],
-//       }),
-//       ...createVariations({
-//         b: '',
-//         z2: () => [6, 7],
-//       }),
-//     ],
 //   }),
-// )

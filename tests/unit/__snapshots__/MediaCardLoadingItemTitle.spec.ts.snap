@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`MediaCardLoadingItemTitle matches snapshot 1`] = `
+exports[`MediaItemLoadingTitle matches snapshot 1`] = `
 <v-list-item-title-stub
   class="headline"
 >

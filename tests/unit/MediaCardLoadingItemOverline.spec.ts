@@ -1,7 +1,7 @@
-import MediaCardLoadingItemOverline from '@/components/MediaCardLoadingItemOverline.vue'
+import MediaItemLoadingOverline from '@/components/MediaItemLoadingOverline.vue'
 
 import { matchSnapshot } from './utils'
 
-describe('MediaCardLoadingItemOverline', () => {
-  matchSnapshot(MediaCardLoadingItemOverline)
+describe('MediaItemLoadingOverline', () => {
+  matchSnapshot(MediaItemLoadingOverline)
 })

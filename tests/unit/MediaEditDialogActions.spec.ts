@@ -1,11 +1,11 @@
-import MediaEditDialogActions from '@/components/MediaEditDialogActions.vue'
+import MediaEditActions from '@/components/MediaEditActions.vue'
 import { matchSnapshot } from './utils'
 import { mockedMediaAndListEntry } from './mocks/media'
 import { mockedViewer } from './mocks/viewer'
 import { useMockedStore } from './mocks/store'
 
-describe('MediaEditDialogActions', () => {
-  matchSnapshot(MediaEditDialogActions, {
+describe('MediaEditActions', () => {
+  matchSnapshot(MediaEditActions, {
     propsData: {
       media: mockedMediaAndListEntry,
       viewer: mockedViewer,

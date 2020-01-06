@@ -1,117 +1,76 @@
 <template>
   <v-app>
-    <TheAppBar :media="Media" @toggle:drawer="toggleDrawer" />
+    <TheDrawer rounded :value.sync="drawer" />
 
     <v-content>
       <keep-alive>
         <router-view />
       </keep-alive>
-      <TheSearchFilters />
-      <MediaEdit :id="mediaId" :viewer="Viewer" />
-      <BaseShare :options="options" />
     </v-content>
-
-    <TheBottomAppBar
-      :media="Media"
-      :drawer.sync="drawer"
-      v-if="$vuetify.breakpoint.xsOnly"
-    />
-
-    <TheDrawer :value.sync="drawer" />
-
+    <template v-if="$vuetify.breakpoint.xsOnly">
+      <keep-alive>
+        <router-view name="appBar" />
+      </keep-alive>
+      <TheBottomAppBar :drawer.sync="drawer" />
+    </template>
+    <the-right-drawer v-else>
+      <keep-alive>
+        <router-view name="drawer" />
+      </keep-alive>
+    </the-right-drawer>
     <TheFooter />
   </v-app>
 </template>
 <script lang="ts">
-import {
-  SetupContext,
-  computed,
-  createComponent,
-  ref,
-} from '@vue/composition-api'
-import { useMedia, useViewer } from '@/graphql'
+import { createComponent, ref, provide } from '@vue/composition-api'
 
-import BaseShare from './components/BaseShare.vue'
-import MediaEdit from './components/MediaEdit.vue'
-import { State } from '@/store'
-import TheAppBar from './components/TheAppBar.vue' // , { useRoutes }
 import TheDrawer from './components/TheDrawer.vue'
 import TheFooter from './components/TheFooter.vue'
-import TheSearchFilters from './components/TheSearchFilters.vue'
-import { useSelector } from 'vue-redux-hooks'
+import { useQuery } from '@vue/apollo-composable'
+import { useToken } from '@/hooks/token'
+
+import { DefaultViewer } from './hooks/viewer'
+import { AppQuery } from './App.gql.js'
+import { AppQuery as AppQueryResult } from './__generated__/AppQuery'
+
+const TheRightDrawer = () =>
+  import(
+    /* webpackChunkName: "TheRightDrawer" */ /* webpackPrefetch: true */ './components/TheRightDrawer.vue'
+  )
 
 const TheBottomAppBar = () =>
   import(
     /* webpackChunkName: "TheBottomAppBar" */ /* webpackPrefetch: true */ './components/TheBottomAppBar.vue'
   )
 
-export const useTheme = (root: SetupContext['root']) => {
-  const dark = computed({
-    get: () => root.$vuetify.theme.dark,
-    set: dark => {
-      root.$vuetify.theme.dark = dark
-      localStorage.setItem('THEME', dark.toString())
-    },
-  })
-  return { dark }
-}
-
-export const useRouteParams = (root: SetupContext['root']) => {
-  const currentId = computed(() => parseInt(root.$route.params.mediaId, 10))
-
-  return {
-    currentId,
-  }
-}
-
 export default createComponent({
   components: {
-    BaseShare,
-    MediaEdit,
-    TheAppBar,
     TheBottomAppBar,
     TheDrawer,
     TheFooter,
-    TheSearchFilters,
+    TheRightDrawer,
   },
-  setup(_, { root }) {
+  setup() {
     const drawer = ref(false)
 
     const toggleDrawer = () => {
       drawer.value = !drawer.value
     }
 
-    const mediaId = useSelector((state: State) => state.edit.mediaId)
-    const options = useSelector((state: State) => state.share.options)
+    const token = useToken()
 
-    const { dark } = useTheme(root)
+    const { result, loading, error } = useQuery<AppQueryResult>(
+      AppQuery,
+      {},
+      () => ({
+        enabled: !!token.value,
+      }),
+    )
 
-    const stored = localStorage.getItem('THEME')
-
-    if (stored === null) {
-      window.matchMedia('(prefers-color-scheme: dark)').addListener(e => {
-        if (e.matches) {
-          dark.value = true
-        }
-      })
-    } else {
-      dark.value = localStorage.getItem('THEME') === 'true'
-    }
-
-    const { currentId } = useRouteParams(root)
-    // const { routeTitle } = useRoutes(root)
+    provide(DefaultViewer, { result, loading, error })
 
     return {
       drawer,
-      ...useViewer(),
-      ...useMedia(
-        computed(() => ({ id: currentId.value })),
-        // {
-        //   enabled: routeTitle.value,
-        // },
-      ),
-      mediaId,
-      options,
       toggleDrawer,
     }
   },

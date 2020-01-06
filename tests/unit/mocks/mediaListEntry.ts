@@ -1,6 +1,4 @@
-import { MediaList } from '@/graphql/schema/mediaListCollection'
-
-export const mockedMediaListEntry: MediaList = {
+export const mockedMediaListEntry = {
   __typename: 'MediaList',
   advancedScores: { Audio: 10, Characters: 10, Story: 10, Visuals: 7.75 },
   completedAt: { __typename: 'FuzzyDate', day: null, month: null, year: null },

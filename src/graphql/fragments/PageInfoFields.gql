@@ -1,6 +1,0 @@
-fragment PageInfoFields on PageInfo {
-  total
-  hasNextPage
-  lastPage
-  currentPage
-}
