@@ -33,16 +33,6 @@
               </v-btn>
             </v-col>
           </the-grid>
-          <!-- <MediaList
-            v-else
-            v-bind="{
-              hasNextPage,
-              loading,
-              loadingMore,
-              loadMore,
-              media,
-            }"
-          /> -->
         </template>
       </keep-alive>
     </v-container>
@@ -119,14 +109,19 @@ export const useShowMore = (
   loading: Ref<boolean>,
   loadMore: () => Promise<void>,
 ) => {
-  const showMore = async (changeShow: () => number) => {
+  const showMore = async (
+    dispatch: (
+      callback: (dispatch: () => void, value: Ref<number>) => any,
+    ) => void,
+  ) => {
     if (!loading.value) {
-      const show = changeShow()
-      if (show > media.value.length) {
-        if (hasNextPage.value) {
+      dispatch(async (dispatch, show) => {
+        dispatch()
+
+        if (show.value > media.value.length && hasNextPage.value) {
           await loadMore()
         }
-      }
+      })
     }
   }
 

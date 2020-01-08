@@ -24,6 +24,10 @@ export const useShow = (props: Readonly<Props>) => {
   const [showing, increaseShowing] = useReducer(
     state => state + props.show,
     props.show,
+    [
+      (dispatch, state) => next => action =>
+        action instanceof Function ? action(dispatch, state) : next(action),
+    ],
   )
 
   const mediaList = computed(() => props.media.slice(0, showing.value))
