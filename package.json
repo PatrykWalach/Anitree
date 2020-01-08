@@ -3,7 +3,7 @@
     "version": "0.6.5",
     "private": true,
     "scripts": {
-        "serve": "npm run apolloWatch & vue-cli-service serve",
+        "serve": "vue-cli-service serve",
         "build": "npm run apollo && vue-cli-service build",
         "lint": "vue-cli-service lint",
         "jestTest": "vue-cli-service test:unit --maxWorkers=2",
@@ -26,6 +26,7 @@
         "apollo-client": "^2.6.8",
         "apollo-link-http": "^1.5.16",
         "core-js": "^3.6.2",
+        "eslint-plugin-graphql": "^3.1.1",
         "graphql": "^14.5.8",
         "graphql-tag": "^2.10.1",
         "immer": "^5.1.0",

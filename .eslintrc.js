@@ -17,8 +17,16 @@ module.exports = {
   parserOptions: {
     parser: '@typescript-eslint/parser',
   },
+  plugins: ['graphql'],
   root: true,
   rules: {
+    'graphql/template-strings': [
+      'error',
+      {
+        env: 'apollo',
+        schemaJson: require('./schema.json'),
+      },
+    ],
     '@typescript-eslint/no-unused-vars': [
       'warn',
       {
