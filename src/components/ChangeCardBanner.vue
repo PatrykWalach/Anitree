@@ -1,27 +1,25 @@
 <template>
-  <v-card>
-    <v-list-item>
-      <v-list-item-icon>
-        <v-icon color="primary">
-          {{ icon }}
-        </v-icon>
-      </v-list-item-icon>
-      <v-list-item-content>
+  <VCard>
+    <VListItem>
+      <VListItemIcon>
+        <VIcon color="primary" v-text="icon" />
+      </VListItemIcon>
+      <VListItemContent>
         <MediaItemTitle headline :media="media" />
         <MediaItemSubtitle body1 :media="media" />
-      </v-list-item-content>
+      </VListItemContent>
       <MediaItemAvatar :size="40" :media="media" />
-    </v-list-item>
+    </VListItem>
 
-    <v-divider />
+    <VDivider />
     <ChangeCardBannerActions :extension.sync="extension" :pending="pending" />
 
-    <v-expand-transition v-if="!deleteType">
-      <keep-alive>
+    <VExpandTransition v-if="!deleteType">
+      <KeepAlive>
         <ChangeCardBannerList v-if="extension" :pending="pending" />
-      </keep-alive>
-    </v-expand-transition>
-  </v-card>
+      </KeepAlive>
+    </VExpandTransition>
+  </VCard>
 </template>
 <script lang="ts">
 import { DeletePending, SavePending } from '../store/reducers/changes'

@@ -9,24 +9,24 @@
     dark
   >
     <template v-if="$vuetify.breakpoint.xsOnly">
-      <v-list v-bind="$attrs">
-        <v-list-item selectable>
-          <v-list-item-title class="headline">
+      <VList v-bind="$attrs">
+        <VListItem selectable>
+          <VListItemTitle class="headline">
             <template> Anitree <sup class="overline">alpha</sup> </template>
-          </v-list-item-title>
-        </v-list-item>
-      </v-list>
+          </VListItemTitle>
+        </VListItem>
+      </VList>
     </template>
 
-    <v-list v-bind="$attrs">
+    <VList v-bind="$attrs">
       <TheDrawerLoadingViewer v-if="loading" />
       <TheDrawerViewer v-else-if="viewer" :viewer="viewer" />
       <TheDrawerLogin v-else :disabled="!!token" />
-    </v-list>
+    </VList>
 
     <v-fab-transition v-if="!$vuetify.breakpoint.xsOnly">
       <div v-if="fab" :key="fab.icon">
-        <v-list rounded>
+        <VList rounded>
           <BaseActionItem
             icon-color="black"
             class="accent"
@@ -34,11 +34,11 @@
             :title="fab.title"
             @click.stop="fab.on"
           />
-        </v-list>
+        </VList>
       </div>
     </v-fab-transition>
 
-    <v-list v-bind="$attrs">
+    <VList v-bind="$attrs">
       <BaseActionItem
         v-for="{ attrs, props, on } in navigationElements"
         :key="props.icon"
@@ -46,7 +46,7 @@
         v-bind="{ ...attrs, ...props }"
         v-on="on"
       />
-    </v-list>
+    </VList>
   </v-navigation-drawer>
 </template>
 

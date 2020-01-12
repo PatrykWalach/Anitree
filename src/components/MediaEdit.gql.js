@@ -1,11 +1,11 @@
 import gql from 'graphql-tag'
-import { MediaCardBanner_media } from './MediaCardBanner.js'
-import { MediaItem_media } from './MediaItem.js'
-import { MediaEditActions_media } from './MediaEditActions.js'
+import { MediaCardBanner_media } from './MediaCardBanner.gql.js'
+import { MediaItem_media } from './MediaItem.gql.js'
+import { MediaEditActions_media } from './MediaEditActions.gql.js'
 import {
   MediaEditItems_media,
   MediaEditItems_viewer,
-} from './MediaEditItems.js'
+} from './MediaEditItems.gql.js'
 
 export const MediaEdit_media = gql`
   fragment MediaEdit_media on Media {

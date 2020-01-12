@@ -1,5 +1,5 @@
 <template>
-  <v-card
+  <VCard
     color="transparent"
     tile
     flat
@@ -7,15 +7,13 @@
     target="_blank"
     rel="noopener"
   >
-    <v-card-title :style="{ 'justify-content': 'center' }">
-      <v-avatar :color="color" class="white--text">
+    <VCardTitle :style="{ 'justify-content': 'center' }">
+      <VAvatar :color="color" class="white--text">
         <slot />
-      </v-avatar>
-    </v-card-title>
-    <v-card-text class="text-center">
-      {{ title }}
-    </v-card-text>
-  </v-card>
+      </VAvatar>
+    </VCardTitle>
+    <VCardText class="text-center" v-text="title" />
+  </VCard>
 </template>
 <script lang="ts">
 export default {

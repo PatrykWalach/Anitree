@@ -11,9 +11,9 @@
       :key="props.icon"
       v-bind="{ ...attrs, ...props }"
     >
-      <v-icon left>
+      <VIcon left>
         {{ props.icon }}
-      </v-icon>
+      </VIcon>
       {{ props.title }}
     </v-tab>
   </v-tabs>

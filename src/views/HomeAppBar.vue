@@ -1,5 +1,6 @@
 <template>
-  <div :style="{ display: 'contents' }">
+  <div :style="{ flex: 1, display: 'flex', justifyContent: 'flex-end' }">
+    <VSpacer></VSpacer>
     <BaseAction
       bottom
       v-for="{ attrs, props, on } in navigationElements"
@@ -9,25 +10,17 @@
       :tooltip="props.title"
       v-on="on"
     />
-    <VSpacer></VSpacer>
-    <BaseAction
-      icon="home"
-      exact
-      tooltip="Home"
-      :to="{ name: 'home' }"
-      bottom
-    />
   </div>
 </template>
 <script lang="ts">
 import BaseAction from '@/components/BaseAction.vue'
 import { createComponent } from '@vue/composition-api'
-import { useViewSearchNavigation } from '@/hooks/viewSearchNavigation'
+import { useTheDrawerNavigation } from '@/components/TheDrawer.vue'
 
 export default createComponent({
   components: { BaseAction },
   setup() {
-    const navigationElements = useViewSearchNavigation()
+    const navigationElements = useTheDrawerNavigation()
     return {
       navigationElements,
     }

@@ -1,9 +1,6 @@
 <template>
-  <v-list-item-subtitle
-    class="text-truncate caption"
-    :style="{ display: 'flex' }"
-  >
-    <v-rating
+  <VListItemSubtitle class="text-truncate caption" :style="{ display: 'flex' }">
+    <VRating
       readonly
       dense
       half-increments
@@ -13,8 +10,8 @@
       class="mr-2"
       size="18"
     />
-    <span> {{ meanScore }}% ({{ reviews }}) </span>
-  </v-list-item-subtitle>
+    <span v-text="more" />
+  </VListItemSubtitle>
 </template>
 
 <script lang="ts">
@@ -40,8 +37,8 @@ export default createComponent<Readonly<Props>>({
     const rating = computed(() => Math.round(meanScore.value / 10) / 2)
 
     const reviews = useNumber(() => props.media.popularity || 0)
-
-    return { meanScore, rating, reviews }
+    const more = computed(() => `${meanScore.value}% (${reviews.value})`)
+    return { more, rating }
   },
 })
 </script>

@@ -2,23 +2,28 @@
   <v-app>
     <TheDrawer rounded :value.sync="drawer" />
 
-    <v-content>
-      <keep-alive>
+    <v-content
+      :class="{
+        primary: $vuetify.breakpoint.xsOnly,
+      }"
+    >
+      <KeepAlive>
         <router-view />
-      </keep-alive>
+      </KeepAlive>
     </v-content>
+    <TheFooter />
+
     <template v-if="$vuetify.breakpoint.xsOnly">
-      <keep-alive>
+      <!-- <KeepAlive>
         <router-view name="appBar" />
-      </keep-alive>
-      <TheBottomAppBar :drawer.sync="drawer" />
+      </KeepAlive> -->
+      <!-- <TheBottomAppBar :drawer.sync="drawer" /> -->
     </template>
     <the-right-drawer v-else>
-      <keep-alive>
+      <KeepAlive>
         <router-view name="drawer" />
-      </keep-alive>
+      </KeepAlive>
     </the-right-drawer>
-    <TheFooter />
   </v-app>
 </template>
 <script lang="ts">
@@ -38,16 +43,21 @@ const TheRightDrawer = () =>
     /* webpackChunkName: "TheRightDrawer" */ /* webpackPrefetch: true */ './components/TheRightDrawer.vue'
   )
 
-const TheBottomAppBar = () =>
+// const TheBottomAppBar = () =>
+//   import(
+//     /* webpackChunkName: "TheBottomAppBar" */ /* webpackPrefetch: true */ './components/TheBottomAppBar.vue'
+//   )
+const TheBackdrop = () =>
   import(
-    /* webpackChunkName: "TheBottomAppBar" */ /* webpackPrefetch: true */ './components/TheBottomAppBar.vue'
+    /* webpackChunkName: "TheBackdrop" */ /* webpackPrefetch: true */ './components/TheBackdrop.vue'
   )
 
 export default createComponent({
   components: {
-    TheBottomAppBar,
+    // TheBottomAppBar,
     TheDrawer,
     TheFooter,
+    TheBackdrop,
     TheRightDrawer,
   },
   setup() {
@@ -76,3 +86,9 @@ export default createComponent({
   },
 })
 </script>
+<style lang="scss">
+.v-content.primary > div {
+  display: flex;
+  flex-direction: column;
+}
+</style>

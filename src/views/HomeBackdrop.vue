@@ -1,5 +1,5 @@
 <template>
-  <VList rounded>
+  <VList nav color="transparent">
     <BaseActionItem
       v-for="{ attrs, props, on } in navigationElements"
       :key="props.icon"
@@ -11,11 +11,12 @@
 <script lang="ts">
 import BaseActionItem from '@/components/BaseActionItem.vue'
 import { createComponent } from '@vue/composition-api'
-import { useViewSearchNavigation } from '@/hooks/viewSearchNavigation'
+import { useTheDrawerNavigation } from '@/components/TheDrawer.vue'
+
 export default createComponent({
   components: { BaseActionItem },
   setup() {
-    const navigationElements = useViewSearchNavigation()
+    const navigationElements = useTheDrawerNavigation()
     return {
       navigationElements,
     }

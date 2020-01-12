@@ -1,4 +1,4 @@
-import { ChangeCardBanner_media } from './ChangeCardBanner'
+import { ChangeCardBanner_media } from './ChangeCardBanner.gql.js'
 
 import gql from 'graphql-tag'
 

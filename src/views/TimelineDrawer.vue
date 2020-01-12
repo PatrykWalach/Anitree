@@ -1,5 +1,5 @@
 <template>
-  <v-list rounded>
+  <VList rounded>
     <BaseActionItem
       icon="keyboard_arrow_down"
       tooltip="Back"
@@ -31,14 +31,14 @@
     />
 
     <component
-      :is="$vuetify.breakpoint.xsOnly ? 'v-bottom-sheet' : 'v-dialog'"
+      :is="$vuetify.breakpoint.xsOnly ? 'v-bottom-sheet' : 'VDialog'"
       v-model="isShared"
       scrollable
       max-width="440px"
     >
       <BaseShare :options="shareData" />
     </component>
-    <v-dialog
+    <VDialog
       v-model="isEdited"
       scrollable
       :fullscreen="$vuetify.breakpoint.xsOnly"
@@ -54,8 +54,8 @@
         :media="media"
         @close="isEdited = false"
       />
-    </v-dialog>
-  </v-list>
+    </VDialog>
+  </VList>
 </template>
 
 <script lang="ts">

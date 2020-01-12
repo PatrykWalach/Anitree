@@ -33,7 +33,7 @@ export default createComponent<Readonly<Props>>({
     afterTransform: { default: () => [], required: false, type: Array },
     beforeTransform: { default: () => [], required: false, type: Array },
     tag: {
-      default: 'v-text-field',
+      default: 'VTextField',
       required: false,
       type: String,
     },

@@ -1,17 +1,5 @@
 <template>
-  <v-text-field
-    v-model="value"
-    full-width
-    single-line
-    filled
-    rounded
-    clearable
-    autofocus
-    hide-details
-    name="search"
-    label="Search"
-    prepend-inner-icon="search"
-  />
+  <VTextField name="search" v-model="value" v-bind="$attrs" />
 </template>
 <script lang="ts">
 import { computed, createComponent, ref, watch } from '@vue/composition-api'
@@ -23,6 +11,7 @@ interface Props {
 }
 
 export default createComponent({
+  inheritAttrs: false,
   props: { query: { default: null, required: true, type: Object } },
   setup(props, { root }) {
     const currentSearch = computed(() => {

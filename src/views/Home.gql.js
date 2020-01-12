@@ -1,5 +1,5 @@
 import gql from 'graphql-tag'
-import { MediaCard_media } from '../components/MediaCard.js'
+import { MediaCard_media } from '../components/MediaCard.gql.js'
 
 export const HomeQuery = gql`
   query HomeQuery($perPage: Int = 50) {

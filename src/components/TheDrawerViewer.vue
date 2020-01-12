@@ -8,46 +8,46 @@
           </template>
         </v-img>
       </v-list-item-avatar>
-      <v-list-item-content>
-        <v-list-item-title>
+      <VListItemContent>
+        <VListItemTitle>
           {{ viewer.name }}
-        </v-list-item-title>
-      </v-list-item-content>
+        </VListItemTitle>
+      </VListItemContent>
     </template>
 
-    <v-list-item rel="noopener" :href="`${viewer.siteUrl}/animelist`">
-      <v-list-item-icon>
-        <v-icon>movie</v-icon>
-      </v-list-item-icon>
-      <v-list-item-content>
-        <v-list-item-title>
+    <VListItem rel="noopener" :href="`${viewer.siteUrl}/animelist`">
+      <VListItemIcon>
+        <VIcon>movie</VIcon>
+      </VListItemIcon>
+      <VListItemContent>
+        <VListItemTitle>
           Anime List
-        </v-list-item-title>
-      </v-list-item-content>
-    </v-list-item>
+        </VListItemTitle>
+      </VListItemContent>
+    </VListItem>
 
-    <v-list-item rel="noopener" :href="`${viewer.siteUrl}/mangalist`">
-      <v-list-item-icon>
-        <v-icon>menu_book</v-icon>
-      </v-list-item-icon>
-      <v-list-item-content>
-        <v-list-item-title>
+    <VListItem rel="noopener" :href="`${viewer.siteUrl}/mangalist`">
+      <VListItemIcon>
+        <VIcon>menu_book</VIcon>
+      </VListItemIcon>
+      <VListItemContent>
+        <VListItemTitle>
           Manga List
-        </v-list-item-title>
-      </v-list-item-content>
-    </v-list-item>
+        </VListItemTitle>
+      </VListItemContent>
+    </VListItem>
 
-    <v-list-item @click.stop="logout">
-      <v-list-item-icon>
-        <v-icon>exit_to_app</v-icon>
-      </v-list-item-icon>
-      <v-list-item-content>
-        <v-list-item-title>
+    <VListItem @click.stop="logout">
+      <VListItemIcon>
+        <VIcon>exit_to_app</VIcon>
+      </VListItemIcon>
+      <VListItemContent>
+        <VListItemTitle>
           Logout
-        </v-list-item-title>
-      </v-list-item-content>
-    </v-list-item>
-    <!-- <v-divider></v-divider> -->
+        </VListItemTitle>
+      </VListItemContent>
+    </VListItem>
+    <!-- <VDivider></VDivider> -->
   </v-list-group>
 </template>
 <script lang="ts">

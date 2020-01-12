@@ -1,5 +1,5 @@
 import gql from 'graphql-tag'
-import { TheDrawerViewer_viewer } from './TheDrawerViewer.js'
+import { TheDrawerViewer_viewer } from './TheDrawerViewer.gql.js'
 
 export const TheDrawerQuery = gql`
   query TheDrawerQuery {

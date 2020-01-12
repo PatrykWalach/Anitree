@@ -1,53 +1,44 @@
 <template>
-  <v-card-actions>
-    <v-btn
+  <VCardActions>
+    <VBtn
       v-if="!deleteType"
       icon
       @click.stop="syncedExtension = !syncedExtension"
     >
-      <v-icon>
-        {{ syncedExtension ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}
-      </v-icon>
-    </v-btn>
-    <v-spacer />
-    <!-- <v-btn text color="error" :disabled="loading" @click.stop="discard">
-      Discard
-    </v-btn> -->
+      <VIcon
+        v-text="syncedExtension ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"
+      />
+    </VBtn>
+    <VSpacer />
 
-    <v-dialog v-model="showConfirmation" max-width="360">
+    <VDialog v-model="showConfirmation" max-width="360">
       <template v-slot:activator="{ on, attrs }">
-        <v-btn :disabled="loading" color="error" text v-bind="attrs" v-on="on">
+        <VBtn :disabled="loading" color="error" text v-bind="attrs" v-on="on">
           Discard
-        </v-btn>
+        </VBtn>
       </template>
-      <v-card color="primary darken-1" dark>
-        <v-card-title>Warning</v-card-title>
-        <v-card-text>
+      <VCard color="primary darken-1" dark>
+        <VCardTitle>Warning</VCardTitle>
+        <VCardText>
           Are you sure you want to discard this changes?
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn text color="error" @click.stop="showConfirmation = false">
+        </VCardText>
+        <VCardActions>
+          <VSpacer />
+          <VBtn text color="error" @click.stop="showConfirmation = false">
             Cancel
-          </v-btn>
+          </VBtn>
 
-          <v-btn text color="accent" @click.stop="discard">
+          <VBtn text color="accent" @click.stop="discard">
             Ok
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+          </VBtn>
+        </VCardActions>
+      </VCard>
+    </VDialog>
 
-    <v-btn
-      outlined
-      text
-      color="accent"
-      :disabled="loading"
-      @click.stop="submit"
-    >
+    <VBtn outlined text color="accent" :disabled="loading" @click.stop="submit">
       Submit
-    </v-btn>
-  </v-card-actions>
+    </VBtn>
+  </VCardActions>
 </template>
 
 <script lang="ts">

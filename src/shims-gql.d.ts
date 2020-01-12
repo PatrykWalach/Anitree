@@ -21,6 +21,7 @@ declare module '*Search.gql.js' {
 declare module '*Timeline.gql.js' {
   import { DocumentNode } from 'graphql'
   export const TimelineQuery: DocumentNode
+  export const TimelineMediaQuery: DocumentNode
   export const TimelinePrefetchQuery: DocumentNode
 }
 
@@ -48,7 +49,6 @@ declare module '*App.gql.js' {
 declare module '*Router.gql.js' {
   import { DocumentNode } from 'graphql'
   export const RouterTimelineQuery: DocumentNode
-  export const RouterTimelineAppBarQuery: DocumentNode
   export const RouterTimelineDrawerQuery: DocumentNode
 }
 

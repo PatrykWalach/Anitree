@@ -1,11 +1,11 @@
 <template>
   <v-chip v-if="validStartDate" label outlined>
-    <v-icon left small v-if="validEndDate">
+    <VIcon left small v-if="validEndDate">
       date_range
-    </v-icon>
-    <v-icon left small v-else>
+    </VIcon>
+    <VIcon left small v-else>
       calendar_today
-    </v-icon>
+    </VIcon>
     <BaseTime
       :end-date="validEndDate ? media.endDate : undefined"
       :start-date="media.startDate"

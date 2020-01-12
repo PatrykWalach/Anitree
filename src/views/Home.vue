@@ -10,6 +10,8 @@ import {
   VIcon,
   VRow,
   VTimeline,
+  VCard,
+  VSlideXReverseTransition,
   VTimelineItem,
 } from 'vuetify/lib'
 import {
@@ -19,6 +21,7 @@ import {
 } from '@vue/composition-api'
 import { useQuery, useResult } from '@vue/apollo-composable'
 import HomeItem from '@/components/HomeItem.vue'
+import TheBackdrop from '@/components/TheBackdrop.vue'
 import MediaCardLoading from '@/components/MediaCardLoading.vue'
 import { HomeQuery } from './Home.gql.js'
 import { asyncComponent } from '../router'
@@ -30,6 +33,11 @@ const MediaCard = () =>
     import(/* 'ebpackChunkName: "MediaCard"' */ '@/components/MediaCard.vue'),
     MediaCardLoading,
   )
+
+const HomeBackdrop = () =>
+  import(/* 'ebpackChunkName: "HomeBackdrop"' */ './HomeBackdrop.vue')
+const HomeAppBar = () =>
+  import(/* 'ebpackChunkName: "HomeAppBar"' */ './HomeAppBar.vue')
 
 const PER_PAGE = 50
 
@@ -194,18 +202,53 @@ export default createComponent({
       ],
     ]
 
+    // <TheBackdrop v-if="$vuetify.breakpoint.xsOnly">
+    //   <KeepAlive>
+    //     <router-view />
+    //   </KeepAlive>
+    //   <template v-slot:backdrop>
+    //     <KeepAlive>
+    //       <router-view name="backdrop" />
+    //     </KeepAlive>
+    //   </template>
+    //   <template v-slot:appBar>
+    //     <KeepAlive>
+    //       <router-view name="appBar" />
+    //     </KeepAlive>
+    //   </template>
+    // </TheBackdrop>
+
     return () =>
-      h(VContainer, [
-        h(VRow, [
-          Timeline({
-            content,
-            loading: loading.value,
-            media: randomMedia.value,
-            smAndDown: root.$vuetify.breakpoint.smAndDown,
-            xsOnly: root.$vuetify.breakpoint.xsOnly,
-          }),
-        ]),
-      ])
+      h(TheBackdrop, {
+        scopedSlots: {
+          backdrop: () => h(HomeBackdrop),
+          appBar: ({ active }) =>
+            h(VSlideXReverseTransition, [!active ? h(HomeAppBar) : null]),
+          default: () =>
+            h(
+              VCard,
+              {
+                style: {
+                  flex: 1,
+                  borderRadius: '4px 4px 0 0',
+                },
+              },
+              [
+                h(VContainer, [
+                  h(VRow, [
+                    Timeline({
+                      content,
+                      loading: loading.value,
+                      media: randomMedia.value,
+                      smAndDown: root.$vuetify.breakpoint.smAndDown,
+                      xsOnly: root.$vuetify.breakpoint.xsOnly,
+                    }),
+                  ]),
+                ]),
+              ],
+            ),
+        },
+      })
   },
 })
 </script>

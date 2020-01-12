@@ -1,50 +1,53 @@
 <template>
-  <div>
-    <v-container>
-      <v-row justify="center" dense>
-        <v-col cols="12" md="6">
-          <ViewSearchField :query="query" />
-        </v-col>
-      </v-row>
-    </v-container>
-
-    <v-container>
-      <keep-alive>
-        <TheGridLoading v-if="loading" />
-        <template v-else-if="page">
-          <v-row justify="center" align="center" v-if="!media.length">
-            No results found
-          </v-row>
-          <the-grid
-            v-else
-            :media="media"
-            v-slot="{ showingEverything, increaseShowing }"
-          >
-            <v-col cols="12" v-if="!showingEverything || hasNextPage">
-              <v-btn
-                v-intersect.quiet="() => showMore(increaseShowing)"
-                :disabled="loading"
-                :loading="loadingMore"
-                block
-                color="accent"
-                @click.stop="() => showMore(increaseShowing)"
-              >
-                show more
-              </v-btn>
-            </v-col>
-          </the-grid>
-        </template>
-      </keep-alive>
-    </v-container>
-    <v-dialog
-      v-model="showFilters"
-      max-width="360px"
-      scrollable
-      :fullscreen="$vuetify.breakpoint.xsOnly"
-    >
-      <ViewSearchFilters :query="query" @close="showFilters = false" />
-    </v-dialog>
-  </div>
+  <TheBackdrop>
+    <template v-slot:appBar>
+      <SearchAppBar />
+    </template>
+    <template v-slot:backdrop>
+      <SearchBackdrop :query="query" />
+    </template>
+    <template v-slot:default>
+      <VCard
+        :style="{ flex: 1, borderRadius: '4px 4px 0 0' }"
+        :loading="loading && 'accent'"
+      >
+        <VCardTitle>
+          <span v-if="total == '0'"> No results </span>
+          <span v-else> See {{ total }} results </span>
+        </VCardTitle>
+        <VContainer>
+          <KeepAlive>
+            <TheGridLoading v-if="loading" />
+            <the-grid
+              v-else-if="page"
+              :media="media"
+              v-slot="{ showingEverything, increaseShowing }"
+            >
+              <v-col cols="12" v-if="!showingEverything || hasNextPage">
+                <VBtn
+                  v-intersect.quiet="() => showMore(increaseShowing)"
+                  :disabled="loading"
+                  :loading="loadingMore"
+                  block
+                  color="accent"
+                  @click.stop="() => showMore(increaseShowing)"
+                >
+                  show more
+                </VBtn>
+              </v-col>
+            </the-grid>
+          </KeepAlive>
+        </VContainer>
+        <VDialog
+          v-model="showFilters"
+          max-width="360px"
+          scrollable
+          v-if="!$vuetify.breakpoint.xsOnly"
+        >
+          <ViewSearchFilters :query="query" @close="showFilters = false" />
+        </VDialog> </VCard
+    ></template>
+  </TheBackdrop>
 </template>
 <script lang="ts">
 import {
@@ -61,10 +64,20 @@ import { SearchQuery } from './Search.gql.js'
 import { RecursiveNonNullable } from '../types'
 import { asyncComponent } from '@/router'
 import { useRoutes } from '@/hooks/route'
+import { useNumber } from '@/hooks/intl'
 import { useViewer } from '@/hooks/viewer'
 import { usePage } from '@/hooks/page'
 import TheGridLoading from '@/components/TheGridLoading.vue'
 import ViewSearchField from '@/components/ViewSearchField.vue'
+import TheBackdrop from '@/components/TheBackdrop.vue'
+const SearchAppBar = () =>
+  import(
+    /* webpackChunkName: "SearchAppBar" */ /* webpackPrefetch: true */ './SearchAppBar.vue'
+  )
+const SearchBackdrop = () =>
+  import(
+    /* webpackChunkName: "SearchBackdrop" */ /* webpackPrefetch: true */ './SearchBackdrop.vue'
+  )
 
 const TheGrid = () =>
   asyncComponent(
@@ -138,8 +151,11 @@ export default createComponent({
   beforeRouteLeave,
   components: {
     TheGrid,
+    TheBackdrop,
     TheGridLoading,
     ViewSearchField,
+    SearchBackdrop,
+    SearchAppBar,
     ViewSearchFilters,
   },
   props: {
@@ -188,7 +204,17 @@ export default createComponent({
       loadMore,
     )
 
+    const pageTotal = useResult<number, number>(
+      result,
+      0,
+      data => data.Page.pageInfo.total,
+    )
+
+    const total = useNumber(pageTotal)
+
     return {
+      pageTotal,
+      total,
       fab,
       showMore,
       hasNextPage,

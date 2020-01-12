@@ -1,29 +1,21 @@
 <template>
-  <v-list-item v-bind="$attrs" v-on="$listeners">
-    <v-tooltip v-if="tooltip" :[right]="true">
+  <VListItem v-bind="$attrs" v-on="$listeners">
+    <VTooltip v-if="tooltip" :[right]="true">
       <template v-slot:activator="{ on, attrs }">
-        <v-list-item-icon v-bind="attrs" v-on="on">
-          <v-icon :color="iconColor">
-            {{ icon }}
-          </v-icon>
-        </v-list-item-icon>
+        <VListItemIcon v-bind="attrs" v-on="on">
+          <VIcon :color="iconColor" v-text="icon" />
+        </VListItemIcon>
       </template>
-      <span class="text-capitalize">
-        {{ tooltip }}
-      </span>
-    </v-tooltip>
-    <v-list-item-icon v-else>
-      <v-icon :color="iconColor">
-        {{ icon }}
-      </v-icon>
-    </v-list-item-icon>
+      <span class="text-capitalize" v-text="tooltip" />
+    </VTooltip>
+    <VListItemIcon v-else>
+      <VIcon :color="iconColor" v-text="icon" />
+    </VListItemIcon>
 
-    <v-list-item-content>
-      <v-list-item-title class="text-capitalize">
-        {{ title || icon }}
-      </v-list-item-title>
-    </v-list-item-content>
-  </v-list-item>
+    <VListItemContent>
+      <VListItemTitle class="text-capitalize" v-text="title || icon" />
+    </VListItemContent>
+  </VListItem>
 </template>
 <script lang="ts">
 import { computed, createComponent } from '@vue/composition-api'

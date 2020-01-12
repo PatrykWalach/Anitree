@@ -1,7 +1,7 @@
 <template>
   <v-tabs-items v-model="syncedTab" class="transparent" :dark="theme.isDark">
     <v-tab-item v-for="i in 4" :key="i" :value="'edit' + i">
-      <v-card-text>
+      <VCardText>
         <MediaEditItemsTab
           :method="'edit' + i"
           v-bind="{
@@ -13,7 +13,7 @@
             changeForm,
           }"
         />
-      </v-card-text>
+      </VCardText>
     </v-tab-item>
   </v-tabs-items>
 </template>

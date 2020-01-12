@@ -1,13 +1,13 @@
 <template>
-  <v-card>
+  <VCard>
     <MediaCardBanner v-if="media.bannerImage" :media="media" />
     <MediaItem :media="media" />
-    <v-divider class="mx-4" />
+    <VDivider class="mx-4" />
 
     <MediaCardActions :media="media" />
 
     <MediaCardStatus :media="media" />
-  </v-card>
+  </VCard>
 </template>
 <script lang="ts">
 import MediaCardActions from './MediaCardActions.vue'

@@ -1,16 +1,16 @@
 <template>
-  <v-card-actions>
-    <v-btn disabled color="error" text>
+  <VCardActions>
+    <VBtn disabled color="error" text>
       Delete
-    </v-btn>
-    <v-spacer />
-    <v-btn text outlined color="accent" @click.stop="$emit('close')">
+    </VBtn>
+    <VSpacer />
+    <VBtn text outlined color="accent" @click.stop="$emit('close')">
       Cancel
-    </v-btn>
-    <v-btn disabled depressed color="accent">
+    </VBtn>
+    <VBtn disabled depressed color="accent">
       Save
-    </v-btn>
-  </v-card-actions>
+    </VBtn>
+  </VCardActions>
 </template>
 <script lang="ts">
 import { createComponent } from '@vue/composition-api'

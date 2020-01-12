@@ -1,21 +1,21 @@
 <template>
-  <v-card>
-    <v-card-text class="pa-0">
+  <VCard>
+    <VCardText class="pa-0">
       <MediaCardLoadingBanner />
       <MediaItemLoading />
-      <v-divider />
+      <VDivider />
       <MediaEditLoadingTabs
         :style="{ position: 'sticky', top: 0, 'z-index': 2 }"
       />
-      <v-container>
+      <VContainer>
         <v-row justify="center" align="center">
           <v-progress-circular indeterminate />
         </v-row>
-      </v-container>
-    </v-card-text>
-    <v-divider />
+      </VContainer>
+    </VCardText>
+    <VDivider />
     <MediaEditLoadingActions @close="$emit('close')" />
-  </v-card>
+  </VCard>
 </template>
 <script lang="ts">
 import MediaCardLoadingBanner from './MediaCardLoadingBanner.vue'

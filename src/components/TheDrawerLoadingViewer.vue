@@ -1,12 +1,12 @@
 <template>
-  <v-list-item>
+  <VListItem>
     <MediaItemLoadingAvatar size="40" />
-    <v-list-item-content>
-      <v-list-item-title>
+    <VListItemContent>
+      <VListItemTitle>
         <v-skeleton-loader type="text" />
-      </v-list-item-title>
-    </v-list-item-content>
-  </v-list-item>
+      </VListItemTitle>
+    </VListItemContent>
+  </VListItem>
 </template>
 
 <script lang="ts">

@@ -1,6 +1,9 @@
 import gql from 'graphql-tag'
-import { TheTimeline_media } from '../components/TheTimeline.js'
-import { Page_page } from '../hooks/Page.js'
+import { TheTimeline_media } from '../components/TheTimeline.gql.js'
+import { Page_page } from '../hooks/Page.gql.js'
+import { RenderlessSubtitle_media } from '@/components/RenderlessSubtitle.gql.js'
+import { RenderlessTitle_media } from '@/components/RenderlessTitle.gql.js'
+import { TimelineAppBar_media } from './TimelineAppBar.gql.js'
 
 export const TimelinePrefetchQuery = gql`
   query TimelinePrefetchQuery(
@@ -57,4 +60,18 @@ export const TimelineQuery = gql`
   }
   ${TheTimeline_media}
   ${Page_page}
+`
+
+export const TimelineMediaQuery = gql`
+  query TimelineMediaQuery($id: Int) {
+    Media(id: $id) {
+      id
+      ...RenderlessTitle_media
+      ...RenderlessSubtitle_media
+      ...TimelineAppBar_media
+    }
+  }
+  ${RenderlessTitle_media}
+  ${RenderlessSubtitle_media}
+  ${TimelineAppBar_media}
 `

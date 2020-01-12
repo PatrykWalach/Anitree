@@ -1,80 +1,28 @@
 <template>
-  <v-list-item-subtitle
-    :class="{ 'text-capitalize': true, 'body-1': body1 }"
-    :style="{ alignItems: 'center' }"
-  >
-    {{ subheading }}
-  </v-list-item-subtitle>
+  <RenderlessSubtitle :media="media" v-slot="{ subtitle }">
+    <VListItemSubtitle
+      :class="{ 'text-capitalize': true, 'body-1': body1 }"
+      :style="{ alignItems: 'center' }"
+      v-text="subtitle"
+    />
+  </RenderlessSubtitle>
 </template>
 
 <script lang="ts">
-import { computed, createComponent } from '@vue/composition-api'
+import { createComponent } from '@vue/composition-api'
 
 import { MediaItemSubtitle_media } from './__generated__/MediaItemSubtitle_media'
+import RenderlessSubtitle from './RenderlessSubtitle.vue'
 
 export interface Props {
   media: MediaItemSubtitle_media
 }
 
-export const useString = () => ({
-  clean: (str: string | null) =>
-    (str &&
-      str
-        .split(/_/g)
-        .map(str => {
-          if (str !== 'TV' && str !== 'OVA' && str !== 'ONA')
-            return str.toLowerCase()
-          return str
-        })
-        .join(' ')) ||
-    '',
-})
-
 export default createComponent<Readonly<Props>>({
+  components: { RenderlessSubtitle },
   props: {
     media: { default: null, required: true, type: Object },
     body1: { default: false, required: false, type: Boolean },
-  },
-  setup(props) {
-    const { clean } = useString()
-
-    const manga = computed(() => props.media.type === 'MANGA')
-
-    const chaptersNumber = computed(() => {
-      const { chapters, episodes } = props.media
-      return (
-        ((chapters || episodes) && (manga.value ? chapters : episodes)) || 0
-      )
-    })
-
-    const chapters = computed(() => {
-      const chaptersNumberValue = chaptersNumber.value
-
-      return (
-        (chaptersNumberValue &&
-          chaptersNumberValue +
-            (manga.value ? ' Chapter' : ' Episode') +
-            (chaptersNumberValue === 1 ? '' : 's')) ||
-        null
-      )
-    })
-
-    const subheading = computed(() => {
-      const { media } = props
-
-      if (!media) {
-        return ''
-      }
-
-      const { format, status } = media
-
-      return [format, status, chapters.value]
-        .map(clean)
-        .filter(str => str)
-        .join(' · ')
-    })
-
-    return { chapters, chaptersNumber, manga, subheading }
   },
 })
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <v-card
+  <VCard
     exact
     :to="{
       name: 'media',
@@ -16,13 +16,13 @@
         <TheGridCardCover :hover="hover" :media="media" />
       </v-sheet>
     </v-hover>
-    <v-list-item>
-      <v-list-item-content>
+    <VListItem>
+      <VListItemContent>
         <MediaItemTitle :media="media" />
         <MediaItemSubtitle :media="media" />
-      </v-list-item-content>
-    </v-list-item>
-  </v-card>
+      </VListItemContent>
+    </VListItem>
+  </VCard>
 </template>
 
 <script lang="ts">

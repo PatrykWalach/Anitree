@@ -1,20 +1,20 @@
 <template>
-  <v-list dense>
-    <v-list-item v-for="(variable, key) in changes" :key="key">
-      <v-list-item-icon>
-        <v-icon>add</v-icon>
-      </v-list-item-icon>
+  <VList dense>
+    <VListItem v-for="(variable, key) in changes" :key="key">
+      <VListItemIcon>
+        <VIcon>add</VIcon>
+      </VListItemIcon>
 
-      <v-list-item-content>
-        <v-list-item-title class="text-capitalize">
+      <VListItemContent>
+        <VListItemTitle class="text-capitalize">
           {{ key }}
-        </v-list-item-title>
-        <v-list-item-subtitle>
+        </VListItemTitle>
+        <VListItemSubtitle>
           {{ variable }}
-        </v-list-item-subtitle>
-      </v-list-item-content>
-    </v-list-item>
-  </v-list>
+        </VListItemSubtitle>
+      </VListItemContent>
+    </VListItem>
+  </VList>
 </template>
 
 <script lang="ts">

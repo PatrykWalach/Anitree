@@ -1,8 +1,8 @@
 <template>
-  <v-card-actions>
-    <v-dialog v-model="confirmation" max-width="360">
+  <VCardActions>
+    <VDialog v-model="confirmation" max-width="360">
       <template v-slot:activator="{ on, attrs }">
-        <v-btn
+        <VBtn
           :disabled="!media.mediaListEntry"
           color="error"
           text
@@ -10,40 +10,40 @@
           v-on="on"
         >
           Delete
-        </v-btn>
+        </VBtn>
       </template>
-      <v-card color="primary darken-1" dark>
-        <v-card-title>Warning</v-card-title>
-        <v-card-text>
+      <VCard color="primary darken-1" dark>
+        <VCardTitle>Warning</VCardTitle>
+        <VCardText>
           Are you sure you want to delete this list entry?
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn text color="error" @click.stop="confirmation = false">
+        </VCardText>
+        <VCardActions>
+          <VSpacer />
+          <VBtn text color="error" @click.stop="confirmation = false">
             Cancel
-          </v-btn>
+          </VBtn>
 
-          <v-btn text color="accent" @click.stop="remove">
+          <VBtn text color="accent" @click.stop="remove">
             Ok
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-    <v-spacer />
+          </VBtn>
+        </VCardActions>
+      </VCard>
+    </VDialog>
+    <VSpacer />
 
-    <v-btn text outlined color="accent" @click.stop="close">
+    <VBtn text outlined color="accent" @click.stop="close">
       Cancel
-    </v-btn>
+    </VBtn>
 
-    <v-btn
+    <VBtn
       :disabled="!submitRequired"
       depressed
       color="accent"
       @click.stop="submitAndClose"
     >
       Save
-    </v-btn>
-  </v-card-actions>
+    </VBtn>
+  </VCardActions>
 </template>
 <script lang="ts">
 import {

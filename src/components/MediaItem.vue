@@ -1,14 +1,14 @@
 <template>
-  <v-list-item selectable :[lines]="true">
-    <v-list-item-content>
+  <VListItem selectable :[lines]="true">
+    <VListItemContent>
       <MediaItemOverline v-if="media.studios.nodes.length" :media="media" />
       <MediaItemTitle headline :media="media" />
       <MediaItemRatings :media="media" />
       <MediaItemSubtitle body1 :media="media" />
       <MediaItemDescription :media="media" />
-    </v-list-item-content>
+    </VListItemContent>
     <MediaItemAvatar :media="media" />
-  </v-list-item>
+  </VListItem>
 </template>
 
 <script lang="ts">

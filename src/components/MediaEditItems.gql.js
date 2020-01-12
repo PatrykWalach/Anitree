@@ -1,5 +1,5 @@
 import gql from 'graphql-tag'
-import { MediaEditItemsTab_media } from './MediaEditItemsTab.js'
+import { MediaEditItemsTab_media } from './MediaEditItemsTab.gql.js'
 
 export const MediaEditItems_media = gql`
   fragment MediaEditItems_media on Media {

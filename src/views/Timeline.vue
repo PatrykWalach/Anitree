@@ -1,31 +1,57 @@
 <template>
-  <div>
-    <v-container>
-      <TheTimelineLoading v-if="loading" />
+  <TheBackdrop>
+    <template v-slot:appBar>
+      <TimelineAppBar v-if="currentMedia" :media="currentMedia" />
+    </template>
+    <template v-slot:backdrop>
+      <TimelineBackdrop :query="query" />
+    </template>
+    <template v-slot:default>
+      <VCard :style="{ flex: 1, borderRadius: '4px 4px 0 0' }">
+        <VSkeletonLoader :loading="!currentMedia" type="card-heading">
+          <RenderlessTitle :media="currentMedia" v-slot="{ title }">
+            <VCardTitle v-text="title" />
+          </RenderlessTitle>
+        </VSkeletonLoader>
+        <VSkeletonLoader :loading="!currentMedia" type="card-heading">
+          <RenderlessSubtitle :media="currentMedia" v-slot="{ subtitle }">
+            <VCardSubtitle v-text="subtitle" />
+          </RenderlessSubtitle>
+        </VSkeletonLoader>
 
-      <the-timeline
-        v-else-if="media"
-        :media="media"
-        v-slot="{ showingEverything, increaseShowing }"
-      >
-        <v-col cols="12" v-if="!showingEverything || hasNextPage">
-          <v-btn
-            v-intersect.quiet="() => showMore(increaseShowing)"
-            :disabled="loading"
-            :loading="loadingMore"
-            block
-            color="accent"
-            @click.stop="() => showMore(increaseShowing)"
+        <VContainer>
+          <TheTimelineLoading v-if="loading" />
+
+          <the-timeline
+            v-else-if="media"
+            :media="media"
+            v-slot="{ showingEverything, increaseShowing }"
           >
-            show more
-          </v-btn>
-        </v-col>
-      </the-timeline>
-    </v-container>
-    <v-dialog v-model="showFilters" max-width="360px" scrollable>
-      <ViewSearchFilters :query="query" @close="showFilters = false" />
-    </v-dialog>
-  </div>
+            <v-col cols="12" v-if="!showingEverything || hasNextPage">
+              <VBtn
+                v-intersect.quiet="() => showMore(increaseShowing)"
+                :disabled="loading"
+                :loading="loadingMore"
+                block
+                color="accent"
+                @click.stop="() => showMore(increaseShowing)"
+              >
+                show more
+              </VBtn>
+            </v-col>
+          </the-timeline>
+        </VContainer>
+        <VDialog
+          v-if="!$vuetify.breakpoint.xsOnly"
+          v-model="showFilters"
+          max-width="360px"
+          scrollable
+        >
+          <ViewSearchFilters :query="query" @close="showFilters = false" />
+        </VDialog>
+      </VCard>
+    </template>
+  </TheBackdrop>
 </template>
 <script lang="ts">
 import {
@@ -45,6 +71,11 @@ import {
   TimelineQueryVariables,
   TimelineQuery_Page_media,
 } from './__generated__/TimelineQuery'
+import {
+  TimelineMediaQuery as TimelineMediaQueryResult,
+  TimelineMediaQueryVariables,
+  TimelineMediaQuery_Media,
+} from './__generated__/TimelineMediaQuery'
 import { beforeRouteLeave, createBeforeRouteEnter } from '../hooks/fab'
 
 import {
@@ -55,15 +86,32 @@ import {
   watch,
 } from '@vue/composition-api'
 import { useQuery, useQueryLoading, useResult } from '@vue/apollo-composable'
-import { TimelinePrefetchQuery, TimelineQuery } from './Timeline.gql.js'
+import {
+  TimelinePrefetchQuery,
+  TimelineQuery,
+  TimelineMediaQuery,
+} from './Timeline.gql.js'
 import { RecursiveNonNullable } from '../types'
 import TheTimelineLoading from '@/components/TheTimelineLoading.vue'
+
+import RenderlessSubtitle from '@/components/RenderlessSubtitle.vue'
+import RenderlessTitle from '@/components/RenderlessTitle.vue'
 import { asyncComponent } from '@/router'
 import { usePage, updatePageQuery } from '@/hooks/page'
 import { useFab } from '@/hooks/fab'
 import { useRoutes } from '@/hooks/route'
 import { MediaSort } from '__generated__/globalTypes'
 import { useShowMore } from './Search.vue'
+
+import TheBackdrop from '@/components/TheBackdrop.vue'
+const TimelineAppBar = () =>
+  import(
+    /* webpackChunkName: "TimelineAppBar" */ /* webpackPrefetch: true */ './TimelineAppBar.vue'
+  )
+const TimelineBackdrop = () =>
+  import(
+    /* webpackChunkName: "TimelineBackdrop" */ /* webpackPrefetch: true */ './TimelineBackdrop.vue'
+  )
 
 const ViewSearchFilters = () =>
   import(
@@ -173,9 +221,14 @@ export default createComponent({
   })),
   beforeRouteLeave,
   components: {
+    TheBackdrop,
+    TimelineBackdrop,
+    TimelineAppBar,
     ViewSearchFilters,
     TheTimeline,
     TheTimelineLoading,
+    RenderlessTitle,
+    RenderlessSubtitle,
   },
   props: {
     currentId: { default: null, required: true, type: Number },
@@ -189,6 +242,13 @@ export default createComponent({
     const { routeTimeline } = useRoutes(root)
 
     const order = ref(1)
+
+    const mediaQuery = useQuery<
+      TimelineMediaQueryResult,
+      TimelineMediaQueryVariables
+    >(TimelineMediaQuery, () => ({
+      id: props.currentId,
+    }))
 
     const queryVariables = computed(() => ({
       sort: ['START_DATE'] as MediaSort[],
@@ -223,7 +283,10 @@ export default createComponent({
       loadMore,
     )
 
+    const currentMedia = useResult<TimelineMediaQuery_Media>(mediaQuery.result)
+
     return {
+      currentMedia,
       loadMore,
       loadingMore,
       hasNextPage,

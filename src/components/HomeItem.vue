@@ -1,12 +1,12 @@
 <template>
-  <v-card>
-    <v-card-title>
+  <VCard>
+    <VCardTitle>
       <slot name="title" />
-    </v-card-title>
-    <v-card-text>
+    </VCardTitle>
+    <VCardText>
       <slot />
-    </v-card-text>
-  </v-card>
+    </VCardText>
+  </VCard>
 </template>
 
 <script lang="ts">

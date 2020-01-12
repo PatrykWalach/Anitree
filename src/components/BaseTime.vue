@@ -1,5 +1,5 @@
 <template>
-  <time>{{ formattedRange }}</time>
+  <time v-text="formattedRange" />
 </template>
 <script lang="ts">
 import { computed, createComponent } from '@vue/composition-api'

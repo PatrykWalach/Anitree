@@ -1,7 +1,7 @@
-import { MediaCardActions_media } from './MediaCardActions.js'
-import { MediaCardBanner_media } from './MediaCardBanner.js'
-import { MediaItem_media } from './MediaItem.js'
-import { MediaCardStatus_media } from './MediaCardStatus.js'
+import { MediaCardActions_media } from './MediaCardActions.gql.js'
+import { MediaCardBanner_media } from './MediaCardBanner.gql.js'
+import { MediaItem_media } from './MediaItem.gql.js'
+import { MediaCardStatus_media } from './MediaCardStatus.gql.js'
 
 import gql from 'graphql-tag'
 

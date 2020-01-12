@@ -1,5 +1,5 @@
 <template>
-  <v-tooltip bottom>
+  <VTooltip bottom>
     <template v-slot:activator="{ on, attrs }">
       <v-progress-linear
         v-if="media.mediaListEntry"
@@ -10,7 +10,7 @@
       />
     </template>
     <span>{{ tip }}</span>
-  </v-tooltip>
+  </VTooltip>
 </template>
 
 <script lang="ts">

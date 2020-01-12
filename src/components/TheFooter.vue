@@ -1,24 +1,24 @@
 <template>
-  <v-footer class="primary darken-1 caption" dark absolute app inset>
+  <v-footer app class="primary darken-1 caption" dark inset>
     <div v-if="!$vuetify.breakpoint.xsOnly">
       Powered by
     </div>
-    <v-btn href="https://anilist.co" target="_blank" text rel="noopener">
+    <VBtn href="https://anilist.co" target="_blank" text rel="noopener">
       Anilist
-    </v-btn>
-    <v-spacer v-if="$vuetify.breakpoint.xsOnly" />
+    </VBtn>
+    <VSpacer v-if="$vuetify.breakpoint.xsOnly" />
 
     <div v-if="!$vuetify.breakpoint.xsOnly">
       Made by
     </div>
-    <v-btn
+    <VBtn
       href="https://github.com/PatrykWalach/Anitree"
       target="_blank"
       text
       rel="noopener"
     >
       <font-awesome-icon :icon="['fab', 'github']" />PatrykWałach
-    </v-btn>
+    </VBtn>
   </v-footer>
 </template>
 <script lang="ts">

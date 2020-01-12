@@ -23,11 +23,7 @@ import { apollo } from '@/apollo'
 import { settingsActions } from './store/reducers/settings'
 import { store } from './store'
 import { useQuery, useResult } from '@vue/apollo-composable'
-import {
-  RouterTimelineQuery,
-  RouterTimelineAppBarQuery,
-  RouterTimelineDrawerQuery,
-} from './Router.gql.js'
+import { RouterTimelineQuery, RouterTimelineDrawerQuery } from './Router.gql.js'
 
 const useQueryProps = (
   { query: fullQuery }: Route,
@@ -77,15 +73,6 @@ const Home = () =>
 const Timeline = () =>
   import(
     /* webpackChunkName: "Timeline" */ /* webpackPrefetch: true */ './views/Timeline.vue'
-  )
-
-const TimelineAppBar = () =>
-  import(
-    /* webpackChunkName: "TimelineAppBar" */ /* webpackPrefetch: true */ './views/TimelineAppBar.vue'
-  )
-const SearchAppBar = () =>
-  import(
-    /* webpackChunkName: "SearchAppBar" */ /* webpackPrefetch: true */ './views/SearchAppBar.vue'
   )
 
 const TimelineDrawer = () =>
@@ -159,7 +146,7 @@ const router = new Router({
   mode: 'history',
   routes: [
     {
-      component: Home,
+      components: { default: Home },
       name: 'home',
       path: '/',
     },
@@ -207,9 +194,7 @@ const router = new Router({
       },
       components: {
         default: Timeline,
-        appBar: createTimelineWrapper(RouterTimelineAppBarQuery, ({ media }) =>
-          h(TimelineAppBar, { props: { media } }),
-        ),
+
         drawer: createTimelineWrapper(
           RouterTimelineDrawerQuery,
           ({ media }) => h(TimelineDrawer, { props: { media } }),
@@ -219,7 +204,6 @@ const router = new Router({
       name: 'timeline',
       path: '/:mediaType/:mediaId/:title',
       props: {
-        appBar: usePropsCurrentId,
         default: (route: Route) => ({
           ...useQueryProps(route, query => ({
             isAdult: query.isAdult,
@@ -236,13 +220,12 @@ const router = new Router({
       },
     },
     {
-      component: Changes,
+      components: { default: Changes },
       name: 'changes',
       path: '/changes',
     },
     {
       components: {
-        appBar: SearchAppBar,
         default: Search,
         drawer: SearchDrawer,
       },

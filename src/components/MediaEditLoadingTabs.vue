@@ -6,9 +6,9 @@
       v-bind="bind"
       disabled
     >
-      <v-icon left>
+      <VIcon left>
         {{ icon }}
-      </v-icon>
+      </VIcon>
       {{ title }}
     </v-tab>
   </v-tabs>

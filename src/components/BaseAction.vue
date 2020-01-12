@@ -1,21 +1,19 @@
 <template>
-  <v-tooltip :[top]="true">
+  <VTooltip :[top]="true">
     <template v-slot:activator="{ attrs, on }">
-      <v-btn
+      <VBtn
         text
         :color="iconColor"
         :icon="!title"
         v-bind="{ ...attrs, ...$attrs }"
         v-on="{ ...on, ...$listeners }"
       >
-        <v-icon v-if="icon" :small="!!title" :left="!!title">
-          {{ icon }}
-        </v-icon>
-        {{ title }}
-      </v-btn>
+        <VIcon v-if="icon" :small="!!title" :left="!!title" v-text="icon" />
+        <span v-if="title" v-text="title" />
+      </VBtn>
     </template>
-    <span class="text-capitalize">{{ tooltip || title || icon }}</span>
-  </v-tooltip>
+    <span class="text-capitalize" v-text="tooltip || title || icon" />
+  </VTooltip>
 </template>
 
 <script lang="ts">

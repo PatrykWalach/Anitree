@@ -1,5 +1,5 @@
 import gql from 'graphql-tag'
-import { MediaEdit_viewer } from './components/MediaEdit.js'
+import { MediaEdit_viewer } from './components/MediaEdit.gql.js'
 import { Search_viewer } from './views/Search.gql.js'
 
 export const AppQuery = gql`

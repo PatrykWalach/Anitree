@@ -1,6 +1,6 @@
 import gql from 'graphql-tag'
-import { TheGrid_media } from '../components/TheGrid.js'
-import { Page_page } from '../hooks/Page.js'
+import { TheGrid_media } from '../components/TheGrid.gql.js'
+import { Page_page } from '../hooks/Page.gql.js'
 
 export const SearchQuery = gql`
   query SearchQuery(
@@ -17,6 +17,9 @@ export const SearchQuery = gql`
     $perPage: Int = 12
   ) {
     Page(page: $page, perPage: $perPage) {
+      pageInfo {
+        total
+      }
       media(
         isAdult: $isAdult
         search: $search

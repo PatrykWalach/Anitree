@@ -1,12 +1,12 @@
 <template>
-  <v-card :loading="loading" color="primary darken-1" dark>
-    <v-card-text class="pa-0">
+  <VCard :loading="loading" color="primary darken-1" dark>
+    <VCardText class="pa-0">
       <media-card-banner v-if="media.bannerImage" :media="media">
         <v-overlay absolute />
       </media-card-banner>
 
       <MediaItem :media="media" />
-      <v-divider />
+      <VDivider />
       <MediaEditTabs
         :tab.sync="tab"
         :style="{ position: 'sticky', top: 0, 'z-index': 2 }"
@@ -18,15 +18,15 @@
         :user="viewer"
         :form="form"
       />
-    </v-card-text>
-    <v-divider />
+    </VCardText>
+    <VDivider />
     <MediaEditActions
       :submit="submit"
       :media="media"
       :form="form"
       @close="close"
     />
-  </v-card>
+  </VCard>
 </template>
 <script lang="ts">
 import MediaItem from './MediaItem.vue'

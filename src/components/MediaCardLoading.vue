@@ -1,11 +1,11 @@
 <template>
-  <v-card>
+  <VCard>
     <MediaCardLoadingBanner />
     <MediaItemLoading />
-    <v-divider class="mx-4" />
+    <VDivider class="mx-4" />
     <v-skeleton-loader type="actions" />
     <MediaCardLoadingStatus />
-  </v-card>
+  </VCard>
 </template>
 <script lang="ts">
 import MediaCardLoadingBanner from '@/components/MediaCardLoadingBanner.vue'

@@ -1,5 +1,5 @@
 import gql from 'graphql-tag'
-import { MediaCardCover_media } from './MediaCardCover.js'
+import { MediaCardCover_media } from './MediaCardCover.gql.js'
 
 export const MediaItemAvatar_media = gql`
   fragment MediaItemAvatar_media on Media {

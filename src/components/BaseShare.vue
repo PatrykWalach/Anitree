@@ -1,19 +1,19 @@
 <template>
-  <v-card color="primary darken-1" dark>
-    <v-card-title>Share link</v-card-title>
+  <VCard color="primary darken-1" dark>
+    <VCardTitle>Share link</VCardTitle>
 
-    <v-snackbar v-model="snackbar" left>
+    <VSnackbar v-model="snackbar" left>
       Link copied to clipboard
-      <v-btn color="accent" text @click.stop="snackbar = false">
+      <VBtn color="accent" text @click.stop="snackbar = false">
         Close
-      </v-btn>
-    </v-snackbar>
+      </VBtn>
+    </VSnackbar>
 
-    <v-list color="transparent">
-      <v-list-item selectable>
-        <v-list-item-content>
-          <v-list-item-subtitle>
-            <v-text-field
+    <VList color="transparent">
+      <VListItem selectable>
+        <VListItemContent>
+          <VListItemSubtitle>
+            <VTextField
               color="accent"
               filled
               single-line
@@ -21,22 +21,22 @@
               readonly
               :value="url"
             />
-          </v-list-item-subtitle>
-        </v-list-item-content>
-        <v-list-item-action>
-          <v-btn
+          </VListItemSubtitle>
+        </VListItemContent>
+        <VListItemAction>
+          <VBtn
             v-clipboard="url"
             color="accent"
             outlined
             @success="snackbar = true"
           >
             copy
-          </v-btn>
-        </v-list-item-action>
-      </v-list-item>
-    </v-list>
+          </VBtn>
+        </VListItemAction>
+      </VListItem>
+    </VList>
     <BaseShareItems :url="url" />
-  </v-card>
+  </VCard>
 </template>
 
 <script lang="ts">

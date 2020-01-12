@@ -1,13 +1,13 @@
 <template>
-  <v-list-item three-line>
-    <v-list-item-content>
+  <VListItem three-line>
+    <VListItemContent>
       <MediaItemLoadingOverline />
       <MediaItemLoadingTitle />
       <MediaItemLoadingSubtitle />
       <MediaItemLoadingDescription />
-    </v-list-item-content>
+    </VListItemContent>
     <MediaItemLoadingAvatar />
-  </v-list-item>
+  </VListItem>
 </template>
 <script lang="ts">
 import MediaItemLoadingAvatar from '@/components/MediaItemLoadingAvatar.vue'

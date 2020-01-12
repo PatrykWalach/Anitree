@@ -1,16 +1,16 @@
 import gql from 'graphql-tag'
-import { TimelineAppBar_media } from './views/TimelineAppBar.js'
-import { TimelineDrawer_media } from './views/TimelineDrawer.js'
+// import { TimelineAppBar_media } from './views/TimelineAppBar.gql.js'
+import { TimelineDrawer_media } from './views/TimelineDrawer.gql.js'
 
-export const RouterTimelineAppBarQuery = gql`
-  query RouterTimelineAppBarQuery($id: Int) {
-    Media(id: $id) {
-      id
-      ...TimelineAppBar_media
-    }
-  }
-  ${TimelineAppBar_media}
-`
+// export const RouterTimelineAppBarQuery = gql`
+//   query RouterTimelineAppBarQuery($id: Int) {
+//     Media(id: $id) {
+//       id
+//       ...TimelineAppBar_media
+//     }
+//   }
+//   ${TimelineAppBar_media}
+// `
 
 export const RouterTimelineDrawerQuery = gql`
   query RouterTimelineDrawerQuery($id: Int) {

@@ -1,30 +1,24 @@
 <template>
-  <v-list-item-title :title="title" :class="{ headline }">
-    {{ title }}
-  </v-list-item-title>
+  <RenderlessTitle :media="media" v-slot="{ title }">
+    <VListItemTitle :title="title" :class="{ headline }" v-text="title" />
+  </RenderlessTitle>
 </template>
 
 <script lang="ts">
 import { createComponent } from '@vue/composition-api'
 
 import { MediaItemTitle_media } from './__generated__/MediaItemTitle_media'
-import { useTitle } from '@/hooks/results'
+import RenderlessTitle from './RenderlessTitle.vue'
 
 export interface Props {
   media: MediaItemTitle_media
 }
 
 export default createComponent<Readonly<Props>>({
+  components: { RenderlessTitle },
   props: {
     media: { default: null, required: true, type: Object },
     headline: { default: false, required: false, type: Boolean },
-  },
-  setup(props) {
-    const title = useTitle(() => props.media)
-
-    return {
-      title,
-    }
   },
 })
 </script>

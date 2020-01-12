@@ -14,10 +14,6 @@ interface UseReducer {
       immutableState: Ref<Readonly<S>>,
     ) => (next: (action?: A) => void) => (action?: A) => any)[],
   ): [Ref<Readonly<S>>, (action: A) => void]
-  // <S, A>(reducer: (state: S, action?: A) => S, initialState: S): [
-  //   Ref<Readonly<S>>,
-  //   (action?: A) => void,
-  // ]
 }
 
 export const useReducer: UseReducer = <S, A>(

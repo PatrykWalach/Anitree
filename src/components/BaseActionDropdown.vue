@@ -1,16 +1,16 @@
 <template>
-  <v-menu :[offset]="true">
+  <VMenu :[offset]="true">
     <template v-slot:activator="{ on }">
-      <v-btn :icon="typeIcon" text v-on="on" v-bind="$attrs">
-        <v-icon>{{ icon }}</v-icon>
-      </v-btn>
+      <VBtn :icon="typeIcon" text v-on="on" v-bind="$attrs">
+        <VIcon v-text="icon" />
+      </VBtn>
     </template>
-    <v-card>
-      <v-list :disabled="disabled">
+    <VCard>
+      <VList :disabled="disabled">
         <slot></slot>
-      </v-list>
-    </v-card>
-  </v-menu>
+      </VList>
+    </VCard>
+  </VMenu>
 </template>
 
 <script lang="ts">

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-btn
+    <VBtn
       v-if="!compact"
       text
       color="secondary"
@@ -12,7 +12,7 @@
       @click.stop="isEdited = !isEdited"
     >
       edit
-    </v-btn>
+    </VBtn>
 
     <BaseAction
       v-else
@@ -21,9 +21,9 @@
       @click.stop="isEdited = !isEdited"
     />
 
-    <v-menu offset-y v-if="!compact">
+    <VMenu offset-y v-if="!compact">
       <template v-slot:activator="{ on, attrs }">
-        <v-btn
+        <VBtn
           text
           color="secondary"
           v-on="on"
@@ -34,31 +34,31 @@
             minWidth: '36px',
           }"
         >
-          <v-icon>keyboard_arrow_down</v-icon>
-        </v-btn>
+          <VIcon>keyboard_arrow_down</VIcon>
+        </VBtn>
       </template>
-      <v-card>
-        <v-list :disabled="editLoading">
-          <v-list-item @click.stop="changeStatus('CURRENT')">
-            <v-list-item-content>
-              <v-list-item-title>
+      <VCard>
+        <VList :disabled="editLoading">
+          <VListItem @click.stop="changeStatus('CURRENT')">
+            <VListItemContent>
+              <VListItemTitle>
                 Set as
                 {{ media.type === 'MANGA' ? 'Reading' : 'Watching' }}
-              </v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item @click.stop="changeStatus('PLANNING')">
-            <v-list-item-content>
-              <v-list-item-title>
+              </VListItemTitle>
+            </VListItemContent>
+          </VListItem>
+          <VListItem @click.stop="changeStatus('PLANNING')">
+            <VListItemContent>
+              <VListItemTitle>
                 Set as Planning
-              </v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list>
-      </v-card>
-    </v-menu>
+              </VListItemTitle>
+            </VListItemContent>
+          </VListItem>
+        </VList>
+      </VCard>
+    </VMenu>
 
-    <v-dialog
+    <VDialog
       v-model="isEdited"
       scrollable
       :fullscreen="compact"
@@ -72,7 +72,7 @@
         :media="media"
         @close="isEdited = false"
       />
-    </v-dialog>
+    </VDialog>
   </div>
 </template>
 

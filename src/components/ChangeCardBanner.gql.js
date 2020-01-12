@@ -1,6 +1,6 @@
-import { MediaItemAvatar_media } from './MediaItemAvatar'
-import { MediaItemSubtitle_media } from './MediaItemSubtitle'
-import { MediaItemTitle_media } from './MediaItemTitle'
+import { MediaItemAvatar_media } from './MediaItemAvatar.gql.js'
+import { MediaItemSubtitle_media } from './MediaItemSubtitle.gql.js'
+import { MediaItemTitle_media } from './MediaItemTitle.gql.js'
 
 import gql from 'graphql-tag'
 

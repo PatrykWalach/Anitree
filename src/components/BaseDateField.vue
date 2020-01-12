@@ -1,5 +1,5 @@
 <template>
-  <v-menu
+  <VMenu
     ref="menu"
     v-model="menuActive"
     :close-on-content-click="false"
@@ -9,7 +9,7 @@
     min-width="290px"
   >
     <template v-slot:activator="{ on, attrs }">
-      <v-text-field
+      <VTextField
         v-model="date"
         prepend-inner-icon="event"
         readonly
@@ -18,16 +18,16 @@
         @click:clear="clear"
       />
     </template>
-    <v-date-picker v-model="date" no-title scrollable>
-      <v-spacer />
-      <v-btn text color="accent" @click.stop="menuActive = false">
+    <VDatePicker v-model="date" no-title scrollable>
+      <VSpacer />
+      <VBtn text color="accent" @click.stop="menuActive = false">
         Cancel
-      </v-btn>
-      <v-btn text color="accent" @click.stop="save">
+      </VBtn>
+      <VBtn text color="accent" @click.stop="save">
         OK
-      </v-btn>
-    </v-date-picker>
-  </v-menu>
+      </VBtn>
+    </VDatePicker>
+  </VMenu>
 </template>
 <script lang="ts">
 import { Ref, createComponent, ref, watch } from '@vue/composition-api'

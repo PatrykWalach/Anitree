@@ -30,14 +30,14 @@ const cache = new InMemoryCache({
     Query: {
       Media: (_, args, { getCacheKey }) =>
         getCacheKey({ __typename: 'Media', id: args.id }),
-      Page: (_, args, { getCacheKey }) => {
-        const idIn = args.idIn
-        if (idIn instanceof Array) {
-          return idIn.map(id => getCacheKey({ __typename: 'Media', id }))
-        } else if (idIn) {
-          return getCacheKey({ __typename: 'Media', id: idIn })
-        }
-      },
+      // Page: (_, args, { getCacheKey }) => {
+      //   const idIn = args.idIn
+      //   if (idIn instanceof Array) {
+      //     return idIn.map(id => getCacheKey({ __typename: 'Media', id }))
+      //   } else if (idIn) {
+      //     return getCacheKey({ __typename: 'Media', id: idIn })
+      //   }
+      // },
     },
   },
 })

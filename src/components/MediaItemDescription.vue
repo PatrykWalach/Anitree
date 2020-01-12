@@ -1,7 +1,7 @@
 <template>
-  <v-list-item-subtitle class="text-capitalize">
+  <VListItemSubtitle class="text-capitalize">
     <span v-html="media.description" />
-  </v-list-item-subtitle>
+  </VListItemSubtitle>
 </template>
 
 <script lang="ts">

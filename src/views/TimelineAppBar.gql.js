@@ -1,7 +1,7 @@
 import gql from 'graphql-tag'
-import { MediaEdit_media } from '../components/MediaEdit.js'
+import { MediaEdit_media } from '../components/MediaEdit.gql.js'
 import { ToggleFavourite_media } from '../hooks/ToggleFavourite.gql.js'
-import { Share_media } from '../hooks/Share.js'
+import { Share_media } from '../hooks/Share.gql.js'
 
 export const TimelineAppBar_media = gql`
   fragment TimelineAppBar_media on Media {
