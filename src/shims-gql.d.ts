@@ -55,6 +55,10 @@ declare module '*ChangesBackdrop.gql.js' {
   import { DocumentNode } from 'graphql'
   export const ChangesBackdropQuery: DocumentNode
 }
+declare module '*HomeAppBar.gql.js' {
+  import { DocumentNode } from 'graphql'
+  export const HomeAppBarQuery: DocumentNode
+}
 
 declare module '*.gql' {
   import { DocumentNode } from 'graphql'

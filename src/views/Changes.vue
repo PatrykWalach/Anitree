@@ -1,8 +1,5 @@
 <template>
   <TheBackdrop>
-    <template v-slot:backdrop>
-      <ChangesBackdrop />
-    </template>
     <template v-slot:appBar>
       <ChangesAppBar />
     </template>
@@ -39,13 +36,9 @@ const ChangesAppBar = () =>
   import(
     /* webpackChunkName: "ChangesAppBar" */ /* webpackPrefetch: true */ './ChangesAppBar.vue'
   )
-const ChangesBackdrop = () =>
-  import(
-    /* webpackChunkName: "ChangesBackdrop" */ /* webpackPrefetch: true */ './ChangesBackdrop.vue'
-  )
 
 export default createComponent({
-  components: { TheBackdrop, ChangeCard, ChangesBackdrop, ChangesAppBar },
+  components: { TheBackdrop, ChangeCard, ChangesAppBar },
   setup() {
     const pending = useSelector((state: State) => state.changes.pending)
 
