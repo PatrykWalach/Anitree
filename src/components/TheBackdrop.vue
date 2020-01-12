@@ -16,14 +16,15 @@ import {
   VDivider,
   VOverlay,
 } from 'vuetify/lib'
-import resize from 'vue-resize-directive'
+import { Mutate } from 'vuetify/lib'
 
 const FOOTER_HEIGHT = 48
-const TOP_APP_BAR_HEIGHT = 56
 const CARD_TITLE_HEIGHT = 64
 
 export default createComponent({
-  directives: { resize },
+  directives: {
+    mutate: Mutate,
+  },
   components: {},
   setup(_, { slots, root }) {
     const height = ref(0)
@@ -32,8 +33,13 @@ export default createComponent({
       () => `min(calc(100vh - ${CARD_TITLE_HEIGHT}px), ${height.value}px)`,
     )
 
-    const onResize = (e: HTMLDivElement) => {
-      height.value = e.scrollHeight
+    const onMutate = ([e]: MutationRecord[]) => {
+      const children = [...e.target.childNodes] as HTMLDivElement[]
+
+      height.value = children.reduce(
+        (acc, { scrollHeight = 0 }) => acc + scrollHeight,
+        0,
+      )
     }
 
     const paddingBottom = computed(() => {
@@ -59,9 +65,21 @@ export default createComponent({
                 {
                   directives: [
                     {
-                      name: 'resize',
-                      value: onResize,
+                      name: 'mutate',
+                      value: onMutate,
+                      modifiers: {
+                        child: true,
+                      },
                     },
+                    // {
+                    //   name: 'mutate',
+                    //   value: ([e]) => {
+                    //     height.value = e.target.scrollHeight
+                    //   },
+                    //   modifiers: {
+                    //     once: true,
+                    //   },
+                    // },
                   ],
                   props: {
                     tile: true,
@@ -108,24 +126,13 @@ export default createComponent({
                   h(VDivider, {
                     style: { marginBottom: '-2px' },
                   }),
-                  h(
-                    VExpandTransition,
-                    {
-                      // on: {
-                      //   enter,
-                      // },
-                      props: {
-                        hideOnLeave: true,
-                      },
-                    },
-                    [
-                      h('KeepAlive', [
-                        active.value
-                          ? slots.backdrop({ active: active.value })
-                          : null,
-                      ]),
-                    ],
-                  ),
+                  h(VExpandTransition, [
+                    h('KeepAlive', [
+                      active.value
+                        ? slots.backdrop({ active: active.value })
+                        : null,
+                    ]),
+                  ]),
                 ],
               ),
               h(
@@ -138,12 +145,8 @@ export default createComponent({
                     overflow: 'hidden',
                     height: '100%',
                     width: '100%',
-                    ...(active.value
-                      ? {
-                          position: 'fixed',
-                          top: top.value,
-                        }
-                      : {}),
+                    position: active.value ? 'fixed' : null,
+                    top: top.value,
                   },
                   on: {
                     click: () => {

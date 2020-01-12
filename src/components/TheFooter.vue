@@ -1,5 +1,5 @@
 <template>
-  <v-footer app class="primary darken-1 caption" dark inset>
+  <v-footer absolute app class="primary darken-1 caption" dark inset>
     <div v-if="!$vuetify.breakpoint.xsOnly">
       Powered by
     </div>
