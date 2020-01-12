@@ -5,7 +5,6 @@ import {
   computed,
   ref,
 } from '@vue/composition-api'
-import resize from 'vue-resize-directive'
 import { useReducer } from '@/hooks/reducer'
 import {
   VIcon,
@@ -17,8 +16,10 @@ import {
   VDivider,
   VOverlay,
 } from 'vuetify/lib'
+import resize from 'vue-resize-directive'
 
-// const APP_BAR_HEIGHT = 56
+const FOOTER_HEIGHT = 48
+const TOP_APP_BAR_HEIGHT = 56
 const CARD_TITLE_HEIGHT = 64
 
 export default createComponent({
@@ -32,14 +33,14 @@ export default createComponent({
     )
 
     const onResize = (e: HTMLDivElement) => {
-      height.value = e.clientHeight
+      height.value = e.scrollHeight
     }
 
-    const paddingBottom = computed(() =>
-      height.value + CARD_TITLE_HEIGHT > window.innerHeight
-        ? CARD_TITLE_HEIGHT + 'px'
-        : null,
-    )
+    const paddingBottom = computed(() => {
+      const padding = CARD_TITLE_HEIGHT - FOOTER_HEIGHT
+
+      return height.value + padding > window.innerHeight ? padding + 'px' : null
+    })
 
     const [active, toggleActive] = useReducer(state => !state, false)
 
@@ -56,25 +57,23 @@ export default createComponent({
               h(
                 VSheet,
                 {
+                  directives: [
+                    {
+                      name: 'resize',
+                      value: onResize,
+                    },
+                  ],
                   props: {
                     tile: true,
                     flat: true,
                     dark: true,
                     color: 'primary',
                   },
-                  style: {
-                    paddingBottom: paddingBottom.value,
-                  },
-                  directives: [
-                    {
-                      name: 'resize',
-                      value: onResize,
-                      arg: 'debounce',
-                      modifiers: {
-                        10: true,
-                      },
-                    },
-                  ],
+                  style: active.value
+                    ? {
+                        paddingBottom: paddingBottom.value,
+                      }
+                    : undefined,
                 },
                 [
                   h(
@@ -109,13 +108,24 @@ export default createComponent({
                   h(VDivider, {
                     style: { marginBottom: '-2px' },
                   }),
-                  h(VExpandTransition, [
-                    h('KeepAlive', [
-                      active.value
-                        ? slots.backdrop({ active: active.value })
-                        : null,
-                    ]),
-                  ]),
+                  h(
+                    VExpandTransition,
+                    {
+                      // on: {
+                      //   enter,
+                      // },
+                      props: {
+                        hideOnLeave: true,
+                      },
+                    },
+                    [
+                      h('KeepAlive', [
+                        active.value
+                          ? slots.backdrop({ active: active.value })
+                          : null,
+                      ]),
+                    ],
+                  ),
                 ],
               ),
               h(
@@ -125,13 +135,13 @@ export default createComponent({
                     zIndex: 4,
                     flex: 1,
                     display: 'flex',
+                    overflow: 'hidden',
+                    height: '100%',
+                    width: '100%',
                     ...(active.value
                       ? {
-                          overflow: 'hidden',
                           position: 'fixed',
                           top: top.value,
-                          height: '100%',
-                          width: '100%',
                         }
                       : {}),
                   },

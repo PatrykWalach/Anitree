@@ -1,7 +1,7 @@
 <template>
-  <v-list-item-avatar v-bind="$attrs" :size="size">
+  <VListItemAvatar v-bind="$attrs" :size="size">
     <MediaCardCover :media="media" />
-  </v-list-item-avatar>
+  </VListItemAvatar>
 </template>
 
 <script lang="ts">

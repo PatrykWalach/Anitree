@@ -1,17 +1,15 @@
 <template>
-  <v-list-group active-class="accent--text" color="red">
+  <VListGroup :value="true" active-class="accent--text" color="red">
     <template v-slot:activator>
-      <v-list-item-avatar min-width="32" width="32" height="40">
+      <VListItemAvatar min-width="32" width="32" height="40">
         <v-img :src="viewer.avatar.large">
           <template v-slot:placeholder>
             <v-skeleton-loader type="image" />
           </template>
         </v-img>
-      </v-list-item-avatar>
+      </VListItemAvatar>
       <VListItemContent>
-        <VListItemTitle>
-          {{ viewer.name }}
-        </VListItemTitle>
+        <VListItemTitle v-text="viewer.name" />
       </VListItemContent>
     </template>
 
@@ -48,7 +46,7 @@
       </VListItemContent>
     </VListItem>
     <!-- <VDivider></VDivider> -->
-  </v-list-group>
+  </VListGroup>
 </template>
 <script lang="ts">
 import { createComponent } from '@vue/composition-api'

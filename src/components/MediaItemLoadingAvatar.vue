@@ -1,11 +1,11 @@
 <template>
-  <v-list-item-avatar
+  <VListItemAvatar
     v-bind="$attrs"
     :size="size"
     :style="{ 'align-self': 'center', overflow: 'hidden' }"
   >
     <v-skeleton-loader width="100%" height="100%" type="image" />
-  </v-list-item-avatar>
+  </VListItemAvatar>
 </template>
 
 <script lang="ts">
