@@ -7,10 +7,15 @@ import { DefaultFab } from './hooks/fab'
 import Vue from 'vue'
 import VueReduxHooks from 'vue-redux-hooks'
 import { apollo } from '@/apollo'
-
+import VueResizeObserver from 'vue-resize-observer'
 import router from '@/router'
 import { store } from './store'
 import { vuetify } from '@/vuetify'
+
+
+
+
+Vue.use(VueResizeObserver)
 
 Vue.use(CompositionApi)
 Vue.use(VueReduxHooks, store)

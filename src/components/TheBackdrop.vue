@@ -16,15 +16,11 @@ import {
   VDivider,
   VOverlay,
 } from 'vuetify/lib'
-import { Mutate } from 'vuetify/lib'
 
 const FOOTER_HEIGHT = 48
 const CARD_TITLE_HEIGHT = 64
 
 export default createComponent({
-  directives: {
-    mutate: Mutate,
-  },
   components: {},
   setup(_, { slots, root }) {
     const height = ref(0)
@@ -33,13 +29,8 @@ export default createComponent({
       () => `min(calc(100vh - ${CARD_TITLE_HEIGHT}px), ${height.value}px)`,
     )
 
-    const onMutate = ([e]: MutationRecord[]) => {
-      const children = [...e.target.childNodes] as HTMLDivElement[]
-
-      height.value = children.reduce(
-        (acc, { scrollHeight = 0 }) => acc + scrollHeight,
-        0,
-      )
+    const onMutate = (e: { height: number; width: number }) => {
+      height.value = e.height
     }
 
     const paddingBottom = computed(() => {
@@ -65,11 +56,11 @@ export default createComponent({
                 {
                   directives: [
                     {
-                      name: 'mutate',
+                      name: 'resize',
                       value: onMutate,
-                      modifiers: {
-                        child: true,
-                      },
+                      // modifiers: {
+                      //   once: true,
+                      // },
                     },
                     // {
                     //   name: 'mutate',
