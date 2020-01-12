@@ -15,7 +15,7 @@ import { asyncComponent } from '@/router'
 
 import { useToken } from '@/hooks/token'
 import { ChangesBackdropQuery } from './ChangesBackdrop.gql.js'
-import { ChangesBackdropQuery as ChangesBackdropQueryResult } from '@/components/__generated__/ChangesBackdropQuery'
+import { ChangesBackdropQuery as ChangesBackdropQueryResult } from './__generated__/ChangesBackdropQuery'
 
 const TheDrawerViewer = () =>
   asyncComponent(

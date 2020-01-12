@@ -51,6 +51,10 @@ declare module '*Router.gql.js' {
   export const RouterTimelineQuery: DocumentNode
   export const RouterTimelineDrawerQuery: DocumentNode
 }
+declare module '*ChangesBackdrop.gql.js' {
+  import { DocumentNode } from 'graphql'
+  export const ChangesBackdropQuery: DocumentNode
+}
 
 declare module '*.gql' {
   import { DocumentNode } from 'graphql'
