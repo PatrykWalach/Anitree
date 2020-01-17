@@ -12,9 +12,6 @@ import router from '@/router'
 import { store } from './store'
 import { vuetify } from '@/vuetify'
 
-
-
-
 Vue.use(VueResizeObserver)
 
 Vue.use(CompositionApi)

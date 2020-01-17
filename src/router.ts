@@ -146,7 +146,7 @@ const router = new Router({
   mode: 'history',
   routes: [
     {
-      components: { default: Home },
+      component: Home,
       name: 'home',
       path: '/',
     },
