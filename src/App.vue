@@ -1,30 +1,25 @@
 <template>
-  <v-app>
+  <VApp>
     <TheDrawer rounded :value.sync="drawer" />
 
-    <v-content
+    <VContent
       :class="{
         primary: $vuetify.breakpoint.xsOnly,
       }"
     >
       <KeepAlive>
-        <router-view />
+        <RouterView />
       </KeepAlive>
-    </v-content>
+    </VContent>
+
     <TheFooter />
 
-    <template v-if="$vuetify.breakpoint.xsOnly">
-      <!-- <KeepAlive>
-        <router-view name="appBar" />
-      </KeepAlive> -->
-      <!-- <TheBottomAppBar :drawer.sync="drawer" /> -->
-    </template>
-    <the-right-drawer v-else>
+    <TheRightDrawer v-if="!$vuetify.breakpoint.xsOnly">
       <KeepAlive>
-        <router-view name="drawer" />
+        <RouterView name="drawer" />
       </KeepAlive>
-    </the-right-drawer>
-  </v-app>
+    </TheRightDrawer>
+  </VApp>
 </template>
 <script lang="ts">
 import { createComponent, ref, provide } from '@vue/composition-api'
