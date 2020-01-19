@@ -1,28 +1,29 @@
 <template>
-  <VCard
-    exact
-    :to="{
-      name: 'media',
-      params: {
-        mediaId: media.id,
-        mediaType: media.type.toLowerCase(),
-      },
-    }"
-    flat
-    outlined
-  >
-    <v-hover v-slot="{ hover }">
-      <v-sheet :style="{ overflow: 'hidden' }">
+  <VHover v-slot="{ hover }">
+    <VCard
+      exact
+      :to="{
+        name: 'media',
+        params: {
+          mediaId: media.id,
+          mediaType: media.type.toLowerCase(),
+        },
+      }"
+      flat
+      outlined
+    >
+      <VSheet :style="{ overflow: 'hidden' }">
         <TheGridCardCover :hover="hover" :media="media" />
-      </v-sheet>
-    </v-hover>
-    <VListItem>
-      <VListItemContent>
-        <MediaItemTitle :media="media" />
-        <MediaItemSubtitle :media="media" />
-      </VListItemContent>
-    </VListItem>
-  </VCard>
+      </VSheet>
+
+      <VListItem>
+        <VListItemContent>
+          <MediaItemTitle :media="media" />
+          <MediaItemSubtitle :media="media" />
+        </VListItemContent>
+      </VListItem>
+    </VCard>
+  </VHover>
 </template>
 
 <script lang="ts">

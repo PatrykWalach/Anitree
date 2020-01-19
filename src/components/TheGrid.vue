@@ -25,7 +25,7 @@ export const useShow = (props: Readonly<Props>) => {
     state => state + props.show,
     props.show,
     [
-      (dispatch, state) => next => action =>
+      ({ dispatch, state }) => next => action =>
         action instanceof Function ? action(dispatch, state) : next(action),
     ],
   )
