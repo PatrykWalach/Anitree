@@ -29,21 +29,9 @@ export default createComponent<Readonly<Props>>({
   setup(props) {
     const manga = computed(() => props.media.type === 'MANGA')
 
-    const status = computed(() => {
-      const {
-        media: { mediaListEntry },
-      } = props
+    const status = computed(() => props.media.mediaListEntry?.status)
 
-      return mediaListEntry && mediaListEntry.status
-    })
-
-    const progress = computed(() => {
-      const {
-        media: { mediaListEntry },
-      } = props
-
-      return (mediaListEntry && mediaListEntry.progress) || 0
-    })
+    const progress = computed(() => props.media.mediaListEntry?.progress || 0)
 
     const episodes = computed(() => {
       const { episodes, chapters } = props.media

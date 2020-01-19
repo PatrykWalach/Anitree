@@ -187,7 +187,7 @@ const usePrefetchMedia = (
   )
 
   watch(prefetchQuery.result, async data => {
-    if (data && data.Page) {
+    if (data?.Page) {
       const media = data.Page.media
       if (media) {
         const ids = findRelativeMedia(media)

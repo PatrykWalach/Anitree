@@ -170,8 +170,8 @@ const router = new Router({
             next(from)
             return
           }
-          const mediaTitle = media.title
-          const documentTitle = (mediaTitle && mediaTitle.userPreferred) || ''
+          
+          const documentTitle = (media.title?.userPreferred) || ''
           document.title = documentTitle + ' - Anitree'
 
           const title = documentTitle

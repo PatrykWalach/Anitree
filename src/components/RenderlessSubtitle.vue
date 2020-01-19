@@ -9,16 +9,15 @@ export interface Props {
 
 export const useString = () => ({
   clean: (str: string | null) =>
-    (str &&
-      str
-        .split(/_/g)
-        .map(str => {
-          if (str !== 'TV' && str !== 'OVA' && str !== 'ONA')
-            return str.toLowerCase()
+    str
+      ?.split(/_/g)
+      .map(str => {
+        if (str.match(/(TV)|(OVA)|(ONA)/)) {
           return str
-        })
-        .join(' ')) ||
-    '',
+        }
+        return str.toLowerCase()
+      })
+      .join(' ') || '',
 })
 
 export default createComponent<Readonly<Props>>({
@@ -32,9 +31,7 @@ export default createComponent<Readonly<Props>>({
 
     const chaptersNumber = computed(() => {
       const { chapters, episodes } = props.media
-      return (
-        ((chapters || episodes) && (manga.value ? chapters : episodes)) || 0
-      )
+      return (manga.value ? chapters : episodes) || 0
     })
 
     const chapters = computed(() => {

@@ -37,7 +37,7 @@ export const produceData = (
   value: ChangesQuery_Media_mediaListEntry | null,
 ) =>
   produce(data, draft => {
-    if (draft && draft.Media) {
+    if ( draft?.Media) {
       draft.Media.mediaListEntry = value
     }
   })
