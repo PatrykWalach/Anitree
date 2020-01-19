@@ -41,7 +41,7 @@ import MediaEditTabs from './MediaEditTabs.vue'
 import { asyncComponent } from '@/router'
 import { mergeDeep } from 'apollo-utilities'
 import { useSaveMediaListEntry } from '@/hooks/saveMediaListEntry'
-import { useHandleError } from '@/hooks/changes'
+
 import { MediaEdit_media } from './__generated__/MediaEdit_media'
 import { MediaEdit_viewer } from './__generated__/MediaEdit_viewer'
 
@@ -73,28 +73,34 @@ export default createComponent<Readonly<Props>>({
   setup(props, { emit }) {
     const form: Ref<Partial<Form>> = ref({})
 
-    const mutation = useSaveMediaListEntry<
+    const {
+      mutate: saveEntry,
+      loading,
+      onError,
+      variables,
+    } = useSaveMediaListEntry<
       Partial<Form> & {
         mediaId: number
       }
-    >()
+    >(() => ({
+      mediaId: props.media.id,
+      ...form.value,
+    }))
+
     const dispatch = useDispatch()
 
-    const saveEntry = useHandleError(mutation, variables => {
+    onError(() => {
       dispatch(
         changesActions.UNSHIFT_PENDING({
           type: 'SAVE',
-          variables,
-          mediaId: variables.mediaId,
+          variables: variables.value,
+          mediaId: variables.value.mediaId,
         }),
       )
     })
 
     const submit = () => {
-      saveEntry({
-        mediaId: props.media.id,
-        ...form.value,
-      })
+      saveEntry()
     }
 
     const changeForm = (payload: Partial<Form>) => {
@@ -112,7 +118,7 @@ export default createComponent<Readonly<Props>>({
       changeForm,
       close,
       form,
-      loading: mutation.loading,
+      loading,
       submit,
       tab,
     }

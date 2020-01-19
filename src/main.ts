@@ -13,7 +13,6 @@ import { store } from './store'
 import { vuetify } from '@/vuetify'
 
 Vue.use(VueResizeObserver)
-
 Vue.use(CompositionApi)
 Vue.use(VueReduxHooks, store)
 Vue.config.productionTip = false

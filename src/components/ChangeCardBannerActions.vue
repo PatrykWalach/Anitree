@@ -92,21 +92,26 @@ export default createComponent<Readonly<Props>>({
 
     const loading = useMutationLoading()
 
-    const { mutate: saveEntry, onDone: onDoneSave } = useSaveMediaListEntry()
+    const { mutate: saveEntry, onDone: onDoneSave } = useSaveMediaListEntry(
+      () => props.pending,
+    )
+
     const {
       mutate: deleteEntry,
       onDone: onDoneDelete,
-    } = useDeleteMediaListEntry()
+    } = useDeleteMediaListEntry(
+      () => props.pending.variables,
+      () => props.pending.mediaId,
+    )
 
     onDoneSave(discard)
     onDoneDelete(discard)
 
     const submit = () => {
-      const pending = props.pending
-      if (isSavePending(pending)) {
-        saveEntry(pending)
+      if (isSavePending(props.pending)) {
+        saveEntry()
       } else {
-        deleteEntry(pending)
+        deleteEntry()
       }
     }
 

@@ -13,7 +13,7 @@
   </v-chip>
 </template>
 <script lang="ts">
-import { FuzzyDateInput } from '__generated__/globalTypes'
+import { FuzzyDateInput } from '@/../__generated__/globalTypes'
 import { computed, createComponent } from '@vue/composition-api'
 import BaseTime from './BaseTime.vue'
 

@@ -20,15 +20,14 @@
 <script lang="ts">
 import MediaEditItemsTab from './MediaEditItemsTab.vue'
 import { computed, createComponent } from '@vue/composition-api'
-import { Form, RecursiveMutable, RecursiveNonNullable } from '../types'
+import { Form, RecursiveMutable } from '../types'
 import { MediaEditItems_viewer } from './__generated__/MediaEditItems_viewer'
 import { useInjectedTheme } from '@/hooks/theme'
 import {
   MediaEditItems_media,
   MediaEditItems_media_mediaListEntry,
 } from './__generated__/MediaEditItems_media'
-import { ScoreFormat } from '__generated__/globalTypes'
-import { useResult } from '@vue/apollo-composable'
+
 import { useSync } from '@/hooks/sync'
 
 export interface Props {
@@ -54,18 +53,14 @@ export default createComponent<Readonly<Props>>({
     const syncedTab = useSync(props, 'tab', emit)
     const manga = computed(() => props.media.type === 'MANGA')
 
-    const advancedScoring = useResult<readonly string[], readonly string[]>(
-      computed(() => props.user),
-      [],
-      (user: RecursiveNonNullable<MediaEditItems_viewer>) =>
-        user.mediaListOptions[manga.value ? 'mangaList' : 'animeList']
-          .advancedScoring,
+    const advancedScoring = computed(
+      () =>
+        props.user.mediaListOptions?.[manga.value ? 'mangaList' : 'animeList']
+          ?.advancedScoring || [],
     )
-    const rawScoreFormat = useResult<ScoreFormat, ''>(
-      computed(() => props.user),
-      '',
-      (user: RecursiveNonNullable<MediaEditItems_viewer>) =>
-        user.mediaListOptions.scoreFormat,
+
+    const rawScoreFormat = computed(
+      () => props.user.mediaListOptions?.scoreFormat || '',
     )
 
     const scoreFormat = computed(() => {
@@ -97,16 +92,16 @@ export default createComponent<Readonly<Props>>({
 
 const createAdvancedScores = (
   mediaListEntry: RecursiveMutable<MediaEditItems_media_mediaListEntry>,
-  advancedScoring: string[],
+  advancedScoring: (string | null)[],
 ) =>
-  (advancedScoring.map(
-    key => mediaListEntry.advancedScores[key] || 0,
+  (advancedScoring.map(key =>
+    key ? mediaListEntry.advancedScores[key] : 0,
   ) as unknown) as number[]
 // .map(value => value || 0) as number[]
 
 export const mediaListToForm = (
   mediaListEntry: RecursiveMutable<MediaEditItems_media_mediaListEntry> | null,
-  advancedScoring: string[],
+  advancedScoring: (string | null)[],
 ): Form => {
   if (mediaListEntry) {
     const advancedScores = createAdvancedScores(mediaListEntry, advancedScoring)

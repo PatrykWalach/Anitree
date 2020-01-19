@@ -104,12 +104,12 @@ import { createComponent, computed, ref } from '@vue/composition-api'
 import BaseAction from '@/components/BaseAction.vue'
 import { TimelineAppBar_media } from './__generated__/TimelineAppBar_media'
 import MediaEditLoading from '@/components/MediaEditLoading.vue'
-import { MediaListStatus } from '__generated__/globalTypes'
+import { MediaListStatus } from '@/../__generated__/globalTypes'
 import { useShare } from '@/hooks/share'
 import { VBottomSheet } from 'vuetify/lib'
 import { asyncComponent } from '@/router'
 import { useSaveMediaListEntry } from '@/hooks/saveMediaListEntry'
-import { useHandleError } from '@/hooks/changes'
+
 import { useFavourites } from '@/hooks/toggleFavourite'
 import { useViewer } from '@/hooks/viewer'
 import { useResult } from '@vue/apollo-composable'
@@ -117,16 +117,20 @@ import { useDispatch } from 'vue-redux-hooks'
 import { changesActions } from '@/store/reducers/changes'
 import { VCardActions } from 'vuetify/lib'
 const BaseShare = () =>
-  import(/* webpackChunkName: "BaseShare" */ '@/components/BaseShare.vue')
+  import(
+    /* webpackChunkName: "BaseShare" */ /* webpackPrefetch: true */ '@/components/BaseShare.vue'
+  )
 
 const BaseActionDropdown = () =>
   import(
-    /* webpackChunkName: "BaseActionDropdown" */ '@/components/BaseActionDropdown.vue'
+    /* webpackChunkName: "BaseActionDropdown" */ /* webpackPrefetch: true */ '@/components/BaseActionDropdown.vue'
   )
 
 const MediaEdit = () =>
   asyncComponent(
-    import(/* webpackChunkName: "MediaEdit" */ '@/components/MediaEdit.vue'),
+    import(
+      /* webpackChunkName: "MediaEdit" */ /* webpackPrefetch: true */ '@/components/MediaEdit.vue'
+    ),
     MediaEditLoading,
   )
 
@@ -150,28 +154,36 @@ export default createComponent<Readonly<Props>>({
   },
   setup(props, { root }) {
     const isEdited = ref(false)
-    const save = useSaveMediaListEntry<{
+    const status = ref(MediaListStatus.PLANNING)
+
+    const {
+      mutate: saveEntry,
+      onError,
+      variables,
+      loading,
+    } = useSaveMediaListEntry<{
       mediaId: number
       status: MediaListStatus
-    }>()
+    }>(() => ({
+      mediaId: props.media.id,
+      status: status.value,
+    }))
 
     const dispatch = useDispatch()
 
-    const saveEntry = useHandleError(save, variables => {
+    onError(() => {
       dispatch(
         changesActions.UNSHIFT_PENDING({
           type: 'SAVE',
-          variables,
-          mediaId: variables.mediaId,
+          variables: variables.value,
+          mediaId: variables.value.mediaId,
         }),
       )
     })
 
-    const changeStatus = (status: MediaListStatus) => {
-      saveEntry({
-        mediaId: props.media.id,
-        status,
-      })
+    const changeStatus = (overrideStatus: MediaListStatus) => {
+      status.value = overrideStatus
+      saveEntry()
     }
 
     const compact = computed(() => root.$vuetify.breakpoint.mdAndDown)
@@ -187,7 +199,7 @@ export default createComponent<Readonly<Props>>({
       viewer,
       changeStatus,
       compact,
-      editLoading: save.loading,
+      editLoading: loading,
       isEdited,
       isShared,
       share,

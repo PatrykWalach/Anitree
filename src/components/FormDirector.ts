@@ -1,4 +1,4 @@
-import { FuzzyDateInput } from '../../__generated__/globalTypes'
+import { FuzzyDateInput } from '@/../__generated__/globalTypes'
 import { Form } from '@/types'
 import { FormBuilder } from './FormBuilder'
 

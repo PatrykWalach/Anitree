@@ -25,7 +25,7 @@ import TheBackdrop from '@/components/TheBackdrop.vue'
 import MediaCardLoading from '@/components/MediaCardLoading.vue'
 import { HomeQuery } from './Home.gql.js'
 import { asyncComponent } from '../router'
-import { RecursiveNonNullable } from '../types'
+
 import { VNode } from 'vue'
 
 const MediaCard = () =>
@@ -42,13 +42,13 @@ const HomeAppBar = () =>
 const PER_PAGE = 50
 
 interface TrendingMediaProps {
-  media: HomeQuery_Page_media
+  media: HomeQuery_Page_media | null
   loading: boolean
 }
 
 interface DesktopProps extends TrendingMediaProps {
   smAndDown: boolean
-  content: (props: Readonly<TrendingMediaProps>) => (VNode | undefined)[][]
+  content: (props: Readonly<TrendingMediaProps>) => (VNode | null)[][]
 }
 
 interface TimelineProps extends DesktopProps {
@@ -70,8 +70,8 @@ const Mobile = ({ content, ...props }: Readonly<DesktopProps>) =>
       ),
     )
 
-const Desktop = ({ content, smAndDown, ...props }: Readonly<DesktopProps>) => {
-  return h(VCol, [
+const Desktop = ({ content, smAndDown, ...props }: Readonly<DesktopProps>) =>
+  h(VCol, [
     h(
       VTimeline,
       { props: { dense: smAndDown } },
@@ -98,9 +98,22 @@ const Desktop = ({ content, smAndDown, ...props }: Readonly<DesktopProps>) => {
       ],
     ),
   ])
-}
-const Timeline = ({ xsOnly, ...props }: Readonly<TimelineProps>) => {
-  return xsOnly ? Mobile(props) : Desktop(props)
+
+const Timeline = ({ xsOnly, ...props }: Readonly<TimelineProps>) =>
+  xsOnly ? Mobile(props) : Desktop(props)
+
+const TrendingMedia = ({ media, loading }: TrendingMediaProps) => {
+  if (loading) {
+    return h(MediaCardLoading)
+  }
+  if (media) {
+    return h(MediaCard, {
+      props: {
+        media,
+      },
+    })
+  }
+  return null
 }
 
 export default createComponent({
@@ -117,29 +130,9 @@ export default createComponent({
       },
     )
 
-    const media = useResult<
-      readonly HomeQuery_Page_media[],
-      readonly HomeQuery_Page_media[]
-    >(
-      result,
-      [],
-      (data: RecursiveNonNullable<HomeQueryResult>) => data.Page.media,
-    )
+    const media = useResult(result, [], data => data?.Page?.media || [])
 
     const randomMedia = computed(() => media.value[random])
-
-    const TrendingMedia = ({ media, loading }: TrendingMediaProps) => {
-      if (loading) {
-        return h(MediaCardLoading)
-      }
-      if (media) {
-        return h(MediaCard, {
-          props: {
-            media,
-          },
-        })
-      }
-    }
 
     const static1 = [
       h('p', [
@@ -201,22 +194,6 @@ export default createComponent({
         TrendingMedia(props),
       ],
     ]
-
-    // <TheBackdrop v-if="$vuetify.breakpoint.xsOnly">
-    //   <KeepAlive>
-    //     <router-view />
-    //   </KeepAlive>
-    //   <template v-slot:backdrop>
-    //     <KeepAlive>
-    //       <router-view name="backdrop" />
-    //     </KeepAlive>
-    //   </template>
-    //   <template v-slot:appBar>
-    //     <KeepAlive>
-    //       <router-view name="appBar" />
-    //     </KeepAlive>
-    //   </template>
-    // </TheBackdrop>
 
     return () =>
       h(TheBackdrop, {

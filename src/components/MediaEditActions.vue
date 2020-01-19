@@ -55,7 +55,7 @@ import {
 import { Form } from '../types'
 
 import { useDeleteMediaListEntry } from '@/hooks/deleteMediaListEntry'
-import { useHandleError } from '@/hooks/changes'
+
 import { changesActions } from '@/store/reducers/changes'
 import { useSubmitRequired } from '@/hooks/submitRequired'
 import { MediaEditActions_media } from './__generated__/MediaEditActions_media'
@@ -85,28 +85,33 @@ const useActions = (props: Readonly<Props>, emit: SetupContext['emit']) => {
     close()
   }
 
-  const mutation = useDeleteMediaListEntry()
+  const {
+    mutate: deleteEntry,
+    onError,
+    variables,
+    mediaId,
+  } = useDeleteMediaListEntry(
+    () => ({ id: media.value.mediaListEntry?.id }),
+    () => media.value.id,
+  )
+
   const dispatch = useDispatch()
 
-  const deleteEntry = useHandleError(mutation, variables => {
+  onError(() => {
     dispatch(
       changesActions.UNSHIFT_PENDING({
         type: 'DELETE',
-        ...variables,
+        mediaId: mediaId.value,
+        variables: variables.value,
       }),
     )
   })
 
   const remove = () => {
-    const mediaValue = media.value
-
-    if (mediaValue.mediaListEntry) {
+    if (media.value.mediaListEntry) {
       confirmation.value = false
 
-      deleteEntry({
-        variables: { id: mediaValue.mediaListEntry.id },
-        mediaId: mediaValue.id,
-      })
+      deleteEntry()
 
       close()
     }

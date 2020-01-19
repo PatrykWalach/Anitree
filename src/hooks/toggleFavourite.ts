@@ -33,7 +33,10 @@ export const useFavourites = (
   const { mutate, loading: mutationLoading } = useMutation<
     ToggleFavouriteMutationResult,
     ToggleFavouriteMutationVariables
-  >(ToggleFavouriteMutation)
+  >(ToggleFavouriteMutation, () => ({
+    variables: variables.value,
+    update: cache => updateToggleFavourite(cache, id.value),
+  }))
 
   const variables = computed(() => {
     if (media.value.type === 'MANGA') {
@@ -50,9 +53,7 @@ export const useFavourites = (
 
   const toggleFavourite = () => {
     if (token.value) {
-      mutate(variables.value, {
-        update: cache => updateToggleFavourite(cache, id.value),
-      })
+      mutate(variables.value, {})
     }
   }
 

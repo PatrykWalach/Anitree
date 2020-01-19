@@ -53,15 +53,13 @@
 import {
   SearchQuery as SearchQueryResult,
   SearchQueryVariables,
-  SearchQuery_Page,
-  SearchQuery_Page_media,
 } from './__generated__/SearchQuery'
 import { beforeRouteLeave, createBeforeRouteEnter, useFab } from '@/hooks/fab'
 import { computed, createComponent, Ref, ref } from '@vue/composition-api'
 import { useResult } from '@vue/apollo-composable'
 import { Dictionary } from 'vue-router/types/router'
 import { SearchQuery } from './Search.gql.js'
-import { RecursiveNonNullable } from '../types'
+
 import { asyncComponent } from '@/router'
 import { useRoutes } from '@/hooks/route'
 import { useNumber } from '@/hooks/intl'
@@ -100,10 +98,10 @@ export interface Props {
 const useVariables = (props: Readonly<Props>) => {
   const viewerQuery = useViewer()
 
-  const isAdult = useResult<false | undefined, false>(
+  const isAdult = useResult(
     viewerQuery.result,
     false,
-    data => data.Viewer.options.displayAdultContent && undefined,
+    data => data?.Viewer?.options?.displayAdultContent && undefined,
   )
 
   const variables = computed(() => ({
@@ -179,20 +177,9 @@ export default createComponent({
       notifyOnNetworkStatusChange: false,
     }))
 
-    const page = useResult<SearchQuery_Page, null>(
-      result,
-      null,
-      (data: RecursiveNonNullable<SearchQueryResult>) => data.Page,
-    )
+    const page = useResult(result, null, data => data?.Page)
 
-    const media = useResult<
-      readonly SearchQuery_Page_media[],
-      readonly SearchQuery_Page_media[]
-    >(
-      result,
-      [],
-      (data: RecursiveNonNullable<SearchQueryResult>) => data.Page.media,
-    )
+    const media = useResult(result, [], data => data?.Page?.media || [])
 
     const fab = useFab()
     const showFilters = ref(false)
@@ -204,10 +191,10 @@ export default createComponent({
       loadMore,
     )
 
-    const pageTotal = useResult<number, number>(
+    const pageTotal = useResult(
       result,
       0,
-      data => data.Page.pageInfo.total,
+      data => data?.Page?.pageInfo?.total || 0,
     )
 
     const total = useNumber(pageTotal)

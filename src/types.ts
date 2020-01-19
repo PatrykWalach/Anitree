@@ -1,4 +1,4 @@
-import { FuzzyDateInput, MediaListStatus } from '../__generated__/globalTypes'
+import { FuzzyDateInput, MediaListStatus } from '@/../__generated__/globalTypes'
 import { Location } from 'vue-router'
 
 import { VuetifyThemeVariant } from 'vuetify/types/services/theme'
@@ -17,10 +17,6 @@ export type Theme = {
 }
 export type NonNullableValues<T> = {
   [K in keyof T]: NonNullable<T[K]>
-}
-
-export type RecursiveNonNullable<T> = {
-  [K in keyof T]: RecursiveNonNullable<NonNullable<T[K]>>
 }
 
 export interface Data<T = any> {

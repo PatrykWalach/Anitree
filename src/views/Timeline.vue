@@ -69,12 +69,10 @@ import {
 import {
   TimelineQuery as TimelineQueryResult,
   TimelineQueryVariables,
-  TimelineQuery_Page_media,
 } from './__generated__/TimelineQuery'
 import {
   TimelineMediaQuery as TimelineMediaQueryResult,
   TimelineMediaQueryVariables,
-  TimelineMediaQuery_Media,
 } from './__generated__/TimelineMediaQuery'
 import { beforeRouteLeave, createBeforeRouteEnter } from '../hooks/fab'
 
@@ -91,7 +89,7 @@ import {
   TimelineQuery,
   TimelineMediaQuery,
 } from './Timeline.gql.js'
-import { RecursiveNonNullable } from '../types'
+
 import TheTimelineLoading from '@/components/TheTimelineLoading.vue'
 
 import RenderlessSubtitle from '@/components/RenderlessSubtitle.vue'
@@ -100,7 +98,7 @@ import { asyncComponent } from '@/router'
 import { usePage, updatePageQuery } from '@/hooks/page'
 import { useFab } from '@/hooks/fab'
 import { useRoutes } from '@/hooks/route'
-import { MediaSort } from '__generated__/globalTypes'
+import { MediaSort } from '@/../__generated__/globalTypes'
 import { useShowMore } from './Search.vue'
 
 import TheBackdrop from '@/components/TheBackdrop.vue'
@@ -176,14 +174,10 @@ const usePrefetchMedia = (
     notifyOnNetworkStatusChange: true,
   }))
 
-  const prefetchedMedia = useResult<
-    readonly TimelinePrefetchQuery_Page_media[],
-    readonly TimelinePrefetchQuery_Page_media[]
-  >(
+  const prefetchedMedia = useResult(
     prefetchQuery.result,
     [],
-    (data: RecursiveNonNullable<TimelinePrefetchQueryResult>) =>
-      data.Page.media,
+    data => data?.Page?.media || [],
   )
 
   watch(prefetchQuery.result, async data => {
@@ -251,9 +245,9 @@ export default createComponent({
     }))
 
     const queryVariables = computed(() => ({
-      sort: ['START_DATE'] as MediaSort[],
+      sort: [MediaSort.START_DATE],
       ...props.queryWithBoolean,
-      idIn: prefetchedMedia.value.map(({ id }) => id),
+      idIn: filterNull(prefetchedMedia.value).map(({ id }) => id),
     }))
 
     const { result: queryResult, loadMore, loadingMore, hasNextPage } = usePage<
@@ -263,14 +257,7 @@ export default createComponent({
       enabled: routeTimeline.value,
     }))
 
-    const media = useResult<
-      readonly TimelineQuery_Page_media[],
-      readonly TimelineQuery_Page_media[]
-    >(
-      queryResult,
-      [],
-      (data: RecursiveNonNullable<TimelineQueryResult>) => data.Page.media,
-    )
+    const media = useResult(queryResult, [], data => data?.Page?.media || [])
 
     const fab = useFab()
 
@@ -283,7 +270,7 @@ export default createComponent({
       loadMore,
     )
 
-    const currentMedia = useResult<TimelineMediaQuery_Media>(mediaQuery.result)
+    const currentMedia = useResult(mediaQuery.result, null)
 
     return {
       currentMedia,

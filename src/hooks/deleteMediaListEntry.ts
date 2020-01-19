@@ -14,27 +14,31 @@ import {
 import { MutationUpdaterFn } from 'apollo-client'
 
 import { createMediaQuery, produceData } from './changes'
+import { useComputedOrCallback } from './reducer'
+import { Ref } from '@vue/composition-api'
 
-export const useDeleteMediaListEntry = () => {
+export const useDeleteMediaListEntry = (
+  variablesValue:
+    | Ref<DeleteMediaListEntryMutationVariables>
+    | (() => DeleteMediaListEntryMutationVariables),
+  mediaIdValue: Ref<number> | (() => number),
+) => {
+  const variables = useComputedOrCallback(variablesValue)
+  const mediaId = useComputedOrCallback(mediaIdValue)
+
   const { mutate: change, ...query } = useMutation<
     DeleteMediaListEntryMutationResult,
     DeleteMediaListEntryMutationVariables
-  >(DeleteMediaListEntryMutation)
+  >(DeleteMediaListEntryMutation, () => ({
+    variables: variables.value,
+    update: (cache, result) =>
+      updateDeleteMediaListEntry(mediaId.value)(cache, result),
+  }))
 
-  const mutate = ({
-    variables,
-    mediaId,
-  }: {
-    variables: DeleteMediaListEntryMutationVariables
-    mediaId: number
-  }) => {
-    change(variables, {
-      update: (cache, result) =>
-        updateDeleteMediaListEntry(mediaId)(cache, result),
-    })
-  }
+  const mutate = (overrideVariables = variables.value) =>
+    change(overrideVariables, {})
 
-  return { ...query, mutate }
+  return { ...query, variables, mediaId, mutate }
 }
 
 export const updateDeleteMediaListEntry: (

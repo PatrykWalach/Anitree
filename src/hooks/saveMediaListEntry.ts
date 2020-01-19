@@ -14,22 +14,29 @@ import {
 import { MutationUpdaterFn } from 'apollo-client'
 
 import { createMediaQuery, produceData } from './changes'
+import { useComputedOrCallback } from './reducer'
+import { Ref } from '@vue/composition-api'
 
 export const useSaveMediaListEntry = <
-  V = SaveMediaListEntryMutationVariables
->() => {
+  V extends SaveMediaListEntryMutationVariables
+>(
+  variablesValue: Ref<V> | (() => V),
+) => {
+  const variables = useComputedOrCallback(variablesValue)
+
   const { mutate: change, ...query } = useMutation<
     SaveMediaListEntryMutationResult,
     V
-  >(SaveMediaListEntryMutation)
+  >(SaveMediaListEntryMutation, () => ({
+    variables: variables.value,
+    update: updateSaveMediaListEntry,
+  }))
 
-  const mutate = (variables: V) => {
-    change(variables, {
-      update: updateSaveMediaListEntry,
-    })
+  const mutate = (overrideVariables = variables.value) => {
+    change(overrideVariables, {})
   }
 
-  return { ...query, mutate }
+  return { ...query, mutate, variables }
 }
 
 export const updateSaveMediaListEntry: MutationUpdaterFn<SaveMediaListEntryMutationResult> = (

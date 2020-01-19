@@ -15,22 +15,21 @@ export const usePage = <R extends { Page: Page | null }, V>(
   options:
     | UseQueryOptions<R, V>
     | Ref<UseQueryOptions<R, V>>
-    | (() => UseQueryOptions<R, V>)
-    | undefined,
+    | (() => UseQueryOptions<R, V>),
 ) => {
   const variables = useComputedOrCallback(value)
   const query = useQuery<R, V>(queryDocument, variables, options)
 
-  const currentPage = useResult<number, number>(
+  const currentPage = useResult(
     query.result,
     0,
-    data => data.Page.pageInfo.currentPage,
+    data => data?.Page?.pageInfo?.currentPage || 0,
   )
 
-  const hasNextPage = useResult<boolean, boolean>(
+  const hasNextPage = useResult(
     query.result,
     false,
-    data => data.Page.pageInfo.hasNextPage,
+    data => data?.Page?.pageInfo?.hasNextPage || false,
   )
   const loadingMore = ref(false)
 
