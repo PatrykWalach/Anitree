@@ -71,7 +71,7 @@ export const updatePageQuery = <P extends { Page: Page | null }>(
 
   const getPageAndMedia = (result: P) => {
     const resultPage = result.Page
-    const resultMedia = (resultPage?.media) || []
+    const resultMedia = resultPage?.media || []
     return [resultPage, resultMedia] as const
   }
 

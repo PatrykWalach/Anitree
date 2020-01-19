@@ -81,7 +81,7 @@ const updateToggleFavourite = (cache: DataProxy, mediaId: number) => {
   cache.writeQuery({
     ...query,
     data: produce(data, draft => {
-      if ( draft?.Media) {
+      if (draft?.Media) {
         draft.Media.isFavourite = !draft.Media.isFavourite
         if (draft.Media.isFavourite) {
           if (draft.Media.favourites === null) {

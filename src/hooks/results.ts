@@ -8,8 +8,5 @@ export const useTitle = (
 ) => {
   const media = useComputedOrCallback(value)
 
-  return computed(() => 
-
-  media.value.title?.userPreferred || ''
-  )
+  return computed(() => media.value.title?.userPreferred || '')
 }

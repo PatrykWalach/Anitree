@@ -44,9 +44,7 @@ export default createComponent<Readonly<Props>>({
       return ''
     })
 
-    const src = computed(() => 
-       props.media.coverImage?.extraLarge || ''
-    )
+    const src = computed(() => props.media.coverImage?.extraLarge || '')
 
     return { src, srcset }
   },
