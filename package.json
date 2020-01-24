@@ -59,7 +59,7 @@
         "@vue/eslint-config-typescript": "^5.0.1",
         "@vue/test-utils": "^1.0.0-beta.30",
         "apollo": "^2.21.3",
-        "codecov": "^3.6.1",
+        "codecov": "^3.6.2",
         "eslint": "^6.8.0",
         "eslint-plugin-graphql": "^3.1.1",
         "eslint-plugin-prettier": "^3.1.2",
