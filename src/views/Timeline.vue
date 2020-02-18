@@ -7,17 +7,18 @@
       <TimelineBackdrop :query="query" />
     </template>
     <template v-slot:default>
-      <VCard :style="{ flex: 1, borderRadius: '4px 4px 0 0' }">
-        <VSkeletonLoader :loading="!currentMedia" type="card-heading">
-          <RenderlessTitle :media="currentMedia" v-slot="{ title }">
-            <VCardTitle v-text="title" />
-          </RenderlessTitle>
-        </VSkeletonLoader>
-        <VSkeletonLoader :loading="!currentMedia" type="card-heading">
-          <RenderlessSubtitle :media="currentMedia" v-slot="{ subtitle }">
-            <VCardSubtitle v-text="subtitle" />
-          </RenderlessSubtitle>
-        </VSkeletonLoader>
+      <VCard
+        :loading="loading && 'accent'"
+        :style="{ flex: 1, borderRadius: '4px 4px 0 0' }"
+      >
+        <VSkeletonLoader v-if="!currentMedia" type="card-heading" />
+        <RenderlessTitle v-else :media="currentMedia" v-slot="{ title }">
+          <VCardTitle v-text="title" />
+        </RenderlessTitle>
+        <VSkeletonLoader v-if="!currentMedia" type="card-heading" />
+        <RenderlessSubtitle v-else :media="currentMedia" v-slot="{ subtitle }">
+          <VCardSubtitle v-text="subtitle" />
+        </RenderlessSubtitle>
 
         <VContainer>
           <TheTimelineLoading v-if="loading" />
