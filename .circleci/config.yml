@@ -72,21 +72,21 @@ workflows:
               only: /.*/
           requires:
             - install
-      - test:
-          filters:
-            tags:
-              only: /.*/
-          requires:
-            - install
-      - coverage:
-          filters:
-            tags:
-              only: /.*/
-          requires:
-            - install
-      - codecov:
-          filters:
-            tags:
-              only: /.*/
-          requires:
-            - coverage
+      # - test:
+      #     filters:
+      #       tags:
+      #         only: /.*/
+      #     requires:
+      #       - install
+      # - coverage:
+      #     filters:
+      #       tags:
+      #         only: /.*/
+      #     requires:
+      #       - install
+      # - codecov:
+      #     filters:
+      #       tags:
+      #         only: /.*/
+      #     requires:
+      #       - coverage
