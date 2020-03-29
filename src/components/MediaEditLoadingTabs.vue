@@ -14,10 +14,10 @@
   </v-tabs>
 </template>
 <script lang="ts">
-import { createComponent } from '@vue/composition-api'
+import { defineComponent } from '@vue/composition-api'
 import { useMediaEditTabs } from './MediaEditTabs.vue'
 
-export default createComponent({
+export default defineComponent({
   inheritAttrs: false,
   setup() {
     const tabs = useMediaEditTabs()

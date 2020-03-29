@@ -7,13 +7,29 @@
 </template>
 
 <script lang="ts">
-import { createComponent } from '@vue/composition-api'
+import { defineComponent } from '@vue/composition-api'
 import { MediaItemOverline_media } from './__generated__/MediaItemOverline_media'
+
+import gql from 'graphql-tag'
+
+export const MediaItemOverlineFragments = {
+  media: gql`
+    fragment MediaItemOverline_media on Media {
+      id
+      studios(isMain: true) {
+        nodes {
+          id
+          name
+        }
+      }
+    }
+  `,
+}
 
 export interface Props {
   media: MediaItemOverline_media
 }
-export default createComponent<Readonly<Props>>({
+export default defineComponent<Readonly<Props>>({
   props: {
     media: { default: null, required: true, type: Object },
   },

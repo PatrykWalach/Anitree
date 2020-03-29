@@ -78,9 +78,9 @@
       <VListItem>
         <base-field
           v-model="syncedForm.status"
-          :before-transform="[e => (e ? (e instanceof Array ? e : [e]) : [])]"
+          :before-transform="[(e) => (e ? (e instanceof Array ? e : [e]) : [])]"
           tag="v-chip-group"
-          :after-transform="[e => (e.length ? e : undefined)]"
+          :after-transform="[(e) => (e.length ? e : undefined)]"
           multiple
           column
           :active-class="activeClass"
@@ -98,12 +98,7 @@
             :value="status"
             class="text-capitalize"
           >
-            {{
-              status
-                .toLowerCase()
-                .split(/_/)
-                .join(' ')
-            }}
+            {{ status.toLowerCase().split(/_/).join(' ') }}
           </v-chip>
         </base-field>
       </VListItem>
@@ -163,12 +158,12 @@
 </template>
 
 <script lang="ts">
-import { createComponent } from '@vue/composition-api'
+import { defineComponent } from '@vue/composition-api'
 import BaseField from './BaseField.vue'
 import { VChipGroup } from 'vuetify/lib'
 import { useSync } from '@/hooks/sync'
 
-export default createComponent({
+export default defineComponent({
   components: {
     BaseField,
     VChipGroup,

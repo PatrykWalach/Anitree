@@ -18,7 +18,7 @@ Vue.use(VueReduxHooks, store)
 Vue.config.productionTip = false
 
 new Vue({
-  render: h => h(App),
+  render: (h) => h(App),
   router,
   setup() {
     provide(DefaultApolloClient, apollo)

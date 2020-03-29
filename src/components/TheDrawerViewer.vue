@@ -49,11 +49,25 @@
   </VListGroup>
 </template>
 <script lang="ts">
-import { createComponent } from '@vue/composition-api'
+import { defineComponent } from '@vue/composition-api'
 import { settingsActions } from '../store/reducers/settings'
 import { useDispatch } from 'vue-redux-hooks'
+import gql from 'graphql-tag'
 
-export default createComponent({
+export const TheDrawerViewerFragments = {
+  viewer: gql`
+    fragment TheDrawerViewer_viewer on User {
+      id
+      name
+      avatar {
+        large
+      }
+      siteUrl
+    }
+  `,
+}
+
+export default defineComponent({
   inheritAttrs: false,
   props: {
     viewer: { default: null, required: true, type: Object },

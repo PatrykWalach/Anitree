@@ -18,7 +18,7 @@ export const createBeforeRouteEnter = (
   })
 }
 
-export const beforeRouteLeave: NavigationGuard = function(
+export const beforeRouteLeave: NavigationGuard = function (
   this: { fab: Fab | null },
   to,
   from,

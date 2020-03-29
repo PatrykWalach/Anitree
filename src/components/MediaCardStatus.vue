@@ -14,15 +14,33 @@
 </template>
 
 <script lang="ts">
-import { computed, createComponent } from '@vue/composition-api'
+import { computed, defineComponent } from '@vue/composition-api'
 
 import { MediaCardStatus_media } from './__generated__/MediaCardStatus_media'
+
+import gql from 'graphql-tag'
+
+export const MediaCardStatusFragments = {
+  media: gql`
+    fragment MediaCardStatus_media on Media {
+      id
+      type
+      episodes
+      chapters
+      mediaListEntry {
+        id
+        status
+        progress
+      }
+    }
+  `,
+}
 
 export interface Props {
   media: MediaCardStatus_media
 }
 
-export default createComponent<Readonly<Props>>({
+export default defineComponent<Readonly<Props>>({
   props: {
     media: { default: null, required: true, type: Object },
   },

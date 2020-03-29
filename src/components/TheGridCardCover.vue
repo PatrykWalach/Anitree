@@ -7,16 +7,28 @@
 </template>
 
 <script lang="ts">
-import { createComponent, computed } from '@vue/composition-api'
+import { defineComponent, computed } from '@vue/composition-api'
 import { TheGridCardCover_media } from './__generated__/TheGridCardCover_media'
 import MediaCardCover from './MediaCardCover.vue'
+import gql from 'graphql-tag'
+import { MediaCardCoverFragments } from './MediaCardCover.vue'
+
+export const TheGridCardCoverFragments = {
+  media: gql`
+    fragment TheGridCardCover_media on Media {
+      id
+      ...MediaCardCover_media
+    }
+    ${MediaCardCoverFragments.media}
+  `,
+}
 
 export interface Props {
   media: TheGridCardCover_media
   hover: boolean
 }
 
-export default createComponent<Readonly<Props>>({
+export default defineComponent<Readonly<Props>>({
   components: { MediaCardCover },
   setup() {
     const backgroundImage = computed(

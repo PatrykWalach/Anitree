@@ -11,8 +11,8 @@
         "jestWatch": "vue-cli-service test:unit --watch",
         "jestCoverage": "vue-cli-service test:unit --maxWorkers=2 --coverage",
         "codecov": "codecov",
-        "apollo": "apollo client:codegen --tagName=gql --target=typescript --useReadOnlyTypes",
-        "apolloWatch": "apollo client:codegen --tagName=gql --target=typescript --useReadOnlyTypes --watch"
+        "apollo": "apollo client:codegen --tagName=gql --target=typescript --useReadOnlyTypes --queries=src/**/*.{ts,tsx,vue}",
+        "apolloWatch": "apollo client:codegen --tagName=gql --target=typescript --useReadOnlyTypes --watch --queries=src/**/*.{ts,tsx,vue}"
     },
     "dependencies": {
         "@fortawesome/fontawesome-svg-core": "^1.2.28",

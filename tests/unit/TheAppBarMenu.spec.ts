@@ -8,5 +8,5 @@ describe('TheAppBarMenu', () => {
       actions: [],
       media: () => [mockedMedia, null],
     },
-  }).forEach(settings => matchSnapshot(TheAppBarMenu, settings))
+  }).forEach((settings) => matchSnapshot(TheAppBarMenu, settings))
 })

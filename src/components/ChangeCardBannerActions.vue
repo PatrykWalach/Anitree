@@ -47,7 +47,7 @@ import {
   SavePending,
   changesActions,
 } from '../store/reducers/changes'
-import { computed, createComponent, ref } from '@vue/composition-api'
+import { computed, defineComponent, ref } from '@vue/composition-api'
 
 import { useSync } from '@/hooks/sync'
 import { useDispatch, useSelector } from 'vue-redux-hooks'
@@ -62,7 +62,7 @@ interface Props {
   extension: boolean
 }
 
-export default createComponent<Readonly<Props>>({
+export default defineComponent<Readonly<Props>>({
   props: {
     extension: {
       default: false,

@@ -76,9 +76,7 @@
         </VCardTitle>
         <VCardActions>
           <VBtn
-            :href="
-              `https://anilist.co/api/v2/oauth/authorize?client_id=${id}&response_type=token`
-            "
+            :href="`https://anilist.co/api/v2/oauth/authorize?client_id=${id}&response_type=token`"
             block
             color="accent"
             >login</VBtn
@@ -90,16 +88,30 @@
 </template>
 <script lang="ts">
 import BaseAction from '@/components/BaseAction.vue'
-import { createComponent } from '@vue/composition-api'
+import { defineComponent } from '@vue/composition-api'
 import { useTheDrawerNavigation } from '@/components/TheDrawer.vue'
 import { useToken } from '@/hooks/token'
 import { useResult, useQuery } from '@vue/apollo-composable'
-import { HomeAppBarQuery } from './HomeAppBar.gql.js'
+
 import { settingsActions } from '@/store/reducers/settings'
 import { useDispatch } from 'vue-redux-hooks'
 import { useLogin } from '../components/TheDrawerLogin.vue'
+import gql from 'graphql-tag'
 
-export default createComponent({
+export const HomeAppBarQuery = gql`
+  query HomeAppBarQuery {
+    Viewer {
+      id
+      siteUrl
+      name
+      avatar {
+        large
+      }
+    }
+  }
+`
+
+export default defineComponent({
   components: { BaseAction },
   setup() {
     const navigationElements = useTheDrawerNavigation()

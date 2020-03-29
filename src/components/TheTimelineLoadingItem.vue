@@ -12,7 +12,7 @@
   </v-timeline-item>
 </template>
 <script lang="ts">
-import { SetupContext, computed, createComponent } from '@vue/composition-api'
+import { SetupContext, computed, defineComponent } from '@vue/composition-api'
 import MediaCardLoading from './MediaCardLoading.vue'
 
 export const useTimelineItemColor = (root: SetupContext['root']) => {
@@ -20,7 +20,7 @@ export const useTimelineItemColor = (root: SetupContext['root']) => {
   return { color }
 }
 
-export default createComponent({
+export default defineComponent({
   components: {
     MediaCardLoading,
   },

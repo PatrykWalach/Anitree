@@ -49,7 +49,7 @@
 import {
   SetupContext,
   computed,
-  createComponent,
+  defineComponent,
   ref,
 } from '@vue/composition-api'
 import { Form } from '../types'
@@ -60,6 +60,19 @@ import { changesActions } from '@/store/reducers/changes'
 import { useSubmitRequired } from '@/hooks/submitRequired'
 import { MediaEditActions_media } from './__generated__/MediaEditActions_media'
 import { useDispatch } from 'vue-redux-hooks'
+
+import gql from 'graphql-tag'
+
+export const MediaEditActionsFragments = {
+  media: gql`
+    fragment MediaEditActions_media on Media {
+      id
+      mediaListEntry {
+        id
+      }
+    }
+  `,
+}
 
 export interface Props {
   media: MediaEditActions_media
@@ -120,7 +133,7 @@ const useActions = (props: Readonly<Props>, emit: SetupContext['emit']) => {
   return { close, confirmation, remove, submitAndClose, submitRequired }
 }
 
-export default createComponent<Readonly<Props>>({
+export default defineComponent<Readonly<Props>>({
   props: {
     form: { default: null, required: true, type: Object },
     media: { default: null, required: true, type: Object },

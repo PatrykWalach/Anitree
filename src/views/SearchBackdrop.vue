@@ -19,7 +19,7 @@
   </div>
 </template>
 <script lang="ts">
-import { createComponent, watch } from '@vue/composition-api'
+import { defineComponent, watch } from '@vue/composition-api'
 import { Dictionary } from 'vue-router/types/router'
 import { useSearchFilters } from '@/components/ViewSearchFilters.vue'
 
@@ -30,7 +30,7 @@ export interface Props {
   query: Dictionary<string | (string | null)[]>
 }
 
-export default createComponent({
+export default defineComponent({
   components: {
     ViewSearchFiltersForm,
     ViewSearchField,

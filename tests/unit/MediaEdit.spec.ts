@@ -10,7 +10,7 @@ describe('MediaEdit', () => {
       id: () => [null, 1],
       viewer: () => [null, mockedViewer],
     },
-  }).forEach(settings =>
+  }).forEach((settings) =>
     matchSnapshot(MediaEdit, {
       ...settings,
       provide: { ...useMockedStore(), ...useMockedApollo() },

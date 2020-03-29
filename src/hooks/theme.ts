@@ -4,7 +4,7 @@ import { setItem } from '@/localStorage'
 export const useTheme = (root: SetupContext['root']) => {
   const dark = computed({
     get: () => root.$vuetify.theme.dark,
-    set: value => {
+    set: (value) => {
       root.$vuetify.theme.dark = value
 
       const { dark, themes } = root.$vuetify.theme

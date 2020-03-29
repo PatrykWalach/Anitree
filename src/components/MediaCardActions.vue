@@ -99,7 +99,7 @@
 </template>
 
 <script lang="ts">
-import { createComponent, computed, ref } from '@vue/composition-api'
+import { defineComponent, computed, ref } from '@vue/composition-api'
 import BaseAction from './BaseAction.vue'
 import { MediaCardActions_media } from './__generated__/MediaCardActions_media'
 import MediaEditLoading from './MediaEditLoading.vue'
@@ -137,7 +137,29 @@ export interface Props {
   media: MediaCardActions_media
 }
 
-export default createComponent<Readonly<Props>>({
+import { MediaEditFragments } from './MediaEdit.vue'
+import { ToggleFavouriteFragments } from '../hooks/toggleFavourite'
+import { ShareFragments } from '../hooks/share'
+
+import gql from 'graphql-tag'
+
+export const MediaCardActionsFragments = {
+  media: gql`
+    fragment MediaCardActions_media on Media {
+      id
+      type
+      siteUrl
+      ...ToggleFavourite_media
+      ...Share_media
+      ...MediaEdit_media
+    }
+    ${ToggleFavouriteFragments.media}
+    ${ShareFragments.media}
+    ${MediaEditFragments.media}
+  `,
+}
+
+export default defineComponent<Readonly<Props>>({
   inheritAttrs: false,
   components: {
     BaseAction,

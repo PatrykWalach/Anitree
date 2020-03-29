@@ -19,7 +19,7 @@
 </template>
 <script lang="ts">
 import MediaEditItemsTab from './MediaEditItemsTab.vue'
-import { computed, createComponent } from '@vue/composition-api'
+import { computed, defineComponent } from '@vue/composition-api'
 import { Form, RecursiveMutable } from '../types'
 import { MediaEditItems_viewer } from './__generated__/MediaEditItems_viewer'
 import { useInjectedTheme } from '@/hooks/theme'
@@ -30,6 +30,57 @@ import {
 
 import { useSync } from '@/hooks/sync'
 
+import gql from 'graphql-tag'
+import { MediaEditItemsTabFragments } from './MediaEditItemsTab.vue'
+
+export const MediaEditItemsFragments = {
+  media: gql`
+    fragment MediaEditItems_media on Media {
+      id
+      type
+      mediaListEntry {
+        id
+        advancedScores
+        startedAt {
+          year
+          month
+          day
+        }
+        completedAt {
+          year
+          month
+          day
+        }
+        private
+        mediaId
+        status
+        score
+        progress
+        progressVolumes
+        repeat
+        notes
+      }
+      ...MediaEditItemsTab_media
+    }
+    ${MediaEditItemsTabFragments.media}
+  `,
+
+  viewer: gql`
+    fragment MediaEditItems_viewer on User {
+      id
+      mediaListOptions {
+        scoreFormat
+        mangaList {
+          advancedScoring
+        }
+        animeList {
+          advancedScoring
+        }
+      }
+    }
+  `,
+}
+
 export interface Props {
   user: MediaEditItems_viewer
   media: MediaEditItems_media
@@ -38,7 +89,7 @@ export interface Props {
   changeForm(payload: Partial<Form>): void
 }
 
-export default createComponent<Readonly<Props>>({
+export default defineComponent<Readonly<Props>>({
   components: {
     MediaEditItemsTab,
   },
@@ -94,7 +145,7 @@ const createAdvancedScores = (
   mediaListEntry: RecursiveMutable<MediaEditItems_media_mediaListEntry>,
   advancedScoring: (string | null)[],
 ) =>
-  (advancedScoring.map(key =>
+  (advancedScoring.map((key) =>
     key ? mediaListEntry.advancedScores[key] : 0,
   ) as unknown) as number[]
 // .map(value => value || 0) as number[]

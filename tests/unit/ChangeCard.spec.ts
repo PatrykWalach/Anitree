@@ -8,7 +8,7 @@ describe('ChangeCard', () => {
     propsData: {
       request: () => [mockedDeletePending, mockedSavePending],
     },
-  }).forEach(settings =>
+  }).forEach((settings) =>
     matchSnapshot(ChangeCard, {
       ...settings,
       provide: { ...useMockedApollo() },

@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts">
-import { createComponent, computed } from '@vue/composition-api'
+import { defineComponent, computed } from '@vue/composition-api'
 
 interface Props {
   iconColor?: string
@@ -27,7 +27,7 @@ interface Props {
   bottom?: boolean
 }
 
-export default createComponent<Readonly<Required<Props>>>({
+export default defineComponent<Readonly<Required<Props>>>({
   props: {
     icon: { default: '', required: false, type: String },
     iconColor: { default: '', required: false, type: String },

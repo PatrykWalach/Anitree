@@ -1,10 +1,23 @@
 <script lang="ts">
 import { FormDirector, Props } from './FormDirector'
 import { VContainer, VRow } from 'vuetify/lib'
-import { createComponent, createElement as h } from '@vue/composition-api'
+import { defineComponent, createElement as h } from '@vue/composition-api'
 import { FormBuilder } from './FormBuilder'
 
-export default createComponent<Readonly<Props>>({
+import gql from 'graphql-tag'
+import { FormDirectorFragments } from './FormDirector'
+
+export const MediaEditItemsTabFragments = {
+  media: gql`
+    fragment MediaEditItemsTab_media on Media {
+      id
+      ...FormDirector_media
+    }
+    ${FormDirectorFragments.media}
+  `,
+}
+
+export default defineComponent<Readonly<Props>>({
   inheritAttrs: false,
   props: {
     advancedScoring: {
@@ -39,7 +52,7 @@ export default createComponent<Readonly<Props>>({
       type: Object,
     },
   },
-  setup: props => {
+  setup: (props) => {
     const director = new FormDirector()
 
     return () => {

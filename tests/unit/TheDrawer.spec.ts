@@ -21,7 +21,7 @@ describe('TheDrawer', () => {
     propsData: {
       value: () => [true, false],
     },
-  }).forEach(settings =>
+  }).forEach((settings) =>
     matchSnapshot(TheDrawer, {
       ...settings,
       provide: { ...useMockedStore(), ...useMockedApollo() },

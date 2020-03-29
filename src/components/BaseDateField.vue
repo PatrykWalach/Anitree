@@ -30,13 +30,13 @@
   </VMenu>
 </template>
 <script lang="ts">
-import { Ref, createComponent, ref, watch } from '@vue/composition-api'
+import { Ref, defineComponent, ref, watch } from '@vue/composition-api'
 
 export interface Props {
   value: string
 }
 
-export default createComponent<Readonly<Props>>({
+export default defineComponent<Readonly<Props>>({
   inheritAttrs: false,
   props: {
     value: {
@@ -52,7 +52,7 @@ export default createComponent<Readonly<Props>>({
 
     watch(
       () => props.value,
-      value => {
+      (value) => {
         date.value = value
       },
     )

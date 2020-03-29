@@ -2,7 +2,7 @@
   <time v-text="formattedRange" />
 </template>
 <script lang="ts">
-import { computed, createComponent } from '@vue/composition-api'
+import { computed, defineComponent } from '@vue/composition-api'
 
 import { ValidDate } from '@/types'
 
@@ -11,7 +11,7 @@ export interface Props {
   endDate: ValidDate | null
 }
 
-export default createComponent<Readonly<Props>>({
+export default defineComponent<Readonly<Props>>({
   props: {
     endDate: { default: null, required: false, type: null },
     startDate: { default: null, required: true, type: Object },

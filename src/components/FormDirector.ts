@@ -4,6 +4,19 @@ import { FormBuilder } from './FormBuilder'
 
 import { FormDirector_media } from './__generated__/FormDirector_media'
 
+import gql from 'graphql-tag'
+
+export const FormDirectorFragments = {
+  media: gql`
+    fragment FormDirector_media on Media {
+      id
+      volumes
+      chapters
+      episodes
+    }
+  `,
+}
+
 export interface Props {
   method: keyof FormDirector
   media: FormDirector_media

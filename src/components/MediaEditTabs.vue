@@ -19,7 +19,7 @@
   </v-tabs>
 </template>
 <script lang="ts">
-import { createComponent } from '@vue/composition-api'
+import { defineComponent } from '@vue/composition-api'
 import { NavigationElement } from '../types'
 import { useSync } from '@/hooks/sync'
 
@@ -48,7 +48,7 @@ export const useMediaEditTabs = () => {
 
   return tabs
 }
-export default createComponent<Readonly<Props>>({
+export default defineComponent<Readonly<Props>>({
   inheritAttrs: false,
   props: {
     tab: { default: 'edit1', required: true, type: String },

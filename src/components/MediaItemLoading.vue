@@ -15,9 +15,9 @@ import MediaItemLoadingDescription from '@/components/MediaItemLoadingDescriptio
 import MediaItemLoadingOverline from '@/components/MediaItemLoadingOverline.vue'
 import MediaItemLoadingSubtitle from '@/components/MediaItemLoadingSubtitle.vue'
 import MediaItemLoadingTitle from '@/components/MediaItemLoadingTitle.vue'
-import { createComponent } from '@vue/composition-api'
+import { defineComponent } from '@vue/composition-api'
 
-export default createComponent({
+export default defineComponent({
   components: {
     MediaItemLoadingAvatar,
     MediaItemLoadingDescription,

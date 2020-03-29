@@ -77,7 +77,7 @@
 </template>
 
 <script lang="ts">
-import { createComponent, computed, ref } from '@vue/composition-api'
+import { defineComponent, computed, ref } from '@vue/composition-api'
 import BaseAction from './BaseAction.vue'
 import { MediaCardActions_media } from './__generated__/MediaCardActions_media'
 import MediaEditLoading from './MediaEditLoading.vue'
@@ -108,7 +108,7 @@ export interface Props {
   media: MediaCardActions_media
 }
 
-export default createComponent<Readonly<Props>>({
+export default defineComponent<Readonly<Props>>({
   components: {
     BaseAction,
     MediaCardActionsFavourite,

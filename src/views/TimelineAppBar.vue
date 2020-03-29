@@ -100,7 +100,7 @@
 </template>
 
 <script lang="ts">
-import { createComponent, computed, ref } from '@vue/composition-api'
+import { defineComponent, computed, ref } from '@vue/composition-api'
 import BaseAction from '@/components/BaseAction.vue'
 import { TimelineAppBar_media } from './__generated__/TimelineAppBar_media'
 import MediaEditLoading from '@/components/MediaEditLoading.vue'
@@ -133,12 +133,30 @@ const MediaEdit = () =>
     ),
     MediaEditLoading,
   )
+import gql from 'graphql-tag'
+import { MediaEditFragments } from '../components/MediaEdit.vue'
+import { ToggleFavouriteFragments } from '../hooks/toggleFavourite'
+import { ShareFragments } from '../hooks/share'
 
+export const TimelineAppBarFragments = {
+  media: gql`
+    fragment TimelineAppBar_media on Media {
+      id
+      siteUrl
+      ...ToggleFavourite_media
+      ...Share_media
+      ...MediaEdit_media
+    }
+    ${ToggleFavouriteFragments.media}
+    ${ShareFragments.media}
+    ${MediaEditFragments.media}
+  `,
+}
 export interface Props {
   media: TimelineAppBar_media
 }
 
-export default createComponent<Readonly<Props>>({
+export default defineComponent<Readonly<Props>>({
   inheritAttrs: false,
   components: {
     BaseAction,

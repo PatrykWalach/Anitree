@@ -14,9 +14,9 @@
 </template>
 
 <script lang="ts">
-import { computed, createComponent } from '@vue/composition-api'
+import { computed, defineComponent } from '@vue/composition-api'
 
-export default createComponent({
+export default defineComponent({
   inheritAttrs: false,
   props: {
     disabled: { default: false, required: false, type: Boolean },

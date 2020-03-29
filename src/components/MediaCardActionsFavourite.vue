@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts">
-import { createComponent } from '@vue/composition-api'
+import { defineComponent } from '@vue/composition-api'
 import { MediaCardActions_media } from './__generated__/MediaCardActions_media'
 
 import { asyncComponent } from '@/router'
@@ -38,7 +38,7 @@ export interface Props {
   listItem: boolean
 }
 
-export default createComponent<Readonly<Props>>({
+export default defineComponent<Readonly<Props>>({
   components: {
     BaseAction,
     BaseActionItem,

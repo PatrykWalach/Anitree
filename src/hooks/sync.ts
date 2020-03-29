@@ -7,5 +7,5 @@ export const useSync = <O, K extends keyof O>(
 ) =>
   computed({
     get: () => props[key],
-    set: value => emit(`update:${key}`, value),
+    set: (value) => emit(`update:${key}`, value),
   })

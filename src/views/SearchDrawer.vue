@@ -10,9 +10,9 @@
 </template>
 <script lang="ts">
 import BaseActionItem from '@/components/BaseActionItem.vue'
-import { createComponent } from '@vue/composition-api'
+import { defineComponent } from '@vue/composition-api'
 import { useViewSearchNavigation } from '@/hooks/viewSearchNavigation'
-export default createComponent({
+export default defineComponent({
   components: { BaseActionItem },
   setup() {
     const navigationElements = useViewSearchNavigation()

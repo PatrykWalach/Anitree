@@ -1,7 +1,7 @@
 const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')
 
 module.exports = {
-  chainWebpack: config => {
+  chainWebpack: (config) => {
     config.module
       .rule('graphql')
       .test(/\.(graphql|gql)$/)

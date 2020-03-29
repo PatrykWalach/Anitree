@@ -51,7 +51,7 @@
 </template>
 
 <script lang="ts">
-import { createComponent } from '@vue/composition-api'
+import { defineComponent } from '@vue/composition-api'
 import { useQueryLoading, useQuery, useResult } from '@vue/apollo-composable'
 import BaseActionItem from './BaseActionItem.vue'
 import { Location } from 'vue-router'
@@ -62,8 +62,20 @@ import { asyncComponent } from '@/router'
 import { useFab } from '@/hooks/fab'
 import { useSync } from '@/hooks/sync'
 import { useToken } from '@/hooks/token'
-import { TheDrawerQuery } from './TheDrawer.gql.js'
+
 import { TheDrawerQuery as TheDrawerQueryResult } from './__generated__/TheDrawerQuery'
+import gql from 'graphql-tag'
+import { TheDrawerViewerFragments } from './TheDrawerViewer.vue'
+
+export const TheDrawerQuery = gql`
+  query TheDrawerQuery {
+    Viewer {
+      id
+      ...TheDrawerViewer_viewer
+    }
+  }
+  ${TheDrawerViewerFragments.viewer}
+`
 
 const TheDrawerViewer = () =>
   asyncComponent(
@@ -125,7 +137,7 @@ export const useTheDrawerNavigation = () => {
   return elements
 }
 
-export default createComponent<Readonly<Props>>({
+export default defineComponent<Readonly<Props>>({
   components: {
     BaseActionItem,
     TheDrawerLoadingViewer,

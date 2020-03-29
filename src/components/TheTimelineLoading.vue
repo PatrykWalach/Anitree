@@ -17,9 +17,9 @@
 <script lang="ts">
 import MediaCardLoading from './MediaCardLoading.vue'
 import TheTimelineLoadingItem from './TheTimelineLoadingItem.vue'
-import { createComponent } from '@vue/composition-api'
+import { defineComponent } from '@vue/composition-api'
 
-export default createComponent({
+export default defineComponent({
   components: {
     MediaCardLoading,
     TheTimelineLoadingItem,

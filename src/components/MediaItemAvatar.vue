@@ -5,16 +5,29 @@
 </template>
 
 <script lang="ts">
-import { createComponent } from '@vue/composition-api'
+import { defineComponent } from '@vue/composition-api'
 import { MediaItemAvatar_media } from './__generated__/MediaItemAvatar_media'
 import MediaCardCover from './MediaCardCover.vue'
+
+import gql from 'graphql-tag'
+import { MediaCardCoverFragments } from './MediaCardCover.vue'
+
+export const MediaItemAvatarFragments = {
+  media: gql`
+    fragment MediaItemAvatar_media on Media {
+      id
+      ...MediaCardCover_media
+    }
+    ${MediaCardCoverFragments.media}
+  `,
+}
 
 export interface Props {
   media: MediaItemAvatar_media
   size: number | string
 }
 
-export default createComponent<Readonly<Props>>({
+export default defineComponent<Readonly<Props>>({
   inheritAttrs: false,
   components: { MediaCardCover },
   props: {

@@ -7,7 +7,7 @@ import Router, { Route } from 'vue-router'
 import Vue, { Component } from 'vue'
 import {
   computed,
-  createComponent,
+  defineComponent,
   createElement as h,
 } from '@vue/composition-api'
 import {
@@ -23,7 +23,29 @@ import { apollo } from '@/apollo'
 import { settingsActions } from './store/reducers/settings'
 import { store } from './store'
 import { useQuery, useResult } from '@vue/apollo-composable'
-import { RouterTimelineQuery, RouterTimelineDrawerQuery } from './Router.gql.js'
+import gql from 'graphql-tag'
+import { TimelineDrawerFragments } from './views/TimelineDrawer.vue'
+
+export const RouterTimelineDrawerQuery = gql`
+  query RouterTimelineDrawerQuery($id: Int) {
+    Media(id: $id) {
+      id
+      ...TimelineDrawer_media
+    }
+  }
+  ${TimelineDrawerFragments.media}
+`
+
+export const RouterTimelineQuery = gql`
+  query RouterTimelineQuery($id: Int) {
+    Media(id: $id) {
+      id
+      title {
+        userPreferred
+      }
+    }
+  }
+`
 
 const useQueryProps = (
   { query: fullQuery }: Route,
@@ -82,6 +104,7 @@ const TimelineDrawer = () =>
     ),
     createDrawerLoading(5),
   )
+
 const SearchDrawer = () =>
   asyncComponent(
     import(
@@ -117,7 +140,7 @@ const createTimelineWrapper = <M>(
   Component: ({ media }: { media: M }) => VNode,
   Loading: () => VNode | null = () => null,
 ) =>
-  createComponent({
+  defineComponent({
     props: { currentId: { default: null, required: true, type: Number } },
     setup(props) {
       const mediaQuery = useQuery(
@@ -153,7 +176,7 @@ const router = new Router({
     {
       name: 'media',
       path: '/:mediaType/:mediaId',
-      redirect: to => ({
+      redirect: (to) => ({
         name: 'timeline',
         params: {
           ...to.params,
@@ -165,9 +188,9 @@ const router = new Router({
       beforeEnter: (to, from, next) => {
         const currentId = parseInt(to.params.mediaId, 10)
 
-        fetchMedia(currentId).then(media => {
+        fetchMedia(currentId).then((media) => {
           if (!media) {
-            next(from)
+            next(false)
             return
           }
 
@@ -183,7 +206,7 @@ const router = new Router({
             next()
           } else {
             next({
-              ...to,
+              // ...to,
               params: {
                 ...to.params,
                 title,
@@ -205,7 +228,7 @@ const router = new Router({
       path: '/:mediaType/:mediaId/:title',
       props: {
         default: (route: Route) => ({
-          ...useQueryProps(route, query => ({
+          ...useQueryProps(route, (query) => ({
             isAdult: query.isAdult,
             page: query.page,
             onList: query.onList,
@@ -233,7 +256,7 @@ const router = new Router({
       path: '/search',
       props: {
         default: (route: Route) => ({
-          ...useQueryProps(route, query => ({
+          ...useQueryProps(route, (query) => ({
             isAdult: query.isAdult,
             search: query.search,
             page: query.page,
@@ -253,12 +276,12 @@ const router = new Router({
     {
       name: 'auth',
       path: '/auth',
-      redirect: to => {
+      redirect: (to) => {
         const hash = Object.fromEntries(
           to.hash
             .replace(/#/, '')
             .split(/&/)
-            .map(el => el.split(/=/)),
+            .map((el) => el.split(/=/)),
         )
 
         store.dispatch(settingsActions.CHANGE_TOKEN(hash.access_token || null))

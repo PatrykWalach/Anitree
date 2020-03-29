@@ -1,5 +1,8 @@
 <template>
-  <TheBackdrop>
+  <TheBackdrop
+    :loading="loading && 'accent'"
+    :style="{ flex: 1, borderRadius: '4px 4px 0 0' }"
+  >
     <template v-slot:appBar>
       <TimelineAppBar v-if="currentMedia" :media="currentMedia" />
     </template>
@@ -7,10 +10,7 @@
       <TimelineBackdrop :query="query" />
     </template>
     <template v-slot:default>
-      <VCard
-        :loading="loading && 'accent'"
-        :style="{ flex: 1, borderRadius: '4px 4px 0 0' }"
-      >
+      <div>
         <VSkeletonLoader v-if="!currentMedia" type="card-heading" />
         <RenderlessTitle v-else :media="currentMedia" v-slot="{ title }">
           <VCardTitle v-text="title" />
@@ -50,7 +50,7 @@
         >
           <ViewSearchFilters :query="query" @close="showFilters = false" />
         </VDialog>
-      </VCard>
+      </div>
     </template>
   </TheBackdrop>
 </template>
@@ -80,16 +80,88 @@ import { beforeRouteLeave, createBeforeRouteEnter } from '../hooks/fab'
 import {
   computed,
   SetupContext,
-  createComponent,
+  defineComponent,
   ref,
   watch,
 } from '@vue/composition-api'
 import { useQuery, useQueryLoading, useResult } from '@vue/apollo-composable'
-import {
-  TimelinePrefetchQuery,
-  TimelineQuery,
-  TimelineMediaQuery,
-} from './Timeline.gql.js'
+import gql from 'graphql-tag'
+import { TheTimelineFragments } from '../components/TheTimeline.vue'
+import { PageFragments } from '../hooks/page'
+import { RenderlessSubtitleFragments } from '@/components/RenderlessSubtitle.vue'
+import { RenderlessTitleFragments } from '@/components/RenderlessTitle.vue'
+import { TimelineAppBarFragments } from './TimelineAppBar.vue'
+
+export const TimelinePrefetchQuery = gql`
+  query TimelinePrefetchQuery(
+    $idIn: [Int]
+    $page: Int = 0
+    $perPage: Int = 50
+  ) {
+    Page(page: $page, perPage: $perPage) {
+      media(id_in: $idIn) @connection(key: "media", filter: ["id_in"]) {
+        id
+        relations {
+          edges {
+            id
+            node {
+              id
+            }
+          }
+        }
+      }
+      ...Page_page
+    }
+  }
+  ${PageFragments.page}
+`
+
+export const TimelineQuery = gql`
+  query TimelineQuery(
+    $sort: [MediaSort]
+    $idIn: [Int]
+    $page: Int = 0
+    $perPage: Int = 6
+    $isAdult: Boolean
+    $onList: Boolean
+    $type: MediaType
+    $status: [MediaStatus]
+  ) {
+    Page(page: $page, perPage: $perPage) {
+      media(
+        id_in: $idIn
+        isAdult: $isAdult
+        onList: $onList
+        type: $type
+        sort: $sort
+        status_in: $status
+      )
+        @connection(
+          key: "media"
+          filter: ["id_in", "isAdult", "onList", "type", "sort", "status_in"]
+        ) {
+        ...TheTimeline_media
+      }
+      ...Page_page
+    }
+  }
+  ${TheTimelineFragments.media}
+  ${PageFragments.page}
+`
+
+export const TimelineMediaQuery = gql`
+  query TimelineMediaQuery($id: Int) {
+    Media(id: $id) {
+      id
+      ...RenderlessTitle_media
+      ...RenderlessSubtitle_media
+      ...TimelineAppBar_media
+    }
+  }
+  ${RenderlessTitleFragments.media}
+  ${RenderlessSubtitleFragments.media}
+  ${TimelineAppBarFragments.media}
+`
 
 import TheTimelineLoading from '@/components/TheTimelineLoading.vue'
 
@@ -135,7 +207,7 @@ const find = <R, D>(
 ) => filterNull(data.map(mapFn) as readonly R[])
 
 function filterNull<D>(data: readonly D[]) {
-  return data.filter(data => data !== null) as NonNullable<D>[]
+  return data.filter((data) => data !== null) as NonNullable<D>[]
 }
 
 const findRelativeMedia = (
@@ -178,10 +250,10 @@ const usePrefetchMedia = (
   const prefetchedMedia = useResult(
     prefetchQuery.result,
     [],
-    data => data?.Page?.media || [],
+    (data) => data?.Page?.media || [],
   )
 
-  watch(prefetchQuery.result, async data => {
+  watch(prefetchQuery.result, async (data) => {
     if (data?.Page) {
       const media = data.Page.media
       if (media) {
@@ -206,8 +278,8 @@ interface Props {
   queryWithBoolean: TimelineQueryVariables
 }
 
-export default createComponent({
-  beforeRouteEnter: createBeforeRouteEnter(vm => ({
+export default defineComponent({
+  beforeRouteEnter: createBeforeRouteEnter((vm) => ({
     icon: 'sort',
     on: () => {
       vm.showFilters = true
@@ -258,7 +330,7 @@ export default createComponent({
       enabled: routeTimeline.value,
     }))
 
-    const media = useResult(queryResult, [], data => data?.Page?.media || [])
+    const media = useResult(queryResult, [], (data) => data?.Page?.media || [])
 
     const fab = useFab()
 

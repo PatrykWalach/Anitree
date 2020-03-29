@@ -12,7 +12,7 @@
 
 <script lang="ts">
 import { VChipGroup, VSelect, VTextField, VTextarea } from 'vuetify/lib'
-import { computed, createComponent, ref, watch } from '@vue/composition-api'
+import { computed, defineComponent, ref, watch } from '@vue/composition-api'
 import { Props } from './FormBuilder'
 
 const BaseDateField = () =>
@@ -20,7 +20,7 @@ const BaseDateField = () =>
     /* webpackChunkName: "BaseDateField" */ /* webpackPrefetch: true */ './BaseDateField.vue'
   )
 
-export default createComponent<Readonly<Props>>({
+export default defineComponent<Readonly<Props>>({
   components: {
     BaseDateField,
     VChipGroup,
@@ -59,7 +59,7 @@ export default createComponent<Readonly<Props>>({
 
     watch(
       () => props.value,
-      _value => {
+      (_value) => {
         input.value = transform(_value, props.beforeTransform)
       },
     )

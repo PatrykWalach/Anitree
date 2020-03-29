@@ -23,13 +23,13 @@ export const usePage = <R extends { Page: Page | null }, V>(
   const currentPage = useResult(
     query.result,
     0,
-    data => data?.Page?.pageInfo?.currentPage || 0,
+    (data) => data?.Page?.pageInfo?.currentPage || 0,
   )
 
   const hasNextPage = useResult(
     query.result,
     false,
-    data => data?.Page?.pageInfo?.hasNextPage || false,
+    (data) => data?.Page?.pageInfo?.hasNextPage || false,
   )
   const loadingMore = ref(false)
 
@@ -87,4 +87,22 @@ export const updatePageQuery = <P extends { Page: Page | null }>(
       media: previousMedia.concat(moreMedia),
     },
   }
+}
+
+import gql from 'graphql-tag'
+
+export const PageFragments = {
+  page: gql`
+    fragment Page_page on Page {
+      pageInfo {
+        hasNextPage
+        currentPage
+      }
+    }
+  `,
+  media: gql`
+    fragment Page_media on Media {
+      id
+    }
+  `,
 }

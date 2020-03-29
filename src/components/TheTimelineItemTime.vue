@@ -14,17 +14,36 @@
 </template>
 <script lang="ts">
 import { FuzzyDateInput } from '@/../__generated__/globalTypes'
-import { computed, createComponent } from '@vue/composition-api'
+import { computed, defineComponent } from '@vue/composition-api'
 import BaseTime from './BaseTime.vue'
 
 import { ValidDate } from '../types'
 import { TheTimelineItemTime_media } from './__generated__/TheTimelineItemTime_media'
+import gql from 'graphql-tag'
+
+export const TheTimelineItemTimeFragments = {
+  media: gql`
+    fragment TheTimelineItemTime_media on Media {
+      id
+      startDate {
+        day
+        year
+        month
+      }
+      endDate {
+        day
+        year
+        month
+      }
+    }
+  `,
+}
 
 export interface Props {
   media: TheTimelineItemTime_media
 }
 
-export default createComponent<Readonly<Props>>({
+export default defineComponent<Readonly<Props>>({
   components: {
     BaseTime,
   },

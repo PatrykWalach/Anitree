@@ -23,13 +23,13 @@ import {
   SavePending,
   isSavePending,
 } from '../store/reducers/changes'
-import { computed, createComponent } from '@vue/composition-api'
+import { computed, defineComponent } from '@vue/composition-api'
 
 interface Props {
   pending: SavePending | DeletePending
 }
 
-export default createComponent<Readonly<Props>>({
+export default defineComponent<Readonly<Props>>({
   props: {
     pending: {
       default: null,

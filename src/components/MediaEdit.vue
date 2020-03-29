@@ -32,7 +32,7 @@
 import MediaItem from './MediaItem.vue'
 import MediaEditActions from './MediaEditActions.vue'
 import MediaEditItems from './MediaEditItems.vue'
-import { Ref, createComponent, ref } from '@vue/composition-api'
+import { Ref, defineComponent, ref } from '@vue/composition-api'
 import { Form } from '../types'
 import { useDispatch } from 'vue-redux-hooks'
 import MediaCardLoadingBanner from './MediaCardLoadingBanner.vue'
@@ -53,12 +53,42 @@ const MediaCardBanner = () =>
     MediaCardLoadingBanner,
   )
 
+import gql from 'graphql-tag'
+import { MediaCardBannerFragments } from './MediaCardBanner.vue'
+import { MediaItemFragments } from './MediaItem.vue'
+import { MediaEditActionsFragments } from './MediaEditActions.vue'
+import { MediaEditItemsFragments } from './MediaEditItems.vue'
+
+export const MediaEditFragments = {
+  media: gql`
+    fragment MediaEdit_media on Media {
+      id
+      bannerImage
+      ...MediaEditItems_media
+      ...MediaEditActions_media
+      ...MediaCardBanner_media
+      ...MediaItem_media
+    }
+    ${MediaCardBannerFragments.media}
+    ${MediaItemFragments.media}
+    ${MediaEditActionsFragments.media}
+    ${MediaEditItemsFragments.media}
+  `,
+  viewer: gql`
+    fragment MediaEdit_viewer on User {
+      id
+      ...MediaEditItems_viewer
+    }
+    ${MediaEditItemsFragments.viewer}
+  `,
+}
+
 export interface Props {
   media: MediaEdit_media
   viewer: MediaEdit_viewer
 }
 
-export default createComponent<Readonly<Props>>({
+export default defineComponent<Readonly<Props>>({
   components: {
     MediaCardBanner,
     MediaItem,

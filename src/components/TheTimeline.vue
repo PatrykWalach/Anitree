@@ -26,14 +26,28 @@ import TheTimelineItem from './TheTimelineItem.vue'
 
 import { TheTimeline_media } from './__generated__/TheTimeline_media'
 import { useShow } from './TheGrid.vue'
-import { createComponent } from '@vue/composition-api'
+import { defineComponent } from '@vue/composition-api'
+import gql from 'graphql-tag'
+import { MediaCardFragments } from './MediaCard.vue'
+import { TheTimelineItemFragments } from './TheTimelineItem.vue'
 
+export const TheTimelineFragments = {
+  media: gql`
+    fragment TheTimeline_media on Media {
+      id
+      ...TheTimelineItem_media
+      ...MediaCard_media
+    }
+    ${TheTimelineItemFragments.media}
+    ${MediaCardFragments.media}
+  `,
+}
 export interface Props {
   media: TheTimeline_media[]
   show: number
 }
 
-export default createComponent<Readonly<Props>>({
+export default defineComponent<Readonly<Props>>({
   components: {
     MediaCard,
     TheTimelineItem,

@@ -27,7 +27,7 @@
 import {
   computed,
   SetupContext,
-  createComponent,
+  defineComponent,
   ref,
   watch,
 } from '@vue/composition-api'
@@ -72,7 +72,7 @@ export const useSearchFilters = (
   }
 }
 
-export default createComponent({
+export default defineComponent({
   components: {
     ViewSearchFiltersForm,
   },

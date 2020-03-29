@@ -10,7 +10,7 @@ describe('TheBottomAppBar', () => {
       drawer: () => [true, false],
       media: () => [mockedMedia, null],
     },
-  }).forEach(props =>
+  }).forEach((props) =>
     matchSnapshot(TheBottomAppBar, {
       ...props,
       provide: { ...useMockedStore() },

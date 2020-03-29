@@ -15,15 +15,25 @@
 </template>
 
 <script lang="ts">
-import { computed, createComponent } from '@vue/composition-api'
+import { computed, defineComponent } from '@vue/composition-api'
 import { MediaItemRatings_media } from './__generated__/MediaItemRatings_media'
 import { useNumber } from '@/hooks/intl'
+import gql from 'graphql-tag'
 
+export const MediaItemRatingsFragments = {
+  media: gql`
+    fragment MediaItemRatings_media on Media {
+      id
+      meanScore
+      popularity
+    }
+  `,
+}
 export interface Props {
   media: MediaItemRatings_media
 }
 
-export default createComponent<Readonly<Props>>({
+export default defineComponent<Readonly<Props>>({
   props: {
     media: {
       default: null,

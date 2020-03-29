@@ -9,7 +9,7 @@ describe('MediaEditItems', () => {
     propsData: {
       tab: () => Array.from({ length: 4 }, (v, k) => 'edit' + (k + 1)),
     },
-  }).forEach(settings =>
+  }).forEach((settings) =>
     matchSnapshot(MediaEditItems, {
       propsData: {
         ...settings.propsData,

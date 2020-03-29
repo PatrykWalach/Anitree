@@ -8,7 +8,7 @@ import {
   VSlideGroup,
   VSlideItem,
 } from 'vuetify/lib'
-import { computed, createComponent, createElement } from '@vue/composition-api'
+import { computed, defineComponent, createElement } from '@vue/composition-api'
 import {
   faFacebookF,
   faRedditAlien,
@@ -23,7 +23,7 @@ library.add(faFacebookF, faTwitter, faRedditAlien, faTumblr)
 export interface Props {
   url: string
 }
-export default createComponent<Readonly<Props>>({
+export default defineComponent<Readonly<Props>>({
   components: {
     BaseShareItem,
     FontAwesomeIcon,

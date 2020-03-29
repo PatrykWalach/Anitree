@@ -2,7 +2,7 @@
   <VTextField name="search" v-model="value" v-bind="$attrs" />
 </template>
 <script lang="ts">
-import { computed, createComponent, ref, watch } from '@vue/composition-api'
+import { computed, defineComponent, ref, watch } from '@vue/composition-api'
 import { Dictionary } from 'vue-router/types/router'
 import { debounce } from 'throttle-debounce'
 
@@ -10,7 +10,7 @@ interface Props {
   query: Dictionary<string | (string | null)[]>
 }
 
-export default createComponent({
+export default defineComponent({
   inheritAttrs: false,
   props: { query: { default: null, required: true, type: Object } },
   setup(props, { root }) {
@@ -21,7 +21,7 @@ export default createComponent({
 
     const value = ref(currentSearch.value)
 
-    const submit = debounce(1000, search => {
+    const submit = debounce(1000, (search) => {
       if (search !== currentSearch.value)
         root.$router.push({
           name: 'search',

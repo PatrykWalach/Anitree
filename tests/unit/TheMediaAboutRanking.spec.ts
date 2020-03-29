@@ -11,5 +11,5 @@ describe('TheMediaAboutRanking', () => {
       media: () => [mockedMedia, null],
       popularity: () => [true, false],
     },
-  }).forEach(settings => matchSnapshot(TheMediaAboutRanking, settings))
+  }).forEach((settings) => matchSnapshot(TheMediaAboutRanking, settings))
 })

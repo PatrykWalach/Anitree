@@ -22,9 +22,9 @@ import MediaCardLoadingBanner from './MediaCardLoadingBanner.vue'
 import MediaItemLoading from './MediaItemLoading.vue'
 import MediaEditLoadingActions from './MediaEditLoadingActions.vue'
 import MediaEditLoadingTabs from './MediaEditLoadingTabs.vue'
-import { createComponent } from '@vue/composition-api'
+import { defineComponent } from '@vue/composition-api'
 
-export default createComponent({
+export default defineComponent({
   components: {
     MediaCardLoadingBanner,
     MediaItemLoading,

@@ -11,9 +11,9 @@
 import MediaCardLoadingBanner from '@/components/MediaCardLoadingBanner.vue'
 import MediaCardLoadingStatus from '@/components/MediaCardLoadingStatus.vue'
 import MediaItemLoading from '@/components/MediaItemLoading.vue'
-import { createComponent } from '@vue/composition-api'
+import { defineComponent } from '@vue/composition-api'
 
-export default createComponent({
+export default defineComponent({
   components: {
     MediaCardLoadingBanner,
     MediaCardLoadingStatus,

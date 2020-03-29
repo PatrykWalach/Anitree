@@ -16,17 +16,31 @@ import {
 } from 'vuetify/lib'
 import {
   computed,
-  createComponent,
+  defineComponent,
   createElement as h,
 } from '@vue/composition-api'
 import { useQuery, useResult } from '@vue/apollo-composable'
 import HomeItem from '@/components/HomeItem.vue'
 import TheBackdrop from '@/components/TheBackdrop.vue'
 import MediaCardLoading from '@/components/MediaCardLoading.vue'
-import { HomeQuery } from './Home.gql.js'
+
 import { asyncComponent } from '../router'
 
 import { VNode } from 'vue'
+import gql from 'graphql-tag'
+import { MediaCardFragments } from '../components/MediaCard.vue'
+
+export const HomeQuery = gql`
+  query HomeQuery($perPage: Int = 50) {
+    Page(perPage: $perPage) {
+      media(sort: TRENDING_DESC) {
+        id
+        ...MediaCard_media
+      }
+    }
+  }
+  ${MediaCardFragments.media}
+`
 
 const MediaCard = () =>
   asyncComponent(
@@ -58,7 +72,7 @@ interface TimelineProps extends DesktopProps {
 const Mobile = ({ content, ...props }: Readonly<DesktopProps>) =>
   content(props)
     .flat()
-    .map(el =>
+    .map((el) =>
       h(
         VCol,
         {
@@ -116,7 +130,7 @@ const TrendingMedia = ({ media, loading }: TrendingMediaProps) => {
   return null
 }
 
-export default createComponent({
+export default defineComponent({
   setup: (_, { root }) => {
     const random = Math.floor(Math.random() * (PER_PAGE - 1))
 
@@ -130,7 +144,7 @@ export default createComponent({
       },
     )
 
-    const media = useResult(result, [], data => data?.Page?.media || [])
+    const media = useResult(result, [], (data) => data?.Page?.media || [])
 
     const randomMedia = computed(() => media.value[random])
 

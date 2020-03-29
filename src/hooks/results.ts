@@ -10,3 +10,16 @@ export const useTitle = (
 
   return computed(() => media.value.title?.userPreferred || '')
 }
+
+import gql from 'graphql-tag'
+
+export const useTitleFragments = {
+  media: gql`
+    fragment useTitle_media on Media {
+      id
+      title {
+        userPreferred
+      }
+    }
+  `,
+}

@@ -23,13 +23,36 @@
 </template>
 <script lang="ts">
 import { DeletePending, SavePending } from '../store/reducers/changes'
-import { computed, createComponent, ref } from '@vue/composition-api'
+import { computed, defineComponent, ref } from '@vue/composition-api'
 import ChangeCardBannerActions from './ChangeCardBannerActions.vue'
 import { ChangeCardBanner_media } from './__generated__/ChangeCardBanner_media'
 import MediaItemAvatar from './MediaItemAvatar.vue'
 import MediaItemSubtitle from './MediaItemSubtitle.vue'
 import MediaItemTitle from './MediaItemTitle.vue'
 import { useTitle } from '../hooks/results'
+
+import { MediaItemAvatarFragments } from './MediaItemAvatar.vue'
+import { MediaItemSubtitleFragments } from './MediaItemSubtitle.vue'
+import { MediaItemTitleFragments } from './MediaItemTitle.vue'
+
+import gql from 'graphql-tag'
+
+export const ChangeCardBannerFragments = {
+  media: gql`
+    fragment ChangeCardBanner_media on Media {
+      id
+      title {
+        userPreferred
+      }
+      ...MediaItemAvatar_media
+      ...MediaItemSubtitle_media
+      ...MediaItemTitle_media
+    }
+    ${MediaItemAvatarFragments.media}
+    ${MediaItemSubtitleFragments.media}
+    ${MediaItemTitleFragments.media}
+  `,
+}
 
 interface Props {
   media: ChangeCardBanner_media
@@ -41,7 +64,7 @@ const ChangeCardBannerList = () =>
     /* webpackChunkName: "ChangeCardBannerList" */ /* webpackPrefetch: true */ './ChangeCardBannerList.vue'
   )
 
-export default createComponent<Readonly<Props>>({
+export default defineComponent<Readonly<Props>>({
   components: {
     ChangeCardBannerActions,
     ChangeCardBannerList,

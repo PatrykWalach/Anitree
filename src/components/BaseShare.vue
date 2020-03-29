@@ -41,7 +41,7 @@
 
 <script lang="ts">
 import { VBottomSheet, VDialog } from 'vuetify/lib'
-import { computed, createComponent, ref } from '@vue/composition-api'
+import { computed, defineComponent, ref } from '@vue/composition-api'
 import BaseShareItems from './BaseShareItems.vue'
 import { ShareData } from '../types'
 import { clipboard } from 'vue-clipboards'
@@ -50,7 +50,7 @@ export interface Props {
   options: ShareData
 }
 
-export default createComponent<Readonly<Props>>({
+export default defineComponent<Readonly<Props>>({
   components: { BaseShareItems, VBottomSheet, VDialog },
   directives: {
     clipboard,

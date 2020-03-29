@@ -12,7 +12,7 @@
   </v-timeline-item>
 </template>
 <script lang="ts">
-import { SetupContext, computed, createComponent } from '@vue/composition-api'
+import { SetupContext, computed, defineComponent } from '@vue/composition-api'
 
 import MediaCard from './MediaCard.vue'
 
@@ -22,12 +22,23 @@ const TheTimelineItemTime = () =>
   import(
     /* webpackChunkName: "TheTimelineItemTime" */ /* webpackPrefetch: true */ './TheTimelineItemTime.vue'
   )
+import gql from 'graphql-tag'
+import { TheTimelineItemTimeFragments } from './TheTimelineItemTime.vue'
 
+export const TheTimelineItemFragments = {
+  media: gql`
+    fragment TheTimelineItem_media on Media {
+      id
+      ...TheTimelineItemTime_media
+    }
+    ${TheTimelineItemTimeFragments.media}
+  `,
+}
 export interface Props {
   media: TheTimelineItem_media
 }
 
-export default createComponent<Readonly<Props>>({
+export default defineComponent<Readonly<Props>>({
   components: {
     MediaCard,
     TheTimelineItemTime,

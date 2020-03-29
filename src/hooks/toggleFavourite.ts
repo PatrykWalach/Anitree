@@ -10,10 +10,6 @@ import {
 import { useMutation, useQueryLoading } from '@vue/apollo-composable'
 import { DataProxy } from 'apollo-cache'
 import { DocumentNode } from 'graphql'
-import {
-  ToggleFavouriteQuery,
-  ToggleFavouriteMutation,
-} from './ToggleFavourite.gql.js'
 import { ToggleFavourite_media } from './__generated__/ToggleFavourite_media'
 import produce from 'immer'
 import { useNumber } from './intl'
@@ -35,7 +31,7 @@ export const useFavourites = (
     ToggleFavouriteMutationVariables
   >(ToggleFavouriteMutation, () => ({
     variables: variables.value,
-    update: cache => updateToggleFavourite(cache, id.value),
+    update: (cache) => updateToggleFavourite(cache, id.value),
   }))
 
   const variables = computed(() => {
@@ -81,7 +77,7 @@ const updateToggleFavourite = (cache: DataProxy, mediaId: number) => {
 
   cache.writeQuery({
     ...query,
-    data: produce(data, draft => {
+    data: produce(data, (draft) => {
       if (draft?.Media) {
         draft.Media.isFavourite = !draft.Media.isFavourite
         if (draft.Media.isFavourite) {
@@ -101,3 +97,42 @@ const updateToggleFavourite = (cache: DataProxy, mediaId: number) => {
     }),
   })
 }
+
+import gql from 'graphql-tag'
+export const ToggleFavouriteFragments = {
+  media: gql`
+    fragment ToggleFavourite_media on Media {
+      id
+      favourites
+      isFavourite
+      type
+    }
+  `,
+}
+
+export const ToggleFavouriteQuery = gql`
+  query ToggleFavouriteQuery($id: Int) {
+    Media(id: $id) {
+      id
+      isFavourite
+      favourites
+    }
+  }
+`
+
+export const ToggleFavouriteMutation = gql`
+  mutation ToggleFavouriteMutation($animeId: Int, $mangaId: Int) {
+    ToggleFavourite(animeId: $animeId, mangaId: $mangaId) {
+      anime {
+        pageInfo {
+          hasNextPage
+        }
+      }
+      manga {
+        pageInfo {
+          hasNextPage
+        }
+      }
+    }
+  }
+`

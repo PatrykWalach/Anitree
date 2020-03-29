@@ -6,5 +6,5 @@ describe('MediaEditTabs', () => {
     propsData: {
       tab: () => Array.from({ length: 4 }, (v, k) => 'edit' + (k + 1)),
     },
-  }).forEach(settings => matchSnapshot(MediaEditTabs, settings))
+  }).forEach((settings) => matchSnapshot(MediaEditTabs, settings))
 })

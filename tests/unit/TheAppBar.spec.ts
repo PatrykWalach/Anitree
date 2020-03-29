@@ -16,7 +16,7 @@ describe('TheAppBar', () => {
         },
       ],
     },
-  }).forEach(settings =>
+  }).forEach((settings) =>
     matchSnapshot(TheAppBar, {
       propsData: { media: null },
       ...settings,

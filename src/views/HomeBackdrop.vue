@@ -10,10 +10,10 @@
 </template>
 <script lang="ts">
 import BaseActionItem from '@/components/BaseActionItem.vue'
-import { createComponent } from '@vue/composition-api'
+import { defineComponent } from '@vue/composition-api'
 import { useTheDrawerNavigation } from '@/components/TheDrawer.vue'
 
-export default createComponent({
+export default defineComponent({
   components: { BaseActionItem },
   setup() {
     const navigationElements = useTheDrawerNavigation()

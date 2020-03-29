@@ -8,15 +8,30 @@
 </template>
 
 <script lang="ts">
-import { computed, createComponent } from '@vue/composition-api'
+import { computed, defineComponent } from '@vue/composition-api'
 import { MediaCardCover_media } from './__generated__/MediaCardCover_media'
+
+import gql from 'graphql-tag'
+
+export const MediaCardCoverFragments = {
+  media: gql`
+    fragment MediaCardCover_media on Media {
+      id
+      coverImage {
+        medium
+        large
+        extraLarge
+      }
+    }
+  `,
+}
 
 export interface Props {
   media: MediaCardCover_media
   x: number
 }
 
-export default createComponent<Readonly<Props>>({
+export default defineComponent<Readonly<Props>>({
   inheritAttrs: false,
   props: {
     media: {

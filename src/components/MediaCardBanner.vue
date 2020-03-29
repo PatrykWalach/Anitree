@@ -13,14 +13,25 @@
 </template>
 
 <script lang="ts">
-import { createComponent } from '@vue/composition-api'
+import { defineComponent } from '@vue/composition-api'
 import { MediaCardBanner_media } from './__generated__/MediaCardBanner_media'
+
+import gql from 'graphql-tag'
+
+export const MediaCardBannerFragments = {
+  media: gql`
+    fragment MediaCardBanner_media on Media {
+      id
+      bannerImage
+    }
+  `,
+}
 
 export interface Props {
   media: MediaCardBanner_media
 }
 
-export default createComponent<Readonly<Props>>({
+export default defineComponent<Readonly<Props>>({
   props: {
     media: {
       default: null,

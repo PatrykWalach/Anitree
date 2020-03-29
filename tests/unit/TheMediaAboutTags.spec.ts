@@ -7,5 +7,5 @@ describe('TheMediaAboutTags', () => {
     propsData: {
       media: () => [mockedMedia, null],
     },
-  }).forEach(settings => matchSnapshot(TheMediaAboutTags, settings))
+  }).forEach((settings) => matchSnapshot(TheMediaAboutTags, settings))
 })

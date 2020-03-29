@@ -59,7 +59,7 @@
 </template>
 
 <script lang="ts">
-import { createComponent, ref } from '@vue/composition-api'
+import { defineComponent, ref } from '@vue/composition-api'
 import { useFavourites } from '@/hooks/toggleFavourite'
 import { useShare } from '@/hooks/share'
 
@@ -88,7 +88,27 @@ export interface Props {
   media: TimelineDrawer_media
 }
 
-export default createComponent<Readonly<Props>>({
+import gql from 'graphql-tag'
+import { MediaEditFragments } from '../components/MediaEdit.vue'
+import { ShareFragments } from '../hooks/share'
+import { ToggleFavouriteFragments } from '../hooks/toggleFavourite'
+
+export const TimelineDrawerFragments = {
+  media: gql`
+    fragment TimelineDrawer_media on Media {
+      id
+      siteUrl
+      ...ToggleFavourite_media
+      ...Share_media
+      ...MediaEdit_media
+    }
+    ${ToggleFavouriteFragments.media}
+    ${ShareFragments.media}
+    ${MediaEditFragments.media}
+  `,
+}
+
+export default defineComponent<Readonly<Props>>({
   components: {
     BaseActionItem,
     BaseShare,

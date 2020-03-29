@@ -35,3 +35,18 @@ export const useShare = (value: Ref<Share_media> | (() => Share_media)) => {
 
   return { isShared, share, shareData }
 }
+
+import gql from 'graphql-tag'
+
+export const ShareFragments = {
+  media: gql`
+    fragment Share_media on Media {
+      id
+      siteUrl
+      title {
+        userPreferred
+      }
+      rawDescription: description(asHtml: false)
+    }
+  `,
+}

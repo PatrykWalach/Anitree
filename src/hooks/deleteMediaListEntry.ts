@@ -7,10 +7,6 @@ import {
   DeleteMediaListEntryQuery as DeleteMediaListEntryQueryResult,
   DeleteMediaListEntryQueryVariables,
 } from './__generated__/DeleteMediaListEntryQuery'
-import {
-  DeleteMediaListEntryMutation,
-  DeleteMediaListEntryQuery,
-} from './DeleteMediaListEntry.gql.js'
 import { MutationUpdaterFn } from 'apollo-client'
 
 import { createMediaQuery, produceData } from './changes'
@@ -43,7 +39,7 @@ export const useDeleteMediaListEntry = (
 
 export const updateDeleteMediaListEntry: (
   id: number,
-) => MutationUpdaterFn<DeleteMediaListEntryMutationResult> = id => (
+) => MutationUpdaterFn<DeleteMediaListEntryMutationResult> = (id) => (
   cache,
   { data: result },
 ) => {
@@ -70,3 +66,23 @@ export const updateDeleteMediaListEntry: (
     data: produceData(data, null),
   })
 }
+
+import gql from 'graphql-tag'
+
+export const DeleteMediaListEntryMutation = gql`
+  mutation DeleteMediaListEntryMutation($id: Int) {
+    DeleteMediaListEntry(id: $id) {
+      deleted
+    }
+  }
+`
+export const DeleteMediaListEntryQuery = gql`
+  query DeleteMediaListEntryQuery($id: Int) {
+    Media(id: $id) {
+      id
+      mediaListEntry {
+        id
+      }
+    }
+  }
+`

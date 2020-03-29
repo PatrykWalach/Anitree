@@ -17,7 +17,7 @@ import MediaCardLoadingBanner from './MediaCardLoadingBanner.vue'
 import MediaCardStatus from './MediaCardStatus.vue'
 import { MediaCard_media } from './__generated__/MediaCard_media'
 import { asyncComponent } from '@/router'
-import { createComponent } from '@vue/composition-api'
+import { defineComponent } from '@vue/composition-api'
 
 const MediaCardBanner = () =>
   asyncComponent(
@@ -31,7 +31,31 @@ export interface Props {
   media: MediaCard_media
 }
 
-export default createComponent<Readonly<Props>>({
+import { MediaCardActionsFragments } from './MediaCardActions.vue'
+import { MediaCardBannerFragments } from './MediaCardBanner.vue'
+import { MediaItemFragments } from './MediaItem.vue'
+import { MediaCardStatusFragments } from './MediaCardStatus.vue'
+
+import gql from 'graphql-tag'
+
+export const MediaCardFragments = {
+  media: gql`
+    fragment MediaCard_media on Media {
+      id
+      bannerImage
+      ...MediaItem_media
+      ...MediaCardActions_media
+      ...MediaCardBanner_media
+      ...MediaCardStatus_media
+    }
+    ${MediaItemFragments.media}
+    ${MediaCardActionsFragments.media}
+    ${MediaCardBannerFragments.media}
+    ${MediaCardStatusFragments.media}
+  `,
+}
+
+export default defineComponent<Readonly<Props>>({
   components: {
     MediaCardActions,
     MediaCardBanner,

@@ -1,10 +1,10 @@
 <template>
-  <TheBackdrop>
+  <TheBackdrop :style="{ flex: 1, borderRadius: '4px 4px 0 0' }">
     <template v-slot:appBar>
       <ChangesAppBar />
     </template>
     <template v-slot:default>
-      <VCard :style="{ flex: 1, borderRadius: '4px 4px 0 0' }">
+      <div>
         <VContainer>
           <v-subheader>
             <template v-if="!pending.length">
@@ -21,14 +21,14 @@
             </v-col>
           </v-row>
         </VContainer>
-      </VCard>
+      </div>
     </template>
   </TheBackdrop>
 </template>
 <script lang="ts">
 import ChangeCard from '@/components/ChangeCard.vue'
 import { State } from '../store'
-import { createComponent } from '@vue/composition-api'
+import { defineComponent } from '@vue/composition-api'
 import { useSelector } from 'vue-redux-hooks'
 import TheBackdrop from '@/components/TheBackdrop.vue'
 
@@ -37,7 +37,7 @@ const ChangesAppBar = () =>
     /* webpackChunkName: "ChangesAppBar" */ /* webpackPrefetch: true */ './ChangesAppBar.vue'
   )
 
-export default createComponent({
+export default defineComponent({
   components: { TheBackdrop, ChangeCard, ChangesAppBar },
   setup() {
     const pending = useSelector((state: State) => state.changes.pending)

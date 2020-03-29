@@ -22,7 +22,7 @@
   </VApp>
 </template>
 <script lang="ts">
-import { createComponent, ref, provide } from '@vue/composition-api'
+import { defineComponent, ref, provide } from '@vue/composition-api'
 
 import TheDrawer from './components/TheDrawer.vue'
 import TheFooter from './components/TheFooter.vue'
@@ -30,26 +30,36 @@ import { useQuery } from '@vue/apollo-composable'
 import { useToken } from '@/hooks/token'
 
 import { DefaultViewer } from './hooks/viewer'
-import { AppQuery } from './App.gql.js'
 import { AppQuery as AppQueryResult } from './__generated__/AppQuery'
+
+import gql from 'graphql-tag'
+import { MediaEditFragments } from './components/MediaEdit.vue'
+import { SearchFragments } from './views/Search.vue'
+
+export const AppQuery = gql`
+  query AppQuery {
+    Viewer {
+      id
+      ...MediaEdit_viewer
+      ...Search_viewer
+    }
+  }
+  ${MediaEditFragments.viewer}
+  ${SearchFragments.viewer}
+`
 
 const TheRightDrawer = () =>
   import(
     /* webpackChunkName: "TheRightDrawer" */ /* webpackPrefetch: true */ './components/TheRightDrawer.vue'
   )
 
-// const TheBottomAppBar = () =>
-//   import(
-//     /* webpackChunkName: "TheBottomAppBar" */ /* webpackPrefetch: true */ './components/TheBottomAppBar.vue'
-//   )
 const TheBackdrop = () =>
   import(
     /* webpackChunkName: "TheBackdrop" */ /* webpackPrefetch: true */ './components/TheBackdrop.vue'
   )
 
-export default createComponent({
+export default defineComponent({
   components: {
-    // TheBottomAppBar,
     TheDrawer,
     TheFooter,
     TheBackdrop,

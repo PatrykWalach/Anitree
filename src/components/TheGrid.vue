@@ -15,17 +15,29 @@
 </template>
 
 <script lang="ts">
-import { createComponent, computed } from '@vue/composition-api'
-import TheGridCard from './TheGridCard.vue'
+import { defineComponent, computed } from '@vue/composition-api'
+import TheGridCard, { TheGridCardFragments } from './TheGridCard.vue'
 import { useReducer } from '../hooks/reducer'
 import { TheGrid_media } from './__generated__/TheGrid_media'
 
+import gql from 'graphql-tag'
+
+export const TheGridFragments = {
+  media: gql`
+    fragment TheGrid_media on Media {
+      id
+      ...TheGridCard_media
+    }
+    ${TheGridCardFragments.media}
+  `,
+}
+
 export const useShow = (props: Readonly<Props>) => {
   const [showing, increaseShowing] = useReducer(
-    state => state + props.show,
+    (state) => state + props.show,
     props.show,
     [
-      ({ dispatch, state }) => next => action =>
+      ({ dispatch, state }) => (next) => (action) =>
         action instanceof Function ? action(dispatch, state) : next(action),
     ],
   )
@@ -41,7 +53,7 @@ interface Props {
   show: number
 }
 
-export default createComponent<Readonly<Props>>({
+export default defineComponent<Readonly<Props>>({
   props: {
     media: { default: null, required: true, type: Array },
     show: { default: 12, required: false, type: Number },

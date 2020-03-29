@@ -8,5 +8,5 @@ describe('TheSettingsSetting', () => {
       subtitle: '',
       title: '',
     },
-  }).forEach(settings => matchSnapshot(TheSettingsSetting, settings))
+  }).forEach((settings) => matchSnapshot(TheSettingsSetting, settings))
 })

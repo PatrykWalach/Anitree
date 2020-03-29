@@ -25,5 +25,5 @@ describe('MediaCardStatus', () => {
         }),
       ],
     },
-  }).forEach(settings => matchSnapshot(MediaCardStatus, settings))
+  }).forEach((settings) => matchSnapshot(MediaCardStatus, settings))
 })

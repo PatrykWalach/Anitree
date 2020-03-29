@@ -1,5 +1,8 @@
 <template>
-  <TheBackdrop>
+  <TheBackdrop
+    :style="{ flex: 1, borderRadius: '4px 4px 0 0' }"
+    :loading="loading && 'accent'"
+  >
     <template v-slot:appBar>
       <SearchAppBar />
     </template>
@@ -7,10 +10,7 @@
       <SearchBackdrop :query="query" />
     </template>
     <template v-slot:default>
-      <VCard
-        :style="{ flex: 1, borderRadius: '4px 4px 0 0' }"
-        :loading="loading && 'accent'"
-      >
+      <div>
         <VCardTitle>
           <span v-if="total == '0'"> No results </span>
           <span v-else> See {{ total }} results </span>
@@ -45,7 +45,7 @@
           v-if="!$vuetify.breakpoint.xsOnly"
         >
           <ViewSearchFilters :query="query" @close="showFilters = false" />
-        </VDialog> </VCard
+        </VDialog></div
     ></template>
   </TheBackdrop>
 </template>
@@ -55,11 +55,9 @@ import {
   SearchQueryVariables,
 } from './__generated__/SearchQuery'
 import { beforeRouteLeave, createBeforeRouteEnter, useFab } from '@/hooks/fab'
-import { computed, createComponent, Ref, ref } from '@vue/composition-api'
+import { computed, defineComponent, Ref, ref } from '@vue/composition-api'
 import { useResult } from '@vue/apollo-composable'
 import { Dictionary } from 'vue-router/types/router'
-import { SearchQuery } from './Search.gql.js'
-
 import { asyncComponent } from '@/router'
 import { useRoutes } from '@/hooks/route'
 import { useNumber } from '@/hooks/intl'
@@ -90,6 +88,74 @@ const ViewSearchFilters = () =>
     /* webpackChunkName: "ViewSearchFilters" */ /* webpackPrefetch: true */ '@/components/ViewSearchFilters.vue'
   )
 
+import gql from 'graphql-tag'
+import { TheGridFragments } from '../components/TheGrid.vue'
+import { PageFragments } from '../hooks/page'
+
+export const SearchQuery = gql`
+  query SearchQuery(
+    $isAdult: Boolean
+    $search: String
+    $page: Int = 0
+    $includedTags: [String]
+    $onList: Boolean
+    $year: Int
+    $type: MediaType
+    $status: [MediaStatus]
+    $season: MediaSeason
+    $sort: [MediaSort]
+    $perPage: Int = 12
+  ) {
+    Page(page: $page, perPage: $perPage) {
+      pageInfo {
+        total
+      }
+      media(
+        isAdult: $isAdult
+        search: $search
+        tag_in: $includedTags
+        onList: $onList
+        seasonYear: $year
+        season: $season
+        type: $type
+        sort: $sort
+        status_in: $status
+      )
+        @connection(
+          key: "media"
+          filter: [
+            "isAdult"
+            "search"
+            "tag_in"
+            "onList"
+            "seasonYear"
+            "season"
+            "type"
+            "sort"
+            "status_in"
+          ]
+        ) {
+        id
+        ...TheGrid_media
+      }
+      ...Page_page
+    }
+  }
+  ${TheGridFragments.media}
+  ${PageFragments.page}
+`
+
+export const SearchFragments = {
+  viewer: gql`
+    fragment Search_viewer on User {
+      id
+      options {
+        displayAdultContent
+      }
+    }
+  `,
+}
+
 export interface Props {
   queryWithBoolean: Partial<SearchQueryVariables>
   query: Dictionary<string | (string | null)[]>
@@ -101,7 +167,7 @@ const useVariables = (props: Readonly<Props>) => {
   const isAdult = useResult(
     viewerQuery.result,
     false,
-    data => data?.Viewer?.options?.displayAdultContent && undefined,
+    (data) => data?.Viewer?.options?.displayAdultContent && undefined,
   )
 
   const variables = computed(() => ({
@@ -138,8 +204,8 @@ export const useShowMore = (
 
   return showMore
 }
-export default createComponent({
-  beforeRouteEnter: createBeforeRouteEnter(vm => ({
+export default defineComponent({
+  beforeRouteEnter: createBeforeRouteEnter((vm) => ({
     icon: 'tune',
     on: () => {
       vm.showFilters = true
@@ -177,9 +243,9 @@ export default createComponent({
       notifyOnNetworkStatusChange: false,
     }))
 
-    const page = useResult(result, null, data => data?.Page)
+    const page = useResult(result, null, (data) => data?.Page)
 
-    const media = useResult(result, [], data => data?.Page?.media || [])
+    const media = useResult(result, [], (data) => data?.Page?.media || [])
 
     const fab = useFab()
     const showFilters = ref(false)
@@ -194,7 +260,7 @@ export default createComponent({
     const pageTotal = useResult(
       result,
       0,
-      data => data?.Page?.pageInfo?.total || 0,
+      (data) => data?.Page?.pageInfo?.total || 0,
     )
 
     const total = useNumber(pageTotal)

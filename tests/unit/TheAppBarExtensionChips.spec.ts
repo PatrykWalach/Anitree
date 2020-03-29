@@ -6,5 +6,5 @@ describe('TheAppBarExtensionChips', () => {
     mocks: {
       $route: { query: { search: () => ['', 'test'] } },
     },
-  }).forEach(settings => matchSnapshot(TheAppBarExtensionChips, settings))
+  }).forEach((settings) => matchSnapshot(TheAppBarExtensionChips, settings))
 })

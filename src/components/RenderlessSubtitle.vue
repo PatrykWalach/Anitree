@@ -1,7 +1,21 @@
 <script lang="ts">
-import { computed, createComponent } from '@vue/composition-api'
+import { computed, defineComponent } from '@vue/composition-api'
 
 import { RenderlessSubtitle_media } from './__generated__/RenderlessSubtitle_media'
+import gql from 'graphql-tag'
+
+export const RenderlessSubtitleFragments = {
+  media: gql`
+    fragment RenderlessSubtitle_media on Media {
+      id
+      type
+      chapters
+      episodes
+      format
+      status
+    }
+  `,
+}
 
 export interface Props {
   media: RenderlessSubtitle_media
@@ -11,7 +25,7 @@ export const useString = () => ({
   clean: (str: string | null) =>
     str
       ?.split(/_/g)
-      .map(str => {
+      .map((str) => {
         if (str.match(/(TV)|(OVA)|(ONA)/)) {
           return str
         }
@@ -20,7 +34,7 @@ export const useString = () => ({
       .join(' ') || '',
 })
 
-export default createComponent<Readonly<Props>>({
+export default defineComponent<Readonly<Props>>({
   props: {
     media: { default: null, required: true, type: Object },
   },
@@ -57,7 +71,7 @@ export default createComponent<Readonly<Props>>({
 
       return [format, status, chapters.value]
         .map(clean)
-        .filter(str => str)
+        .filter((str) => str)
         .join(' · ')
     })
 

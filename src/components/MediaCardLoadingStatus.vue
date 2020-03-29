@@ -3,11 +3,11 @@
 </template>
 
 <script lang="ts">
-import { createComponent } from '@vue/composition-api'
+import { defineComponent } from '@vue/composition-api'
 
 import { useInjectedTheme } from '@/hooks/theme'
 
-export default createComponent({
+export default defineComponent({
   setup() {
     return useInjectedTheme()
   },

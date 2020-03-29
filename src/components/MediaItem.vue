@@ -17,11 +17,41 @@ import MediaItemDescription from './MediaItemDescription.vue'
 import MediaItemRatings from './MediaItemRatings.vue'
 import MediaItemSubtitle from './MediaItemSubtitle.vue'
 import MediaItemTitle from './MediaItemTitle.vue'
-import { computed, createComponent } from '@vue/composition-api'
+import { computed, defineComponent } from '@vue/composition-api'
 
 import MediaItemLoadingOverline from './MediaItemLoadingOverline.vue'
 import { asyncComponent } from '@/router'
 import { MediaItem_media } from './__generated__/MediaItem_media'
+
+import { MediaItemAvatarFragments } from './MediaItemAvatar.vue'
+import { MediaItemDescriptionFragments } from './MediaItemDescription.vue'
+import { MediaItemOverlineFragments } from './MediaItemOverline.vue'
+import { MediaItemRatingsFragments } from './MediaItemRatings.vue'
+import { MediaItemSubtitleFragments } from './MediaItemSubtitle.vue'
+import { MediaItemTitleFragments } from './MediaItemTitle.vue'
+
+import gql from 'graphql-tag'
+
+export const MediaItemFragments = {
+  media: gql`
+    fragment MediaItem_media on Media {
+      id
+      description
+      ...MediaItemAvatar_media
+      ...MediaItemDescription_media
+      ...MediaItemOverline_media
+      ...MediaItemRatings_media
+      ...MediaItemSubtitle_media
+      ...MediaItemTitle_media
+    }
+    ${MediaItemAvatarFragments.media}
+    ${MediaItemDescriptionFragments.media}
+    ${MediaItemOverlineFragments.media}
+    ${MediaItemRatingsFragments.media}
+    ${MediaItemSubtitleFragments.media}
+    ${MediaItemTitleFragments.media}
+  `,
+}
 
 const MediaItemOverline = () =>
   asyncComponent(
@@ -35,7 +65,7 @@ export interface Props {
   media: MediaItem_media
 }
 
-export default createComponent<Readonly<Props>>({
+export default defineComponent<Readonly<Props>>({
   components: {
     MediaItemAvatar,
     MediaItemDescription,

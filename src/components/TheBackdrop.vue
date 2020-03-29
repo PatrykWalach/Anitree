@@ -1,6 +1,6 @@
 <script lang="ts">
 import {
-  createComponent,
+  defineComponent,
   createElement as h,
   computed,
   ref,
@@ -13,6 +13,7 @@ import {
   VAppBar,
   VFabTransition,
   VBtn,
+  VCard,
   VDivider,
   VOverlay,
 } from 'vuetify/lib'
@@ -20,9 +21,9 @@ import {
 const FOOTER_HEIGHT = 48
 const CARD_TITLE_HEIGHT = 64
 
-export default createComponent({
+export default defineComponent({
   components: {},
-  setup(_, { slots, root }) {
+  setup(_, { slots, root, attrs }) {
     const height = ref(0)
 
     const top = computed(
@@ -39,7 +40,7 @@ export default createComponent({
       return height.value + padding > window.innerHeight ? padding + 'px' : null
     })
 
-    const [active, toggleActive] = useReducer(state => !state, false)
+    const [active, toggleActive] = useReducer((state) => !state, false)
 
     return () =>
       root.$vuetify.breakpoint.xsOnly
@@ -156,7 +157,9 @@ export default createComponent({
                         },
                       })
                     : null,
-                  slots.default({ active: active.value }),
+                  h(VCard, { props: attrs }, [
+                    slots.default({ active: active.value }),
+                  ]),
                 ],
               ),
             ],
