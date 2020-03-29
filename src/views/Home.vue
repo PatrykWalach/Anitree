@@ -7,10 +7,8 @@ import {
 import {
   VCol,
   VContainer,
-  VIcon,
   VRow,
   VTimeline,
-  VCard,
   VSlideXReverseTransition,
   VTimelineItem,
 } from 'vuetify/lib'
@@ -60,9 +58,14 @@ interface TrendingMediaProps {
   loading: boolean
 }
 
-interface DesktopProps extends TrendingMediaProps {
+interface ContentProps {
+  media: readonly (HomeQuery_Page_media | null)[]
+  loading: boolean
+}
+
+interface DesktopProps extends ContentProps {
   smAndDown: boolean
-  content: (props: Readonly<TrendingMediaProps>) => (VNode | null)[][]
+  content: (props: Readonly<ContentProps>) => (VNode | null)[][]
 }
 
 interface TimelineProps extends DesktopProps {
@@ -146,84 +149,42 @@ export default defineComponent({
 
     const media = useResult(result, [], (data) => data?.Page?.media || [])
 
-    const randomMedia = computed(() => media.value[random])
+    const randomMedia = computed(() => media.value.slice().splice(random, 2))
 
     const static1 = [
-      h('p', [
-        "The site doesn't store any information about the user. All features are subjects to change.",
-      ]),
-      'If you encounter any problems you may have to clean your cache:',
-      h('br'),
-      h('code', ['F12']),
+      h('p', ["The site doesn't store any information about the user."]),
+      h('p', ["I'll try to rewrite everything once Vue 3.0 releases"]),
     ]
-    const static2 = h('code', ['Application'])
-    const static3 = h('code', ['Clear site data'])
 
-    const content = (props: TrendingMediaProps) => [
+    const content = (props: Readonly<ContentProps>) => [
       [
         h(
           HomeItem,
           {
             scopedSlots: {
-              title: () => 'This app is under construction',
+              title: () => 'This app will be redesigned',
             },
           },
-          [
-            ...static1,
-            h('p', [
-              h(VIcon, ['arrow_right_alt']),
-              static2,
-              h(VIcon, ['arrow_right_alt']),
-              h('code', [
-                h(
-                  VIcon,
-                  {
-                    props: { small: true, color: '#BD4147' },
-                  },
-                  ['delete'],
-                ),
-                'Clear storage',
-              ]),
-              h(VIcon, ['arrow_right_alt']),
-              static3,
-            ]),
-          ],
+          static1,
         ),
       ],
-      [
-        h(
-          HomeItem,
-
-          {
-            scopedSlots: {
-              title: () => 'Media Cards',
-            },
-          },
-          [
-            'Media cards display various informations about the media.',
-            h('br'),
-            'Their layout and amount of information may change in future.',
-          ],
-        ),
-        TrendingMedia(props),
-      ],
+      props.media?.map((media) => TrendingMedia({ ...props, media })),
     ]
 
     return () =>
       h(TheBackdrop, {
+        style: {
+          flex: 1,
+          borderRadius: '4px 4px 0 0',
+        },
         scopedSlots: {
           backdrop: () => h(HomeBackdrop),
           appBar: ({ active }) =>
             h(VSlideXReverseTransition, [!active ? h(HomeAppBar) : null]),
           default: () =>
             h(
-              VCard,
-              {
-                style: {
-                  flex: 1,
-                  borderRadius: '4px 4px 0 0',
-                },
-              },
+              'div',
+
               [
                 h(VContainer, [
                   h(VRow, [
