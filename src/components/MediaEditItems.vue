@@ -182,7 +182,10 @@ export const mediaListToForm = (
     }
   }
 
-  const advancedScores = advancedScoring.map(() => 0)
+  const advancedScores = Array.from<number>({
+    length: advancedScoring.length,
+  }).fill(0)
+
   return {
     advancedScores,
     notes: '',
